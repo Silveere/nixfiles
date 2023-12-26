@@ -1,0 +1,29 @@
+{ config, lib, pkgs, modulesPath, ... }:
+
+{
+  ### set hostname
+  # networking.hostname = "hostname";
+
+  # cryptsetup
+  boot.initrd.luks.devices = {
+    lvmroot = {
+      # device="/dev/disk/by-uuid/<UUID>";
+      allowDiscards = true;
+      fallbackToPassword = true;
+      preLVM = true;
+    };
+  };
+
+  # bootloader setup
+  boot.loader = {
+    efi = {
+      canTouchEfiVariables = true;
+      # efiSysMountPoint = "/efi";
+    };
+    grub = {
+      enable = true;
+      efiSupport = true;
+      device = "nodev";
+    };
+  };
+}
