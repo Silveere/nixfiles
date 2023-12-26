@@ -113,6 +113,11 @@
     stow
     zsh
     ntfs3g
+
+    fd
+    ripgrep
+    sbctl
+    comma
   ];
 
   # Allow unfree packages
