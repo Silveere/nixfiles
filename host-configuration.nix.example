@@ -18,12 +18,13 @@
   boot.loader = {
     efi = {
       canTouchEfiVariables = true;
-      # efiSysMountPoint = "/efi";
+      # nixos doesn't use a separate /efi and doesn't need it because the images are tiny
+      # efiSysMountPoint = "/boot";
     };
-    grub = {
+    systemd-boot = {
       enable = true;
-      efiSupport = true;
-      device = "nodev";
+      netbootxyz.enable = true;
+      memtest86.enable = true;
     };
   };
 }
