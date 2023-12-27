@@ -28,6 +28,6 @@
   users.users.nullbite = {
     packages = with pkgs; [
       firefox
-    ]
-  }
+    ];
+  };
 }
