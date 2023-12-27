@@ -13,7 +13,12 @@
     nixosConfigurations = {
       slab = lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [ ./configuration.nix ];
+        modules = [
+          ./configuration-migrate.nix
+          ./roles/base.nix
+          ./roles/desktop.nix
+          ./roles/remote.nix
+        ];
       };
     };
   };
