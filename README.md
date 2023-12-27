@@ -6,3 +6,5 @@ This is my personal NixOS config. Right now, it's just a basic flake which impor
 	- This is inspired by the concept of roles in Ansible
 - **Devices**: Configuration for individual devices (obviously).
 	- I might decide to define this within flake.nix
+
+At first I am going to migrate configuration into roles, and then as the configuration evolves, I will start to create fragments.
