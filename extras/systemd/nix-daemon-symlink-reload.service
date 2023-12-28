@@ -1,6 +1,6 @@
 [Unit]
 Description=Reload nix-daemon after mounting /nix
-After=mount.nix
+After=nix.mount
 Requires=nix.mount
 DefaultDependencies=no
 
