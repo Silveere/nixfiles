@@ -4,6 +4,7 @@
   imports = [
     ./base.nix
     ../fragments/sound.nix
+    ../fragments/multimedia.nix
   ];
   
   # Enable the X11 windowing system.
