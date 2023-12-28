@@ -11,23 +11,6 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
-  users.users.nullbite = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
-    packages = with pkgs; [
-      keychain
-    ];
-    initialPassword = "changeme";
-    shell = pkgs.zsh;
-  };
-
-  # shell config
-  programs.zsh.enable = true;
-  programs.fzf = {
-    keybindings = true;
-    fuzzyCompletion = true;
-  };
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [

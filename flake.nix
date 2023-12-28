@@ -17,8 +17,9 @@
           ./hosts/slab/configuration.nix
           ./hosts/slab/nvidia-optimus.nix
           ./roles/base.nix
-          ./roles/desktop.nix
+          ./roles/me.nix
           ./roles/remote.nix
+          ./roles/desktop.nix
         ];
       };
     };
