@@ -2,11 +2,11 @@
 
 {
 
+  services.supergfxd.enable = true;
   specialisation = {
     nvidia.configuration = {
       system.nixos.tags = [ "NVIDIA" ];
 
-      services.supergfxd.enable = true;
 
       # Load nvidia driver for Xorg and Wayland
       services.xserver.videoDrivers = ["amdgpu" "nvidia"];
