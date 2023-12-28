@@ -14,7 +14,7 @@
       slab = lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./hosts/slab/configuration-migrate.nix
+          ./hosts/slab/configuration.nix
           ./roles/base.nix
           ./roles/desktop.nix
           ./roles/remote.nix

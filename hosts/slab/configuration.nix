@@ -6,7 +6,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  nix.settings.experimental-features = ["nix-command" "flakes" ];
+  # nix.settings.experimental-features = ["nix-command" "flakes" ];
 
   imports =
     [ # Include the results of the hardware scan.
@@ -25,10 +25,10 @@
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
-   time.timeZone = "America/New_York";
+  time.timeZone = "America/New_York";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -43,14 +43,14 @@
   # };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  # services.xserver.enable = true;
 
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  # services.xserver.displayManager.sddm.enable = true;
+  # services.xserver.desktopManager.plasma5.enable = true;
 
 
   # Enable flatpak
-  services.flatpak.enable = true;
+  # services.flatpak.enable = true;
   
 
   # Configure keymap in X11
@@ -58,19 +58,19 @@
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  # services.printing.enable = true;
 
   # Enable sound.
   # sound.enable = true;
   # hardware.pulseaudio.enable = true;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
-  };
+  # security.rtkit.enable = true;
+  # services.pipewire = {
+  #   enable = true;
+  #   alsa.enable = true;
+  #   alsa.support32Bit = true;
+  #   pulse.enable = true;
+  #   jack.enable = true;
+  # };
   
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -86,66 +86,66 @@
   #   ];
   # };
 
-  users.users.nullbite = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
-    packages = with pkgs; [
-      firefox
-      keychain
-    ];
-    initialPassword = "changeme";
-    shell = pkgs.zsh;
-  };
+  # users.users.nullbite = {
+  #   isNormalUser = true;
+  #   extraGroups = [ "wheel" ];
+  #   packages = with pkgs; [
+  #     firefox
+  #     keychain
+  #   ];
+  #   initialPassword = "changeme";
+  #   shell = pkgs.zsh;
+  # };
 
 
   # shell config
-  programs.zsh.enable = true;
-  programs.fzf = {
-    keybindings = true;
-    fuzzyCompletion = true;
-  };
+  # programs.zsh.enable = true;
+  # programs.fzf = {
+  #   keybindings = true;
+  #   fuzzyCompletion = true;
+  # };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    curl
-    git
-    stow
-    zsh
-    ntfs3g
+  # environment.systemPackages = with pkgs; [
+  #   neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #   wget
+  #   curl
+  #   git
+  #   stow
+  #   zsh
+  #   ntfs3g
 
-    fd
-    ripgrep
-    sbctl
-    comma
-  ];
+  #   fd
+  #   ripgrep
+  #   sbctl
+  #   comma
+  # ];
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.allowUnfree = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
 
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
-  services.openssh = {
-    enable = true;
-    openFirewall = true;
-    settings = {
+  # services.openssh = {
+  #   enable = true;
+  #   openFirewall = true;
+  #   settings = {
 
-    };
-  };
+  #   };
+  # };
 
-  services.tailscale.enable = true;
+  # services.tailscale.enable = true;
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 22 ];
