@@ -13,14 +13,13 @@ separate levels of organization:
 	  e.g., desktop environment, gaming, and server
 	- This is inspired by the concept of roles in Ansible
 - **Hosts**: Configuration for individual hosts (obviously).
-	- Each host shall have a folder containing its hardware-configuration.nix,
-	  as well as one or more configurations specific to that machine. These
-	  modules will serve the same purpose as fragments, but are exclusive to
-	  that host
-	- Custom configuration *MUST NOT* be placed in hardware-configuration.nix
+	- Each host shall have a folder containing a `configuration.nix` and a
+	  `hardware-configuration.nix`, and possibly a few host-specific fragments.
+	- Custom configuration *MUST NOT* be placed in `hardware-configuration.nix`
 	  for the same reason one should not directly edit
-	  hardware-configuration.nix on a stock NixOS system. Most systems,
-	  however, generally will have some options exclusive to them, and these should be placed in a 
+	  `hardware-configuration.nix` on a stock NixOS system. Most systems,
+	  however, generally will have some options exclusive to them, and these
+	  should be placed in the host's `configuration.nix` or a host fragment.
 
 At first I am going to migrate configuration into roles, and then as the configuration evolves, I will start to create fragments.
 
