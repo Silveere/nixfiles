@@ -20,6 +20,14 @@
           ./roles/desktop.nix
         ];
       };
+      nullbox = lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/nullbox/configuration.nix
+          ./roles/remote.nix
+          ./roles/desktop.nix
+        ];
+      };
     };
   };
 }
