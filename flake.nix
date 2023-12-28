@@ -15,6 +15,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/slab/configuration.nix
+          ./hosts/slab/nvidia-optimus.nix
           ./roles/base.nix
           ./roles/desktop.nix
           ./roles/remote.nix
