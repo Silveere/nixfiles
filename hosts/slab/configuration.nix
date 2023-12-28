@@ -50,8 +50,6 @@
     driSupport32Bit = true;
   };
 
-  services.supergfxd.enable = true;
-
   services.xserver.videoDrivers = ["amdgpu"];
 
   services.syncthing = {
