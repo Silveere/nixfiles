@@ -21,12 +21,15 @@
     stow
     zsh
     ntfs3g
+    openssh
 
     fd
     ripgrep
     sbctl # TODO move this elsewhere
     comma
   ];
+
+  programs.ssh.enableAskPassword = false;
 
   programs.gnupg.agent = {
     enable = lib.mkDefault true;
