@@ -16,8 +16,6 @@
         modules = [
           ./hosts/slab/configuration.nix
           ./hosts/slab/nvidia-optimus.nix
-          ./roles/base.nix
-          ./roles/me.nix
           ./roles/remote.nix
           ./roles/desktop.nix
         ];
