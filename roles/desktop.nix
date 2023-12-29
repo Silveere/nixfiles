@@ -5,6 +5,8 @@
     ./base.nix
     ../fragments/sound.nix
     ../fragments/multimedia.nix
+    ../fragments/software/syncthing.nix
+    ../fragments/hardware/bluetooth.nix
   ];
   
   # Enable the X11 windowing system.

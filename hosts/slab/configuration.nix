@@ -45,18 +45,6 @@
 
   services.xserver.videoDrivers = ["amdgpu"];
 
-  services.syncthing = {
-    enable = true;
-    user = "nullbite";
-    dataDir = "/home/nullbite/Documents";
-    configDir = "/home/nullbite/.config/syncthing";
-  };
-
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-  };
-
   # {{{ old config
   # Use the systemd-boot EFI boot loader.
   # boot.loader.systemd-boot.enable = true;
