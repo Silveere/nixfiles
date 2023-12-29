@@ -27,6 +27,7 @@
           ./hosts/nullbox/configuration.nix
           ./roles/remote.nix
           ./roles/desktop.nix
+	  ./fragments/hardware/nvidia-modeset.nix
         ];
       };
     };
