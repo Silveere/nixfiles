@@ -18,6 +18,7 @@
           ./hosts/slab/nvidia-optimus.nix
           ./roles/remote.nix
           ./roles/desktop.nix
+	  ./fragments/opengl.nix
         ];
       };
       nullbox = lib.nixosSystem {
