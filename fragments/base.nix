@@ -27,6 +27,7 @@
     ripgrep
     sbctl # TODO move this elsewhere
     comma
+    nil
   ];
 
   programs.ssh.enableAskPassword = false;
