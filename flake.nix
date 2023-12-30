@@ -17,7 +17,7 @@
           ./hosts/slab/configuration.nix
           ./hosts/slab/nvidia-optimus.nix
           ./roles/remote.nix
-          ./roles/desktop.nix
+          ./roles/plasma.nix
           ./fragments/opengl.nix
         ];
       };
@@ -26,7 +26,7 @@
         modules = [
           ./hosts/nullbox/configuration.nix
           ./roles/remote.nix
-          ./roles/desktop.nix
+          ./roles/plasma.nix
           ./fragments/hardware/nvidia-modeset.nix
         ];
       };
