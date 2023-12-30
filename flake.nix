@@ -18,7 +18,7 @@
           ./hosts/slab/nvidia-optimus.nix
           ./roles/remote.nix
           ./roles/desktop.nix
-	  ./fragments/opengl.nix
+          ./fragments/opengl.nix
         ];
       };
       nullbox = lib.nixosSystem {
@@ -27,7 +27,7 @@
           ./hosts/nullbox/configuration.nix
           ./roles/remote.nix
           ./roles/desktop.nix
-	  ./fragments/hardware/nvidia-modeset.nix
+          ./fragments/hardware/nvidia-modeset.nix
         ];
       };
     };
