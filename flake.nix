@@ -21,6 +21,7 @@
           ./roles/remote.nix
           ./roles/plasma.nix
           ./fragments/opengl.nix
+          ./roles/gaming.nix
         ];
       };
       nullbox = lib.nixosSystem {
