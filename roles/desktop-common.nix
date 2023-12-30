@@ -22,6 +22,11 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  fonts.packages = with pkgs; [
+    nerdfonts
+    fira-code-nerdfont
+  ];
+
   users.users.nullbite = {
     packages = with pkgs; [
       firefox
