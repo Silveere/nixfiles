@@ -4,11 +4,13 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
                  # ^^^^^^^^^^^^^ this part is optional
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
-  outputs = { self, nixpkgs }: 
+  outputs = { self, nixpkgs, nixpkgs-unstable }: 
   let
     lib = nixpkgs.lib;
+    lib-unstable = nixpkgs-unstable.lib;
   in {
     nixosConfigurations = {
       slab = lib.nixosSystem {
