@@ -28,6 +28,7 @@
           ./roles/remote.nix
           ./roles/plasma.nix
           ./fragments/hardware/nvidia-modeset.nix
+          ./roles/gaming.nix
         ];
       };
     };
