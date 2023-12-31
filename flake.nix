@@ -18,10 +18,10 @@
     lib-unstable = nixpkgs-unstable.lib;
     username = "nullbite";
 
-    enableHomeManager = user: home-manager.nixosModules.home-manager {
+    homeManagerModule = user: module: home-manager.nixosModules.home-manager {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
-      home-manager.users."${user}" = ./home.nix ; # TODO replace me
+      home-manager.users."${user}" = module ;
     };
   in {
     nixosConfigurations = {
