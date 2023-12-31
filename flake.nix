@@ -12,11 +12,16 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }: 
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs: 
   let
     lib = nixpkgs.lib;
     lib-unstable = nixpkgs-unstable.lib;
     username = "nullbite";
+    hmModule = home-manager.nixosModules.home-manager;
+    hmModuleDefaults = {
+      home-manager.useGlobalPkgs = true;
+      home-manager.useUserPackages = true;
+    };
 
     # to use this add `homeModules <username> [ ... ]` to a system's modules.
     homeModules = user: modules: home-manager.nixosModules.home-manager {
@@ -28,6 +33,12 @@
       };
     };
   in {
+    # for repl debugging via :lf .
+    inherit inputs;
+    lets = {
+      inherit lib lib-unstable username homeModules;
+    };
+
     nixosConfigurations = {
       slab = lib.nixosSystem {
         system = "x86_64-linux";
@@ -48,6 +59,11 @@
           ./roles/plasma.nix
           ./fragments/hardware/nvidia-modeset.nix
           ./roles/gaming.nix
+
+          hmModule (hmModuleDefaults // {
+            home-manager.users."${username}" = import ./home.nix;
+          })
+
         ];
       };
     };
