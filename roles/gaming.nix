@@ -24,5 +24,7 @@
     mangohud
     goverlay
     prismlauncher
+    glxinfo
+    vulkan-tools
   ];
 }
