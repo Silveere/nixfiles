@@ -6,6 +6,12 @@
 { config, lib, pkgs, ... }:
 
 {
+
+  fileSystems."/ntfs" = {
+    fsType = "ntfs-3g";
+    device = "/dev/disk/by-uuid/6AC23F0FC23EDF4F";
+  };
+
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
