@@ -5,12 +5,24 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
                  # ^^^^^^^^^^^^^ this part is optional
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable }: 
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }: 
   let
     lib = nixpkgs.lib;
     lib-unstable = nixpkgs-unstable.lib;
+    username = "nullbite";
+
+    enableHomeManager = user: home-manager.nixosModules.home-manager {
+      home-manager.useGlobalPkgs = true;
+      home-manager.useUserPackages = true;
+      home-manager.users."${user}" = ./home.nix ; # TODO replace me
+    };
   in {
     nixosConfigurations = {
       slab = lib.nixosSystem {
