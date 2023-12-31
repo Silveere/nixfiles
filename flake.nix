@@ -22,21 +22,11 @@
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
     };
-
-    # to use this add `homeModules <username> [ ... ]` to a system's modules.
-    homeModules = user: modules: home-manager.nixosModules.home-manager {
-      home-manager.useGlobalPkgs = true;
-      home-manager.useUserPackages = true;
-      home-manager.users."${user}" = {lib, config, pkgs, osConfig, ...}:
-      {
-        imports = modules;
-      };
-    };
   in {
     # for repl debugging via :lf .
     inherit inputs;
-    lets = {
-      inherit lib lib-unstable username homeModules;
+    vars = {
+      inherit lib lib-unstable username;
     };
 
     nixosConfigurations = {
