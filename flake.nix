@@ -37,7 +37,7 @@
           ./hosts/slab/nvidia-optimus.nix
           ./system/remote.nix
           ./system/plasma.nix
-          ./fragments/opengl.nix
+          ./system/fragments/opengl.nix
           ./system/gaming.nix
           ./system/hyprland.nix
         ];
@@ -48,7 +48,7 @@
           ./hosts/nullbox/configuration.nix
           ./system/remote.nix
           ./system/plasma.nix
-          ./fragments/hardware/nvidia-modeset.nix
+          ./system/fragments/hardware/nvidia-modeset.nix
           ./system/gaming.nix
 
           hmModule (hmModuleDefaults // {
