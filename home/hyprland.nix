@@ -7,6 +7,9 @@ in
     enable = true;
     settings = {
 
+      # Xwayland fix
+      xwayland.force_zero_scaling = mkd true;
+
       # See https://wiki.hyprland.org/Configuring/Monitors/
       monitor = mkd ",preferred,auto,auto";
 
