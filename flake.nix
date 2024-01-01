@@ -39,6 +39,7 @@
           ./roles/plasma.nix
           ./fragments/opengl.nix
           ./roles/gaming.nix
+          ./roles/hyprland.nix
         ];
       };
       nullbox = lib.nixosSystem {
