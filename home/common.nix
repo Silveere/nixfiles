@@ -7,6 +7,4 @@
   home.packages = with pkgs; [
     btop
   ];
-
-  home.stateVersion = "23.11";
 }
