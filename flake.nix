@@ -35,24 +35,27 @@
         modules = [
           ./hosts/slab/configuration.nix
           ./hosts/slab/nvidia-optimus.nix
-          ./roles/remote.nix
-          ./roles/plasma.nix
-          ./fragments/opengl.nix
-          ./roles/gaming.nix
-          ./roles/hyprland.nix
+          ./system/remote.nix
+          ./system/plasma.nix
+          ./system/fragments/opengl.nix
+          ./system/gaming.nix
+          ./system/hyprland.nix
+          hmModule (hmModuleDefaults // {
+            home-manager.users."${username}" = import ./hosts/slab/home.nix;
+          })
         ];
       };
       nullbox = lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./hosts/nullbox/configuration.nix
-          ./roles/remote.nix
-          ./roles/plasma.nix
-          ./fragments/hardware/nvidia-modeset.nix
-          ./roles/gaming.nix
+          ./system/remote.nix
+          ./system/plasma.nix
+          ./system/fragments/hardware/nvidia-modeset.nix
+          ./system/gaming.nix
 
           hmModule (hmModuleDefaults // {
-            home-manager.users."${username}" = import ./home.nix;
+            home-manager.users."${username}" = import ./hosts/nullbox/home.nix;
           })
 
         ];

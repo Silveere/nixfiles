@@ -41,6 +41,7 @@
     inetutils
     socat
     nmap
+    hping
 
     # system utilities
     htop
