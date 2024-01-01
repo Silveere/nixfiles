@@ -40,6 +40,9 @@
           ./system/fragments/opengl.nix
           ./system/gaming.nix
           ./system/hyprland.nix
+          hmModule (hmModuleDefaults // {
+            home-manager.users."${username}" = import ./hosts/slab/home.nix;
+          })
         ];
       };
       nullbox = lib.nixosSystem {
@@ -52,7 +55,7 @@
           ./system/gaming.nix
 
           hmModule (hmModuleDefaults // {
-            home-manager.users."${username}" = import ./home.nix;
+            home-manager.users."${username}" = import ./hosts/nullbox/home.nix;
           })
 
         ];
