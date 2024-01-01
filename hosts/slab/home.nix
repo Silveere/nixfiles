@@ -2,6 +2,7 @@
 {
   imports = [
     ../../home/common.nix
+    ../../home/hyprland.nix
   ];
   
   home.stateVersion = "23.11";
