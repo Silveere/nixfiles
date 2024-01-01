@@ -14,6 +14,7 @@
 
   environment.systemPackages = with pkgs; [
     arc-theme
+    wl-clipboard
   ];
 
   # Enable flatpak
