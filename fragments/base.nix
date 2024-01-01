@@ -40,7 +40,6 @@
     # network utilities
     inetutils
     socat
-    nc
     nmap
 
     # system utilities
