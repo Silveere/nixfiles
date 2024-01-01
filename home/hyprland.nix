@@ -1,8 +1,20 @@
 { lib, pkgs, osConfig, ... }:
 let
   mkd = lib.mkDefault;
+  terminal = "${pkgs.kitty}/bin/kitty";
+  files = "${pkgs.dolphin}/bin/dolphin";
+  rofi = "${pkgs.wofi}/bin/wofi";
+  notifydaemon = "${pkgs.dunst}/bin/dunst";
 in
 {
+  home.packages = with pkgs; [
+    kitty
+    dolphin
+    wofi
+    wev
+    dunst
+  ];
+
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
@@ -17,6 +29,10 @@ in
 
       # Execute your favorite apps at launch
       # exec-once = waybar & hyprpaper & firefox
+
+      exec-once = [
+        notifydaemon
+      ];
 
       # Source a file (multi-file configs)
       # source = ~/.config/hypr/myColors.conf
@@ -119,20 +135,26 @@ in
 
       # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
       bind = [
-        "$mod, Q, exec, kitty"
+        "$mod, Q, exec, ${terminal}"
+        "$mod, Return, exec, ${terminal}"
         "$mod, C, killactive, "
         "$mod, M, exit, "
-        "$mod, E, exec, dolphin"
+        "$mod, E, exec, ${files}"
         "$mod, V, togglefloating, "
-        "$mod, R, exec, wofi --show drun"
+        "$mod, R, exec, ${rofi} --show drun"
         "$mod, P, pseudo," # dwindle"
-        "$mod, J, togglesplit," # dwindle"
+        "$mod, O, togglesplit," # dwindle"
 
         # Move focus with mod + arrow keys
         "$mod, left, movefocus, l"
         "$mod, right, movefocus, r"
         "$mod, up, movefocus, u"
         "$mod, down, movefocus, d"
+
+        "$mod, h, movefocus, l"
+        "$mod, j, movefocus, d"
+        "$mod, k, movefocus, u"
+        "$mod, l, movefocus, r"
 
         # Switch workspaces with mod + [0-9]
         "$mod, 1, workspace, 1"
@@ -171,6 +193,8 @@ in
         # Move/resize windows with mod + LMB/RMB and dragging
         "$mod, mouse:272, movewindow"
         "$mod, mouse:273, resizewindow"
+        # RMB sucks on laptop
+        "$mod SHIFT, mouse:272, resizewindow"
       ];
     };
   };
