@@ -36,6 +36,17 @@
     sbctl # TODO move this elsewhere
     comma
     nil
+
+    # network utilities
+    inetutils
+    socat
+    nc
+    nmap
+
+    # system utilities
+    htop
+    lshw
+    pciutils
   ];
 
   programs.ssh.enableAskPassword = false;
