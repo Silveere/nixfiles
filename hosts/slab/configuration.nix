@@ -64,7 +64,7 @@
   # }}}
 
   # Set your time zone.
-  time.timeZone = "America/New_York";
+  time.timeZone = "Europe/Amsterdam";
 
   # {{{ old config
   # Configure network proxy if necessary
