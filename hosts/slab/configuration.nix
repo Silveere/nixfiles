@@ -8,7 +8,7 @@
 {
   # nix.settings.experimental-features = ["nix-command" "flakes" ];
 
-  fileSystems."ntfs" = {
+  fileSystems."/ntfs" = {
     fsType = "ntfs-3g";
     device = "/dev/disk/by-uuid/028A49020517BEA9";
   };
