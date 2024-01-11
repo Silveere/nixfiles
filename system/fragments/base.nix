@@ -56,4 +56,5 @@
     enableSSHSupport = lib.mkDefault true;
   };
 
+  boot.loader.systemd-boot.configurationLimit = lib.mkDefault 15;
 }
