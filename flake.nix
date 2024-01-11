@@ -38,7 +38,7 @@
           ./system/plasma.nix
           ./system/fragments/opengl.nix
           ./system/gaming.nix
-          ./system/hyprland.nix
+          # ./system/hyprland.nix
           hmModule (hmModuleDefaults // {
             home-manager.users."${username}" = import ./hosts/slab/home.nix;
           })
