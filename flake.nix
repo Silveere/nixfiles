@@ -12,12 +12,11 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs: 
+  outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs: 
   let
     lib = nixpkgs.lib;
-    lib-unstable = nixpkgs-unstable.lib;
     username = "nullbite";
-    hmModule = home-manager.nixosModules.home-manager;
+    hmModule = inputs.home-manager.nixosModules.home-manager;
     hmModuleDefaults = {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
@@ -26,7 +25,7 @@
     # for repl debugging via :lf .
     inherit inputs;
     vars = {
-      inherit lib lib-unstable username;
+      inherit lib username;
     };
 
     nixosConfigurations = {
