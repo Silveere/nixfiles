@@ -1,6 +1,6 @@
 # NullBite's NixOS Config
 This is my personal NixOS config. Right now, it's just a basic flake which
-imports a (mostly) normal stock NixOS configuration. The plan is to have three
+imports a (mostly) normal stock NixOS configuration. <del>The plan is to have three
 separate levels of organization:
 
 - **Fragments**: Configure one specific service/app/setting/etc., which has the
@@ -21,9 +21,19 @@ separate levels of organization:
 	  however, generally will have some options exclusive to them, and these
 	  should be placed in the host's `configuration.nix` or a host fragment.
 
-At first I am going to migrate configuration into roles, and then as the configuration evolves, I will start to create fragments.
+At first I am going to migrate configuration into roles, and then as the configuration evolves, I will start to create fragments.</del>
+
+The above is outdated and I will rewrite it once I settle on a better way to organize this repo.
 
 ## `flake.nix` schema
 `flake.nix` shall contain a "default" configuration for each host (using the
 built-in selection of `nixos-rebuild`), as well as alternative config presets
 for the host, if applicable.
+
+## TODO
+
+- Select entire desktop configuration via a single option and make bootable with specialisation
+	- figure out nixpkgs.lib.options.mkOption and add a string option that picks a desktop to use.
+	- add Plasma, Hyprland, and maybe GNOME if I'm feeling silly (I'd probably never actually use it)
+- make more things configurable as options once I figure out the above, it's probably cleaner than importing modules
+- Rewrite README
