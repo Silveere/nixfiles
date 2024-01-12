@@ -16,10 +16,13 @@
   let
     lib = nixpkgs.lib;
     username = "nullbite";
-    hmModule = inputs.home-manager.nixosModules.home-manager;
-    hmModuleDefaults = {
-      home-manager.useGlobalPkgs = true;
-      home-manager.useUserPackages = true;
+    homeManagerModule = inputs.home-manager.nixosModules.home-manager;
+    homeManagerInit = user: module: {
+      home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        users.${user} = module;
+      };
     };
   in {
     # for repl debugging via :lf .
@@ -39,9 +42,8 @@
           ./system/fragments/opengl.nix
           ./system/gaming.nix
           # ./system/hyprland.nix
-          hmModule (hmModuleDefaults // {
-            home-manager.users."${username}" = import ./hosts/slab/home.nix;
-          })
+          homeManagerModule
+          (homeManagerInit username (import ./hosts/slab/home.nix))
         ];
       };
       nullbox = lib.nixosSystem {
@@ -52,11 +54,8 @@
           ./system/plasma.nix
           ./system/fragments/hardware/nvidia-modeset.nix
           ./system/gaming.nix
-
-          hmModule (hmModuleDefaults // {
-            home-manager.users."${username}" = import ./hosts/nullbox/home.nix;
-          })
-
+          homeManagerModule
+          (homeManagerInit username (import ./hosts/nullbox/home.nix))
         ];
       };
     };
