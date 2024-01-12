@@ -17,7 +17,15 @@
     lib = nixpkgs.lib;
     username = "nullbite";
     homeManagerModule = inputs.home-manager.nixosModules.home-manager;
-    homeManagerInit = user: module: {
+
+    # This function produces a module that adds the home-manager module to the
+    # system and configures the given module to the user's Home Manager
+    # configuration
+    homeManagerInit = user: module: { config, lib, pkgs, ... }: {
+      imports = [
+        inputs.home-manager.nixosModules.home-manager
+      ];
+
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
@@ -42,7 +50,6 @@
           ./system/fragments/opengl.nix
           ./system/gaming.nix
           # ./system/hyprland.nix
-          homeManagerModule
           (homeManagerInit username (import ./hosts/slab/home.nix))
         ];
       };
@@ -54,7 +61,6 @@
           ./system/plasma.nix
           ./system/fragments/hardware/nvidia-modeset.nix
           ./system/gaming.nix
-          homeManagerModule
           (homeManagerInit username (import ./hosts/nullbox/home.nix))
         ];
       };
