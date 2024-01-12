@@ -32,8 +32,11 @@ for the host, if applicable.
 
 ## TODO
 
-- Select entire desktop configuration via a single option and make bootable with specialisation
+- Reorganize repo to use a more "standard" module layout.
+	- [github:Misterio77/nix-config](https://github.com/Misterio77/nix-config) might be a good reference for a better module layout.
+- Select entire desktop configuration via a single option and make bootable with specialisation.
+	- Give each desktop a modularized configuration that can be enabled with an option.
 	- figure out nixpkgs.lib.options.mkOption and add a string option that picks a desktop to use.
-	- add Plasma, Hyprland, and maybe GNOME if I'm feeling silly (I'd probably never actually use it)
-- make more things configurable as options once I figure out the above, it's probably cleaner than importing modules
-- Rewrite README
+	- add Plasma, Hyprland, and maybe GNOME if I'm feeling silly (I'd probably never actually use it).
+- make more things configurable as options once I figure out the above, it's probably cleaner than importing modules.
+- Rewrite README.
