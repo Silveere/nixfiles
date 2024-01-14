@@ -26,5 +26,7 @@
     prismlauncher
     glxinfo
     vulkan-tools
+    legendary-gl
+    heroic
   ];
 }
