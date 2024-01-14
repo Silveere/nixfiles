@@ -1,27 +1,27 @@
 # NullBite's NixOS Config
 This is my personal NixOS config. Right now, it's just a basic flake which
 imports a (mostly) normal stock NixOS configuration. <del>The plan is to have three
-separate levels of organization:
+separate levels of organization:</del>
 
-- **Fragments**: Configure one specific service/app/setting/etc., which has the
-  potential to be used on more than one machine.
-	- Settings that will only ever work on one machine (e.g., settings which
+- <del>**Fragments**: Configure one specific service/app/setting/etc., which has the
+  potential to be used on more than one machine.</del>
+	- <del>Settings that will only ever work on one machine (e.g., settings which
 	  include disk UUIDs, PCIe bus IDs, etc) should be placed in a host
-	  fragment instead.
-- **Roles**: Define a "purpose" and import relevant fragments.
-	- Roles aren't mutually exclusive; one system could pull in roles for,
-	  e.g., desktop environment, gaming, and server
-	- This is inspired by the concept of roles in Ansible
-- **Hosts**: Configuration for individual hosts (obviously).
+	  fragment instead.</del>
+- <del>**Roles**: Define a "purpose" and import relevant fragments.</del>
+	- <del>Roles aren't mutually exclusive; one system could pull in roles for,
+	  e.g., desktop environment, gaming, and server</del>
+	- <del>This is inspired by the concept of roles in Ansible</del>
+- <del>**Hosts**: Configuration for individual hosts (obviously).
 	- Each host shall have a folder containing a `configuration.nix` and a
-	  `hardware-configuration.nix`, and possibly a few host-specific fragments.
-	- Custom configuration *MUST NOT* be placed in `hardware-configuration.nix`
+	  `hardware-configuration.nix`, and possibly a few host-specific fragments.</del>
+	- <del>Custom configuration *MUST NOT* be placed in `hardware-configuration.nix`
 	  for the same reason one should not directly edit
 	  `hardware-configuration.nix` on a stock NixOS system. Most systems,
 	  however, generally will have some options exclusive to them, and these
-	  should be placed in the host's `configuration.nix` or a host fragment.
+	  should be placed in the host's `configuration.nix` or a host fragment.</del>
 
-At first I am going to migrate configuration into roles, and then as the configuration evolves, I will start to create fragments.</del>
+<del>At first I am going to migrate configuration into roles, and then as the configuration evolves, I will start to create fragments.</del>
 
 The above is outdated and I will rewrite it once I settle on a better way to organize this repo.
 
