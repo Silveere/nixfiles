@@ -21,7 +21,6 @@
   let
     inherit (self) outputs;
     # inputs is already defined
-
     lib = nixpkgs.lib;
     systems = [ "x86_64-linux" "aarch64-linux" ];
 
@@ -31,15 +30,22 @@
     # My current timezone for any mobile devices (i.e., my laptop)
     mobileTimeZone = "Europe/Amsterdam";
 
+    # define extra packages here
+    mkExtraPkgs = system: {
+      # android-tools = inputs.pkg-android-tools.legacyPackages.${system}.android-tools;
+      inherit (inputs.pkg-android-tools.legacyPackages.${system}) android-tools;
+    };
+
     # Variables to be passed to NixOS modules in the vars attrset
     vars = {
       inherit username mobileTimeZone;
     };
 
+
     # This function produces a module that adds the home-manager module to the
     # system and configures the given module to the user's Home Manager
     # configuration
-    homeManagerInit = user: module: { config, lib, pkgs, ... }: {
+    homeManagerInit = {system, username ? username , module}: { config, lib, pkgs, ... }: {
       imports = [
         inputs.home-manager.nixosModules.home-manager
       ];
@@ -47,28 +53,31 @@
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
-        users.${user} = module;
+        users.${username} = module;
+        extraSpecialArgs = {
+          inherit inputs outputs vars;
+          extraPkgs = mkExtraPkgs system;
+        };
       };
     };
 
-    mkExtraPkgs = system: {
-      android-tools = inputs.pkg-android-tools.legacyPackages.${system}.android-tools;
-    };
-
-    mkSystem = system: hostname:
-      let
-        extraPkgs = mkExtraPkgs system;
-      in
-        lib.nixosSystem {
-          inherit system;
-          modules = [
-            ./hosts/${hostname}/configuration.nix
-            (homeManagerInit username (import ./hosts/${hostname}/home.nix))
-          ];
-          specialArgs = {
-            inherit inputs outputs vars extraPkgs;
-          };
+    # This function produces a nixosSystem which imports configuration.nix and
+    # a Home Manager home.nix for the given user from ./hosts/${hostname}/
+    mkSystem = {system, hostname, username ? username}:
+      lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./hosts/${hostname}/configuration.nix
+          (homeManagerInit {
+            module = import ./hosts/${hostname}/home.nix;
+            inherit username system;
+          })
+        ];
+        specialArgs = {
+          inherit inputs outputs vars;
+          extraPkgs = mkExtraPkgs system;
         };
+      };
 
   in {
     # for repl debugging via :lf .
@@ -88,7 +97,7 @@
           ./system/fragments/opengl.nix
           ./system/gaming.nix
           # ./system/hyprland.nix
-          (homeManagerInit username (import ./hosts/slab/home.nix))
+          (homeManagerInit {module = import ./hosts/slab/home.nix;})
         ];
       };
       nullbox = lib.nixosSystem {
@@ -99,7 +108,7 @@
           ./system/plasma.nix
           ./system/fragments/hardware/nvidia-modeset.nix
           ./system/gaming.nix
-          (homeManagerInit username (import ./hosts/nullbox/home.nix))
+          (homeManagerInit {module = import ./hosts/nullbox/home.nix;})
         ];
       };
     };
