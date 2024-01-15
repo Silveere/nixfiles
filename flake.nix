@@ -42,10 +42,13 @@
     };
 
 
+    # this is needed to work around an infinite recursion (it probably isn't
+    # but i'm stupid)
+    _username=username;
     # This function produces a module that adds the home-manager module to the
     # system and configures the given module to the user's Home Manager
     # configuration
-    homeManagerInit = {system, username ? username , module}: { config, lib, pkgs, ... }: {
+    homeManagerInit = {system, username ? _username , module}: { config, lib, pkgs, ... }: {
       imports = [
         inputs.home-manager.nixosModules.home-manager
       ];
