@@ -87,7 +87,7 @@
     };
 
     nixosConfigurations = {
-      slab = lib.nixosSystem {
+      slab = lib.nixosSystem rec {
         system = "x86_64-linux";
         modules = [
           ./hosts/slab/configuration.nix
@@ -97,10 +97,13 @@
           ./system/fragments/opengl.nix
           ./system/gaming.nix
           # ./system/hyprland.nix
-          (homeManagerInit {module = import ./hosts/slab/home.nix;})
+          (homeManagerInit {
+            module = import ./hosts/slab/home.nix;
+            inherit system;
+          })
         ];
       };
-      nullbox = lib.nixosSystem {
+      nullbox = lib.nixosSystem rec {
         system = "x86_64-linux";
         modules = [
           ./hosts/nullbox/configuration.nix
@@ -108,7 +111,10 @@
           ./system/plasma.nix
           ./system/fragments/hardware/nvidia-modeset.nix
           ./system/gaming.nix
-          (homeManagerInit {module = import ./hosts/nullbox/home.nix;})
+          (homeManagerInit {
+            module = import ./hosts/nullbox/home.nix;
+            inherit system;
+          })
         ];
       };
     };
