@@ -89,6 +89,9 @@
       inherit lib username;
     };
 
+    nixosModules = import ./modules/nixos;
+    homeManagerModules = import ./modules/home-manager;
+
     nixosConfigurations = {
       slab = lib.nixosSystem rec {
         system = "x86_64-linux";
