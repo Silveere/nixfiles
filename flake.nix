@@ -82,6 +82,10 @@
         };
       };
 
+    moduleInputs = {
+      inherit mkExtraPkgs;
+    };
+
   in {
     # for repl debugging via :lf .
     inherit inputs;
@@ -89,8 +93,8 @@
       inherit lib username;
     };
 
-    nixosModules = import ./modules/nixos;
-    homeManagerModules = import ./modules/home-manager;
+    nixosModules = (import ./modules/nixos) moduleInputs;
+    homeManagerModules = (import ./modules/home-manager) moduleInputs;
 
     nixosConfigurations = {
       slab = lib.nixosSystem rec {

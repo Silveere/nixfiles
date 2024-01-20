@@ -1,9 +1,10 @@
-{ config, lib, pkgs, extraPkgs, ... }:
-# TODO extraPkgs isn't a normal argument, make this somehow accessible if
-# imported into a different configuration; maybe a wrapper function in the flake
-
+{...}@moduleInputs:
+{ config, lib, pkgs, ... }:
 with lib;
 
+let
+  extraPkgs = (moduleInputs.mkExtraPkgs pkgs.system);
+in
 {
   meta.maintainers = [ maintainers.mic92 ];
 

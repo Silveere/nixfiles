@@ -1,3 +1,4 @@
+{...}@moduleInputs:
 {
-  adb = import ./adb-old.nix;
+  adb = (import ./adb-old.nix) moduleInputs;
 }
