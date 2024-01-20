@@ -33,7 +33,7 @@
     # define extra packages here
     mkExtraPkgs = system: {
       # android-tools = inputs.pkg-android-tools.legacyPackages.${system}.android-tools;
-      inherit (inputs.pkg-android-tools.legacyPackages.${system}) android-tools;
+      inherit (inputs.pkg-android-tools.legacyPackages.${system}) android-tools android-udev-rules;
     };
 
     # Variables to be passed to NixOS modules in the vars attrset
@@ -66,7 +66,7 @@
 
     # This function produces a nixosSystem which imports configuration.nix and
     # a Home Manager home.nix for the given user from ./hosts/${hostname}/
-    mkSystem = {system, hostname, username ? username}:
+    mkSystem = {system, hostname, username ? _username}:
       lib.nixosSystem {
         inherit system;
         modules = [
@@ -102,12 +102,17 @@
           ./system/plasma.nix
           ./system/fragments/opengl.nix
           ./system/gaming.nix
+          ./system/android.nix
           # ./system/hyprland.nix
           (homeManagerInit {
             module = import ./hosts/slab/home.nix;
             inherit system;
           })
         ];
+        specialArgs = {
+          inherit inputs outputs vars;
+          extraPkgs = mkExtraPkgs system;
+        };
       };
       nullbox = lib.nixosSystem rec {
         system = "x86_64-linux";

@@ -1,9 +1,13 @@
 { config, lib, pkgs, extraPkgs, ... }:
+# TODO extraPkgs isn't a normal argument, make this somehow accessible if
+# imported into a different configuration; maybe a wrapper function in the flake
 
 with lib;
 
 {
   meta.maintainers = [ maintainers.mic92 ];
+
+  disabledModules = [ "programs/adb.nix" ];
 
   ###### interface
   options = {
