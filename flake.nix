@@ -88,10 +88,7 @@
 
   in {
     # for repl debugging via :lf .
-    inherit inputs;
-    vars = {
-      inherit lib username;
-    };
+    inherit inputs vars;
 
     nixosModules = (import ./modules/nixos) moduleInputs;
     homeManagerModules = (import ./modules/home-manager) moduleInputs;
