@@ -45,6 +45,8 @@
       enable = true;
       netbootxyz.enable = true;
       memtest86.enable = true;
+      # grr oem efi partitions
+      configurationLimit = 4;
     };
   };
 
