@@ -38,7 +38,7 @@
 
     # Variables to be passed to NixOS modules in the vars attrset
     vars = {
-      inherit username mobileTimeZone;
+      inherit username mobileTimeZone self;
     };
 
 
