@@ -24,8 +24,7 @@
   services.printing.enable = true;
 
   fonts.packages = with pkgs; [
-    nerdfonts
-    fira-code-nerdfont
+    (nerdfonts.override { fonts = [ "FiraCode" ]; })
   ];
 
   users.users.nullbite = {
