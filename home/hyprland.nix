@@ -1,4 +1,4 @@
-{ lib, pkgs, osConfig, ... }:
+{ lib, pkgs, osConfig, ... }@args:
 let
   mkd = lib.mkDefault;
   terminal = "${pkgs.kitty}/bin/kitty";
@@ -187,6 +187,9 @@ in
         # Scroll through existing workspaces with mod + scroll
         "$mod, mouse_down, workspace, e+1"
         "$mod, mouse_up, workspace, e-1"
+
+        # show this file (help)
+        ("$mod, slash, exec, ${terminal} -e ${pkgs.neovim}/bin/nvim '+set nomodifiable' '+noremap q :q<CR>'  " + args.vars.self.outPath + "/home/hyprland.nix")
       ];
 
       bindm = [
