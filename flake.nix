@@ -90,6 +90,8 @@
     # for repl debugging via :lf .
     inherit inputs vars;
 
+    # nix flake modules are meant to be portable so we cannot rely on
+    # (extraS|s)pecialArgs to pass variables
     nixosModules = (import ./modules/nixos) moduleInputs;
     homeManagerModules = (import ./modules/home-manager) moduleInputs;
 

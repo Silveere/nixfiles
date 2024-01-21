@@ -40,3 +40,18 @@ for the host, if applicable.
 	- add Plasma, Hyprland, and maybe GNOME if I'm feeling silly (I'd probably never actually use it).
 - make more things configurable as options once I figure out the above, it's probably cleaner than importing modules.
 - Rewrite README.
+- make system ephemeral/stateless
+	- The following command is able to successfully show any accumulated state on my system: <pre><code>sudo find  / -xdev \( -path /home -o -path /nix -o -path /boot \)  -prune -o \( -name flatpak -o -name boot.bak -o -path /var/log -o -name .cache \) \( -prune -print \) -o \( -type f \) -print</code></pre>
+	- everything on my system should be declared in this repository or explicitly excluded from the system state
+	- caches should probably be excluded, they exist for a reason and are essentially harmless compared to other forms of state
+		- /var/cache
+		- ~/.cache
+	- logs should also be excluded (/var/log)
+	- network configuration (wireguard, networkmanager, bluetooth) should be excluded
+	- ssh host keys
+	- print configuration
+	- tailscale keys
+	- coredumps
+	- /root user and /home
+	- /etc/machine-id
+- configure /etc/supergfxd.conf with a oneshot systemd unit on boot bsaed on selected specialisation (should still be modifiable with supergfxctl but should be ephemeral)
