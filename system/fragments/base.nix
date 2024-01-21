@@ -26,6 +26,7 @@
     wget
     curl
     git
+    git-lfs
     stow
     zsh
     ntfs3g
