@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ...}:
+{ config, lib, pkgs, options, inputs, ...}@args:
 {
   # locale settings
   i18n = {
@@ -48,6 +48,12 @@
     lshw
     pciutils
   ];
+
+  # this makes comma and legacy nix utils use the flake nixpkgs for ABI
+  # compatibility becasue once `, vkcube` couldn't find the correct opengl
+  # driver or something (also it reduces the download size of temporary shell
+  # closures)
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ] ++ options.nix.nixPath.default;
 
   programs.ssh.enableAskPassword = false;
 
