@@ -47,7 +47,14 @@
     # This function produces a module that adds the home-manager module to the
     # system and configures the given module to the user's Home Manager
     # configuration
-    homeManagerInit = {system, username ? _username , module}: { config, lib, pkgs, ... }: {
+    homeManagerInit = {system, username ? _username , module ? _ : {}, users ? { ${username} = module;} }:
+    let
+      # TODO ooprs i forgor home-manager needs a state version and i currently
+      # don't pass the system name to this so there is no way to derive this
+      # value properly and it should probably be derived with mkSystem
+      users = users // { root = ./home/root.nix;};
+    in
+    { config, lib, pkgs, ... }: {
       imports = [
         inputs.home-manager.nixosModules.home-manager
       ];
@@ -55,7 +62,7 @@
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
-        users.${username} = module;
+        inherit users;
         extraSpecialArgs = {
           inherit inputs outputs vars;
           extraPkgs = mkExtraPkgs system;
