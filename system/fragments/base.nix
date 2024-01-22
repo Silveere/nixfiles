@@ -31,6 +31,7 @@
     zsh
     ntfs3g
     openssh
+    file
 
     fd
     ripgrep
