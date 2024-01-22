@@ -47,14 +47,19 @@
     # This function produces a module that adds the home-manager module to the
     # system and configures the given module to the user's Home Manager
     # configuration
-    homeManagerInit = {system, username ? _username , module ? _ : {}, users ? { ${username} = module;} }:
+    homeManagerInit = {system, username ? _username , module ? _ : {}, userModules ? { ${username} = [ module ] ;}, stateVersion }:
+    { config, lib, pkgs, ... }:
     let
-      # TODO ooprs i forgor home-manager needs a state version and i currently
-      # don't pass the system name to this so there is no way to derive this
-      # value properly and it should probably be derived with mkSystem
-      users = users // { root = ./home/root.nix;};
+      mapUserModules = lib.attrsets.mapAttrs (user: modules: {...}:
+      {
+        imports = modules;
+        config = {
+          home = { inherit stateVersion; };
+        };
+      });
+      users = mapUserModules userModules;
     in
-    { config, lib, pkgs, ... }: {
+    {
       imports = [
         inputs.home-manager.nixosModules.home-manager
       ];
@@ -72,14 +77,23 @@
 
     # This function produces a nixosSystem which imports configuration.nix and
     # a Home Manager home.nix for the given user from ./hosts/${hostname}/
-    mkSystem = {system, hostname, username ? _username}:
+    mkSystem = {system, hostname, username ? _username, stateVersion}:
       lib.nixosSystem {
         inherit system;
         modules = [
+          ({pkgs, config, lib, ...}@args: 
+            {
+              # Values for every single system that would not conceivably need
+              # to be made modular
+              system.stateVersion = stateVersion;
+              # not having the freedom to install unfree programs is unfree
+              nixpkgs.config.allowUnfree = true;
+              nix.settings.experimental-features = ["nix-command" "flakes" ];
+            })
           ./hosts/${hostname}/configuration.nix
           (homeManagerInit {
             module = import ./hosts/${hostname}/home.nix;
-            inherit username system;
+            inherit username system stateVersion;
           })
         ];
         specialArgs = {
@@ -116,6 +130,7 @@
           (homeManagerInit {
             module = import ./hosts/slab/home.nix;
             inherit system;
+            stateVersion = "23.11";
           })
         ];
         specialArgs = {
@@ -134,6 +149,7 @@
           (homeManagerInit {
             module = import ./hosts/nullbox/home.nix;
             inherit system;
+            stateVersion = "23.11";
           })
         ];
       };
