@@ -53,7 +53,7 @@
     # This function produces a module that adds the home-manager module to the
     # system and configures the given module to the user's Home Manager
     # configuration
-    homeManagerInit = {system, username ? _username , module ? _ : {}, userModules ? { ${username} = [ module ] ;}, stateVersion }:
+    homeManagerInit = {system, username ? _username , module ? _ : {}, rootModule ? _:{}, userModules ? { ${username} = [ module ] ; root = [ rootModule ]; }, stateVersion }:
     { config, lib, pkgs, ... }:
     let
       mapUserModules = lib.attrsets.mapAttrs (user: modules: {...}:
@@ -134,9 +134,11 @@
           ./system/android.nix
           # ./system/hyprland.nix
           (homeManagerInit {
-            module = import ./hosts/slab/home.nix;
+            # module = import ./hosts/slab/home.nix;
             inherit system;
             stateVersion = "23.11";
+            # rootModule = import ./home/root.nix;
+            userModules = { ${username} = [(import ./hosts/slab/home.nix)]; root = [(import ./home/root.nix)]; };
           })
         ];
         specialArgs = {
