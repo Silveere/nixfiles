@@ -122,29 +122,10 @@
     homeManagerModules = (import ./modules/home-manager) moduleInputs;
 
     nixosConfigurations = {
-      slab = lib.nixosSystem rec {
+      slab = mkSystem {
         system = "x86_64-linux";
-        modules = [
-          ./hosts/slab/configuration.nix
-          ./hosts/slab/nvidia-optimus.nix
-          ./system/remote.nix
-          ./system/plasma.nix
-          ./system/fragments/opengl.nix
-          ./system/gaming.nix
-          ./system/android.nix
-          # ./system/hyprland.nix
-          (homeManagerInit {
-            # module = import ./hosts/slab/home.nix;
-            inherit system;
-            stateVersion = "23.11";
-            # rootModule = import ./home/root.nix;
-            userModules = { ${username} = [(import ./hosts/slab/home.nix)]; root = [(import ./home/root.nix)]; };
-          })
-        ];
-        specialArgs = {
-          inherit inputs outputs vars;
-          extraPkgs = mkExtraPkgs system;
-        };
+        hostname = "slab";
+        stateVersion = "23.11";
       };
       nullbox = lib.nixosSystem rec {
         system = "x86_64-linux";
