@@ -53,7 +53,7 @@
     # This function produces a module that adds the home-manager module to the
     # system and configures the given module to the user's Home Manager
     # configuration
-    homeManagerInit = {system, username ? _username , module ? _ : {}, rootModule ? _:{}, userModules ? { ${username} = [ module ] ; root = [ rootModule ]; }, stateVersion }:
+    homeManagerInit = {system, username ? _username , module ? _ : {}, rootModule ? (import ./home/root.nix), userModules ? { ${username} = [ module ] ; root = [ rootModule ]; }, stateVersion }:
     { config, lib, pkgs, ... }:
     let
       mapUserModules = lib.attrsets.mapAttrs (user: modules: {...}:
