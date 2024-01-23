@@ -13,15 +13,14 @@ in
   services.xserver.displayManager.defaultSession = "plasmawayland";
   programs.kdeconnect.enable = true;
 
-  # systemd.user.targets.plasma-core.unitConfig.Upholds = [ "restart-xdg-desktop-portal.service" ];
-  systemd.user.targets.graphical-session.unitConfig.Wants = [ "restart-xdg-desktop-portal-kde.service" ];
   systemd.user = {
     services.restart-xdg-desktop-portal-kde = {
       enable = true;
       description = "hack to fix xdg-desktop-portal on kde";
-      # wantedBy = [ "plasma-core.target" ];
+      wantedBy = [ "graphical-session.target" ];
       after = [ "plasma-core.target" "xdg-desktop-portal.service" ];
       requisite = [ "plasma-core.target" ];
+
       serviceConfig = {
         ExecStart = [
           "${sleep} 5"
