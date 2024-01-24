@@ -83,7 +83,7 @@
 
     # This function produces a nixosSystem which imports configuration.nix and
     # a Home Manager home.nix for the given user from ./hosts/${hostname}/
-    mkSystem = {system, hostname, username ? _username, stateVersion}:
+    mkSystem = {system, hostname, username ? _username, stateVersion, extraModules ? [] }:
       lib.nixosSystem {
         inherit system;
         modules = [
@@ -101,7 +101,7 @@
             module = import ./hosts/${hostname}/home.nix;
             inherit username system stateVersion;
           })
-        ];
+        ] ++ extraModules;
         specialArgs = {
           inherit inputs outputs vars;
           extraPkgs = mkExtraPkgs system;
