@@ -54,32 +54,32 @@
     # system and configures the given module to the user's Home Manager
     # configuration
     homeManagerInit = {system, username ? _username , module ? _ : {}, rootModule ? (import ./home/root.nix), userModules ? { ${username} = [ module ] ; root = [ rootModule ]; }, stateVersion }:
-    { config, lib, pkgs, ... }:
-    let
-      mapUserModules = lib.attrsets.mapAttrs (user: modules: {...}:
+      { config, lib, pkgs, ... }:
+      let
+        mapUserModules = lib.attrsets.mapAttrs (user: modules: {...}:
+        {
+          imports = modules;
+          config = {
+            home = { inherit stateVersion; };
+          };
+        });
+        users = mapUserModules userModules;
+      in
       {
-        imports = modules;
-        config = {
-          home = { inherit stateVersion; };
-        };
-      });
-      users = mapUserModules userModules;
-    in
-    {
-      imports = [
-        inputs.home-manager.nixosModules.home-manager
-      ];
+        imports = [
+          inputs.home-manager.nixosModules.home-manager
+        ];
 
-      home-manager = {
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        inherit users;
-        extraSpecialArgs = {
-          inherit inputs outputs vars;
-          extraPkgs = mkExtraPkgs system;
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          inherit users;
+          extraSpecialArgs = {
+            inherit inputs outputs vars;
+            extraPkgs = mkExtraPkgs system;
+          };
         };
       };
-    };
 
     # This function produces a nixosSystem which imports configuration.nix and
     # a Home Manager home.nix for the given user from ./hosts/${hostname}/
@@ -108,6 +108,7 @@
         };
       };
 
+    # values to be passed to nixosModules and homeManagerModules wrappers
     moduleInputs = {
       inherit mkExtraPkgs;
     };
