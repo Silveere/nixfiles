@@ -47,13 +47,11 @@
     };
 
 
-    # this is needed to work around an infinite recursion (it probably isn't
-    # but i'm stupid)
-    _username=username;
     # This function produces a module that adds the home-manager module to the
     # system and configures the given module to the user's Home Manager
     # configuration
-    homeManagerInit = {system, username ? _username , module ? _ : {}, rootModule ? (import ./home/root.nix), userModules ? { ${username} = [ module ] ; root = [ rootModule ]; }, stateVersion }:
+    homeManagerInit = let _username=username;
+    in {system, username ? _username , module ? _ : {}, rootModule ? (import ./home/root.nix), userModules ? { ${username} = [ module ] ; root = [ rootModule ]; }, stateVersion }:
       { config, lib, pkgs, ... }:
       let
         mapUserModules = lib.attrsets.mapAttrs (user: modules: {...}:
@@ -83,7 +81,8 @@
 
     # This function produces a nixosSystem which imports configuration.nix and
     # a Home Manager home.nix for the given user from ./hosts/${hostname}/
-    mkSystem = {system, hostname, username ? _username, stateVersion, extraModules ? [] }:
+    mkSystem = let _username=username;
+    in {system, hostname, username ? _username, stateVersion, extraModules ? [] }:
       lib.nixosSystem {
         inherit system;
         modules = [
