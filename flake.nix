@@ -20,6 +20,11 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs: 
@@ -106,6 +111,19 @@
           extraPkgs = mkExtraPkgs system;
         };
       };
+
+    mkWSLSystem = let _username=username; in
+      {username ? _username, extraModules ? [], ...}@args: let
+        WSLModule = {...}: {
+          imports = [
+            inputs.nix-wsl.nixosModules.wsl
+          ];
+          wsl.enable = true;
+          wsl.defaultUser = username;
+        };
+        override = {extraModules = extraModules ++ [WSLModule];};
+      in
+        mkSystem (args // override);
 
     # values to be passed to nixosModules and homeManagerModules wrappers
     moduleInputs = {
