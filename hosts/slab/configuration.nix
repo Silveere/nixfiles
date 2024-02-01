@@ -75,6 +75,8 @@
   # Set your time zone.
   time.timeZone = vars.mobileTimeZone;
 
+  services.asusd.enable = true;
+
   # {{{ old config
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
