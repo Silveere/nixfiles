@@ -3,16 +3,19 @@ let
   mkd = lib.mkDefault;
   terminal = "${pkgs.kitty}/bin/kitty";
   files = "${pkgs.dolphin}/bin/dolphin";
-  rofi = "${pkgs.wofi}/bin/wofi";
+  rofi = "${pkgs.rofi-wayland}/bin/rofi";
   notifydaemon = "${pkgs.dunst}/bin/dunst";
+  brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
+  polkit-agent = "${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
 in
 {
   home.packages = with pkgs; [
     kitty
     dolphin
-    wofi
+    rofi-wayland
     wev
     dunst
+    brightnessctl
   ];
 
   wayland.windowManager.hyprland = {
@@ -32,6 +35,7 @@ in
 
       exec-once = [
         notifydaemon
+        polkit-agent
       ];
 
       # Source a file (multi-file configs)
@@ -141,7 +145,7 @@ in
         "$mod, M, exit, "
         "$mod, E, exec, ${files}"
         "$mod, V, togglefloating, "
-        "$mod, R, exec, ${rofi} --show drun"
+        "$mod, R, exec, ${rofi} -show drun"
         "$mod, P, pseudo," # dwindle"
         "$mod, O, togglesplit," # dwindle"
 

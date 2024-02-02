@@ -19,5 +19,6 @@
     rofi
     hyprpicker
     udiskie
+    polkit-kde-agent
   ];
 }
