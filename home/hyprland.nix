@@ -15,7 +15,7 @@ in
     rofi-wayland
     wev
     dunst
-    brightnessctl
+    pkgs.brightnessctl
   ];
 
   wayland.windowManager.hyprland = {
