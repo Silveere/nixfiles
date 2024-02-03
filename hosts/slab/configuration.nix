@@ -23,6 +23,7 @@
       ../../system/fragments/opengl.nix
       ../../system/gaming.nix
       ../../system/android.nix
+      ../../system/hyprland.nix
     ];
 
   networking.hostName = "slab";
