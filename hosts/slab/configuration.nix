@@ -19,7 +19,7 @@
 
       ./nvidia-optimus.nix
       ../../system/remote.nix
-      ../../system/plasma.nix
+      # ../../system/plasma.nix
       ../../system/fragments/opengl.nix
       ../../system/gaming.nix
       ../../system/android.nix
