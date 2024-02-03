@@ -199,18 +199,6 @@ in
         "$mod SHIFT, 9, movetoworkspace, 9"
         "$mod SHIFT, 0, movetoworkspace, 10"
 
-        # Volume controls
-        ",XF86AudioLowerVolume, exec, ${keysetting} volumeup"
-        ",XF86AudioLowerVolume, exec, ${keysetting} volumedown"
-        ",XF86AudioMute, exec, ${keysetting} mute"
-        ",XF86AudioMicMute, exec, ${keysetting} micmute"
-
-        # brightness
-        ",XF86KbdBrightnessDown, exec, ${keysetting} keydown"
-        ",XF86KbdBrightnessUp, exec, ${keysetting} keyup"
-        ",XF86MonBrightnessDown, exec, ${keysetting} mondown"
-        ",XF86MonBrightnessUp, exec, ${keysetting} monup"
-
         # Example special workspace (scratchpad)
         "$mod, S, togglespecialworkspace, magic"
         "$mod SHIFT, S, movetoworkspace, special:magic"
@@ -221,6 +209,22 @@ in
 
         # show this file (help)
         ("$mod, slash, exec, ${terminal} -e ${pkgs.neovim}/bin/nvim '+set nomodifiable' '+noremap q :q<CR>'  " + args.vars.self.outPath + "/home/hyprland.nix")
+      ];
+
+      # repeat, ignore mods
+      bindei = [
+        # Volume controls
+        ",XF86AudioRaiseVolume, exec, ${keysetting} volumeup"
+        ",XF86AudioLowerVolume, exec, ${keysetting} volumedown"
+        ",XF86AudioMute, exec, ${keysetting} mute"
+        ",XF86AudioMicMute, exec, ${keysetting} micmute"
+
+        # brightness
+        ",XF86KbdBrightnessDown, exec, ${keysetting} keydown"
+        ",XF86KbdBrightnessUp, exec, ${keysetting} keyup"
+        ",XF86MonBrightnessDown, exec, ${keysetting} mondown"
+        ",XF86MonBrightnessUp, exec, ${keysetting} monup"
+
       ];
 
       bindm = [
