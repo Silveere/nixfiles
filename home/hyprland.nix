@@ -18,6 +18,9 @@ let
   in
     if hasAttr key keyNames then keyNames."${key}" else key;
 
+  wm-helpers = import ./wm-helpers.nix {inherit lib pkgs;};
+  inherit (wm-helpers) keysetting;
+
 in
 {
   home.packages = with pkgs; [
@@ -195,6 +198,18 @@ in
         "$mod SHIFT, 8, movetoworkspace, 8"
         "$mod SHIFT, 9, movetoworkspace, 9"
         "$mod SHIFT, 0, movetoworkspace, 10"
+
+        # Volume controls
+        ",XF86AudioLowerVolume, exec, ${keysetting} volumeup"
+        ",XF86AudioLowerVolume, exec, ${keysetting} volumedown"
+        ",XF86AudioMute, exec, ${keysetting} mute"
+        ",XF86AudioMicMute, exec, ${keysetting} micmute"
+
+        # brightness
+        ",XF86KbdBrightnessDown, exec, ${keysetting} keydown"
+        ",XF86KbdBrightnessUp, exec, ${keysetting} keyup"
+        ",XF86MonBrightnessDown, exec, ${keysetting} mondown"
+        ",XF86MonBrightnessUp, exec, ${keysetting} monup"
 
         # Example special workspace (scratchpad)
         "$mod, S, togglespecialworkspace, magic"
