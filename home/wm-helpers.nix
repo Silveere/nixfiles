@@ -5,8 +5,12 @@
     wpctl=${pkgs.wireplumber}/bin/wpctl
     notify_send=${pkgs.libnotify}/bin/notify-send
 
+    notify-send () {
+      $notify_send -h string:x-canonical-private-synchronous:keysetting "$@"
+    }
+
     notifyvol () {
-      $notify_send "$(wpctl get-volume @DEFAULT_SINK@)"
+      notify-send "$(wpctl get-volume @DEFAULT_SINK@)"
     }
 
     setvol () {
