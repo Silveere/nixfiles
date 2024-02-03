@@ -7,6 +7,17 @@ let
   notifydaemon = "${pkgs.dunst}/bin/dunst";
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   polkit-agent = "${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
+
+  # Hyprland workspace configuration
+  mainWorkspaces = builtins.genList (x: x+1) (9 ++ [0]);
+  workspaceName = key: let
+    hasAttr = attr: lib.hasAttrByPath [ attr ];
+    keyNames = {
+      "0" = "10";
+    };
+  in
+    if hasAttr key keyNames then keyNames."${key}" else key;
+
 in
 {
   home.packages = with pkgs; [
@@ -171,7 +182,8 @@ in
         "$mod, 8, workspace, 8"
         "$mod, 9, workspace, 9"
         "$mod, 0, workspace, 10"
-
+      #] ++ map () [] ++ TODO reconfigure these with workspace helper function
+      #[
         # Move active window to a workspace with mod + SHIFT + [0-9]
         "$mod SHIFT, 1, movetoworkspace, 1"
         "$mod SHIFT, 2, movetoworkspace, 2"
