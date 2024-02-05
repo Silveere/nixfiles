@@ -6,6 +6,9 @@
                  # ^^^^^^^^^^^^^ this part is optional
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
+    # this seems to be a popular way to declare systems
+    systems.url = "github:nix-systems/default";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -51,6 +54,8 @@
       inherit username mobileTimeZone self;
     };
 
+    # funciton to generate packages for each system
+    eachSystem = lib.genAttrs (import inputs.systems);
 
     # This function produces a module that adds the home-manager module to the
     # system and configures the given module to the user's Home Manager
@@ -138,6 +143,7 @@
     # (extraS|s)pecialArgs to pass variables
     nixosModules = (import ./modules/nixos) moduleInputs;
     homeManagerModules = (import ./modules/home-manager) moduleInputs;
+    packages = eachSystem (system: import ./pkgs { inherit nixpkgs system; });
 
     nixosConfigurations = {
       slab = mkSystem {
