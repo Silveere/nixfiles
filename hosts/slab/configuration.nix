@@ -58,6 +58,11 @@
     };
   };
 
+  systemd.targets = lib.genAttrs ["suspend" "hybrid-sleep" "suspend-then-hibernate"] (_: {
+    enable = false;
+    unitConfig.DefaultDependencies = "no";
+  });
+
   services.xserver.videoDrivers = ["amdgpu"];
 
   # {{{ old config
