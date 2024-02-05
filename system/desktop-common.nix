@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ...}:
+{ config, lib, pkgs, outputs, ...}:
 
 {
   imports = [
@@ -25,6 +25,8 @@
 
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" ]; })
+    noto-fonts-cjk
+    (outputs.packages.${pkgs.system}.google-fonts.override { fonts = [ "NovaSquare" ];})
   ];
 
   users.users.nullbite = {
