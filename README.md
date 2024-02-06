@@ -1,9 +1,11 @@
 # NullBite's NixOS Config
-This is my personal NixOS config. Right now, it's just a basic flake which
-imports a (mostly) normal stock NixOS configuration.
+This is my personal NixOS config. Right now, it's just a <del>basic</del>
+extremely overengineered flake which imports a (mostly) normal stock NixOS configuration.
 
 Now that I have used NixOS for a month, I have learned a fair bit and have made
-some organizational changes. Currently, the repository is organized as such:
+some organizational changes. <del>Currently, the repository is organized as
+such</del> (I am in the process of migrating my config to this format, some
+stuff may not match yet):
 
 - Like any other Nix flake, `flake.nix` is the entrypoint for this repository.
 	- The flake output has the following attributes, among others:
