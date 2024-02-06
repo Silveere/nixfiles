@@ -11,7 +11,7 @@ let
   # Hyprland workspace configuration
   mainWorkspaces = builtins.genList (x: x+1) (9 ++ [0]);
   workspaceName = key: let
-    hasAttr = attr: lib.hasAttrByPath [ attr ];
+    inherit (builtins) hasAttr;
     keyNames = {
       "0" = "10";
     };

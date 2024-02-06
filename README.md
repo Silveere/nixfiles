@@ -1,34 +1,64 @@
 # NullBite's NixOS Config
 This is my personal NixOS config. Right now, it's just a basic flake which
-imports a (mostly) normal stock NixOS configuration. <del>The plan is to have three
-separate levels of organization:</del>
+imports a (mostly) normal stock NixOS configuration.
 
-- <del>**Fragments**: Configure one specific service/app/setting/etc., which has the
-  potential to be used on more than one machine.</del>
-	- <del>Settings that will only ever work on one machine (e.g., settings which
-	  include disk UUIDs, PCIe bus IDs, etc) should be placed in a host
-	  fragment instead.</del>
-- <del>**Roles**: Define a "purpose" and import relevant fragments.</del>
-	- <del>Roles aren't mutually exclusive; one system could pull in roles for,
-	  e.g., desktop environment, gaming, and server</del>
-	- <del>This is inspired by the concept of roles in Ansible</del>
-- <del>**Hosts**: Configuration for individual hosts (obviously).
-	- Each host shall have a folder containing a `configuration.nix` and a
-	  `hardware-configuration.nix`, and possibly a few host-specific fragments.</del>
-	- <del>Custom configuration *MUST NOT* be placed in `hardware-configuration.nix`
-	  for the same reason one should not directly edit
-	  `hardware-configuration.nix` on a stock NixOS system. Most systems,
-	  however, generally will have some options exclusive to them, and these
-	  should be placed in the host's `configuration.nix` or a host fragment.</del>
+Now that I have used NixOS for a month, I have learned a fair bit and have made
+some organizational changes. Currently, the repository is organized as such:
 
-<del>At first I am going to migrate configuration into roles, and then as the configuration evolves, I will start to create fragments.</del>
-
-The above is outdated and I will rewrite it once I settle on a better way to organize this repo.
-
-## `flake.nix` schema
-`flake.nix` shall contain a "default" configuration for each host (using the
-built-in selection of `nixos-rebuild`), as well as alternative config presets
-for the host, if applicable.
+- Like any other Nix flake, `flake.nix` is the entrypoint for this repository.
+	- The flake output has the following attributes, among others:
+		- nixosModules: standard flake output
+		- homeManagerModules: standard flake output
+		- nixosConfigurations: standard flake output
+		- inputs: all specified flake inputs
+		- vars: attrset of variables that are passed to modules
+	- The flake also has multiple helper functions:
+		- `mkExtraPkgs`: Produce a set of packages for the given system
+		- `eachSystem :: (system -> attrset) -> attrset`: Generate an attrset
+		  of default systems (used for packages)
+		- `homeManagerInit`: Generate a NixOS Module that initializes
+		  home-manager for a given user(s).
+		- `mkSystem`: Generate a nixosConfiguration definition with some preset
+		  options
+		- `mkWSLSystem`: generate a system using `mkSystem` that has WSL
+		  related options and modules enabled
+	- The flake also defines a few options in the `let` clause that should be
+	  shared and updated among multiple hosts.
+- The repository is split into several directories:
+	- The `hosts` directory contains configurations for each host, with a
+	  layout similar to that of a flake-less `/etc/nixos/`. Additionally, each
+	  host's unique modules can be placed in here however desired. There is
+	  also a `home.nix` which specifies the home-manager configuration for the
+	  main user.
+	- The `system` and `home` directories respectively specify NixOS and
+	  home-manager modules that are *not* portable. The default module for each
+	  directory does not change any configuration by default, it just
+	  introduces options, most of which configure larger sets of options.
+		- Each directory may also contain smaller module "fragments"; small
+		  chunks of config not worth creating an entire option for, and which
+		  will not automatically be imported by `default.nix`.
+	- The `pkgs` directory contains standard Nix packages which can be used in
+	  any other configuration.
+	- The `modules` directory contains portable modules which can be used in
+	  any other configuration.
+	- The `extras` directory contains random odds and ends which are not
+	  directly related to the flake, but may come in handy when setting up a
+	  new system or a non-NixOS system
+- Custom options will be organized as follows:
+	- All options apply to both NixOS and home-manager, unless otherwise
+	  specified.
+	- This seection is not extremely strict, but more of a general suggestion.
+	  These option names may be subject to change.
+	- "Private" options (non-portable options defined in `home/` and `system/`)
+	  will be in the `nixfiles` "namespace", and will be divided into several
+	  categories:
+		- `nixfiles.desktopSession.<name>`: configuration for a desktop session
+		  display (e.g., KDE Plasma, Hyprland, GNOME, Xfce)
+		- `nixfiles.program.<name>`: configuration for a specific program
+		- `nixfiles.profile.<name>`: general config sets
+	- "Public" options (those for portable flake modules) follow standard
+	  nixpkgs option naming conventions (e.g., services.<service>.enable).
+	  These options are not namespaced.
 
 ## TODO
 
@@ -39,7 +69,7 @@ for the host, if applicable.
 	- figure out nixpkgs.lib.options.mkOption and add a string option that picks a desktop to use.
 	- add Plasma, Hyprland, and maybe GNOME if I'm feeling silly (I'd probably never actually use it).
 - make more things configurable as options once I figure out the above, it's probably cleaner than importing modules.
-- Rewrite README.
+- Reorganize README bullets into headings
 - make system ephemeral/stateless
 	- The following command is able to successfully show any accumulated state on my system: <pre><code>sudo find  / -xdev \( -path /home -o -path /nix -o -path /boot \)  -prune -o \( -name flatpak -o -name boot.bak -o -path /var/log -o -name .cache \) \( -prune -print \) -o \( -type f \) -print</code></pre>
 	- everything on my system should be declared in this repository or explicitly excluded from the system state
