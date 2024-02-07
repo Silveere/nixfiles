@@ -144,6 +144,8 @@
     nixosModules = (import ./modules/nixos) moduleInputs;
     homeManagerModules = (import ./modules/home-manager) moduleInputs;
     packages = eachSystem (system: import ./pkgs { inherit nixpkgs system; });
+    apps = eachSystem (system: import ./pkgs/apps.nix
+      { inherit (self.outputs) packages; inherit system; });
 
     nixosConfigurations = {
       slab = mkSystem {

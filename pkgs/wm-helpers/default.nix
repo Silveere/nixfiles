@@ -1,6 +1,6 @@
 { pkgs, ...}:
-{
-  keysetting = pkgs.writeShellScript "keysetting" ''
+let
+  keysetting = pkgs.writeShellScriptBin "keysetting" ''
     wpctl=${pkgs.wireplumber}/bin/wpctl
     notify_send=${pkgs.libnotify}/bin/notify-send
     brightnessctl=${pkgs.brightnessctl}/bin/brightnessctl
@@ -34,4 +34,8 @@
       mondown) setbright 5%-;;
     esac
   '';
+in
+pkgs.symlinkJoin {
+  name = "wm-helpers";
+  paths = keysetting;
 }

@@ -18,8 +18,8 @@ let
   in
     if hasAttr key keyNames then keyNames."${key}" else key;
 
-  inherit (outputs.packages.${pkgs.system}.wm-helpers) keysetting;
-
+  inherit (outputs.packages.${pkgs.system}) wm-helpers;
+  keysetting = "${wm-helpers}/bin/keysetting";
 in
 {
   # FIXME this is temporary just to get it working, need to make wm-common an
