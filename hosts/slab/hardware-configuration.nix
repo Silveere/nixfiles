@@ -24,6 +24,12 @@
   #     fsType = "ext4";
   #   };
 
+  fileSystems."/nix" =
+    { device = "/dev/disk/by-uuid/5723dafa-81df-4bb4-a039-7f52b61cbb02";
+      fsType = "btrfs";
+      options = [ "subvol=nixos/@nix" ];
+    };
+
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/4E1B-8BEE";
       fsType = "vfat";
