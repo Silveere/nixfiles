@@ -31,6 +31,7 @@
     zsh
     ntfs3g
     openssh
+    sshfs
     file
 
     fd
@@ -58,6 +59,7 @@
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ] ++ options.nix.nixPath.default;
 
   programs.ssh.enableAskPassword = false;
+  programs.fuse.userAllowOther = true;
 
   programs.gnupg.agent = {
     enable = lib.mkDefault true;
