@@ -11,6 +11,10 @@
   # Enable flakes
   nix.settings.experimental-features = ["nix-command" "flakes" ];
 
+  # fallback to building locally if binary cache fails (home-manager should be
+  # able to handle simple rebuilds offline)
+  nix.settings.fallback = true;
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
