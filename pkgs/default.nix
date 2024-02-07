@@ -5,4 +5,5 @@ let
 in
 {
   google-fonts = callPackage ./google-fonts { };
+  wm-helpers = callPackage ./wm-helpers { };
 }

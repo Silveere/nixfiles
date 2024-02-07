@@ -1,4 +1,4 @@
-{ lib, pkgs, osConfig, ... }@args:
+{ lib, pkgs, osConfig, outputs, ... }@args:
 let
   mkd = lib.mkDefault;
   terminal = "${pkgs.kitty}/bin/kitty";
@@ -18,8 +18,7 @@ let
   in
     if hasAttr key keyNames then keyNames."${key}" else key;
 
-  wm-helpers = pkgs.callPackage ./wm-helpers.nix { };
-  inherit (wm-helpers) keysetting;
+  inherit (outputs.packages.${pkgs.system}.wm-helpers) keysetting;
 
 in
 {
