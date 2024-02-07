@@ -1,4 +1,3 @@
-# TODO make this into a package
 { pkgs, ...}:
 {
   keysetting = pkgs.writeShellScript "keysetting" ''

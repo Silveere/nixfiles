@@ -18,7 +18,7 @@ let
   in
     if hasAttr key keyNames then keyNames."${key}" else key;
 
-  wm-helpers = import ./wm-helpers.nix {inherit lib pkgs;};
+  wm-helpers = pkgs.callPackage ./wm-helpers.nix { };
   inherit (wm-helpers) keysetting;
 
 in
