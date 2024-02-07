@@ -23,6 +23,11 @@ let
 
 in
 {
+  # FIXME this is temporary just to get it working, need to make wm-common an
+  # option first
+  imports = [
+    ./wm-common.nix
+  ];
   home.packages = with pkgs; [
     kitty
     dolphin

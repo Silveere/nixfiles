@@ -2,6 +2,8 @@
 {
   imports = [
     ./desktop-common.nix
+    # FIXME make this into an option
+    ./wm-common.nix
   ];
 
   services.xserver.displayManager.sddm.enable = true;
