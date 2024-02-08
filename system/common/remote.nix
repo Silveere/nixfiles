@@ -1,5 +1,5 @@
 { config, lib, pkgs, ... }:
-with lib; let
+let
   cfg = config.nixfiles.common.remoteAccess;
 in
 {
@@ -19,5 +19,5 @@ in
     networking.wireguard.enable = true;
   };
   options = {
-    nixfiles.common.remoteAccess = mkEnbaleOption "remote access options" ; };
+    nixfiles.common.remoteAccess = lib.mkEnbaleOption "remote access options" ; };
 }
