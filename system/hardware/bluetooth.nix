@@ -1,9 +1,9 @@
 { config, lib, pkgs, ...}:
 let
-  cfg = config.nixfiles.common.bluetooth;
+  cfg = config.nixfiles.hardware.bluetooth;
 in
 {
-  options.nixfiles.common.bluetooth = {
+  options.nixfiles.hardware.bluetooth = {
     enable = lib.mkEnableOption "Bluetooth";
   };
 

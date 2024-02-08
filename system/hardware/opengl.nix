@@ -1,9 +1,9 @@
 { config, lib, pkgs, ...}:
 let
-  cfg = config.nixfiles.common.opengl;
+  cfg = config.nixfiles.hardware.opengl;
 in
 {
-  options.nixfiles.common.opengl.enable = lib.mkEnableOption "OpenGL configuration";
+  options.nixfiles.hardware.opengl.enable = lib.mkEnableOption "OpenGL configuration";
   config = lib.mkIf cfg.enable {
     # Enable OpenGL
     hardware.opengl = {

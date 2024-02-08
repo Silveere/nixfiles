@@ -1,6 +1,6 @@
 { config, lib, pkgs, ...}:
 let
-  cfg = config.nixfiles.common.nvidia;
+  cfg = config.nixfiles.hardware.nvidia;
 in
 {
   # imports = [
@@ -8,13 +8,13 @@ in
   # ];
 
   # Load nvidia driver for Xorg and Wayland
-  options.nixfiles.common.nvidia = {
+  options.nixfiles.hardware.nvidia = {
     modesetting.enable = lib.mkEnableOption "NVIDIA configuration with modesetting";
   };
   config = lib.mkIf cfg.modesetting.enable {
     services.xserver.videoDrivers = ["nvidia"];
 
-    nixfiles.common.opengl.enable = true;
+    nixfiles.hardware.opengl.enable = true;
 
     hardware.nvidia = {
 

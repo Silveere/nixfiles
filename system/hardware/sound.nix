@@ -1,6 +1,6 @@
 { config, lib, pkgs, ...}:
 let
-  cfg = config.nixfiles.common.sound;
+  cfg = config.nixfiles.hardware.sound;
   inherit (lib) mkEnableOption mkIf mkDefault;
 in
 {
@@ -8,7 +8,7 @@ in
   # sound.enable = true;
   # hardware.pulseaudio.enable = true;
 
-  options.nixfiles.common.sound = {
+  options.nixfiles.hardware.sound = {
     enable = mkEnableOption "sound configuration";
   };
 
