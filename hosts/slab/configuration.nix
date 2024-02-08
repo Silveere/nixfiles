@@ -17,14 +17,18 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
 
+      ../../system # nixfiles modules
       ./nvidia-optimus.nix
-      ../../system/remote.nix
-      # ../../system/plasma.nix
-      ../../system/fragments/opengl.nix
-      ../../system/gaming.nix
-      ../../system/android.nix
-      ../../system/hyprland.nix
+      ../../system/fragments/android.nix
     ];
+  nixfiles = {
+    common.remoteAccess.enable = true;
+    hardware.opengl.enable = true;
+    packageSets.gaming.enable = true;
+    sessions.hyprland.enable = true;
+    sessions.plasma.enable = lib.mkDefault false;
+  };
+
 
   networking.hostName = "slab";
 
