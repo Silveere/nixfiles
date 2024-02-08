@@ -1,22 +1,34 @@
 { config, lib, pkgs, ...}:
+let
+  cfg = config.nixfiles.common.sound;
+  inherit (lib) mkEnableOption mkIf mkDefault;
+in
 {
   # Enable sound.
   # sound.enable = true;
   # hardware.pulseaudio.enable = true;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
+
+  options.nixfiles.common.sound = {
+    enable = mkEnableOption "sound configuration";
   };
-  
-  environment.systemPackages = with pkgs; [
-    qpwgraph
-    pavucontrol
-    ncpamixer
-    pulsemixer
-    easyeffects
-  ];
+
+  config = mkIf cfg.enable {
+    security.rtkit.enable = mkDefault true;
+    services.pipewire = {
+      enable = true;
+      alsa.enable = mkDefault true;
+      alsa.support32Bit = mkDefault config.services.pipewire.alsa.enable;
+      pulse.enable = mkDefault true;
+      jack.enable = mkDefault true;
+    };
+
+    environment.systemPackages = with pkgs; [
+      qpwgraph
+      easyeffects
+    ] ++ optionals config.services.pipewire.pulse.enable [
+      pavucontrol
+      ncpamixer
+      pulsemixer
+    ];
+  };
 }
