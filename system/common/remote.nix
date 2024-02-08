@@ -19,5 +19,5 @@ in
     networking.wireguard.enable = true;
   };
   options = {
-    nixfiles.common.remoteAccess = lib.mkEnableOption "remote access options" ; };
+    nixfiles.common.remoteAccess.enable = lib.mkEnableOption "remote access options" ; };
 }

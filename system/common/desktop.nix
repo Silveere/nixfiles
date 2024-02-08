@@ -22,7 +22,7 @@ in
       profile.base.enable = true;
       packageSets.multimedia.enable = mkDefault true;
       programs.syncthing.enable = mkDefault true;
-      common = {
+      hardware = {
         bluetooth.enable = mkDefault true;
         sound.enable = mkDefault true;
       };

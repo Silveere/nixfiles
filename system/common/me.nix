@@ -3,7 +3,10 @@ let
   cfg = config.nixfiles.common.me;
 in
 {
-  options.nixfiles.common.me = lib.mkEnableOption "my user account";
+  options.nixfiles.common.me = {
+    enable = lib.mkEnableOption "my user account";
+  };
+
   config = lib.mkIf cfg.enable {
     users.users.nullbite = {
       isNormalUser = true;

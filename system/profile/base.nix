@@ -12,7 +12,7 @@ in
     (lib.mkIf cfg.enable {
 
       # Enable my account
-      nixfiles.common.me = lib.mkDefault true;
+      nixfiles.common.me.enable = lib.mkDefault true;
 
       # locale settings
       i18n = {
