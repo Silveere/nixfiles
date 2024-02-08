@@ -1,7 +1,7 @@
 { pkgs, lib, config, options, ...}:
 let
   inherit (lib) mkDefault mkIf mkEnableOption;
-  cfg = config.nixfiles.common.window-manager;
+  cfg = config.nixfiles.common.wm;
 in
 {
   config = mkIf cfg.enable {
@@ -16,6 +16,6 @@ in
     };
   };
   options = {
-    nixfiles.common.window-manager.enable = mkEnableOption "common window manager configuration";
+    nixfiles.common.wm.enable = mkEnableOption "common window manager configuration";
   };
 }
