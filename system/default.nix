@@ -4,6 +4,12 @@ let
 in
 {
   imports = [
+    ./common
+    ./hardware
+    ./package-sets
+    ./profile
+    ./programs
+    ./sessions
   ];
   config = {};
   options.nixfiles = {
