@@ -4,7 +4,6 @@ let
 in
 {
   imports = [
-    ./temp-new
   ];
   config = {};
   options.nixfiles = {
