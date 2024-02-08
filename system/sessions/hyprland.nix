@@ -14,6 +14,12 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    # enable dependencies
+    nixfiles.common = {
+      desktop.enable = true;
+      wm.enable = true;
+    };
+
     services.xserver.displayManager.sddm.enable = true;
 
     programs.hyprland = {

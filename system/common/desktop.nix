@@ -19,11 +19,12 @@ in
   config = mkIf cfg.enable {
     # enable option sets
     nixfiles = {
-      packageSets.multimedia.enable = true;
+      profile.base.enable = true;
+      packageSets.multimedia.enable = mkDefault true;
+      programs.syncthing.enable = mkDefault true;
       common = {
-        syncthing.enable = true;
-        bluetooth.enable = true;
-        sound.enable = true;
+        bluetooth.enable = mkDefault true;
+        sound.enable = mkDefault true;
       };
     };
 
