@@ -1,7 +1,7 @@
 { config, lib, pkgs, ...}:
 let
   cfg = config.nixfiles.hardware.sound;
-  inherit (lib) mkEnableOption mkIf mkDefault;
+  inherit (lib) optionals mkEnableOption mkIf mkDefault;
 in
 {
   # Enable sound.
