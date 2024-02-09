@@ -10,7 +10,7 @@ in
   config = lib.mkIf cfg.enable {
     users.users.nullbite = {
       isNormalUser = true;
-      extraGroups = [ "wheel" ];
+      extraGroups = [ "wheel" ] + lib.optional config.nixfiles.packageSets.fun.enable "input";
       packages = with pkgs; [
         keychain
       ];

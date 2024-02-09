@@ -24,7 +24,10 @@
   nixfiles = {
     common.remoteAccess.enable = true;
     hardware.opengl.enable = true;
-    packageSets.gaming.enable = true;
+    packageSets = {
+      gaming.enable = true;
+      fun.enable = true;
+    };
     sessions.hyprland.enable = true;
     sessions.plasma.enable = lib.mkDefault false;
   };
