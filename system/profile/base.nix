@@ -51,6 +51,8 @@ in
         openssh
         sshfs
         file
+        tree
+        moreutils
 
         fd
         ripgrep
