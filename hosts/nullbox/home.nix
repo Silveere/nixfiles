@@ -1,8 +1,11 @@
 { lib, pkgs, osConfig, ... }:
 {
   imports = [
-    ../../home/common.nix
   ];
-  
-  home.stateVersion = "23.11";
+
+  config = {
+    nixfiles.profile.base.enable = true;
+    
+    home.stateVersion = "23.11";
+  };
 }

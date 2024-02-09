@@ -156,21 +156,12 @@
         hostname = "slab";
         stateVersion = "23.11";
       };
-      nullbox = lib.nixosSystem rec {
+
+      nullbox = mkSystem {
         system = "x86_64-linux";
-        modules = [
-          ./hosts/nullbox/configuration.nix
-          ./system/remote.nix
-          ./system/plasma.nix
-          ./system/fragments/hardware/nvidia-modeset.nix
-          ./system/gaming.nix
-          (homeManagerInit {
-            module = import ./hosts/nullbox/home.nix;
-            inherit system;
-            stateVersion = "23.11";
-          })
-        ];
+        hostname = "nullbox";
+        stateVersion = "23.11";
       };
-    };
-  };
-}
+    }; # end nixosConfigurations
+  }; # end outputs
+} # end flake
