@@ -66,7 +66,9 @@
       let
         mapUserModules = lib.attrsets.mapAttrs (user: modules: {...}:
         {
-          imports = modules;
+          imports = [
+            ./home
+          ] ++ modules;
           config = {
             home = { inherit stateVersion; };
           };
@@ -96,6 +98,7 @@
       lib.nixosSystem {
         inherit system;
         modules = [
+          ./system
           ({pkgs, config, lib, ...}@args: 
             {
               # Values for every single system that would not conceivably need
