@@ -5,6 +5,11 @@ let
 in
 {
   imports = [
+    ./common
+    ./package-sets
+    ./profile
+    ./programs
+    ./sessions
   ];
   config = {};
   options.nixfiles = {
