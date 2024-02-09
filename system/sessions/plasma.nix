@@ -3,14 +3,14 @@ let
   sleep = "${pkgs.coreutils}/bin/sleep";
   systemctl = "${pkgs.systemd}/bin/systemctl";
   inherit (lib) mkIf mkEnableOption mkForce mkDefault;
-  cfg = config.nixfiles.session.plasma;
+  cfg = config.nixfiles.sessions.plasma;
 in
 {
   # imports = [
   #   ./desktop-common.nix
   # ];
 
-  options.nixfiles.session.plasma = {
+  options.nixfiles.sessions.plasma = {
     enable = mkEnableOption "KDE Plasma session";
   };
 
