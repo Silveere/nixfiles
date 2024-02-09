@@ -20,8 +20,8 @@ in
       asciiquarium
     ] ++ lib.optionals config.services.xserver.enable [
       oneko
-      bucklespring
     ] ++ lib.optionals config.sound.enable [
+      bucklespring-libinput
       espeak
     ];
   };
