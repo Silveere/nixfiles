@@ -18,10 +18,10 @@ in
       figlet
       aafire
       asciiquarium
-    ] + lib.optionals config.services.xserver.enable [
+    ] ++ lib.optionals config.services.xserver.enable [
       oneko
       bucklespring
-    ] + lib.optionals config.sound.enable [
+    ] ++ lib.optionals config.sound.enable [
       espeak
     ];
   };
