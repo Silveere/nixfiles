@@ -16,7 +16,7 @@ in
       hollywood
       sl
       figlet
-      aafire
+      aalib
       asciiquarium
     ] ++ lib.optionals config.services.xserver.enable [
       oneko
