@@ -10,6 +10,7 @@ in
     ./profile
     ./programs
     ./sessions
+    ./testing
   ];
   config = {};
   options.nixfiles = {
