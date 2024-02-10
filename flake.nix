@@ -102,10 +102,7 @@
     # a Home Manager home.nix for the given user from ./hosts/${hostname}/
     mkSystem = let _username=username; _overlays=overlays;
     in {system, overlays ? _overlays, hostname, username ? _username, stateVersion, extraModules ? [] }:
-      let
-        pkgs = import nixpkgs { inherit system overlays; };
-        inherit (pkgs) lib;
-      in lib.nixosSystem {
+      lib.nixosSystem {
         inherit system;
         modules = [
           ./system
@@ -114,8 +111,13 @@
               # Values for every single system that would not conceivably need
               # to be made modular
               system.stateVersion = stateVersion;
-              # not having the freedom to install unfree programs is unfree
-              nixpkgs.config.allowUnfree = true;
+              nixpkgs = {
+                inherit overlays;
+                config = {
+                  # not having the freedom to install unfree programs is unfree
+                  allowUnfree = true;
+                };
+              };
               nix.settings.experimental-features = ["nix-command" "flakes" ];
             })
           ./hosts/${hostname}/configuration.nix
