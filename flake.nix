@@ -39,7 +39,7 @@
 
     overlays = [
       /* android-tools 33.0.3p2 */ (final: prev: {
-        inherit (inputs.pkgs-android-tools.legacyPackages.${final.system})
+        inherit (inputs.pkg-android-tools.legacyPackages.${final.system})
           android-tools android-udev-rules;
       })
     ];

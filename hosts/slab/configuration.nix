@@ -19,7 +19,6 @@
 
       ../../system # nixfiles modules
       ./nvidia-optimus.nix
-      ../../system/fragments/android.nix
     ];
   nixfiles = {
     common.remoteAccess.enable = true;
@@ -30,6 +29,9 @@
     };
     sessions.hyprland.enable = true;
     sessions.plasma.enable = lib.mkDefault false;
+    programs = {
+      adb.enable = true;
+    };
   };
 
 
