@@ -37,6 +37,13 @@
     lib = nixpkgs.lib;
     systems = [ "x86_64-linux" "aarch64-linux" ];
 
+    overlays = [
+      /* android-tools 33.0.3p2 */ (final: prev: {
+        inherit (inputs.pkgs-android-tools.legacyPackages.${final.system})
+          android-tools android-udev-rules;
+      })
+    ];
+
     ### Configuration
     # My username
     username = "nullbite";
@@ -93,9 +100,12 @@
 
     # This function produces a nixosSystem which imports configuration.nix and
     # a Home Manager home.nix for the given user from ./hosts/${hostname}/
-    mkSystem = let _username=username;
-    in {system, hostname, username ? _username, stateVersion, extraModules ? [] }:
-      lib.nixosSystem {
+    mkSystem = let _username=username; _overlays=overlays;
+    in {system, overlays ? _overlays, hostname, username ? _username, stateVersion, extraModules ? [] }:
+      let
+        pkgs = import nixpkgs { inherit system overlays; };
+        inherit (pkgs) lib;
+      in lib.nixosSystem {
         inherit system;
         modules = [
           ./system
