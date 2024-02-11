@@ -9,6 +9,14 @@ let
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   polkit-agent = "${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
 
+  # https://github.com/flatpak/xdg-desktop-portal-gtk/issues/440#issuecomment-1900520919
+  xdpg-workaround = pkgs.writeShellScript "xdg-desktop-portal-gtk-workaround"
+    ''
+      ${pkgs.coreutils}/bin/sleep 3
+      ${pkgs.systemd}/bin/systemctl --user import-environment PATH
+      ${pkgs.systemd}/bin/systemctl --user restart xdg-desktop-portal.service
+    '';
+
   # Hyprland workspace configuration
   mainWorkspaces = builtins.genList (x: x+1) (9 ++ [0]);
   workspaceName = key: let
@@ -67,6 +75,7 @@ in
         exec-once = [
           notifydaemon
           polkit-agent
+          xdpg-workaround
         ];
 
         # Source a file (multi-file configs)
