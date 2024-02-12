@@ -28,6 +28,11 @@
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hyprwm-contrib = {
+      url = "github:hyprwm/contrib";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs: 
@@ -42,6 +47,7 @@
         inherit (inputs.pkg-android-tools.legacyPackages.${final.system})
           android-tools android-udev-rules;
       })
+      inputs.hyprwm-contrib.overlays.default
     ];
 
     ### Configuration
