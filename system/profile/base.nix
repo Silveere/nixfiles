@@ -70,7 +70,18 @@ in
         htop
         lshw
         pciutils
+
+        # nix utilities
+        nix-du
+        graphviz # for nix-du
+
+        # secrets
+        age
+        pass
+        sops
       ];
+
+      programs.neovim.defaultEditor = true;
 
       # this makes comma and legacy nix utils use the flake nixpkgs for ABI
       # compatibility becasue once `, vkcube` couldn't find the correct opengl
