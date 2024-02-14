@@ -16,9 +16,9 @@ in
 
       # locale settings
       i18n = {
-        defaultLocale = "en_US.UTF-8";
+        defaultLocale = lib.mkDefault "en_US.UTF-8";
         extraLocaleSettings = {
-          LC_ALL = "en_US.UTF-8";
+          LC_ALL = lib.mkDefault "en_US.UTF-8";
         };
       };
 
@@ -81,7 +81,7 @@ in
         sops
       ];
 
-      programs.neovim.defaultEditor = true;
+      programs.neovim.defaultEditor = lib.mkDefault true;
 
       # this makes comma and legacy nix utils use the flake nixpkgs for ABI
       # compatibility becasue once `, vkcube` couldn't find the correct opengl
@@ -89,8 +89,8 @@ in
       # closures)
       nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ] ++ options.nix.nixPath.default;
 
-      programs.ssh.enableAskPassword = false;
-      programs.fuse.userAllowOther = true;
+      programs.ssh.enableAskPassword = lib.mkDefault false;
+      programs.fuse.userAllowOther = lib.mkDefault true;
 
       programs.gnupg.agent = {
         enable = lib.mkDefault true;
