@@ -71,6 +71,7 @@ in
         htop
         lshw
         pciutils
+        compsize
 
         # nix utilities
         nix-du
@@ -80,6 +81,9 @@ in
         age
         pass
         sops
+
+        # etc
+        neofetch
       ];
 
       programs.neovim.defaultEditor = lib.mkDefault true;
