@@ -5,5 +5,6 @@
     ./nvidia.nix
     ./opengl.nix
     ./sound.nix
+    ./binfmt.nix
   ];
 }
