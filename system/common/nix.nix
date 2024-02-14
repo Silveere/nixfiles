@@ -32,7 +32,15 @@ in
             id = "nixpkgs";
             type = "indirect";
           };
-          flake = inputs.nixpkgs;
+
+          # used instead of `flake` option so produced flake.lock files are
+          # portable
+          to = {
+            type = "github";
+            owner = "NixOS";
+            repo = "nixpkgs";
+            rev = "${inputs.nixpkgs.rev}";
+          };
         };
       };
 
