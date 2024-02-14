@@ -11,8 +11,12 @@ in
   config = lib.mkMerge [
     (lib.mkIf cfg.enable {
 
-      # Enable my account
-      nixfiles.common.me.enable = lib.mkDefault true;
+      nixfiles.common = {
+        # Enable my account
+        me.enable = lib.mkDefault true;
+        # Enable system Nix configuration
+        nix.enable = lib.mkDefault true;
+      };
 
       # locale settings
       i18n = {
@@ -24,10 +28,6 @@ in
 
       # Enable flakes
       nix.settings.experimental-features = ["nix-command" "flakes" ];
-
-      # fallback to building locally if binary cache fails (home-manager should be
-      # able to handle simple rebuilds offline)
-      nix.settings.fallback = true;
 
       # Allow unfree packages
       nixpkgs.config.allowUnfree = true;
@@ -82,12 +82,6 @@ in
       ];
 
       programs.neovim.defaultEditor = lib.mkDefault true;
-
-      # this makes comma and legacy nix utils use the flake nixpkgs for ABI
-      # compatibility becasue once `, vkcube` couldn't find the correct opengl
-      # driver or something (also it reduces the download size of temporary shell
-      # closures)
-      nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ] ++ options.nix.nixPath.default;
 
       programs.ssh.enableAskPassword = lib.mkDefault false;
       programs.fuse.userAllowOther = lib.mkDefault true;
