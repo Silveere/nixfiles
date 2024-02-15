@@ -1,4 +1,4 @@
-{ lib, pkgs, config, osConfig ? {}, outputs, ... }@args:
+{ lib, pkgs, config, osConfig ? {}, outputs, inputs, ... }@args:
 let
   cfg = config.nixfiles.sessions.hyprland;
   mkd = lib.mkDefault;
@@ -8,6 +8,7 @@ let
   notifydaemon = "${pkgs.dunst}/bin/dunst";
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   polkit-agent = "${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
+  grimblast = "${inputs.hyprwm-contrib.packages.${pkgs.system}.grimblast}/bin/grimblast";
 
   # https://github.com/flatpak/xdg-desktop-portal-gtk/issues/440#issuecomment-1900520919
   xdpg-workaround = pkgs.writeShellScript "xdg-desktop-portal-gtk-workaround"
@@ -225,9 +226,11 @@ in
           "$mod SHIFT, 9, movetoworkspace, 9"
           "$mod SHIFT, 0, movetoworkspace, 10"
 
-          # Example special workspace (scratchpad)
-          "$mod, S, togglespecialworkspace, magic"
-          "$mod SHIFT, S, movetoworkspace, special:magic"
+          # TODO find a different keybind for this because damn you muscle memory
+          # # Example special workspace (scratchpad)
+          # "$mod, S, togglespecialworkspace, magic"
+          # "$mod SHIFT, S, movetoworkspace, special:magic"
+          "$mod SHIFT, S, exec, ${grimblast} copy area"
 
           # Scroll through existing workspaces with mod + scroll
           "$mod, mouse_down, workspace, e+1"
