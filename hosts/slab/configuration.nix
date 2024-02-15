@@ -19,7 +19,7 @@
       };
     }
 
-    (lib.genAttrs [ "/" "/home" "/nix" ] ( fs: {
+    (lib.genAttrs [ "/.btrfsroot" "/" "/home" "/nix" ] ( fs: {
       options = [ "compress=zstd" ];
     }))
   ];
