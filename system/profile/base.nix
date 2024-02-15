@@ -1,4 +1,4 @@
-{ config, lib, pkgs, options, inputs, ...}@args:
+{ config, lib, pkgs, options, inputs, outputs, ...}@args:
 let
   cfg = config.nixfiles.profile.base;
 in
@@ -84,6 +84,7 @@ in
 
         # etc
         neofetch
+        outputs.packages."${pkgs.system}".atool
       ];
 
       programs.neovim.defaultEditor = lib.mkDefault true;
