@@ -17,7 +17,7 @@ in
         # Enable system Nix configuration
         nix.enable = lib.mkDefault true;
       };
-      nixfiles.binfmt.enable = true;
+      nixfiles.binfmt.enable = lib.mkDefault true;
 
       # locale settings
       i18n = {
