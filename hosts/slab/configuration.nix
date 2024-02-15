@@ -8,10 +8,21 @@
 {
   # nix.settings.experimental-features = ["nix-command" "flakes" ];
 
-  fileSystems."/ntfs" = {
-    fsType = "ntfs-3g";
-    device = "/dev/disk/by-uuid/028A49020517BEA9";
-  };
+  fileSystems = lib.mkMerge [
+    {
+      "/ntfs" = {
+        fsType = "ntfs-3g";
+        device = "/dev/disk/by-uuid/028A49020517BEA9";
+      };
+      "/.btrfsroot" = {
+        options = [ "subvol=/" ];
+      };
+    }
+
+    (lib.genAttrs [ "/" "/home" "/nix" ] ( fs: {
+      options = [ "compress=zstd" ];
+    }))
+  ];
 
   imports =
     [ # Include the results of the hardware scan.
