@@ -27,6 +27,8 @@ in
       capSysNice = lib.mkDefault false;
     };
 
+    virtualisation.waydroid.enable = lib.mkDefault true;
+
     environment.systemPackages = with pkgs; [
       mangohud
       goverlay
