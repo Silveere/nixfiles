@@ -24,11 +24,12 @@ stdenvNoCC.mkDerivation {
   nativeBuildInputs = [ makeBinaryWrapper ];
   src = ./.;
   installPhase = ''
-    makeBinaryWrapper "${atool}/bin/atool" "$out/bin/atool" \
-      --inherit-argv0 --prefix PATH : "${wrappedPath}"
-    for i in acat adiff als apack arepack aunpack ; do
-      ln -s $out/bin/atool $out/bin/$i
+    # symlinking them doesn't work for some reason so i have to build multiple
+    for i in atool acat adiff als apack arepack aunpack ; do
+      makeBinaryWrapper "${atool}/bin/$i" "$out/bin/$i" \
+        --inherit-argv0 --prefix PATH : "${wrappedPath}"
     done
+
     # i have no idea if this is the "right" way to do this
     mkdir -p "$out/share"
     ln -s "${atool}/share/man" "$out/share/man"
