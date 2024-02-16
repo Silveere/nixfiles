@@ -231,6 +231,8 @@ in
           # "$mod, S, togglespecialworkspace, magic"
           # "$mod SHIFT, S, movetoworkspace, special:magic"
           "$mod SHIFT, S, exec, ${grimblast} copy area"
+          "$mod CONTROL SHIFT, S, exec, ${grimblast} copy output"
+
 
           # Scroll through existing workspaces with mod + scroll
           "$mod, mouse_down, workspace, e+1"
