@@ -1,4 +1,4 @@
-{ pkgs, lib, config, osConfig, options, ...}:
+{ pkgs, lib, config, osConfig ? {}, options, ...}:
 let
   cfg = config.nixfiles.common.wm;
   inherit (lib) mkDefault;

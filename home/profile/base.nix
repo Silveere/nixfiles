@@ -1,4 +1,4 @@
-{ lib, pkgs, config, osConfig, ... }:
+{ lib, pkgs, config, osConfig ? { }, ... }:
 let
   cfg = config.nixfiles.profile.base;
 in
