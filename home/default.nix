@@ -20,5 +20,11 @@ in
       readOnly = true;
       internal = true;
     };
+    graphical = lib.mkOption {
+      description = "Whether to enable graphical home-manager applications";
+      type = lib.types.bool;
+      default = (osConfig ? services && osConfig.services.xserver.enable);
+      example = true;
+    };
   };
 }
