@@ -8,7 +8,7 @@ in
   };
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; lib.optionals config.nixfiles.graphical [
-      element-desktop-wayland
+      ( if config.nixfiles.meta.wayland then element-desktop-wayland else element-desktop )
       telegram-desktop
       signal-desktop
       thunderbird
