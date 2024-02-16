@@ -1,6 +1,6 @@
 { pkgs, config, lib, ... }:
 let
-  cfg = config.nixfiles.profile.desktop;
+  cfg = config.nixfiles.profile.pc;
 in
 {
   options.nixfiles.profile.pc.enable = lib.mkEnableOption "the personal computer profile";
