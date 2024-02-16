@@ -21,6 +21,7 @@ in
     services.xserver.desktopManager.plasma5.enable = true;
     services.xserver.displayManager.defaultSession = "plasmawayland";
     programs.kdeconnect.enable = mkDefault true;
+    nixfiles.meta.wayland = true;
 
     systemd.user = {
       services.restart-xdg-desktop-portal-kde = {

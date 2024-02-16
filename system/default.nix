@@ -14,5 +14,11 @@ in
   ];
   config = {};
   options.nixfiles = {
+    meta.wayland = lib.mkOption {
+      description = "Whether to prefer wayland applications and configuration";
+      default = false;
+      example = true;
+      type = lib.types.bool;
+    };
   };
 }

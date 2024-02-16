@@ -19,6 +19,7 @@ in
       desktop.enable = true;
       wm.enable = true;
     };
+    nixfiles.meta.wayland = true;
 
     services.xserver.displayManager.sddm.enable = true;
 

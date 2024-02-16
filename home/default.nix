@@ -13,17 +13,23 @@ in
   ];
   config = {};
   options.nixfiles = {
-    standalone = lib.mkOption {
+    meta.standalone = lib.mkOption {
       default = isStandalone;
       description = "Whether or not the home-manager installation is standalone (standalone installations don't have access to osConfig).";
       type = lib.types.bool;
       readOnly = true;
       internal = true;
     };
-    graphical = lib.mkOption {
+    meta.graphical = lib.mkOption {
       description = "Whether to enable graphical home-manager applications";
       type = lib.types.bool;
       default = (osConfig ? services && osConfig.services.xserver.enable);
+      example = true;
+    };
+    meta.wayland = lib.mkOption {
+      description = "Whether to prefer wayland packages and configuration";
+      type = lib.types.bool;
+      default = (lib.hasAttrByPath [ "nixfiles" "meta" "wayland" ] osConfig) && osConfig.nixfiles.meta.wayland;
       example = true;
     };
   };
