@@ -32,6 +32,7 @@
       ./nvidia-optimus.nix
     ];
   nixfiles = {
+    profile.pc.enable = true;
     common.remoteAccess.enable = true;
     hardware.opengl.enable = true;
     packageSets = {
