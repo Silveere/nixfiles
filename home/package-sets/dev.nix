@@ -9,7 +9,7 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       neovim
-      rg
+      ripgrep
       fd
       bat
 

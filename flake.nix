@@ -53,6 +53,7 @@
           android-tools android-udev-rules;
       })
       inputs.hyprwm-contrib.overlays.default
+      inputs.rust-overlay.overlays.default
     ];
 
     ### Configuration
