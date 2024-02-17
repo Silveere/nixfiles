@@ -93,6 +93,9 @@ in
           # kb_model = 
           # kb_options = 
           # kb_rules = 
+          kb_options = [
+            "compose:ralt"
+          ];
 
           follow_mouse = mkd true;
 
@@ -190,6 +193,9 @@ in
           "$mod, P, pseudo," # dwindle"
           "$mod, O, togglesplit," # dwindle"
 
+          "$mod, f, fullscreen"
+          "$mod CONTROL, f, fakefullscreen"
+
           # Move focus with mod + arrow keys
           "$mod, left, movefocus, l"
           "$mod, right, movefocus, r"
@@ -200,6 +206,11 @@ in
           "$mod, j, movefocus, d"
           "$mod, k, movefocus, u"
           "$mod, l, movefocus, r"
+
+          "$mod SHIFT, h, swapwindow, l"
+          "$mod SHIFT, j, swapwindow, d"
+          "$mod SHIFT, k, swapwindow, u"
+          "$mod SHIFT, l, swapwindow, r"
 
           # Switch workspaces with mod + [0-9]
           "$mod, 1, workspace, 1"
