@@ -1,6 +1,10 @@
-{ pkgs, lib, config, osConfig ? {}, ... }:
+{ pkgs, lib, config, osConfig ? {}, inputs, ... }:
 let
   cfg = config.nixfiles.packageSets.communication;
+  rustdesk-pkg = if (lib.strings.hasInfix "23.11" lib.version) then
+    inputs.nixpkgs-unstable.legacyPackages.${pkgs.system}.rustdesk-flutter
+  else
+    pkgs.rustdesk-flutter;
 in
 {
   options.nixfiles.packageSets.communication = {
@@ -13,6 +17,7 @@ in
       signal-desktop
       thunderbird
       discord
+      rustdesk-pkg
     ] ++ [
       irssi
     ];
