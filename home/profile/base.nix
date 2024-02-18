@@ -17,6 +17,8 @@ in
     nixfiles.programs.comma.enable = true;
     home.packages = with pkgs; [
       btop
+      fzf
+      zoxide
     ];
   };
 }
