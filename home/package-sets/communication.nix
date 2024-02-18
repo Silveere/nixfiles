@@ -12,6 +12,7 @@ in
       telegram-desktop
       signal-desktop
       thunderbird
+      discord
     ] ++ [
       irssi
     ];
