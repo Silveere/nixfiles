@@ -87,8 +87,9 @@
     # This function produces a module that adds the home-manager module to the
     # system and configures the given module to the user's Home Manager
     # configuration
-    homeManagerInit = let _username=username;
+    homeManagerInit = let _username=username; _nixpkgs=nixpkgs;
     in { system,
+        nixpkgs ? _nixpkgs, # this is so modules can know which flake the system is using
         home-manager ? inputs.home-manager,
         username ? _username,
         module ? _ : {},
@@ -118,7 +119,7 @@
           useUserPackages = true;
           inherit users;
           extraSpecialArgs = {
-            inherit inputs outputs vars;
+            inherit inputs outputs vars nixpkgs;
             extraPkgs = mkExtraPkgs system;
           };
         };
@@ -156,13 +157,13 @@
             })
           ./hosts/${hostname}/configuration.nix
           (homeManagerInit {
-            inherit home-manager;
+            inherit nixpkgs home-manager;
             module = import ./hosts/${hostname}/home.nix;
             inherit username system stateVersion;
           })
         ] ++ extraModules;
         specialArgs = {
-          inherit inputs outputs vars;
+          inherit inputs outputs vars nixpkgs;
           extraPkgs = mkExtraPkgs system;
         };
       };
