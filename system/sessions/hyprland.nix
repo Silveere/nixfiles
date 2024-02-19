@@ -1,6 +1,7 @@
-{ lib, pkgs, config, ... }:
+{ lib, pkgs, config, inputs, ... }:
 let
   cfg = config.nixfiles.sessions.hyprland;
+  flake-package = inputs.hyprland.packages.${pkgs.system}.hyprland;
 in
 {
   # imports = [
@@ -11,6 +12,7 @@ in
 
   options.nixfiles.sessions.hyprland = {
     enable = lib.mkEnableOption "hyprland configuration";
+    useFlake = lib.mkEnableOption "hyprland flake package";
   };
 
   config = lib.mkIf cfg.enable {
@@ -28,6 +30,7 @@ in
       # TODO base this on if nvidia is enabled
       enableNvidiaPatches = lib.mkDefault true;
       xwayland.enable = true;
+      package = lib.mkIf cfg.useFlake flake-package;
     };
 
     xdg.portal = {

@@ -29,6 +29,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # no inputs.nixpkgs.follows so i can use cachix
+    hyprland.url = "github:hyprwm/Hyprland";
+
     hyprwm-contrib = {
       url = "github:hyprwm/contrib";
       inputs.nixpkgs.follows = "nixpkgs";
