@@ -12,7 +12,8 @@ let
   polkit-agent = "${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
   grimblast = "${inputs.hyprwm-contrib.packages.${pkgs.system}.grimblast}/bin/grimblast";
 
-  hypr-dispatcher = "${pkgs.callPackage ./dispatcher { hyprland = hyprland-pkg; }}/bin/hypr-dispatcher";
+  hypr-dispatcher-package = pkgs.callPackage ./dispatcher { hyprland = hyprland-pkg; };
+  hypr-dispatcher = "${hypr-dispatcher-package}/bin/hypr-dispatcher";
 
   # https://github.com/flatpak/xdg-desktop-portal-gtk/issues/440#issuecomment-1900520919
   xdpg-workaround = pkgs.writeShellScript "xdg-desktop-portal-gtk-workaround"
@@ -60,7 +61,7 @@ in
       wev
       dunst
       pkgs.brightnessctl
-      hypr-dispatcher
+      hypr-dispatcher-package
     ];
 
     wayland.windowManager.hyprland = {
