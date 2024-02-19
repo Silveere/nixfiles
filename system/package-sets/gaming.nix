@@ -45,6 +45,8 @@ in
       vulkan-tools
       legendary-gl
       heroic
+      protonup-ng
+      protonup-qt
     ];
   };
 }
