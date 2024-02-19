@@ -11,6 +11,7 @@ in
     ./programs
     ./sessions
     ./testing
+    ./cachix.nix
   ];
   config = {};
   options.nixfiles = {
