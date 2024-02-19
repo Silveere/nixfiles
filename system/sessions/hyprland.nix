@@ -27,8 +27,8 @@ in
 
     programs.hyprland = {
       enable = true;
-      # TODO base this on if nvidia is enabled
-      enableNvidiaPatches = lib.mkDefault true;
+      # # TODO base this on if nvidia is enabled
+      # enableNvidiaPatches = lib.mkIf (!cfg.useFlake) lib.mkDefault true;
       xwayland.enable = true;
       package = lib.mkIf cfg.useFlake flake-package;
     };

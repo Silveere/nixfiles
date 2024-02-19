@@ -8,7 +8,7 @@ let
       x86 = [ "i686-linux" "x86_64-linux" ];
       windows = [ "x86_64-windows" "i686-windows" ];
       systems = {
-        x86_64-linux = riscv ++ arm ++ windows;
+        x86_64-linux = riscv ++ arm;
         aarch64-linux = riscv;
       };
     in
