@@ -2,6 +2,8 @@
 let
   cfg = config.nixfiles.sessions.hyprland;
   mkd = lib.mkDefault;
+  hyprland-pkg = config.wayland.windowManager.hyprland.finalPackage;
+
   terminal = "${pkgs.kitty}/bin/kitty";
   files = "${pkgs.dolphin}/bin/dolphin";
   rofi = "${pkgs.rofi-wayland}/bin/rofi";
@@ -9,6 +11,8 @@ let
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   polkit-agent = "${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
   grimblast = "${inputs.hyprwm-contrib.packages.${pkgs.system}.grimblast}/bin/grimblast";
+
+  hypr-dispatcher = "${pkgs.callPackage ./dispatcher { hyprland = hyprland-pkg; }}/bin/hypr-dispatcher";
 
   # https://github.com/flatpak/xdg-desktop-portal-gtk/issues/440#issuecomment-1900520919
   xdpg-workaround = pkgs.writeShellScript "xdg-desktop-portal-gtk-workaround"
@@ -56,6 +60,7 @@ in
       wev
       dunst
       pkgs.brightnessctl
+      hypr-dispatcher
     ];
 
     wayland.windowManager.hyprland = {
