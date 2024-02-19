@@ -1,4 +1,4 @@
-{ pkgs, lib, config, options, inputs, ... }:
+{ pkgs, lib, config, options, inputs, nixpkgs, ... }:
 let
   cfg = config.nixfiles.common.nix;
 in
@@ -39,7 +39,7 @@ in
             type = "github";
             owner = "NixOS";
             repo = "nixpkgs";
-            rev = "${inputs.nixpkgs.rev}";
+            rev = "${nixpkgs.rev}";
           };
         };
       };
@@ -48,7 +48,7 @@ in
       # compatibility becasue once `, vkcube` couldn't find the correct opengl
       # driver or something (also it reduces the download size of temporary shell
       # closures)
-      nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ] ++ options.nix.nixPath.default;
+      nix.nixPath = [ "nixpkgs=${nixpkgs}" ] ++ options.nix.nixPath.default;
     })
     ( lib.mkIf cfg.enable {
 
