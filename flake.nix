@@ -14,6 +14,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    home-manager-unstable = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     # 33.0.3p2 as suggested by https://xdaforums.com/t/guide-january-3-2024-root-pixel-7-pro-unlock-bootloader-pass-safetynet-both-slots-bootable-more.4505353/
     # android tools versions [ 34.0.0, 34.0.5 ) causes bootloops somehow and 34.0.5 isn't in nixpkgs yet
     pkg-android-tools.url = "github:NixOS/nixpkgs/55070e598e0e03d1d116c49b9eff322ef07c6ac6";
@@ -83,7 +88,13 @@
     # system and configures the given module to the user's Home Manager
     # configuration
     homeManagerInit = let _username=username;
-    in {system, username ? _username , module ? _ : {}, rootModule ? (import ./home/root.nix), userModules ? { ${username} = [ module ] ; root = [ rootModule ]; }, stateVersion }:
+    in { system,
+        home-manager ? inputs.home-manager,
+        username ? _username,
+        module ? _ : {},
+        rootModule ? (import ./home/root.nix),
+        userModules ? { ${username} = [ module ] ; root = [ rootModule ]; },
+        stateVersion }:
       { config, lib, pkgs, ... }:
       let
         mapUserModules = lib.attrsets.mapAttrs (user: modules: {...}:
@@ -99,7 +110,7 @@
       in
       {
         imports = [
-          inputs.home-manager.nixosModules.home-manager
+          home-manager.nixosModules.home-manager
         ];
 
         home-manager = {
@@ -115,9 +126,17 @@
 
     # This function produces a nixosSystem which imports configuration.nix and
     # a Home Manager home.nix for the given user from ./hosts/${hostname}/
-    mkSystem = let _username=username; _overlays=overlays;
-    in {system, overlays ? _overlays, hostname, username ? _username, stateVersion, extraModules ? [] }:
-      lib.nixosSystem {
+    mkSystem = let _username=username; _overlays=overlays; _nixpkgs=nixpkgs;
+    in { system,
+        nixpkgs ? _nixpkgs,
+        home-manager ? inputs.home-manager,
+        overlays ? _overlays,
+        hostname,
+        username ? _username,
+        stateVersion,
+        extraModules ? [] }:
+
+      nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
           ./system
@@ -137,6 +156,7 @@
             })
           ./hosts/${hostname}/configuration.nix
           (homeManagerInit {
+            inherit home-manager;
             module = import ./hosts/${hostname}/home.nix;
             inherit username system stateVersion;
           })
@@ -179,6 +199,8 @@
 
     nixosConfigurations = {
       slab = mkSystem {
+        nixpkgs = inputs.nixpkgs-unstable;
+        home-manager = inputs.home-manager-unstable;
         system = "x86_64-linux";
         hostname = "slab";
         stateVersion = "23.11";
