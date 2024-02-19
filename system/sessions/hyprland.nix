@@ -23,7 +23,10 @@ in
     };
     nixfiles.meta.wayland = true;
 
-    services.xserver.displayManager.sddm.enable = true;
+    services.xserver.displayManager.sddm = {
+      enable = true;
+      wayland.enable = true;
+    };
 
     programs.hyprland = {
       enable = true;
