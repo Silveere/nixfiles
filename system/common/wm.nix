@@ -14,6 +14,7 @@ in
     programs = {
       nm-applet.enable = mkDefault config.networking.networkmanager.enable;
     };
+    security.pam.services.swaylock = {};
   };
   options = {
     nixfiles.common.wm.enable = mkEnableOption "common window manager configuration";

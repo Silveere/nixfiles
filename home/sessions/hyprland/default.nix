@@ -4,6 +4,7 @@ let
   mkd = lib.mkDefault;
   hyprland-pkg = config.wayland.windowManager.hyprland.finalPackage;
 
+  # commands
   terminal = "${pkgs.kitty}/bin/kitty";
   files = "${pkgs.dolphin}/bin/dolphin";
   rofi = "${pkgs.rofi-wayland}/bin/rofi";
@@ -11,6 +12,12 @@ let
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   polkit-agent = "${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
   grimblast = "${inputs.hyprwm-contrib.packages.${pkgs.system}.grimblast}/bin/grimblast";
+  swayidle = "${pkgs.swayidle}/bin/swayidle";
+  swaylock = "${pkgs.swaylock}/bin/swaylock";
+  hyprctl = "${hyprland-pkg}/bin/hyprctl";
+
+  lock-cmd = "${swaylock}";
+  idle-cmd = "${swayidle} -w timeout 300 '${hyprctl} dispatch dpms off' timeout 315 '${lock-cmd}' resume '${hyprctl} dispatch dpms on'";
 
   hypr-dispatcher-package = pkgs.callPackage ./dispatcher { hyprland = hyprland-pkg; };
   hypr-dispatcher = "${hypr-dispatcher-package}/bin/hypr-dispatcher";
@@ -84,6 +91,7 @@ in
           notifydaemon
           polkit-agent
           xdpg-workaround
+          idle-cmd
         ];
 
         # Source a file (multi-file configs)

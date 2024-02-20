@@ -10,6 +10,11 @@ in
   config = lib.mkIf cfg.enable {
     # Common options for standalone window managers; many of these (or
     # alternatives thereof) are pulled in by desktop environments.
+    programs = {
+      swaylock = {
+        enable = true;
+      };
+    };
     services = {
       udiskie = {
         enable = mkDefault true;
