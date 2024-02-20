@@ -84,6 +84,7 @@
     enable = false;
     unitConfig.DefaultDependencies = "no";
   });
+  services.logind.lidSwitch = "lock";
 
   services.xserver.videoDrivers = ["amdgpu"];
 
