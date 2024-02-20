@@ -9,6 +9,8 @@ in
 
   config = lib.mkIf cfg.enable {
     users.users.nullbite = {
+      uid = 1000;
+      group = "nullbite";
       isNormalUser = true;
       extraGroups = [ "wheel" ] ++ lib.optional config.nixfiles.packageSets.fun.enable "input";
       packages = with pkgs; [
@@ -17,6 +19,8 @@ in
       initialPassword = "changeme";
       shell = pkgs.zsh;
     };
+
+    users.groups.nullbite.gid = 1000;
 
     # shell config
     programs.zsh.enable = true;
