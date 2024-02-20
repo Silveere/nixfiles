@@ -18,7 +18,7 @@ let
   pkill = "${pkgs.procps}/bin/pkill";
 
   lock-cmd = "${swaylock}";
-  idle-cmd = "${swayidle} -w timeout 300 '${hyprctl} dispatch dpms off' timeout 315 '${lock-cmd}' resume '${hyprctl} dispatch dpms on' before-sleep '${lock-cmd}' lock '${lock-cmd}' unlock '${pkill} -USR1 -x swaylock'";
+  idle-cmd = "${swayidle} -w timeout 315 '${lock-cmd}' timeout 300 '${hyprctl} dispatch dpms off' resume '${hyprctl} dispatch dpms on' before-sleep '${lock-cmd}' lock '${lock-cmd}' unlock '${pkill} -USR1 -x swaylock'";
 
   hypr-dispatcher-package = pkgs.callPackage ./dispatcher { hyprland = hyprland-pkg; };
   hypr-dispatcher = "${hypr-dispatcher-package}/bin/hypr-dispatcher";
@@ -70,6 +70,8 @@ in
       dunst
       pkgs.brightnessctl
       hypr-dispatcher-package
+      config.programs.swaylock.package
+      pkgs.swayidle
     ];
 
     wayland.windowManager.hyprland = {
