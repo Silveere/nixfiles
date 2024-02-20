@@ -15,9 +15,10 @@ let
   swayidle = "${pkgs.swayidle}/bin/swayidle";
   swaylock = "${pkgs.swaylock}/bin/swaylock";
   hyprctl = "${hyprland-pkg}/bin/hyprctl";
+  pkill = "${pkgs.procps}/bin/pkill";
 
   lock-cmd = "${swaylock}";
-  idle-cmd = "${swayidle} -w timeout 300 '${hyprctl} dispatch dpms off' timeout 315 '${lock-cmd}' resume '${hyprctl} dispatch dpms on'";
+  idle-cmd = "${swayidle} -w timeout 300 '${hyprctl} dispatch dpms off' timeout 315 '${lock-cmd}' resume '${hyprctl} dispatch dpms on' before-sleep '${lock-cmd}' lock '${lock-cmd}' unlock '${pkill} -USR1 -x swaylock'";
 
   hypr-dispatcher-package = pkgs.callPackage ./dispatcher { hyprland = hyprland-pkg; };
   hypr-dispatcher = "${hypr-dispatcher-package}/bin/hypr-dispatcher";
@@ -258,6 +259,9 @@ in
           # "$mod SHIFT, S, movetoworkspace, special:magic"
           "$mod SHIFT, S, exec, ${grimblast} copy area"
           "$mod CONTROL SHIFT, S, exec, ${grimblast} copy output"
+
+          # lock screen
+          "$mod SHIFT, x, exec, ${lock-cmd}"
 
 
           # Scroll through existing workspaces with mod + scroll
