@@ -86,6 +86,9 @@ in
         outputs.packages."${pkgs.system}".atool
       ];
 
+      # Needed for Kvantum themes to be detected
+      environment.pathsToLink = [ "/share/Kvantum" ];
+
       programs.neovim.defaultEditor = lib.mkDefault true;
 
       programs.ssh.enableAskPassword = lib.mkDefault false;

@@ -10,6 +10,22 @@ in
   config = lib.mkIf cfg.enable {
     # Common options for standalone window managers; many of these (or
     # alternatives thereof) are pulled in by desktop environments.
+    home.packages = with pkgs; [
+      qt5ct
+      qt6ct
+      swaybg
+      swayidle
+      libsForQt5.qtstyleplugin-kvantum
+      pcmanfm
+
+      # very consistent
+      (catppuccin-papirus-folders.override {accent = "mauve"; flavor = "mocha"; })
+      (pkgs.catppuccin-kvantum.override {accent = "Mauve"; variant = "Mocha"; })
+      catppuccin-cursors.mochaMauve
+
+      arc-theme
+    ];
+
     programs = {
       swaylock = {
         enable = true;
