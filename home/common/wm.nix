@@ -10,6 +10,11 @@ in
   config = lib.mkIf cfg.enable {
     # Common options for standalone window managers; many of these (or
     # alternatives thereof) are pulled in by desktop environments.
+
+    qt.enable = true;
+    qt.platformTheme = "qtct";
+    qt.style.name = "kvantum";
+
     home.packages = with pkgs; [
       qt5ct
       qt6ct
