@@ -68,7 +68,7 @@
     # My username
     username = "nullbite";
     # My current timezone for any mobile devices (i.e., my laptop)
-    mobileTimeZone = "Europe/Amsterdam";
+    mobileTimeZone = "America/New_York";
 
     # define extra packages here
     mkExtraPkgs = system: {
