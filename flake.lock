@@ -244,6 +244,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-mesa-fix": {
+      "locked": {
+        "lastModified": 1708100828,
+        "narHash": "sha256-h6wKqrpRjuLY/lo4HqPti2UL8grxPKnKlcSpqdP9je8=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "5c01128ec0a607423838f82106b4bd62abc6da9c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "5c01128ec0a607423838f82106b4bd62abc6da9c",
+        "type": "github"
+      }
+    },
     "nixpkgs-unstable": {
       "locked": {
         "lastModified": 1708847675,
@@ -301,6 +317,7 @@
         "nix-index-database": "nix-index-database",
         "nix-wsl": "nix-wsl",
         "nixpkgs": "nixpkgs_2",
+        "nixpkgs-mesa-fix": "nixpkgs-mesa-fix",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "pkg-android-tools": "pkg-android-tools",
         "rust-overlay": "rust-overlay",

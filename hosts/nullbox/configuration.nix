@@ -3,7 +3,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
 
@@ -21,11 +21,19 @@
 
     # nixfiles
     nixfiles = {
+      profile.pc.enable = true;
+      programs.adb.enable = true;
       common.remoteAccess.enable = true;
       sessions.plasma.enable = true;
       hardware.nvidia.modesetting.enable = true;
       packageSets.gaming.enable = true;
     };
+
+    nixpkgs.overlays = [
+      (final: prev: {
+        mesa = inputs.nixpkgs-mesa-fix.legacyPackages.${pkgs.system}.mesa;
+      })
+    ];
 
     # cryptsetup
     boot.initrd.luks.devices = {
