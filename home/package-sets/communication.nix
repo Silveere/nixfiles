@@ -16,7 +16,7 @@ in
       telegram-desktop
       signal-desktop
       thunderbird
-      discord
+      vesktop
       rustdesk-pkg
     ] ++ [
       irssi
