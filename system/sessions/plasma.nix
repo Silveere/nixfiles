@@ -23,6 +23,9 @@ in
     programs.kdeconnect.enable = mkDefault true;
     nixfiles.meta.wayland = true;
 
+    xdg.portal.extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+    ];
     systemd.user = {
       services.restart-xdg-desktop-portal-kde = {
         enable = true;
