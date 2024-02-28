@@ -14,10 +14,21 @@
 
   config = {
 
-    fileSystems."/ntfs" = {
-      fsType = "ntfs-3g";
-      device = "/dev/disk/by-uuid/6AC23F0FC23EDF4F";
-    };
+    fileSystems = lib.mkMerge [
+      {
+        "/ntfs" = {
+          fsType = "ntfs-3g";
+          device = "/dev/disk/by-uuid/6AC23F0FC23EDF4F";
+        };
+        "/.btrfsroot" = {
+          options = [ "subvol=/" ];
+        };
+      }
+
+      (lib.genAttrs [ "/.btrfsroot" "/" "/home" ] ( fs: {
+        options = [ "compress=zstd" ];
+      }))
+    ];
 
     # nixfiles
     nixfiles = {
