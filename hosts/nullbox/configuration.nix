@@ -30,12 +30,24 @@
       }))
     ];
 
+    specialisation.plasma.configuration = {
+      system.nixos.tags = [ "Plasma" ];
+      nixfiles = {
+        sessions.hyprland.enable = false;
+        sessions.plasma.enable = true;
+      };
+    };
+
+    hardware.nvidia.open = true;
+
     # nixfiles
     nixfiles = {
       profile.pc.enable = true;
       programs.adb.enable = true;
       common.remoteAccess.enable = true;
-      sessions.plasma.enable = true;
+      sessions.plasma.enable = lib.mkDefault false;
+      sessions.hyprland.enable = lib.mkDefault true;
+      sessions.hyprland.useFlake = true;
       hardware.nvidia.modesetting.enable = true;
       packageSets.gaming.enable = true;
     };
