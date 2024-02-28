@@ -29,12 +29,6 @@
       packageSets.gaming.enable = true;
     };
 
-    nixpkgs.overlays = [
-      (final: prev: {
-        mesa = inputs.nixpkgs-mesa-fix.legacyPackages.${pkgs.system}.mesa;
-      })
-    ];
-
     # cryptsetup
     boot.initrd.luks.devices = {
       lvmroot = {

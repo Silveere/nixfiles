@@ -6,8 +6,6 @@
                  # ^^^^^^^^^^^^^ this part is optional
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
-    nixpkgs-mesa-fix.url = "github:NixOS/nixpkgs/5c01128ec0a607423838f82106b4bd62abc6da9c";
-
     # this seems to be a popular way to declare systems
     systems.url = "github:nix-systems/default";
 
