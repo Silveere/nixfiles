@@ -36,6 +36,16 @@ in
       package = lib.mkIf cfg.useFlake flake-package;
     };
 
+    environment.variables = lib.mkMerge [
+      {
+        # NIXOS_OZONE_WL = "1"; # this is breaking things for some reason
+      }
+
+      (lib.mkIf config.hardware.nvidia.modesetting.enable {
+        WLR_NO_HARDWARE_CURSORS = "1";
+      })
+    ];
+
     xdg.portal = {
       enable = true;
       extraPortals = [
