@@ -1,7 +1,8 @@
 { config, lib, pkgs, ...}:
 let
   cfg = config.nixfiles.packageSets.multimedia;
-  inherit (lib) optionals mkEnableOption mkIf;
+  inherit (lib) optional optionals mkEnableOption mkIf;
+  nvidiaEnabled = (lib.elem "nvidia" config.services.xserver.videoDrivers);
 in
 {
   options.nixfiles.packageSets.multimedia = {
@@ -13,10 +14,14 @@ in
       gimp-with-plugins
       krita
       inkscape
+      obs-studio
     ] ++ [
       yt-dlp
       imagemagick
       ffmpeg
     ];
+
+    # needed for NVENC to work in OBS Studio and FFmpeg
+    boot.kernelModules = optional nvidiaEnabled "nvidia_uvm";
   };
 }
