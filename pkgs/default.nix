@@ -7,4 +7,5 @@ in
   google-fonts = callPackage ./google-fonts { };
   wm-helpers = callPackage ./wm-helpers { };
   atool = callPackage ./atool-wrapped { };
+  mopidy-autoplay = callPackage ./mopidy-autoplay { };
 }

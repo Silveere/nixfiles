@@ -13,6 +13,9 @@ in
   config = lib.mkIf cfg.enable {
     nixfiles = {
       profile.base.enable = true;
+      programs = {
+        mopidy.enable = true;
+      };
       packageSets = {
         communication.enable = true;
         dev.enable = true;
