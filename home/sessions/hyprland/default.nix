@@ -6,7 +6,7 @@ let
 
   # commands
   terminal = "${pkgs.kitty}/bin/kitty";
-  files = "${pkgs.dolphin}/bin/dolphin";
+  files = "${pkgs.pcmanfm-qt}/bin/pcmanfm-qt";
   rofi = "${pkgs.rofi-wayland}/bin/rofi";
   notifydaemon = "${pkgs.dunst}/bin/dunst";
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";

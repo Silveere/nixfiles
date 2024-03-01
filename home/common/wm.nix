@@ -15,13 +15,23 @@ in
     qt.platformTheme = "qtct";
     qt.style.name = "kvantum";
 
-    home.packages = with pkgs; [
+    home.packages = with pkgs; let
+      pcmanfm-qt-shim = writeShellScriptBin "pcmanfm" ''
+        exec "${pcmanfm-qt}/bin/pcmanfm-qt" "$@"
+      '';
+    in [
       qt5ct
       qt6ct
       swaybg
       swayidle
       libsForQt5.qtstyleplugin-kvantum
-      pcmanfm
+
+      pcmanfm-qt
+      pcmanfm-qt-shim
+
+      wlr-randr
+      nwg-look
+      nwg-displays
 
       # very consistent
       (catppuccin-papirus-folders.override {accent = "mauve"; flavor = "mocha"; })
