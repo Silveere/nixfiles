@@ -21,7 +21,7 @@ in
     programs.fzf.enableZshIntegration = true;
     programs.zsh = {
       enable = true;
-      envExtra = ''
+      initExtra = ''
         export HOME_MANAGER_MANAGED=true
         [[ -e ~/dotfiles/shell/.zshrc ]] && . ~/dotfiles/shell/.zshrc ]]
         unset HOME_MANAGER_MANAGED
