@@ -40,6 +40,8 @@
 
     hardware.nvidia.open = true;
 
+    hardware.cpu.intel.updateMicrocode = true;
+
     # nixfiles
     nixfiles = {
       profile.pc.enable = true;
