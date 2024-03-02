@@ -72,6 +72,9 @@ in
         lshw
         pciutils
         compsize
+        efibootmgr
+        ncdu
+        btdu
 
         # nix utilities
         nix-du
