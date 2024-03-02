@@ -10,6 +10,8 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      # Encryption
+      ./luks.nix
     ];
 
   config = {
@@ -52,16 +54,6 @@
       sessions.hyprland.useFlake = true;
       hardware.nvidia.modesetting.enable = true;
       packageSets.gaming.enable = true;
-    };
-
-    # cryptsetup
-    boot.initrd.luks.devices = {
-      lvmroot = {
-        device="/dev/disk/by-uuid/85b5f22e-0fa5-4f0d-8fba-f800a0b41671";
-        allowDiscards = true;
-        fallbackToPassword = true;
-        preLVM = true;
-      };
     };
 
     # bootloader setup
