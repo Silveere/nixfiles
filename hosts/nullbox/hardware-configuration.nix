@@ -19,6 +19,11 @@
       options = [ "subvol=nixos/@root" ];
     };
 
+  fileSystems."/.btrfsroot" =
+    { device = "/dev/disk/by-uuid/e36d1ab4-d18b-434e-80b5-0efca0652eb5";
+      fsType = "btrfs";
+    };
+
   fileSystems."/home" =
     { device = "/dev/disk/by-uuid/e36d1ab4-d18b-434e-80b5-0efca0652eb5";
       fsType = "btrfs";
@@ -30,12 +35,6 @@
       fsType = "vfat";
     };
 
-  fileSystems."/.btrfsroot" =
-    { device = "/dev/disk/by-uuid/e36d1ab4-d18b-434e-80b5-0efca0652eb5";
-      fsType = "btrfs";
-      options = [ "subvol=/" ];
-    };
-
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
@@ -44,9 +43,10 @@
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
   # networking.interfaces.eno1.useDHCP = lib.mkDefault true;
+  # networking.interfaces.tailscale0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.wg0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp3s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
