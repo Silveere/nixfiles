@@ -17,6 +17,9 @@ in
     nixfiles.programs.comma.enable = true;
 
     # TODO move this stuff to a zsh.nix or something; this is just a quick fix so home.sessionVariables works
+    home.shellAliases = {
+      v = "nvim";
+    };
     programs.fzf.enable = true;
     programs.fzf.enableZshIntegration = true;
     programs.zsh = {
