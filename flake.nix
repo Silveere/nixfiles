@@ -214,6 +214,12 @@
         hostname = "nullbox";
         stateVersion = "23.11";
       };
+
+      nixos-wsl = mkWSLSystem {
+        system = "x86_64-linux";
+        stateVersion = "23.11";
+        hostname = "nixos-wsl";
+      };
     }; # end nixosConfigurations
   }; # end outputs
 } # end flake
