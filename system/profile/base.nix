@@ -79,6 +79,7 @@ in
         # nix utilities
         nix-du
         graphviz # for nix-du
+        nvd
 
         # secrets
         age
