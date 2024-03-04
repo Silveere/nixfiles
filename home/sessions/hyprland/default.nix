@@ -19,7 +19,7 @@ let
 
   lock-cmd = "${swaylock}";
   # idle-cmd = "${swayidle} -w timeout 315 '${lock-cmd}' timeout 300 '${hyprctl} dispatch dpms off' resume '${hyprctl} dispatch dpms on' before-sleep '${lock-cmd}' lock '${lock-cmd}' unlock '${pkill} -USR1 -x swaylock'";
-  idle-cmd = "${pkgs.coreutils}/bin/true";
+  idle-cmd = "${swayidle} -w timeout 300 '${hyprctl} dispatch dpms off' resume '${hyprctl} dispatch dpms on'";
 
   hypr-dispatcher-package = pkgs.callPackage ./dispatcher { hyprland = hyprland-pkg; };
   hypr-dispatcher = "${hypr-dispatcher-package}/bin/hypr-dispatcher";
