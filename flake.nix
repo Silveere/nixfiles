@@ -216,6 +216,8 @@
       };
 
       nixos-wsl = mkWSLSystem {
+        nixpkgs = inputs.nixpkgs-unstable;
+        home-manager = inputs.home-manager-unstable;
         system = "x86_64-linux";
         stateVersion = "23.11";
         hostname = "nixos-wsl";
