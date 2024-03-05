@@ -20,9 +20,10 @@ in
 
       # locale settings
       i18n = {
-        defaultLocale = lib.mkDefault "en_US.UTF-8";
+        defaultLocale = lib.mkDefault "en_US.utf8";
         extraLocaleSettings = {
-          LC_ALL = lib.mkDefault "en_US.UTF-8";
+          LC_ALL = lib.mkDefault config.i18n.defaultLocale;
+          LC_CTYPE = lib.mkDefault config.i18n.defaultLocale;
         };
       };
 
