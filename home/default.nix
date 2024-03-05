@@ -13,6 +13,11 @@ in
   ];
   config = {};
   options.nixfiles = {
+    options = lib.mkOption {
+      description = "home-manager options attrset for repl";
+      default = options;
+      readOnly = true;
+    };
     meta.standalone = lib.mkOption {
       default = isStandalone;
       description = "Whether or not the home-manager installation is standalone (standalone installations don't have access to osConfig).";
