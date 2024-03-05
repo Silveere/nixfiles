@@ -36,6 +36,9 @@ in
       wl-clipboard
     ];
 
+    # this solves some inconsistent behavior with xdg-open
+    xdg.portal.xdgOpenUsePortal = true;
+
     # Enable flatpak
     services.flatpak.enable = mkDefault true;
 

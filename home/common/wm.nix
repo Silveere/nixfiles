@@ -64,9 +64,6 @@ in
       };
     };
 
-    # this solves some inconsistent behavior with xdg-open
-    xdg.portal.xdgOpenUsePortal = true;
-
     services = {
       udiskie = {
         enable = mkDefault true;
