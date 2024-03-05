@@ -21,6 +21,7 @@
         "/ntfs" = {
           fsType = "ntfs-3g";
           device = "/dev/disk/by-uuid/6AC23F0FC23EDF4F";
+          options = [ "auto_cache" ];
         };
         "/.btrfsroot" = {
           options = [ "subvol=/" ];
