@@ -2,6 +2,7 @@
 let
   cfg = config.nixfiles.common.wm;
   inherit (lib) mkDefault;
+  mkOverrideEach = pri: lib.mapAttrs (_:v: lib.mkOverride pri v);
 in
 {
   options.nixfiles.common.wm = {
@@ -47,6 +48,25 @@ in
         package = pkgs.swaylock-effects;
       };
     };
+
+
+    # File associations
+    xdg.mimeApps = {
+      enable = true;
+      defaultApplications = let
+        defaultBrowser = [ "firefox.desktop" ];
+      in mkOverrideEach 50 {
+        "x-scheme-handler/https" = defaultBrowser;
+        "x-scheme-handler/http" = defaultBrowser;
+        "text/html" = defaultBrowser;
+        "application/xhtml+xml" = defaultBrowser;
+        "application/pdf" = defaultBrowser;
+      };
+    };
+
+    # this solves some inconsistent behavior with xdg-open
+    xdg.portal.xdgOpenUsePortal = true;
+
     services = {
       udiskie = {
         enable = mkDefault true;
