@@ -19,6 +19,7 @@ in
         mopidy-bandcamp
         mopidy-ytmusic
         mopidy-soundcloud
+        mopidy-scrobbler
         # outputs.packages.${pkgs.system}.mopidy-autoplay
       ];
     };
