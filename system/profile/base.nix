@@ -33,6 +33,9 @@ in
       # Allow unfree packages
       nixpkgs.config.allowUnfree = true;
 
+      # this allows non-NixOS binaries to run on NixOS.
+      programs.nix-ld.enable = true;
+
       # networking.hostName = "nixos"; # Define your hostname.
       # Pick only one of the below networking options.
       # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
