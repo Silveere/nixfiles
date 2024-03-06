@@ -24,7 +24,7 @@ in
     nixfiles.meta.wayland = true;
 
     services.xserver.displayManager.sddm = {
-      enable = true;
+      enable = lib.mkDefault true;
       wayland.enable = true;
     };
 
