@@ -31,6 +31,9 @@
       ../../system # nixfiles modules
       ./nvidia-optimus.nix
     ];
+  # who needs a display manager?
+  services.displayManager.sddm.enable = false;
+
   nixfiles = {
     profile.pc.enable = true;
     common.remoteAccess.enable = true;
