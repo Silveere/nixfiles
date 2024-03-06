@@ -31,6 +31,16 @@
       ../../system # nixfiles modules
       ./nvidia-optimus.nix
     ];
+
+  specialisation.plasma.configuration = {
+    system.nixos.tags = [ "Plasma" ];
+    nixfiles = {
+      sessions.hyprland.enable = false;
+      sessions.plasma.enable = true;
+    };
+    services.displayManager.sddm.enable = lib.mkForce true;
+  };
+
   # who needs a display manager?
   services.displayManager.sddm.enable = false;
 
@@ -42,7 +52,7 @@
       gaming.enable = true;
       fun.enable = true;
     };
-    sessions.hyprland.enable = true;
+    sessions.hyprland.enable = lib.mkDefault true;
     sessions.hyprland.useFlake = true;
     sessions.plasma.enable = lib.mkDefault false;
     programs = {
