@@ -39,6 +39,7 @@ in
       # networking.hostName = "nixos"; # Define your hostname.
       # Pick only one of the below networking options.
       # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+      # FIXME find somewhere else to put this
       networking.networkmanager.enable = lib.mkDefault true;  # Easiest to use and most distros use this by default.
 
       # List packages installed in system profile. To search, run:
