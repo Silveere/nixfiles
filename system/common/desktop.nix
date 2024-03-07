@@ -48,7 +48,7 @@ in
     fonts.packages = with pkgs; [
       (nerdfonts.override { fonts = [ "FiraCode" ]; })
       noto-fonts-cjk
-      google-fonts.override { fonts = [ "NovaSquare" ];}
+      (google-fonts.override { fonts = [ "NovaSquare" ];})
     ];
 
     # TODO this should be defined in home-manager or not at all probably
