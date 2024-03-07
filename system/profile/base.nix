@@ -94,7 +94,7 @@ in
 
         # etc
         neofetch
-        outputs.packages."${pkgs.system}".atool
+        atool-wrapped
       ];
 
       # Needed for Kvantum themes to be detected
