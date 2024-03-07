@@ -58,7 +58,7 @@ in
         file
         tree
         moreutils
-        bsdtar
+        libarchive
 
         fd
         ripgrep
