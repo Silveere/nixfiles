@@ -60,6 +60,12 @@
         inherit (inputs.pkg-android-tools.legacyPackages.${final.system})
           android-tools android-udev-rules;
       })
+      (final: prev: let
+        packages = import ./pkgs { inherit (prev) pkgs; };
+      in {
+        inherit (packages) mopidy-autoplay google-fonts;
+        atool-wrapped = packages.atool;
+      })
       inputs.hyprwm-contrib.overlays.default
       inputs.rust-overlay.overlays.default
     ];
