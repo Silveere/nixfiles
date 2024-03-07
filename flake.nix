@@ -194,7 +194,8 @@
     # (extraS|s)pecialArgs to pass variables
     nixosModules = (import ./modules/nixos) moduleInputs;
     homeManagerModules = (import ./modules/home-manager) moduleInputs;
-    packages = eachSystem (system: import ./pkgs { inherit nixpkgs system; });
+    packages = eachSystem (system: let pkgs = import nixpkgs { inherit system; };
+      in import ./pkgs { inherit pkgs; });
     apps = eachSystem (system: import ./pkgs/apps.nix
       { inherit (self.outputs) packages; inherit system; });
 

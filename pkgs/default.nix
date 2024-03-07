@@ -1,11 +1,14 @@
-{ nixpkgs, system, ... }:
+{ pkgs, ... }:
 let
-  pkgs = import nixpkgs { inherit system; };
-  inherit (pkgs) callPackage;
+  inherit (pkgs) callPackage callPackages;
+
+  mopidyPackages = callPackages ./mopidy {
+    python = pkgs.python3;
+  };
 in
 {
+  inherit (mopidyPackages) mopidy-autoplay ;
   google-fonts = callPackage ./google-fonts { };
   wm-helpers = callPackage ./wm-helpers { };
   atool = callPackage ./atool-wrapped { };
-  mopidy-autoplay = callPackage ./mopidy-autoplay { };
 }
