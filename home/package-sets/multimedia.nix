@@ -24,6 +24,7 @@ in
       obs-studio
       nomacs
       audacity
+      picard
     ] ++ [
       yt-dlp
       imagemagick
