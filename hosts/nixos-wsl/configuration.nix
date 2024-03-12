@@ -6,7 +6,7 @@
     networking.networkmanager.enable = false;
     programs.gnupg.agent = {
       enable = true;
-      pinentryFlavor = "qt";
+      pinentryPackage = pkgs.pinentry-qt;
     };
 
     fonts.packages = with pkgs; [
