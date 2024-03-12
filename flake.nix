@@ -66,6 +66,10 @@
         inherit (packages) mopidy-autoplay google-fonts;
         atool-wrapped = packages.atool;
       })
+
+      # various temporary fixes that automatically revert
+      (import ./backports)
+
       inputs.hyprwm-contrib.overlays.default
       inputs.rust-overlay.overlays.default
     ];
