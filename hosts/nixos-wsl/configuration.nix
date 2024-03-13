@@ -2,7 +2,12 @@
 {
   config = {
     networking.hostName = "nixos-wsl";
-    nixfiles.profile.base.enable = true;
+
+    nixfiles = {
+      profile.base.enable = true;
+      binfmt.enable = true;
+    };
+
     networking.networkmanager.enable = false;
     programs.gnupg.agent = {
       enable = true;

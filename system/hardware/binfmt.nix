@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }:
+{ pkgs, config, lib, options, ... }:
 let
 
   configForSystem = (system:
@@ -27,9 +27,16 @@ in
     };
   };
 
-  config = lib.mkMerge [
-    (lib.mkIf (cfg.enable && (builtins.length emulatedSystems) > 0) {
-      boot.binfmt = {inherit emulatedSystems;}; 
+  config = let
+    enable = cfg.enable && (builtins.length emulatedSystems) > 0;
+  in lib.mkMerge [
+    (lib.mkIf enable {
+      boot.binfmt = {inherit emulatedSystems;};
+    })
+
+    # keep Windows binfmt registration on wsl
+    (lib.mkIf (cfg.enable && lib.hasAttrByPath [ "wsl" "interop" "register" ] options) {
+      wsl.interop.register = lib.mkDefault true;
     })
   ];
 }
