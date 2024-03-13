@@ -16,6 +16,7 @@ in
       inkscape
       obs-studio
     ] ++ [
+      gallery-dl
       yt-dlp
       imagemagick
       ffmpeg

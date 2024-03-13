@@ -27,6 +27,7 @@ in
       picard
     ] ++ [
       yt-dlp
+      gallery-dl
       imagemagick
       ffmpeg
     ];
