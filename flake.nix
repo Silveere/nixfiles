@@ -129,7 +129,7 @@
           useUserPackages = true;
           inherit users;
           extraSpecialArgs = {
-            inherit inputs outputs vars nixpkgs;
+            inherit inputs outputs vars nixpkgs home-manager;
             extraPkgs = mkExtraPkgs system;
           };
         };
@@ -173,7 +173,7 @@
           })
         ] ++ extraModules;
         specialArgs = {
-          inherit inputs outputs vars nixpkgs;
+          inherit inputs outputs vars nixpkgs home-manager;
           extraPkgs = mkExtraPkgs system;
         };
       };
