@@ -1,7 +1,8 @@
-{ pkgs, config, lib, options, osConfig ? { }, ... }@args:
+{ pkgs, config, lib, options, osConfig ? { }, nixpkgs, home-manager, ... }@args:
 let
   isStandalone = with builtins; !( (typeOf osConfig == "set") && hasAttr "home-manager" osConfig );
   cfg = config.nixfiles;
+  flakeType = cfg.lib.types.flake;
 in
 {
   imports = [
@@ -18,6 +19,27 @@ in
       default = options;
       readOnly = true;
     };
+
+    lib = lib.mkOption {
+      description = "nixfiles library";
+      default = (import ../lib/nixfiles) pkgs;
+      readOnly = true;
+    };
+
+    nixpkgs = lib.mkOption {
+      description = "nixpkgs flake";
+      type = flakeType;
+      default = nixpkgs;
+      example = "inputs.nixpkgs";
+    };
+
+    home-manager = lib.mkOption {
+      description = "home-manager flake";
+      type = flakeType;
+      default = home-manager;
+      example = "inputs.home-manager";
+    };
+
     meta.standalone = lib.mkOption {
       default = isStandalone;
       description = "Whether or not the home-manager installation is standalone (standalone installations don't have access to osConfig).";
