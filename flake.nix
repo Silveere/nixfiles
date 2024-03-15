@@ -35,7 +35,7 @@
     };
 
     # no inputs.nixpkgs.follows so i can use cachix
-    hyprland.url = "github:hyprwm/Hyprland/4bc669f9331bb66ab30bd705d09f1239bc3e83ed";
+    hyprland.url = "github:hyprwm/Hyprland/dc44bd7113b81a5c9aa61ecdc11d905a749b3e88";
 
     hyprwm-contrib = {
       url = "github:hyprwm/contrib";
