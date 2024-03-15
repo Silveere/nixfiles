@@ -1,8 +1,12 @@
-final: prev:
+nixfiles: final: prev:
 let
-  inherit (final) callPackage fetchFromGitHub;
-  inherit (final.lib) recurseIntoAttrs;
+  inherit (prev) callPackage fetchFromGitHub;
+  inherit (prev.lib) recurseIntoAttrs optionalAttrs;
 
+  # if you can't do version based just make it time based and deal with it in a
+  # month if it's not fixed
+  # 2024-04-10T08:11:11
+  gap-hold = (nixfiles.inputs.nixpkgs-unstable.lastModified <= 1712751071);
   gimpPlugins-gap = let
     src = fetchFromGitHub {
       owner = "Scrumplex";
@@ -11,6 +15,4 @@ let
       hash="sha256-oat4TwOorFevUMZdBFgaQHx/UKqGW7CGMoOHVgQxVdM="; 
     };
   in recurseIntoAttrs (callPackage "${src}/pkgs/applications/graphics/gimp/plugins" {});
-in {
-  gimpPlugins = if prev.gimpPlugins.gap.version == "2.6.0" then gimpPlugins-gap else prev.gimpPlugins;
-}
+in (optionalAttrs gap-hold { gimpPlugins = gimpPlugins-gap; })
