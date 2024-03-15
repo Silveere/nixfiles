@@ -7,6 +7,7 @@
       profile.base.enable = true;
       binfmt.enable = true;
     };
+    wsl.interop.register = true;
 
     networking.networkmanager.enable = false;
     programs.gnupg.agent = {

@@ -33,10 +33,5 @@ in
     (lib.mkIf enable {
       boot.binfmt = {inherit emulatedSystems;};
     })
-
-    # keep Windows binfmt registration on wsl
-    (lib.mkIf (cfg.enable && lib.hasAttrByPath [ "wsl" "interop" "register" ] options) {
-      wsl.interop.register = lib.mkDefault true;
-    })
   ];
 }
