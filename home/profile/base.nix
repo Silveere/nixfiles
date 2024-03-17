@@ -41,6 +41,10 @@ in
       };
     };
 
+    # this fixes a lot of theme weirdness
+    home.file.".icons".source = config.lib.file.mkOutOfStoreSymlink "${config.xdg.dataHome}/icons";
+    home.file.".themes".source = config.lib.file.mkOutOfStoreSymlink "${config.xdg.dataHome}/themes";
+
     home.packages = with pkgs; [
       btop
       fzf
