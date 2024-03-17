@@ -33,6 +33,9 @@
       }))
     ];
 
+    hardware.nvidia.package = lib.mkForce config.boot.kernelPackages.nvidiaPackages.production;
+    hardware.nvidia.open = lib.mkForce false;
+
     specialisation.plasma.configuration = {
       system.nixos.tags = [ "Plasma" ];
       nixfiles = {
@@ -41,7 +44,6 @@
       };
     };
 
-    hardware.nvidia.open = true;
 
     hardware.cpu.intel.updateMicrocode = true;
 
