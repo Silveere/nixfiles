@@ -34,7 +34,13 @@ in
       nixpkgs.config.allowUnfree = true;
 
       # this allows non-NixOS binaries to run on NixOS.
-      programs.nix-ld.enable = true;
+      programs.nix-ld = {
+        enable = true;
+        libraries = with pkgs; [
+          # don't know if i need this right now but i'm saving it for later
+          # libstdcxx5
+        ];
+      };
 
       # networking.hostName = "nixos"; # Define your hostname.
       # Pick only one of the below networking options.
