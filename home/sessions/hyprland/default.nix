@@ -16,6 +16,7 @@ let
   swaylock = "${pkgs.swaylock}/bin/swaylock";
   hyprctl = "${hyprland-pkg}/bin/hyprctl";
   pkill = "${pkgs.procps}/bin/pkill";
+  swaybg = "${pkgs.swaybg}/bin/swaybg";
 
   lock-cmd = "${swaylock}";
   # idle-cmd = "${swayidle} -w timeout 315 '${lock-cmd}' timeout 300 '${hyprctl} dispatch dpms off' resume '${hyprctl} dispatch dpms on' before-sleep '${lock-cmd}' lock '${lock-cmd}' unlock '${pkill} -USR1 -x swaylock'";
@@ -23,6 +24,10 @@ let
 
   hypr-dispatcher-package = pkgs.callPackage ./dispatcher { hyprland = hyprland-pkg; };
   hypr-dispatcher = "${hypr-dispatcher-package}/bin/hypr-dispatcher";
+
+  wallpaper-package = "${pkgs.nixfiles-assets}";
+  wallpaper = "nixfiles-static/Djayjesse-finding_life.png";
+  wallpaper-cmd = "${swaybg} -i ${wallpaper-package}/share/wallpapers/${wallpaper}";
 
   # https://github.com/flatpak/xdg-desktop-portal-gtk/issues/440#issuecomment-1900520919
   xdpg-workaround = pkgs.writeShellScript "xdg-desktop-portal-gtk-workaround"
@@ -96,6 +101,7 @@ in
           polkit-agent
           xdpg-workaround
           idle-cmd
+          wallpaper-cmd
         ];
 
         # Source a file (multi-file configs)
