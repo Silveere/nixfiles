@@ -200,6 +200,16 @@
     # for repl debugging via :lf .
     inherit inputs vars;
 
+    devShells = eachSystem (system: let
+      pkgs = import nixpkgs { inherit system; };
+    in {
+      default = pkgs.mkShell {
+        buildInputs = with pkgs; [
+          nix-update
+        ];
+      };
+    });
+
     # nix flake modules are meant to be portable so we cannot rely on
     # (extraS|s)pecialArgs to pass variables
     nixosModules = (import ./modules/nixos) moduleInputs;
