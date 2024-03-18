@@ -46,6 +46,14 @@
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixfiles-assets = {
+      # using self-hosted gitea mirror because of GitHub LFS bandwidth limit (even though i'd probably never hit it)
+      type = "git";
+      url = "https://gitea.protogen.io/nullbite/nixfiles-assets";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.systems.follows = "systems";
+    };
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs: 
@@ -72,6 +80,7 @@
 
       inputs.hyprwm-contrib.overlays.default
       inputs.rust-overlay.overlays.default
+      inputs.nixfiles-assets.overlays.default
     ];
 
     ### Configuration
