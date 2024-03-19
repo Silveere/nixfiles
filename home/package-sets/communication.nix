@@ -11,6 +11,21 @@ in
     enable = lib.mkEnableOption "communication package set";
   };
   config = lib.mkIf cfg.enable {
+
+    xdg.desktopEntries.vesktop = lib.mkIf config.nixfiles.meta.graphical {
+      categories= ["Network" "InstantMessaging" "Chat"];
+      # exec="env NIXOS_OZONE_WL=1 vesktop %U";
+      exec="vesktop %U";
+      genericName="Internet Messenger";
+      icon="vesktop";
+      name="Vesktop";
+      type="Application";
+      settings = {
+        StartupWMClass="Vesktop";
+        Keywords="discord;vencord;electron;chat";
+      };
+    };
+
     home.packages = with pkgs; lib.optionals config.nixfiles.meta.graphical [
       element-desktop
       telegram-desktop
