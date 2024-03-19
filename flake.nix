@@ -47,9 +47,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # edolstra/flake-compat#64
-    flake-compat.url = "github:9999years/flake-compat/baa7aa7";
-
     nixfiles-assets = {
       # using self-hosted gitea mirror because of GitHub LFS bandwidth limit (even though i'd probably never hit it)
       type = "git";
@@ -65,31 +62,6 @@
     # inputs is already defined
     lib = nixpkgs.lib;
     systems = [ "x86_64-linux" "aarch64-linux" ];
-
-    # absolutely grotesque workaround for NixOS/nix#4623
-    nixfiles-assets-grotesque-lfs-workaround = eachSystem (system:
-      let
-        pkgs = import nixpkgs { inherit system; };
-        # we have to define a flake-compat version of this flake because
-        # referencing an input directly seems to evaluate it when we only want
-        # the narHash from flake.lock
-        self-fc = (import inputs.flake-compat {src = ./.; inherit system; }).defaultNix;
-        srcWithLFS = pkgs.fetchgit {
-          inherit (self-fc.inputs.nixfiles-assets) rev;
-
-          # flake inputs don't expose the URL for some reason so we have to define it again here
-          url = "https://gitea.protogen.io/nullbite/nixfiles-assets";
-
-          # you need to run `nix flake update` on a user with Git LFS already
-          # configured (i am assuming?? it seems to work if i lock the flake as
-          # my current user but not root, which doesn't have LFS configured)
-          hash = self-fc.inputs.nixfiles-assets.narHash;
-          fetchLFS = true;
-        };
-        trace = builtins.trace "warning: we're still using this awful LFS workaround";
-      in
-        trace (import inputs.flake-compat { src = srcWithLFS; inherit system; }).defaultNix
-    );
 
     overlays = [
       /* android-tools 33.0.3p2 */ (final: prev: {
@@ -108,8 +80,7 @@
 
       inputs.hyprwm-contrib.overlays.default
       inputs.rust-overlay.overlays.default
-      # inputs.nixfiles-assets.overlays.default
-      (final: prev: { inherit (nixfiles-assets-grotesque-lfs-workaround.${prev.system}.packages.${prev.system}) nixfiles-assets; })
+      inputs.nixfiles-assets.overlays.default
     ];
 
     ### Configuration
