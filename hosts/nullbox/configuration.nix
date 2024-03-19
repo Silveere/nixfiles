@@ -59,6 +59,9 @@
       packageSets.gaming.enable = true;
     };
 
+    services.xserver.displayManager.sddm.enable = false;
+    services.xserver.displayManager.startx.enable = true;
+
     # bootloader setup
     boot.loader = {
       efi = {
