@@ -49,8 +49,9 @@
 
     nixfiles-assets = {
       # using self-hosted gitea mirror because of GitHub LFS bandwidth limit (even though i'd probably never hit it)
-      type = "git";
-      url = "https://gitea.protogen.io/nullbite/nixfiles-assets";
+      type = "github";
+      owner = "Silveere";
+      repo = "nixfiles-assets";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.systems.follows = "systems";
     };

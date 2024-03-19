@@ -26,6 +26,16 @@ in
 
       # this makes modern nix tools use the system's version of nixpkgs
       nix.registry = {
+        # this keeps nixfiles-assets in the store so i can save some GitHub LFS
+        # bandwidth
+        nixfiles-assets = {
+          exact = true;
+          from = {
+            id = "nixfiles-assets";
+            type = "indirect";
+          };
+          flake = inputs.nixfiles-assets;
+        };
         nixpkgs = {
           exact = true;
           from = {

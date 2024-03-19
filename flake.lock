@@ -291,15 +291,15 @@
       "locked": {
         "lastModified": 1710743555,
         "narHash": "sha256-e8iXy4hCLYegNTeyB/GB8hj+gj1wPD+b+XOsEcdfEJY=",
-        "ref": "refs/heads/main",
+        "owner": "Silveere",
+        "repo": "nixfiles-assets",
         "rev": "4ee66c3036eda78fe0ddada0e289a4f672ac4f57",
-        "revCount": 1,
-        "type": "git",
-        "url": "https://gitea.protogen.io/nullbite/nixfiles-assets"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "https://gitea.protogen.io/nullbite/nixfiles-assets"
+        "owner": "Silveere",
+        "repo": "nixfiles-assets",
+        "type": "github"
       }
     },
     "nixpkgs": {
