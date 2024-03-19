@@ -97,11 +97,11 @@ in
         # exec-once = waybar & hyprpaper & firefox
 
         exec-once = [
+          wallpaper-cmd
           notifydaemon
           polkit-agent
-          xdpg-workaround
           idle-cmd
-          wallpaper-cmd
+          xdpg-workaround
         ];
 
         # Source a file (multi-file configs)
