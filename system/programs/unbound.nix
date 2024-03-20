@@ -9,6 +9,13 @@ in
 
   config = lib.mkIf cfg.enable {
     networking.networkmanager.dns = "none";
-    services.unbound.enable = true;
+    services.unbound = {
+      enable = true;
+      settings = {
+        server = {
+          prefetch = true;
+        };
+      };
+    };
   };
 }
