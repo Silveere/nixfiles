@@ -66,6 +66,7 @@
     sessions.plasma.enable = lib.mkDefault false;
     programs = {
       adb.enable = true;
+      unbound.enable = true;
     };
   };
 

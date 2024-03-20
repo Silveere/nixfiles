@@ -12,7 +12,6 @@
       ./hardware-configuration.nix
       # Encryption
       ./luks.nix
-      ./unbound.nix
     ];
 
   config = {
@@ -52,6 +51,7 @@
     nixfiles = {
       profile.pc.enable = true;
       programs.adb.enable = true;
+      programs.unbound.enable = true;
       common.remoteAccess.enable = true;
       sessions.plasma.enable = lib.mkDefault false;
       sessions.hyprland.enable = lib.mkDefault true;
