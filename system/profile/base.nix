@@ -78,6 +78,8 @@ in
         socat
         nmap
         hping
+        dig
+        dig.dnsutils
 
         # system utilities
         htop
