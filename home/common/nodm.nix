@@ -24,7 +24,10 @@ in
       description = "Whether to automatically start a desktop session on TTY1, behaving like a rudimentary display manager.";
       default = osConfig ? systemd
         && config.nixfiles.meta.graphical
-        && (!(osConfig.systemd.services.display-manager.enable or false));
+        && (!(
+          (osConfig.systemd.services.display-manager.enable or false)
+          && (osConfig.systemd.services.greetd.enable or false)
+        ));
       example = true;
     };
   };
