@@ -12,6 +12,7 @@
       ./hardware-configuration.nix
       # Encryption
       ./luks.nix
+      ./unbound.nix
     ];
 
   config = {
