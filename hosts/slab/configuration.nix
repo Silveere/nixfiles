@@ -60,7 +60,6 @@
       adb.enable = true;
       unbound.enable = true;
       greetd = {
-        enable = true;
         preset = "tuigreet";
       };
     };

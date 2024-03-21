@@ -52,7 +52,6 @@
       profile.pc.enable = true;
       programs.adb.enable = true;
       programs.greetd = {
-        enable = true;
         preset = "tuigreet";
       };
       programs.unbound.enable = true;
