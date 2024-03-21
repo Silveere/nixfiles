@@ -13,6 +13,7 @@ in
     ./sessions
     ./testing
     ./cachix.nix
+    ./mitigations.nix
   ];
   config = {};
   options.nixfiles = {
