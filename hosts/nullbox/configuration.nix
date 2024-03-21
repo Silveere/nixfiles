@@ -51,6 +51,10 @@
     nixfiles = {
       profile.pc.enable = true;
       programs.adb.enable = true;
+      programs.greetd = {
+        enable = true;
+        preset = "tuigreet";
+      };
       programs.unbound.enable = true;
       common.remoteAccess.enable = true;
       sessions.plasma.enable = lib.mkDefault false;
@@ -61,7 +65,6 @@
     };
 
     services.xserver.displayManager.sddm.enable = false;
-    services.xserver.displayManager.startx.enable = true;
 
     # bootloader setup
     boot.loader = {

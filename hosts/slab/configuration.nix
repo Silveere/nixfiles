@@ -44,14 +44,6 @@
 
   # who needs a display manager?
   services.xserver.displayManager.sddm.enable = false;
-  services.xserver.displayManager.startx.enable = true;
-
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland --asterisks";
-    };
-  };
 
   nixfiles = {
     profile.pc.enable = true;
@@ -67,6 +59,10 @@
     programs = {
       adb.enable = true;
       unbound.enable = true;
+      greetd = {
+        enable = true;
+        preset = "tuigreet";
+      };
     };
   };
 
