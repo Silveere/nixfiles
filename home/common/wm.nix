@@ -63,6 +63,10 @@ in
         "application/pdf" = defaultBrowser;
       };
     };
+    # this makes xdg.mimeApps overwrite mimeapps.list if it has been touched by something else
+    xdg.configFile."mimeapps.list" = {
+      force = true;
+    };
 
     services = {
       udiskie = {

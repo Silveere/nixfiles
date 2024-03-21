@@ -16,8 +16,6 @@ in
   config = lib.mkIf cfg.enable {
     nixfiles.programs.comma.enable = true;
 
-    # this makes xdg.mimeApps overwrite mimeapps.list if it has been touched by something else
-    xdg.configFile."mimeapps.list".force = true;
 
     # TODO move this stuff to a zsh.nix or something; this is just a quick fix so home.sessionVariables works
     home.shellAliases = {
