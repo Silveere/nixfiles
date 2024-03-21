@@ -20,15 +20,11 @@ in
           (lib.mkIf cfg.presets.tuigreet.enable {
             command = let
               st = cfg.settings;
-              # i don't know if/how the default command is quoted so this will avoid any ambiguity
-              wrappedCommand = pkgs.writeShellScript "tuigreet-default-command" ''
-                exec ${lib.escapeShellArgs st.command}
-              '';
               args = [ "${pkgs.greetd.tuigreet}/bin/tuigreet" "--asterisks" "--remember" "--remember-session"
               "--sessions" "${xsessions}:${wayland-sessions}" ]
                 ++ optionalsSet st.greeting [ "--greeting" st.greeting ]
                 ++ optional st.time "--time" 
-                ++ optionalsSet st.command [ "--cmd" wrappedCommand ];
+                ++ optionalsSet st.command [ "--cmd" (lib.escapeShellArg st.command) ];
             in lib.escapeShellArgs args; 
           })
 
