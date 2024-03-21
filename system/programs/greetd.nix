@@ -5,6 +5,9 @@ let
   inherit (builtins) isNull;
   inherit (lib) optional optionals;
   optionalsSet = val: optionals (!(isNull val));
+  sessions = config.services.xserver.displayManager.sessionData.desktops;
+  xsessions = "${sessions}/share/xsessions";
+  wayland-sessions = "${sessions}/share/wayland-sessions";
 in
 {
   config = lib.mkIf cfg.enable {
@@ -17,9 +20,15 @@ in
           (lib.mkIf cfg.presets.tuigreet.enable {
             command = let
               st = cfg.settings;
-              args = [ "${pkgs.greetd.tuigreet}/bin/tuigreet" "--asterisks" "--remember" "--remember-session" ]
+              # i don't know if/how the default command is quoted so this will avoid any ambiguity
+              wrappedCommand = pkgs.writeShellScript "tuigreet-default-command" ''
+                exec ${lib.escapeShellArgs st.command}
+              '';
+              args = [ "${pkgs.greetd.tuigreet}/bin/tuigreet" "--asterisks" "--remember" "--remember-session"
+              "--sessions" "${xsessions}:${wayland-sessions}" ]
                 ++ optionalsSet st.greeting [ "--greeting" st.greeting ]
-                ++ optional st.time "--time" ;
+                ++ optional st.time "--time" 
+                ++ optionalsSet st.command [ "--cmd" wrappedCommand ];
             in lib.escapeShellArgs args; 
           })
 
