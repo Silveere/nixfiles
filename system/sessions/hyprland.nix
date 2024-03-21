@@ -23,9 +23,12 @@ in
     };
     nixfiles.meta.wayland = true;
 
-    services.xserver.displayManager.sddm = {
-      enable = lib.mkDefault true;
-      wayland.enable = true;
+    # greeter
+    nixfiles.programs.greetd = {
+      enable = true;
+      settings = {
+        command = "${pkgs.hyprland}/bin/Hyprland";
+      };
     };
 
     programs.hyprland = {
