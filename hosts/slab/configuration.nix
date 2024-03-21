@@ -64,6 +64,10 @@
       };
     };
   };
+  services.greetd.settings.initial_session = {
+    command = config.nixfiles.programs.greetd.settings.command;
+    user = "nullbite";
+  };
 
 
   networking.hostName = "slab";
