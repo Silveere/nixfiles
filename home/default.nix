@@ -11,6 +11,7 @@ in
     ./profile
     ./programs
     ./sessions
+    ./helpers
   ];
   config = {};
   options.nixfiles = {
