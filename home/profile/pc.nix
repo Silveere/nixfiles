@@ -19,6 +19,7 @@ in
       packageSets = {
         communication.enable = true;
         dev.enable = true;
+        productivity.enable = true;
       };
     };
   };

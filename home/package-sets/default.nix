@@ -1,8 +1,9 @@
 {...}:
 {
   imports = [
-  ./communication.nix
-  ./dev.nix
-  ./multimedia.nix
+    ./communication.nix
+    ./dev.nix
+    ./multimedia.nix
+    ./productivity.nix
   ];
 }
