@@ -22,7 +22,7 @@
         "/ntfs" = {
           fsType = "ntfs-3g";
           device = "/dev/disk/by-uuid/6AC23F0FC23EDF4F";
-          options = [ "auto_cache" ];
+          options = [ "auto_cache" "nofail" ];
         };
         "/.btrfsroot" = {
           options = [ "subvol=/" ];
