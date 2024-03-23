@@ -12,6 +12,7 @@
       ./hardware-configuration.nix
       # Encryption
       ./luks.nix
+      ./mcserver.nix
     ];
 
   config = {
