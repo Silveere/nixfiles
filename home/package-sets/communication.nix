@@ -14,8 +14,7 @@ in
 
     xdg.desktopEntries.vesktop = lib.mkIf config.nixfiles.meta.graphical {
       categories= ["Network" "InstantMessaging" "Chat"];
-      # exec="env NIXOS_OZONE_WL=1 vesktop %U";
-      exec="vesktop %U";
+      exec="env NIXOS_OZONE_WL=1 vesktop --disable-gpu %U";
       genericName="Internet Messenger";
       icon="vesktop";
       name="Vesktop";
