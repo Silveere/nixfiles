@@ -18,7 +18,16 @@ let
   pkill = "${pkgs.procps}/bin/pkill";
   swaybg = "${pkgs.swaybg}/bin/swaybg";
 
-  lock-cmd = "${swaylock}";
+  # lock-cmd = "${swaylock}";
+
+  lock-cmd = let
+    cmd = pkgs.writeShellScript "lock-script" ''
+      ${swayidle} -w timeout 10 '${hyprctl} dispatch dpms off' resume '${hyprctl} dispatch dpms on' &
+      ${swaylock}
+      kill %%
+    '';
+  in "${cmd}";
+
   # idle-cmd = "${swayidle} -w timeout 315 '${lock-cmd}' timeout 300 '${hyprctl} dispatch dpms off' resume '${hyprctl} dispatch dpms on' before-sleep '${lock-cmd}' lock '${lock-cmd}' unlock '${pkill} -USR1 -x swaylock'";
   idle-cmd = "${swayidle} -w timeout 300 '${hyprctl} dispatch dpms off' resume '${hyprctl} dispatch dpms on'";
 
