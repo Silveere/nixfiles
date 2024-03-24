@@ -65,7 +65,7 @@
     };
   };
   services.greetd.settings.initial_session = {
-    command = config.nixfiles.programs.greetd.settings.command;
+    command = config.nixfiles.programs.greetd.settings.finalCommand;
     user = "nullbite";
   };
 

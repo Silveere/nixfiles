@@ -27,7 +27,7 @@ in
     nixfiles.programs.greetd = {
       enable = true;
       settings = {
-        command = "${pkgs.hyprland}/bin/Hyprland";
+        command = [ "${pkgs.hyprland}/bin/Hyprland" ];
       };
     };
 

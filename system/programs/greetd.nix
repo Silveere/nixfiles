@@ -1,16 +1,22 @@
 { pkgs, config, lib, options, ... }:
 let
   cfg = config.nixfiles.programs.greetd;
-  inherit (lib.types) bool enum nullOr str path;
+  inherit (lib.types) bool enum nullOr str path listOf;
   inherit (builtins) isNull;
   inherit (lib) optional optionals;
   optionalsSet = val: optionals (!(isNull val));
+  optionalSet = val: optional (!(isNull val));
   sessions = config.services.xserver.displayManager.sessionData.desktops;
   xsessions = "${sessions}/share/xsessions";
   wayland-sessions = "${sessions}/share/wayland-sessions";
+
+  loginwrap=pkgs.writeShellScriptBin "loginwrap" ''
+    exec "$SHELL" -lc 'exec "$@"' "login-wrapper" "$@"
+  '';
 in
 {
   config = lib.mkIf cfg.enable {
+    environment.systemPackages = [ loginwrap ];
     services.greetd = {
       enable = true;
       settings = {
@@ -24,8 +30,11 @@ in
               "--sessions" "${xsessions}:${wayland-sessions}" ]
                 ++ optionalsSet st.greeting [ "--greeting" st.greeting ]
                 ++ optional st.time "--time" 
-                ++ optionalsSet st.command [ "--cmd" (lib.escapeShellArg st.command) ];
-            in lib.escapeShellArgs args; 
+                ++ optionalsSet st.command [ "--cmd" st.finalCommand ]
+                # i think tuigreet might be outdated on nix. disable this because it's not a valid option
+                # ++ optionalsSet st.loginShell [ "--session-wrapper" "loginwrap" ]
+                ;
+            in lib.escapeShellArgs args;
           })
 
         ];
@@ -50,11 +59,29 @@ in
         default = "log in pwease!! uwu";
         example = "something boring";
       };
+      finalCommand = lib.mkOption {
+        description = "Final version of command";
+        type = nullOr str;
+        default = let
+          st = cfg.settings;
+          prevcmd = st.command;
+          command-login-wrapped = [ "loginwrap" ] ++ prevcmd;
+          cmd = if (builtins.isNull prevcmd) then null else
+            (if st.loginShell then command-login-wrapped else prevcmd);
+        in lib.escapeShellArgs cmd;
+        readOnly = true;
+      };
       command = lib.mkOption {
         description = "Command to run following successful authentication";
-        type = nullOr str;
+        type = nullOr (listOf str);
         default = null;
-        example = "Hyprland";
+        example = [ "Hyprland" ];
+      };
+      loginShell = lib.mkOption {
+        description = "Wrap in login shell to source .profile/.zshenv/etc. (if configurable).";
+        type = bool;
+        default = true;
+        example = false;
       };
       time = lib.mkOption {
         description = "Whether to show the current time (if configurable)";
