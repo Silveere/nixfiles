@@ -23,6 +23,11 @@
     # android tools versions [ 34.0.0, 34.0.5 ) causes bootloops somehow and 34.0.5 isn't in nixpkgs yet
     pkg-android-tools.url = "github:NixOS/nixpkgs/55070e598e0e03d1d116c49b9eff322ef07c6ac6";
 
+    nix-minecraft = {
+      url = "github:infinidoge/nix-minecraft";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     # provides an up-to-date database for comma
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
@@ -82,6 +87,7 @@
       inputs.hyprwm-contrib.overlays.default
       inputs.rust-overlay.overlays.default
       inputs.nixfiles-assets.overlays.default
+      inputs.nix-minecraft.overlays.default
     ];
 
     ### Configuration

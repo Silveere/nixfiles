@@ -1,4 +1,4 @@
-{ pkgs, config, lib, options, nixpkgs, home-manager, ... }@args:
+{ pkgs, config, lib, options, nixpkgs, home-manager, inputs, ... }@args:
 let
   cfg = config.nixfiles;
   flakeType = cfg.lib.types.flake;
@@ -14,6 +14,9 @@ in
     ./testing
     ./cachix.nix
     ./mitigations.nix
+
+    # modules
+    inputs.nix-minecraft.nixosModules.minecraft-servers
   ];
   config = {};
   options.nixfiles = {
