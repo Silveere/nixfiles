@@ -4,4 +4,5 @@ let
 in
 {
   types = (import ./types.nix) pkgs;
+  minecraft = (import ./minecraft.nix) pkgs;
 }
