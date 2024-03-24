@@ -58,14 +58,14 @@ in
 
     environment.systemPackages = with pkgs; [
       kitty
-        dunst
-        polkit-kde-agent
-        eww
-        hyprpaper
-        rofi
-        hyprpicker
-        udiskie
-        polkit-kde-agent
+      dunst
+      polkit-kde-agent
+      eww
+      hyprpaper
+      rofi
+      hyprpicker
+      udiskie
+      polkit-kde-agent
     ];
   };
 }
