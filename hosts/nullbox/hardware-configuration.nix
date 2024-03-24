@@ -47,6 +47,12 @@
       options = [ "subvol=@mcserver" ];
     };
 
+  fileSystems."/srv/mcserver/.snapshots" =
+    { device = "/dev/disk/by-uuid/7204ff85-6404-4bd7-ba0d-3fb23a5cf52c";
+      fsType = "btrfs";
+      options = [ "subvol=snapshots/@mcserver" ];
+    };
+
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
