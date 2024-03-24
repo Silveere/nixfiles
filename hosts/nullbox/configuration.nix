@@ -34,7 +34,7 @@
       }))
     ];
 
-    hardware.nvidia.package = lib.mkForce config.boot.kernelPackages.nvidiaPackages.production;
+    # hardware.nvidia.package = lib.mkForce config.boot.kernelPackages.nvidiaPackages.production;
     hardware.nvidia.open = lib.mkForce false;
 
     specialisation.plasma.configuration = {
