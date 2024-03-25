@@ -56,6 +56,10 @@ in
 
         # no telemetry
         snooper-enabled = lib.mkDefault false;
+
+        # other preferred settings
+        pvp = lib.mkDefault true;
+        difficulty = lib.mkDefault "hard";
       };
     }
     (builtins.removeAttrs opts [ "modpack" "modpackSymlinks" "modpackFiles" "jvmOpts" ])

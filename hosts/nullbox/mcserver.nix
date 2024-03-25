@@ -1,6 +1,7 @@
 { pkgs, lib, config, ... }:
 let
   cfg = config.services.minecraft-servers;
+  inherit (config.nixfiles.lib.minecraft) mkServer;
 in
 {
   config = {
@@ -35,49 +36,50 @@ in
       enable = true;
       eula = true;
       dataDir = "/srv/mcserver";
-      servers = {
+      servers = let
+        notlite-modpack = pkgs.fetchPackwizModpack {
+          url = "https://gitea.protogen.io/nullbite/notlite/raw/branch/release/1.20.1/pack.toml";
+          packHash = "sha256-N3Pdlqte8OYz6wz3O/TSG75FMAV+XWAipqoXsYbcYDQ=";
+        };
+
+        # hack to make quilt work. requires manual installation.
+        # workaround for nix-minecraft#60
+        shimPackage = pkgs.writeShellScriptBin "minecraft-server" ''
+          exec ${pkgs.jre_headless}/bin/java $@ -jar ./quilt-server-launch.jar nogui
+        '';
+      in {
+        notlite = mkServer {
+          enable = true;
+          autoStart = true;
+          modpack = notlite-modpack;
+          package = shimPackage;
+          modpackSymlinks = [ "mods" ];
+          modpackFiles = [ "config/" "kubejs/" ];
+          serverProperties = {
+            motd = "owo what's this (nix notlite edition)";
+
+            # more declarative
+            seed = "8555431723250870652";
+          };
+
+        };
         minecraft-nixtest = let
           self = cfg.servers.minecraft-nixtest;
           package = pkgs.quiltServers.quilt-1_20_1.override { loaderVersion = "0.21.0"; };
-          modpack = pkgs.fetchPackwizModpack {
-            url = "https://gitea.protogen.io/nullbite/notlite/raw/branch/release/1.20.1/pack.toml";
-            packHash = "sha256-N3Pdlqte8OYz6wz3O/TSG75FMAV+XWAipqoXsYbcYDQ=";
-          };
         in config.nixfiles.lib.minecraft.mkServer {
-          enable = true;
-          inherit modpack;
-          # inherit package;
-          # hack to make quilt work. requires manual installation.
-          # workaround for nix-minecraft#60
-          package = pkgs.writeShellScriptBin "minecraft-server" ''
-            exec ${pkgs.jre_headless}/bin/java $@ -jar ./quilt-server-launch.jar nogui
-          '';
+          enable = false;
+          modpack = notlite-modpack;
+          package = shimPackage;
           autoStart = self.enable;
           whitelist = {
             YzumThreeEye = "3dad78e8-6979-404f-820e-952ce20964a0";
             NullBite = "e24e8e0e-7540-4126-b737-90043155bcd4";
             Silveere = "468554f1-27cd-4ea1-9308-3dd14a9b1a12";
           };
-          # symlinks = let
-          #   symlinkFolders = lib.genAttrs [ "mods" "kubejs" ] (x: "${modpack}/${x}");
-          # in symlinkFolders;
-          modpackSymlinks = [ "mods" "kubejs" ];
-          modpackFiles = [ "config" ];
+          modpackSymlinks = [ "mods" ];
+          modpackFiles = [ "config/" "kubejs/" ];
           serverProperties = {
-            # allow NCR
-            enforce-secure-profile = false;
-            white-list = true;
-            enforce-whitelist = true;
-
             motd = "owo what's this (nix edition)";
-
-            enable-rcon = false;
-            difficulty = "hard";
-            hardcore = false;
-            online-mode = true;
-            pvp = true;
-
-            sync-chunk-writes = false;
           };
         };
       };
