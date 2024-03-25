@@ -61,7 +61,7 @@ in
             "query.port" = 25567;
 
             # more declarative
-            seed = "8555431723250870652";
+            level-seed = "8555431723250870652";
             level-type = "bclib:normal";
           };
 
