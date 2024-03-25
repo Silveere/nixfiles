@@ -57,7 +57,7 @@ in
           modpackFiles = [ "config/" "kubejs/" ];
           serverProperties = {
             motd = "owo what's this (nix notlite edition)";
-            "server.port" = 25567;
+            server-port = 25567;
             "query.port" = 25567;
 
             # more declarative
