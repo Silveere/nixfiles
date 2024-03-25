@@ -37,8 +37,10 @@ in
       eula = true;
       dataDir = "/srv/mcserver";
       servers = let
-        notlite-modpack = pkgs.fetchPackwizModpack {
-          url = "https://gitea.protogen.io/nullbite/notlite/raw/branch/release/1.20.1/pack.toml";
+        notlite-modpack = let
+          commit = "9e96ad3";
+        in pkgs.fetchPackwizModpack {
+          url = "https://gitea.protogen.io/nullbite/notlite/raw/commit/${commit}/pack.toml";
           packHash = "sha256-N3Pdlqte8OYz6wz3O/TSG75FMAV+XWAipqoXsYbcYDQ=";
         };
 
