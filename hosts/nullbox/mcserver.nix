@@ -43,18 +43,26 @@ in
             url = "https://gitea.protogen.io/nullbite/notlite/raw/branch/release/1.20.1/pack.toml";
             packHash = "sha256-N3Pdlqte8OYz6wz3O/TSG75FMAV+XWAipqoXsYbcYDQ=";
           };
-        in {
-          enable = false;
-          inherit package;
+        in config.nixfiles.lib.minecraft.mkServer {
+          enable = true;
+          inherit modpack;
+          # inherit package;
+          # hack to make quilt work. requires manual installation.
+          # workaround for nix-minecraft#60
+          package = pkgs.writeShellScriptBin "minecraft-server" ''
+            exec ${pkgs.jre_headless}/bin/java $@ -jar ./quilt-server-launch.jar nogui
+          '';
           autoStart = self.enable;
           whitelist = {
             YzumThreeEye = "3dad78e8-6979-404f-820e-952ce20964a0";
             NullBite = "e24e8e0e-7540-4126-b737-90043155bcd4";
             Silveere = "468554f1-27cd-4ea1-9308-3dd14a9b1a12";
           };
-          symlinks = let
-            symlinkFolders = lib.genAttrs [ "mods" "kubejs" ] (x: "${modpack}/${x}");
-          in symlinkFolders;
+          # symlinks = let
+          #   symlinkFolders = lib.genAttrs [ "mods" "kubejs" ] (x: "${modpack}/${x}");
+          # in symlinkFolders;
+          modpackSymlinks = [ "mods" "kubejs" ];
+          modpackFiles = [ "config" ];
           serverProperties = {
             # allow NCR
             enforce-secure-profile = false;
