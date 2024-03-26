@@ -54,6 +54,7 @@ in
       restic
       rclone
       rmlint
+      pv
     ];
   };
 }

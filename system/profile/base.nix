@@ -106,6 +106,7 @@ in
         atool-wrapped
         restic
         rclone
+        pv
       ];
 
       # Needed for Kvantum themes to be detected
