@@ -89,6 +89,7 @@ in
         efibootmgr
         ncdu
         btdu
+        rmlint
 
         # nix utilities
         nix-du
@@ -103,6 +104,8 @@ in
         # etc
         neofetch
         atool-wrapped
+        restic
+        rclone
       ];
 
       # Needed for Kvantum themes to be detected

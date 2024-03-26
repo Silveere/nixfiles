@@ -51,6 +51,9 @@ in
       fzf
       zoxide
       tmux
+      restic
+      rclone
+      rmlint
     ];
   };
 }
