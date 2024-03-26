@@ -13,23 +13,26 @@ let
   polkit-agent = "${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
   grimblast = "${inputs.hyprwm-contrib.packages.${pkgs.system}.grimblast}/bin/grimblast";
   swayidle = "${pkgs.swayidle}/bin/swayidle";
-  swaylock = "${pkgs.swaylock}/bin/swaylock";
+  swaylock = "${config.programs.swaylock.package}/bin/swaylock";
   hyprctl = "${hyprland-pkg}/bin/hyprctl";
   pkill = "${pkgs.procps}/bin/pkill";
   swaybg = "${pkgs.swaybg}/bin/swaybg";
+  hypridle = "${config.services.hypridle.package}/bin/hypridle";
 
-  # lock-cmd = "${swaylock}";
+  lock-cmd = "${swaylock}";
 
-  lock-cmd = let
-    cmd = pkgs.writeShellScript "lock-script" ''
-      ${swayidle} -w timeout 10 '${hyprctl} dispatch dpms off' resume '${hyprctl} dispatch dpms on' &
-      ${swaylock}
-      kill %%
-    '';
-  in "${cmd}";
+
+  # lock-cmd = let
+  #   cmd = pkgs.writeShellScript "lock-script" ''
+  #     ${swayidle} -w timeout 10 '${hyprctl} dispatch dpms off' resume '${hyprctl} dispatch dpms on' &
+  #     ${swaylock}
+  #     kill %%
+  #   '';
+  # in "${cmd}";
 
   # idle-cmd = "${swayidle} -w timeout 315 '${lock-cmd}' timeout 300 '${hyprctl} dispatch dpms off' resume '${hyprctl} dispatch dpms on' before-sleep '${lock-cmd}' lock '${lock-cmd}' unlock '${pkill} -USR1 -x swaylock'";
-  idle-cmd = "${swayidle} -w timeout 300 '${hyprctl} dispatch dpms off' resume '${hyprctl} dispatch dpms on'";
+  # idle-cmd = "${swayidle} -w timeout 300 '${hyprctl} dispatch dpms off' resume '${hyprctl} dispatch dpms on'";
+  idle-cmd = "${hypridle}";
 
   hypr-dispatcher-package = pkgs.callPackage ./dispatcher { hyprland = hyprland-pkg; };
   hypr-dispatcher = "${hypr-dispatcher-package}/bin/hypr-dispatcher";
@@ -76,6 +79,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    nixfiles.services.hypridle.enable = true;
     nixfiles.common.wm.enable = true;
     home.packages = with pkgs; [
       kitty

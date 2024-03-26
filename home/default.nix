@@ -1,4 +1,4 @@
-{ pkgs, config, lib, options, osConfig ? { }, nixpkgs, home-manager, ... }@args:
+{ pkgs, config, lib, options, osConfig ? { }, nixpkgs, home-manager, inputs, ... }@args:
 let
   isStandalone = with builtins; !( (typeOf osConfig == "set") && hasAttr "home-manager" osConfig );
   cfg = config.nixfiles;
@@ -11,6 +11,8 @@ in
     ./profile
     ./programs
     ./sessions
+
+    inputs.hypridle.homeManagerModules.default
   ];
   config = {};
   options.nixfiles = {

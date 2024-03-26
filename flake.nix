@@ -93,6 +93,8 @@
       inputs.rust-overlay.overlays.default
       inputs.nixfiles-assets.overlays.default
       inputs.nix-minecraft.overlays.default
+      # inputs.hypridle.overlays.default
+      (final: prev: { inherit (inputs.hypridle.packages.${prev.system}) hypridle; })
     ];
 
     ### Configuration
