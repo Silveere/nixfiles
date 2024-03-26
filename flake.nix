@@ -219,6 +219,10 @@
       inherit mkExtraPkgs;
     };
 
+    mkHome = let
+    in {
+    };
+
   in {
     # for repl debugging via :lf .
     inherit inputs vars;
@@ -267,5 +271,12 @@
         hostname = "nixos-wsl";
       };
     }; # end nixosConfigurations
+
+    homeManagerConfigurations = {
+      "nullbite@rpi4" = mkHome {
+        system = "aarch64-linux";
+        stateVersion = "23.11";
+      };
+    };
   }; # end outputs
 } # end flake
