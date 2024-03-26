@@ -107,6 +107,9 @@ in
         restic
         rclone
         pv
+
+        # kitty compatibility on all systems
+        kitty.terminfo
       ];
 
       # Needed for Kvantum themes to be detected

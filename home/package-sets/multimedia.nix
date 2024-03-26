@@ -29,7 +29,9 @@ in
       yt-dlp
       gallery-dl
       imagemagick
+      pngquant
       ffmpeg
+      gifski
     ];
 
     xdg.mimeApps.defaultApplications = lib.mkMerge [

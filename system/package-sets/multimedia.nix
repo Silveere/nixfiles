@@ -19,6 +19,8 @@ in
       gallery-dl
       yt-dlp
       imagemagick
+      pngquant
+      gifski
       ffmpeg
     ];
 

@@ -20,6 +20,7 @@ in
     # TODO move this stuff to a zsh.nix or something; this is just a quick fix so home.sessionVariables works
     home.shellAliases = {
       v = "nvim";
+      icat = "kitty +kitten icat";
     };
     programs.fzf.enable = true;
     programs.fzf.enableZshIntegration = true;
@@ -55,6 +56,9 @@ in
       rclone
       rmlint
       pv
+
+      # for icat on all systems
+      kitty.kitten
     ];
   };
 }
