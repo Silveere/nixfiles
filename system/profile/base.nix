@@ -115,7 +115,10 @@ in
       # Needed for Kvantum themes to be detected
       environment.pathsToLink = [ "/share/Kvantum" ];
 
-      programs.neovim.defaultEditor = lib.mkDefault true;
+      programs.neovim = {
+        enable = lib.mkDefault true;
+        defaultEditor = lib.mkDefault true;
+      };
 
       programs.ssh.enableAskPassword = lib.mkDefault false;
       programs.fuse.userAllowOther = lib.mkDefault true;
