@@ -325,6 +325,14 @@
         nixpkgs = inputs.nixpkgs-unstable;
         home-manager = inputs.home-manager-unstable;
       };
+      "nix-on-droid" = mkHome {
+        username = "nix-on-droid";
+        homeDirectory = "/data/data/com.termux.nix/files/home";
+        system = "aarch64-linux";
+        stateVersion = "23.11";
+        nixpkgs = inputs.nixpkgs-unstable;
+        home-manager = inputs.home-manager-unstable;
+      };
     };
   }; # end outputs
 } # end flake
