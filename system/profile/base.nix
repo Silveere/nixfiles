@@ -50,7 +50,11 @@ in
 
       # List packages installed in system profile. To search, run:
       # $ nix search wget
-      environment.systemPackages = with pkgs; [
+      environment.systemPackages = with pkgs; let
+        neofetch-hyfetch-shim = writeShellScriptBin "neofetch" ''
+          exec "${hyfetch}/bin/neowofetch" "$@"
+        '';
+      in [
         neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
         tmux
         wget
@@ -102,7 +106,8 @@ in
         sops
 
         # etc
-        neofetch
+        hyfetch
+        neofetch-hyfetch-shim
         atool-wrapped
         restic
         rclone

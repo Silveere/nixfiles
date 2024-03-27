@@ -7,8 +7,13 @@ in
     enable = lib.mkEnableOption "development package set";
   };
   config = lib.mkIf cfg.enable {
+    programs.neovim = {
+      enable = true;
+      withPython3 = true;
+      withNodeJs = true;
+      withRuby = true;
+    };
     home.packages = with pkgs; [
-      neovim
       ripgrep
       fd
       bat
