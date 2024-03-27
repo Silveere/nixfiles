@@ -328,6 +328,7 @@
       "nix-on-droid" = mkHome {
         username = "nix-on-droid";
         homeDirectory = "/data/data/com.termux.nix/files/home";
+        modules = [ ./users/nix-on-droid/home.nix ];
         system = "aarch64-linux";
         stateVersion = "23.11";
         nixpkgs = inputs.nixpkgs-unstable;
