@@ -158,6 +158,7 @@
         };
       };
 
+    # TODO rewrite this so it follows the same wrapper pattern as mkHome
     # This function produces a nixosSystem which imports configuration.nix and
     # a Home Manager home.nix for the given user from ./hosts/${hostname}/
     mkSystem = let _username=username; _overlays=overlays; _nixpkgs=nixpkgs;
@@ -219,9 +220,46 @@
       inherit mkExtraPkgs;
     };
 
+    # Make a home-manager standalone configuration. This implementation is
+    # better than mkSystem because it extends homeManagerConfiguration.
     mkHome = let
-    in {
-    };
+      _home-manager = inputs.home-manager;
+      _nixpkgs = inputs.nixpkgs;
+      _username = username;
+    in { home-manager ? _home-manager,
+          nixpkgs ? _nixpkgs,
+          username ? _username,
+          homeDirectory ? "/home/${username}",
+          entrypoint ? ./home/standalone.nix,
+          modules ? [ ],
+          stateVersion ? null,
+          system,
+          ... }@args: let
+      _modules = [ entrypoint ] ++ modules ++ [
+        {
+          config = {
+            home = {
+              inherit username homeDirectory;
+            };
+            nixpkgs.config = {
+              allowUnfree = true;
+            };
+          };
+        }
+      ] ++ lib.optional (args ? stateVersion) { config.home.stateVersion = stateVersion; };
+    in home-manager.lib.homeManagerConfiguration ({
+      modules = _modules;
+      pkgs = import nixpkgs {inherit system overlays; };
+
+      extraSpecialArgs = {
+        inherit inputs outputs vars nixpkgs home-manager;
+        extraPkgs = mkExtraPkgs system;
+
+        # this is needed because modules don't use the default arg for some reason???
+        osConfig = {};
+      };
+    } // builtins.removeAttrs args
+      [ "system" "nixpkgs" "home-manager" "modules" "username" "homeDirectory" "stateVersion" "entrypoint" ]);
 
   in {
     # for repl debugging via :lf .
@@ -272,10 +310,16 @@
       };
     }; # end nixosConfigurations
 
-    homeManagerConfigurations = {
+    homeConfigurations = {
       "nullbite@rpi4" = mkHome {
         system = "aarch64-linux";
         stateVersion = "23.11";
+      };
+      "testuser" = mkHome {
+        system = "x86_64-linux";
+        stateVersion = "23.11";
+        nixpkgs = inputs.nixpkgs-unstable;
+        home-manager = inputs.home-manager-unstable;
       };
     };
   }; # end outputs
