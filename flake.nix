@@ -318,6 +318,7 @@
       "testuser" = mkHome {
         username = "testuser";
         system = "x86_64-linux";
+        modules = [ ./users/testuser/home.nix ];
         stateVersion = "23.11";
         nixpkgs = inputs.nixpkgs-unstable;
         home-manager = inputs.home-manager-unstable;

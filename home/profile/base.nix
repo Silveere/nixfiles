@@ -22,10 +22,11 @@ in
       v = "nvim";
       icat = "kitty +kitten icat";
     };
-    programs.fzf.enable = true;
-    programs.fzf.enableZshIntegration = true;
+    programs.fzf.enable = lib.mkDefault true;
+    programs.fzf.enableZshIntegration = lib.mkDefault true;
+    programs.fzf.enableBashIntegration = lib.mkDefault true;
     programs.zsh = {
-      enable = true;
+      enable = lib.mkDefault (!config.programs.bash.enable);
       initExtra = ''
         export HOME_MANAGER_MANAGED=true
         [[ -e ~/dotfiles/shell/.zshrc ]] && . ~/dotfiles/shell/.zshrc ]]
