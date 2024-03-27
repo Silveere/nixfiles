@@ -314,6 +314,8 @@
       "nullbite@rpi4" = mkHome {
         system = "aarch64-linux";
         stateVersion = "23.11";
+        nixpkgs = inputs.nixpkgs-unstable;
+        home-manager = inputs.home-manager-unstable;
       };
       "testuser" = mkHome {
         username = "testuser";
