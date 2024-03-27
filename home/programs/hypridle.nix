@@ -43,14 +43,18 @@ in
   };
   config = lib.mkMerge [
     (lib.mkIf cfg.enable {
-      services.hypridle = {
+      services.hypridle = let
+        lock = pkgs.writeShellScript "lock-once" ''
+          ${pkgs.procps}/bin/pgrep -x swaylock > /dev/null || "${config.programs.swaylock.package}/bin/swaylock"
+        '';
+      in {
         enable = true;
         listeners = let
           dpms-wrapped = pkgs.writeShellScript "dpms-wrapped" ''
             exec ${cfg.commands.dpms-off}
           '';
           lock-dpms = pkgs.writeShellScript "lock-dpms" ''
-            ${pkgs.procps}/bin/pgrep swaylock > /dev/null && "${dpms-wrapped}"
+            ${pkgs.procps}/bin/pgrep -x swaylock > /dev/null && "${dpms-wrapped}"
           '';
 
         in [
@@ -66,7 +70,7 @@ in
           }
           {
             timeout = cfg.timeouts.lock;
-            onTimeout = "${config.programs.swaylock.package}/bin/swaylock";
+            onTimeout = "${lock}";
           }
           {
             timeout = cfg.timeouts.lock + cfg.timeouts.locked-dpms;
@@ -75,7 +79,7 @@ in
           }
         ];
 
-        lockCmd = "${config.programs.swaylock.package}";
+        lockCmd = "${lock}";
         unlockCmd = "${pkgs.procps}/bin/pkill -x -USR1 swaylock";
         beforeSleepCmd = "${config.programs.swaylock.package}";
       };
