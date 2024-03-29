@@ -8,7 +8,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    networking.networkmanager.dns = "none";
+    networking.networkmanager.dns = lib.mkDefault "none";
     services.unbound = {
       enable = true;
       settings = {

@@ -54,7 +54,6 @@
       fun.enable = true;
     };
     sessions.hyprland.enable = lib.mkDefault true;
-    sessions.hyprland.useFlake = true;
     sessions.plasma.enable = lib.mkDefault false;
     programs = {
       adb.enable = true;

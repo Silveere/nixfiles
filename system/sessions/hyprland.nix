@@ -12,7 +12,14 @@ in
 
   options.nixfiles.sessions.hyprland = {
     enable = lib.mkEnableOption "hyprland configuration";
-    useFlake = lib.mkEnableOption "hyprland flake package";
+    useFlake = lib.mkOption {
+      description = "Whether to use the Hyprland flake package";
+      type = lib.types.bool;
+      # enable if not on nixpkgs stable
+      defaultText = "config.nixfiles.nixpkgs != inputs.nixpkgs";
+      default = config.nixfiles.nixpkgs != inputs.nixpkgs;
+      example = true;
+    };
   };
 
   config = lib.mkIf cfg.enable {

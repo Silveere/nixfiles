@@ -2,9 +2,7 @@ nixfiles: final: prev:
 let
   inherit (prev) callPackage fetchFromGitHub;
   inherit (prev.lib) recurseIntoAttrs optionalAttrs;
-
-  xz-hold = nixfiles.inputs.nixpkgs-unstable.legacyPackages.${prev.system}.xz.version == "5.6.1";
-  xz-fixed = (nixfiles.inputs.nixpkgs-staging-next.legacyPackages.${prev.system}.xz);
+  isNewer = ref: ver: (builtins.compareVersions ver ref) == 1;
 
   # if you can't do version based just make it time based and deal with it in a
   # month if it's not fixed
@@ -19,4 +17,9 @@ let
     };
   in recurseIntoAttrs (callPackage "${src}/pkgs/applications/graphics/gimp/plugins" {});
 in (optionalAttrs gap-hold { gimpPlugins = gimpPlugins-gap; }) //
-  (optionalAttrs xz-hold { xz=xz-fixed; })
+  # can't optionalAttrs for version checks because it breaks lazy eval and causes infinite recursion
+  {
+    obsidian = let
+      pkg = final.callPackage "${nixfiles.inputs.nixpkgs-unstable}/pkgs/applications/misc/obsidian" { electron = final.electron_28; };
+    in if isNewer "1.4.16" prev.obsidian.version then prev.obsidian else pkg;
+  }

@@ -59,7 +59,6 @@
       common.remoteAccess.enable = true;
       sessions.plasma.enable = lib.mkDefault false;
       sessions.hyprland.enable = lib.mkDefault true;
-      sessions.hyprland.useFlake = true;
       hardware.nvidia.modesetting.enable = true;
       packageSets.gaming.enable = true;
     };
