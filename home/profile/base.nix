@@ -44,6 +44,16 @@ in
       };
     };
 
+    programs.keychain = {
+      enable = lib.mkDefault true;
+      enableBashIntegration = lib.mkDefault true;
+      enableZshIntegration = lib.mkDefault true;
+      extraFlags = [
+        "--quiet"
+        "--systemd"
+      ];
+    };
+
     # this fixes a lot of theme weirdness
     home.file.".icons".source = config.lib.file.mkOutOfStoreSymlink "${config.xdg.dataHome}/icons";
     home.file.".themes".source = config.lib.file.mkOutOfStoreSymlink "${config.xdg.dataHome}/themes";
