@@ -6,7 +6,9 @@ let
   isNewer = ref: ver: ((builtins.compareVersions ver ref) == 1);
 
   # kernel update
-  newKernelPackages = inputs.nixpkgs-staging-next.legacyPackages.${pkgs.system}.linuxPackages_latest;
+  newKernelPackages = let
+    pkgs-new = import inputs.nixpkgs-staging-next { inherit (pkgs) system; config.allowUnfree = true; };
+  in pkgs-new.linuxPackages_latest;
 in
 {
   config = lib.mkMerge [
