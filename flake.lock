@@ -417,6 +417,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-staging-next": {
+      "locked": {
+        "lastModified": 1711735267,
+        "narHash": "sha256-Zj44dQ38cqN3NddIE/eA8t36eAKv0SVoMZPK8FF1pQ0=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "1149e1edb772e5f8e87d1a9be91bc34795fdafe8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "staging-next",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-unstable": {
       "locked": {
         "lastModified": 1711593151,
@@ -477,6 +493,7 @@
         "nix-wsl": "nix-wsl",
         "nixfiles-assets": "nixfiles-assets",
         "nixpkgs": "nixpkgs_2",
+        "nixpkgs-staging-next": "nixpkgs-staging-next",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "pkg-android-tools": "pkg-android-tools",
         "rust-overlay": "rust-overlay",
