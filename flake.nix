@@ -87,7 +87,7 @@
       })
 
       # various temporary fixes that automatically revert
-      (import ./backports self)
+      (import ./overlays self)
 
       inputs.hyprwm-contrib.overlays.default
       inputs.rust-overlay.overlays.default
