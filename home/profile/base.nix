@@ -16,6 +16,16 @@ in
   config = lib.mkIf cfg.enable {
     nixfiles.programs.comma.enable = true;
 
+    # configure terminfo since we're probably standalone
+    home.sessionVariables = lib.mkIf (!(osConfig ? environment)) {
+      TERMINFO_DIRS = let
+        terminfo-dirs = [
+          "${config.home.profileDirectory}/share/terminfo"
+          "/usr/share/terminfo"
+        ];
+      in builtins.concatStringSep ":" terminfo-dirs;
+    };
+
 
     # TODO move this stuff to a zsh.nix or something; this is just a quick fix so home.sessionVariables works
     home.shellAliases = {
@@ -109,7 +119,12 @@ in
 
       # for icat on all systems
       kitty.kitten
+
+      # terminfo (just the ones i'm likely to use)
       kitty.terminfo
+      alacritty.terminfo
+      termite.terminfo
+      tmux.terminfo
 
       # pretty
       hyfetch
