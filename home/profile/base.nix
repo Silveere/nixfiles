@@ -30,7 +30,7 @@ in
     # TODO move this stuff to a zsh.nix or something; this is just a quick fix so home.sessionVariables works
     home.shellAliases = {
       v = "nvim";
-      icat = "kitty +kitten icat";
+      icat = "kitten icat";
     };
     programs.fzf.enable = lib.mkDefault true;
     programs.fzf.enableZshIntegration = lib.mkDefault true;
