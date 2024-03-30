@@ -320,6 +320,7 @@
       "deck" = mkHome {
         system = "x86_64-linux";
         stateVersion = "23.11";
+        username = "deck";
       };
       "testuser" = mkHome {
         username = "testuser";
