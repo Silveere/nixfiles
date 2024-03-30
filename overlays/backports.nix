@@ -1,20 +1,43 @@
 nixfiles: final: prev:
 let
   pkgs-unstable = import nixfiles.inputs.nixpkgs-unstable { config.allowUnfree = true; inherit (final) system; };
-  inherit (final) callPackage lib electron_28;
+  inherit (final) callPackage qt6Packages lib;
 
-  backport = pkg: let
+  backport = let
+    _callPackage = callPackage;
+  in {  pkgname,
+        callPackage ? _callPackage,
+        new ? pkgs-unstable,
+        override ? {} } : let
     inherit (lib) getAttrFromPath;
     inherit (builtins) getAttr isString;
-    getAttr' = name: attrs: if isString pkg then getAttr name attrs else getAttrFromPath name attrs;
-    oldPkg = getAttr' pkg prev;
-    newPkg = getAttr' pkg pkgs-unstable;
+
+    getAttr' = name: attrs: if isString pkgname then getAttr name attrs else getAttrFromPath name attrs;
+    oldPkg = getAttr' pkgname prev;
+    newPkg = getAttr' pkgname pkgs-unstable;
   in if oldPkg.version == newPkg.version
     then oldPkg
-    else (callPackage newPkg.override);
+    else (callPackage newPkg.override) override;
+
+  backport' = pkgname: backport { inherit pkgname; };
+
+  # defined locally to not pull in perl from unstable
+  stripJavaArchivesHook = final.makeSetupHook {
+    name = "strip-java-archives-hook";
+    propagatedBuildInputs = [ final.strip-nondeterminism ];
+  } "${nixfiles.inputs.nixpkgs-unstable}/pkgs/build-support/setup-hooks/strip-java-archives.sh";
 
 in {
-
-  vesktop = backport "vesktop" { };
-  obsidian = backport "obsidian" { electron = final.electron_28; };
+  vesktop = backport' "vesktop";
+  obsidian = backport { pkgname="obsidian"; override.electron = final.electron_28; };
+  prismlauncher-unwrapped = backport {
+    pkgname = "prismlauncher-unwrapped";
+    inherit (qt6Packages) callPackage;
+    override = {
+      # apple something idk why the package doesn't just ask for darwin and get it itself
+      # maybe i should make a pull request that changes the params to `darwin, Cocoa ? darwin.apple_sdk.frameworks.Cocoa`
+      inherit (final.darwin.apple_sdk.frameworks) Cocoa;
+      inherit stripJavaArchivesHook;
+    };
+  };
 }
