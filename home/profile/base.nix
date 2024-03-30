@@ -109,6 +109,7 @@ in
 
       # for icat on all systems
       kitty.kitten
+      kitty.terminfo
 
       # pretty
       hyfetch
