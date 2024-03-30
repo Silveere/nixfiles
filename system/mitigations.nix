@@ -7,7 +7,7 @@ let
 
   # kernel update
   newKernelPackages = let
-    pkgs-new = import inputs.nixpkgs-staging-next { inherit (pkgs) system; config.allowUnfree = true; };
+    pkgs-new = import inputs.nixpkgs-unstable { inherit (pkgs) system; config.allowUnfree = true; };
   in pkgs-new.linuxPackages_latest;
 in
 {

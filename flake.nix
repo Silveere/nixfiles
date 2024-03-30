@@ -6,8 +6,6 @@
                  # ^^^^^^^^^^^^^ this part is optional
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
-    nixpkgs-staging-next.url = "github:NixOS/nixpkgs/staging-next";
-
     # this seems to be a popular way to declare systems
     systems.url = "github:nix-systems/default";
 
