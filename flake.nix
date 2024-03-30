@@ -317,6 +317,10 @@
           { programs.zsh.enable = false; }
         ];
       };
+      "deck" = mkHome {
+        system = "x86_64-linux";
+        stateVersion = "23.11";
+      };
       "testuser" = mkHome {
         username = "testuser";
         system = "x86_64-linux";
