@@ -313,6 +313,9 @@
       "nullbite@rpi4" = mkHome {
         system = "aarch64-linux";
         stateVersion = "23.11";
+        modules = [
+          { programs.zsh.enable = false; }
+        ];
       };
       "testuser" = mkHome {
         username = "testuser";

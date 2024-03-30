@@ -25,15 +25,24 @@ in
     programs.fzf.enable = lib.mkDefault true;
     programs.fzf.enableZshIntegration = lib.mkDefault true;
     programs.fzf.enableBashIntegration = lib.mkDefault true;
+
+    programs.bash = {
+      enable = lib.mkDefault true;
+      initExtra = ''
+        export HOME_MANAGER_MANAGED=true;
+        [[ -e ~/dotfiles/shell/.bashrc ]] && . ~/dotfiles/shell/.bashrc ]]
+        unset HOME_MANAGERR_MANAGED
+      '';
+    };
     programs.zsh = {
-      enable = lib.mkDefault (!config.programs.bash.enable);
+      enable = lib.mkDefault true;
       initExtra = ''
         export HOME_MANAGER_MANAGED=true
         [[ -e ~/dotfiles/shell/.zshrc ]] && . ~/dotfiles/shell/.zshrc ]]
         unset HOME_MANAGER_MANAGED
       '';
       oh-my-zsh = {
-        enable = true;
+        enable = lib.mkDefault true;
         theme = "robbyrussell";
         extraConfig = ''
           DISABLE_MAGIC_FUNCTIONS="true"
