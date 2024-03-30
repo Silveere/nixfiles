@@ -51,6 +51,8 @@ in
       extraFlags = [
         "--quiet"
         "--systemd"
+        "--inherit" "any"
+        "--noask"
       ];
     };
 
