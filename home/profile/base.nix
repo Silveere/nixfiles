@@ -23,7 +23,7 @@ in
           "${config.home.profileDirectory}/share/terminfo"
           "/usr/share/terminfo"
         ];
-      in builtins.concatStringSep ":" terminfo-dirs;
+      in builtins.concatStringsSep ":" terminfo-dirs;
     };
 
 
