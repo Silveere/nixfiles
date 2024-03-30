@@ -16,10 +16,10 @@ let
       hash="sha256-oat4TwOorFevUMZdBFgaQHx/UKqGW7CGMoOHVgQxVdM="; 
     };
   in recurseIntoAttrs (callPackage "${src}/pkgs/applications/graphics/gimp/plugins" {});
-in (optionalAttrs gap-hold { gimpPlugins = gimpPlugins-gap; }) //
-  # can't optionalAttrs for version checks because it breaks lazy eval and causes infinite recursion
-  {
-    obsidian = let
-      pkg = final.callPackage "${nixfiles.inputs.nixpkgs-unstable}/pkgs/applications/misc/obsidian" { electron = final.electron_28; };
-    in if isNewer "1.4.16" prev.obsidian.version then prev.obsidian else pkg;
-  }
+in (optionalAttrs gap-hold { gimpPlugins = gimpPlugins-gap; })
+  # # can't optionalAttrs for version checks because it breaks lazy eval and causes infinite recursion
+  # // {
+  #   obsidian = let
+  #     pkg = final.callPackage "${nixfiles.inputs.nixpkgs-unstable}/pkgs/applications/misc/obsidian" { electron = final.electron_28; };
+  #   in if isNewer "1.4.16" prev.obsidian.version then prev.obsidian else pkg;
+  # }

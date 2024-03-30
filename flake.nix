@@ -87,7 +87,10 @@
       })
 
       # various temporary fixes that automatically revert
-      (import ./overlays self)
+      self.overlays.mitigations
+
+      # auto backports from nixpkgs unstable
+      self.overlays.backports
 
       inputs.hyprwm-contrib.overlays.default
       inputs.rust-overlay.overlays.default
@@ -283,6 +286,8 @@
       in import ./pkgs { inherit pkgs; });
     apps = eachSystem (system: import ./pkgs/apps.nix
       { inherit (self.outputs) packages; inherit system; });
+
+    overlays = import ./overlays self;
 
     nixosConfigurations = {
       slab = mkSystem {
