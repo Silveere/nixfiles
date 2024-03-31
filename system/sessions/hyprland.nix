@@ -16,9 +16,9 @@ in
       description = "Whether to use the Hyprland flake package";
       type = lib.types.bool;
       # enable if not on nixpkgs stable
-      defaultText = "config.nixfiles.nixpkgs != inputs.nixpkgs";
-      default = config.nixfiles.nixpkgs != inputs.nixpkgs;
-      example = true;
+      # defaultText = "config.nixfiles.nixpkgs != inputs.nixpkgs";
+      default = true;
+      example = false;
     };
   };
 
@@ -44,6 +44,16 @@ in
       # enableNvidiaPatches = lib.mkIf (!cfg.useFlake) lib.mkDefault true;
       xwayland.enable = true;
       package = lib.mkIf cfg.useFlake flake-package;
+    };
+
+    hardware.opengl = let
+      hyprland-pkgs = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.system};
+      hyprlandMesa = hyprland-pkgs.mesa.drivers;
+      hyprlandMesa32 = hyprland-pkgs.pkgsi686Linux.mesa.drivers;
+      useHyprlandMesa = cfg.useFlake && (config.nixfiles.nixpkgs == inputs.nixpkgs);
+    in lib.mkIf useHyprlandMesa {
+      package = hyprlandMesa;
+      package32 = hyprlandMesa32;
     };
 
     environment.variables = lib.mkMerge [
