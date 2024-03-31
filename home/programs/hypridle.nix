@@ -63,11 +63,11 @@ in
             onTimeout = cfg.commands.dpms-off;
             onResume = cfg.commands.dpms-on;
           }
-          {
-            timeout = cfg.timeouts.locked-dpms;
-            onTimeout = "${lock-dpms}";
-            onResume = cfg.commands.dpms-on;
-          }
+          # {
+          #   timeout = cfg.timeouts.locked-dpms;
+          #   onTimeout = "${lock-dpms}";
+          #   onResume = cfg.commands.dpms-on;
+          # }
           {
             timeout = cfg.timeouts.lock;
             onTimeout = "${lock}";
