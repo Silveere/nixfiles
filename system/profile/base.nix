@@ -130,7 +130,7 @@ in
 
       programs.gnupg.agent = {
         enable = lib.mkDefault true;
-        enableSSHSupport = lib.mkDefault true;
+        enableSSHSupport = lib.mkDefault false;
       };
 
       boot.loader.systemd-boot.configurationLimit = lib.mkDefault 15;
