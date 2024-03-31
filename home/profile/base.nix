@@ -70,7 +70,7 @@ in
       extraFlags = [
         "--quiet"
         "--systemd"
-        "--inherit" "any"
+        "--inherit" "any-once"
         "--noask"
       ];
     };
