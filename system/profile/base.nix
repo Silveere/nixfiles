@@ -99,6 +99,7 @@ in
         nix-du
         graphviz # for nix-du
         nvd
+        nix-diff
 
         # secrets
         age
