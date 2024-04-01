@@ -10,6 +10,7 @@ in
     services = {
       power-profiles-daemon.enable = mkDefault true;
       blueman.enable = mkDefault config.hardware.bluetooth.enable;
+      udisks2.enable = mkDefault true;
     };
     programs = {
       nm-applet.enable = mkDefault config.networking.networkmanager.enable;
