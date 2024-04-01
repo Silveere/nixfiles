@@ -25,7 +25,7 @@ let
   stripJavaArchivesHook = final.makeSetupHook {
     name = "strip-java-archives-hook";
     propagatedBuildInputs = [ final.strip-nondeterminism ];
-  } "${nixfiles.inputs.nixpkgs-unstable}/pkgs/build-support/setup-hooks/strip-java-archives.sh";
+  } ./strip-java-archives.sh;
 
 in {
   vesktop = backport' "vesktop";
