@@ -291,18 +291,24 @@
 
     nixosConfigurations = {
       slab = mkSystem {
+        nixpkgs = inputs.nixpkgs-unstable;
+        home-manager = inputs.home-manager-unstable;
         system = "x86_64-linux";
         hostname = "slab";
         stateVersion = "23.11";
       };
 
       nullbox = mkSystem {
+        nixpkgs = inputs.nixpkgs-unstable;
+        home-manager = inputs.home-manager-unstable;
         system = "x86_64-linux";
         hostname = "nullbox";
         stateVersion = "23.11";
       };
 
       nixos-wsl = mkWSLSystem {
+        nixpkgs = inputs.nixpkgs-unstable;
+        home-manager = inputs.home-manager-unstable;
         system = "x86_64-linux";
         stateVersion = "23.11";
         hostname = "nixos-wsl";
@@ -316,17 +322,23 @@
         modules = [
           { programs.zsh.enable = false; }
         ];
+        nixpkgs = inputs.nixpkgs-unstable;
+        home-manager = inputs.home-manager-unstable;
       };
       "deck" = mkHome {
         system = "x86_64-linux";
         stateVersion = "23.11";
         username = "deck";
+        nixpkgs = inputs.nixpkgs-unstable;
+        home-manager = inputs.home-manager-unstable;
       };
       "testuser" = mkHome {
         username = "testuser";
         system = "x86_64-linux";
         modules = [ ./users/testuser/home.nix ];
         stateVersion = "23.11";
+        nixpkgs = inputs.nixpkgs-unstable;
+        home-manager = inputs.home-manager-unstable;
       };
       "nix-on-droid" = mkHome {
         username = "nix-on-droid";
@@ -334,6 +346,8 @@
         modules = [ ./users/nix-on-droid/home.nix ];
         system = "aarch64-linux";
         stateVersion = "23.11";
+        nixpkgs = inputs.nixpkgs-unstable;
+        home-manager = inputs.home-manager-unstable;
       };
     };
   }; # end outputs
