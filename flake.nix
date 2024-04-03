@@ -236,9 +236,10 @@
           entrypoint ? ./home/standalone.nix,
           modules ? [ ],
           stateVersion ? null,
+          config ? { },
           system,
           ... }@args: let
-      _modules = [ entrypoint ] ++ modules ++ [
+      _modules = [ entrypoint ] ++ modules ++ [ config ] ++ [
         {
           config = {
             home = {
@@ -262,7 +263,7 @@
         osConfig = {};
       };
     } // builtins.removeAttrs args
-      [ "system" "nixpkgs" "home-manager" "modules" "username" "homeDirectory" "stateVersion" "entrypoint" ]);
+      [ "system" "nixpkgs" "home-manager" "modules" "username" "homeDirectory" "stateVersion" "entrypoint" "config" ]);
 
   in {
     # for repl debugging via :lf .
@@ -319,9 +320,10 @@
       "nullbite@rpi4" = mkHome {
         system = "aarch64-linux";
         stateVersion = "23.11";
-        modules = [
-          { programs.zsh.enable = false; }
-        ];
+        config.programs = {
+          zsh.enable = false;
+          keychain.enable = false;
+        };
         nixpkgs = inputs.nixpkgs-unstable;
         home-manager = inputs.home-manager-unstable;
       };
@@ -329,6 +331,7 @@
         system = "x86_64-linux";
         stateVersion = "23.11";
         username = "deck";
+        config.programs.keychain.enable = false;
         nixpkgs = inputs.nixpkgs-unstable;
         home-manager = inputs.home-manager-unstable;
       };
