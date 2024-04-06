@@ -13,8 +13,8 @@ in
       enable = true;
       settings = {
         server = {
-          prefetch = true;
-          cache-max-negative-ttl = 5;
+          prefetch = lib.mkDefault true;
+          cache-max-negative-ttl = lib.mkDefault 5;
         };
       };
     };
