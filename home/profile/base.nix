@@ -45,13 +45,6 @@ in
 
     programs.bash = {
       enable = lib.mkDefault true;
-      bashrcExtra = ''
-        # 
-        if ! [[ $- == *i* ]] && ! shopt -q login_shell && [[ -z "''${__NIXFILES_NOLOGIN_PATH:+x}" ]] ; then
-          PATH="${config.home.profileDirectory}/bin''${PATH:+:''${PATH}}" && export PATH
-        fi
-        __NIXFILES_NOLOGIN_PATH=1 && export __NIXFILES_NOLOGIN_PATH
-      '';
       initExtra = ''
         export HOME_MANAGER_MANAGED=true;
         [[ -e ~/dotfiles/shell/.bashrc ]] && . ~/dotfiles/shell/.bashrc ]]
