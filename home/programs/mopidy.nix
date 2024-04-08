@@ -7,6 +7,12 @@ in
     enable = lib.mkEnableOption "mopidy configuration";
   };
   config = lib.mkIf cfg.enable {
+    systemd.user.services = lib.mkIf config.services.mopidy.enable {
+      mopidy.Service = {
+        TimeoutStopSec = lib.mkDefault 10;
+      };
+    };
+
     xdg.configFile."mopidy/mopidy.conf".enable = lib.mkForce false;
     services.mopidy = {
       enable = lib.mkDefault true;
