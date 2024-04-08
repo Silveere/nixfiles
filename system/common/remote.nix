@@ -14,6 +14,11 @@ in
       };
     };
 
+    programs.mosh = {
+      enable = true;
+      openFirewall = true;
+    };
+
     services.tailscale.enable = true;
 
     networking.wireguard.enable = true;

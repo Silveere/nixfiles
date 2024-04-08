@@ -101,6 +101,7 @@ in
         exec "${pkgs.hyfetch}/bin/neowofetch" "$@"
       '';
     in [
+      mosh
       btop
       htop
       fzf
