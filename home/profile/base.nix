@@ -16,18 +16,25 @@ in
   config = lib.mkIf cfg.enable {
     nixfiles.programs.comma.enable = true;
 
-    # configure terminfo since we're probably standalone
-    home.sessionVariables = lib.mkIf (!(osConfig ? environment)) {
-      TERMINFO_DIRS = let
-        terminfo-dirs = [
-          "${config.home.profileDirectory}/share/terminfo"
-          "/usr/share/terminfo"
-        ];
-      in builtins.concatStringsSep ":" terminfo-dirs;
-    };
+    home.sessionVariables = lib.mkMerge [
+      (lib.mkIf config.programs.neovim.enable {
+        MANPAGER = "nvim +Man!";
+      })
+
+      # configure terminfo since we're probably standalone
+      (lib.mkIf (!(osConfig ? environment)) {
+        TERMINFO_DIRS = let
+          terminfo-dirs = [
+            "${config.home.profileDirectory}/share/terminfo"
+            "/usr/share/terminfo"
+          ];
+        in builtins.concatStringsSep ":" terminfo-dirs;
+      })
+    ];
 
 
-    # TODO move this stuff to a zsh.nix or something; this is just a quick fix so home.sessionVariables works
+    # TODO move this stuff to a shell.nix or something; this is just a quick
+    # fix so home.sessionVariables works
     home.shellAliases = {
       v = "nvim";
       icat = "kitten icat";
