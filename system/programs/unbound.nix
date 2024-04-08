@@ -14,6 +14,7 @@ in
       settings = {
         server = {
           prefetch = true;
+          cache-max-negative-ttl = 5;
         };
       };
     };
