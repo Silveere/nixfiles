@@ -17,9 +17,9 @@ in
   config = mkIf cfg.enable {
     nixfiles.common.desktop.enable = true;
 
-    services.xserver.displayManager.sddm.enable = mkDefault true;
+    services.displayManager.sddm.enable = mkDefault true;
     services.xserver.desktopManager.plasma5.enable = true;
-    services.xserver.displayManager.defaultSession = "plasmawayland";
+    services.displayManager.defaultSession = "plasmawayland";
     programs.kdeconnect.enable = mkDefault true;
     nixfiles.meta.wayland = true;
 

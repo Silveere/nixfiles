@@ -6,7 +6,7 @@ let
   inherit (lib) optional optionals;
   optionalsSet = val: optionals (!(isNull val));
   optionalSet = val: optional (!(isNull val));
-  sessions = config.services.xserver.displayManager.sessionData.desktops;
+  sessions = config.services.displayManager.sessionData.desktops;
   xsessions = "${sessions}/share/xsessions";
   wayland-sessions = "${sessions}/share/wayland-sessions";
 
@@ -27,7 +27,8 @@ in
             command = let
               st = cfg.settings;
               args = [ "${pkgs.greetd.tuigreet}/bin/tuigreet" "--asterisks" "--remember" "--remember-session"
-              "--sessions" "${xsessions}:${wayland-sessions}" ]
+              "--sessions" "${xsessions}:${wayland-sessions}"
+              ]
                 ++ optionalsSet st.greeting [ "--greeting" st.greeting ]
                 ++ optional st.time "--time" 
                 ++ optionalsSet st.command [ "--cmd" st.finalCommand ]
