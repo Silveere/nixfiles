@@ -38,12 +38,12 @@
       sessions.hyprland.enable = false;
       sessions.plasma.enable = true;
     };
-    services.xserver.displayManager.sddm.enable = lib.mkForce true;
+    services.displayManager.sddm.enable = lib.mkForce true;
     services.xserver.displayManager.startx.enable = lib.mkForce false;
   };
 
   # who needs a display manager?
-  services.xserver.displayManager.sddm.enable = false;
+  services.displayManager.sddm.enable = false;
 
   nixfiles = {
     profile.pc.enable = true;
