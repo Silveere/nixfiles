@@ -38,6 +38,7 @@ in
     virtualisation.waydroid.enable = lib.mkDefault true;
 
     environment.systemPackages = with pkgs; [
+      protontricks
       mangohud
       goverlay
       prismlauncher
