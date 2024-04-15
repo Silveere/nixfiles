@@ -7,6 +7,7 @@
     nvidia.configuration = {
       system.nixos.tags = [ "NVIDIA" ];
 
+      nixfiles.supergfxd.profile = "Hybrid";
 
       # Load nvidia driver for Xorg and Wayland
       services.xserver.videoDrivers = ["amdgpu" "nvidia"];

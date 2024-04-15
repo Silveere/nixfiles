@@ -30,6 +30,7 @@
 
       ../../system # nixfiles modules
       ./nvidia-optimus.nix
+      ./supergfxd.nix
     ];
 
   specialisation.plasma.configuration = {
@@ -41,6 +42,8 @@
     services.displayManager.sddm.enable = lib.mkForce true;
     services.xserver.displayManager.startx.enable = lib.mkForce false;
   };
+
+  nixfiles.supergfxd.profile = lib.mkDefault "Integrated";
 
   # who needs a display manager?
   services.displayManager.sddm.enable = false;
