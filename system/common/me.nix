@@ -24,6 +24,9 @@ in
 
     # shell config
     programs.zsh.enable = true;
-    programs.fzf.enable = true;
+    programs.fzf = {
+      keybindings = true;
+      fuzzyCompletion = true;
+    };
   };
 }
