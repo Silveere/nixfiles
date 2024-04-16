@@ -286,6 +286,7 @@ in
           # "$mod SHIFT, S, movetoworkspace, special:magic"
           "$mod SHIFT, S, exec, ${grimblast} copy area"
           "$mod CONTROL SHIFT, S, exec, ${grimblast} copy output"
+          ",Print, exec, ${grimblast} copy output"
 
           # lock screen
           "$mod SHIFT, x, exec, ${lock-cmd}"
