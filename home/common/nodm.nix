@@ -12,7 +12,7 @@ in
           ${hyprland}
         fi
       '';
-  in lib.mkIf cfg.enable {
+  in lib.mkIf (cfg.enable && config.wayland.windowManager.hyprland.enable) {
     # auto start Hyprland on tty1
     programs.zsh.initExtra = initCommands;
     programs.bash.initExtra = initCommands;
