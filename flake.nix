@@ -331,7 +331,7 @@
         system = "x86_64-linux";
         stateVersion = "23.11";
         username = "deck";
-        config.programs.keychain.enable = false;
+        modules = [ ./users/deck/home.nix ];
         nixpkgs = inputs.nixpkgs-unstable;
         home-manager = inputs.home-manager-unstable;
       };
