@@ -13,7 +13,7 @@ in
     # alternatives thereof) are pulled in by desktop environments.
 
     qt.enable = true;
-    qt.platformTheme = "qtct";
+    qt.platformTheme.name = "qtct";
     qt.style.name = "kvantum";
 
     home.packages = with pkgs; let
