@@ -17,6 +17,7 @@ in
 
     # modules
     inputs.nix-minecraft.nixosModules.minecraft-servers
+    inputs.impermanence.nixosModules.impermanence
   ];
   config = {};
   options.nixfiles = {

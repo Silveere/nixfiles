@@ -57,6 +57,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    impermanence.url = "github:nix-community/impermanence";
+
     nixfiles-assets = {
       # using self-hosted gitea mirror because of GitHub LFS bandwidth limit (even though i'd probably never hit it)
       type = "github";
