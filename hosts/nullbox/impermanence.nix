@@ -39,11 +39,11 @@ let
   root_vol = "/dev/archdesktop/root";
 in {
   config = lib.mkIf (!(config.virtualisation ? qemu)) {
-    fileSystems."/persistent" = {
+    fileSystems."/persist" = {
       neededForBoot = true;
       device = root_vol;
       fsType = "btrfs";
-      options = [ "subvol=/nixos/@persistent" ];
+      options = [ "subvol=/nixos/@persist" ];
     };
 
     boot.initrd.postDeviceCommands = lib.mkAfter (mkBtrfsInit { prefix = "nixos"; volume = root_vol; });
@@ -53,7 +53,7 @@ in {
       options = [ "subvol=/nixos/volatile" ];
     };
     environment.persistence = {
-      "/persistent/nobackup" = {
+      "/persist/nobackup" = {
         hideMounts = true;
         directories = [
           "/var/lib/systemd/coredump"
@@ -65,7 +65,7 @@ in {
         ];
       };
 
-      "/persistent/backup" = {
+      "/persist/backup" = {
         hideMounts = true;
         directories = [
           # this affects generation/consistency of uids and gids, and should
@@ -106,8 +106,8 @@ in {
     };
 
     users.mutableUsers = false;
-    users.users.nullbite.hashedPasswordFile = "/persistent/passfile/nullbite";
+    users.users.nullbite.hashedPasswordFile = "/persist/passfile/nullbite";
     users.users.nullbite.initialPassword = null;
-    users.users.root.hashedPasswordFile = "/persistent/passfile/root";
+    users.users.root.hashedPasswordFile = "/persist/passfile/root";
   };
 }
