@@ -13,6 +13,8 @@
       # Encryption
       ./luks.nix
       ./mcserver.nix
+
+      ./impermanence.nix
     ];
 
   config = {
