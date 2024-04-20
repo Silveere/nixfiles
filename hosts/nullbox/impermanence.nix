@@ -58,6 +58,7 @@ in {
         directories = [
           "/var/lib/systemd/coredump"
           "/var/lib/flatpak"
+          "/var/log"
         ];
 
         files = [
@@ -93,7 +94,6 @@ in {
           { directory = "/var/lib/tailscale"; mode = "0700"; }
           "/var/lib/unbound"
           "/var/db/sudo/lectured"
-          "/var/log"
 
           # remember login stuff
           "/var/cache/tuigreet"
