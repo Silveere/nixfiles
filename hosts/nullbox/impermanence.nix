@@ -83,6 +83,7 @@ in {
           { directory = "/root"; mode = "0700"; }
 
           # system state
+          "/etc/NetworkManager/system-connections"
           "/var/lib/bluetooth"
           "/var/lib/blueman"
           "/var/lib/cups"
