@@ -114,6 +114,11 @@ in
       ncdu
       rmlint
 
+      # nix stuff
+      nvd
+      nix-tree
+      nh
+
       git
       git-lfs
       stow
