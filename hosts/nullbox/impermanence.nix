@@ -33,9 +33,6 @@ let
 
     btrfs subvolume create /btrfs_tmp/${prefix}/volatile
 
-    echo new root created
-    sleep 1
-
     umount /btrfs_tmp
   '';
 
