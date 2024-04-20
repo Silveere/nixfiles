@@ -38,7 +38,7 @@ let
 
   root_vol = "/dev/archdesktop/root";
 in {
-  config = {
+  config = lib.mkIf (!(config.virtualisation ? qemu)) {
     fileSystems."/persistent" = {
       neededForBoot = true;
       device = root_vol;
