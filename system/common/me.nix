@@ -16,7 +16,7 @@ in
       packages = with pkgs; [
         keychain
       ];
-      initialPassword = "changeme";
+      initialPassword = lib.mkDefault "changeme";
       shell = pkgs.zsh;
     };
 
