@@ -16,7 +16,24 @@ in
     nixpkgs.overlays = lib.optional is2311 (_: _: {
       # unstable steam has new buildFSHEnv which doesn't break on rebuild
       steam = (import inputs.nixpkgs-unstable.outPath {config.allowUnfree = true; inherit (pkgs) system; }).steam;
-    });
+    })
+    # gamescope fix
+    ++ [(final: prev: {
+      steam = prev.steam.override {
+        extraPkgs = pkgs: with pkgs; [
+          xorg.libXcursor
+          xorg.libXi
+          xorg.libXinerama
+          xorg.libXScrnSaver
+          libpng
+          libpulseaudio
+          libvorbis
+          stdenv.cc.cc.lib
+          libkrb5
+          keyutils
+        ];
+      };
+    })];
 
     programs.steam = {
       enable = lib.mkDefault true;
