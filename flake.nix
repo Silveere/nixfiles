@@ -272,7 +272,7 @@
     inherit inputs vars;
 
     devShells = eachSystem (system: let
-      pkgs = import nixpkgs { inherit system; };
+      pkgs = import nixpkgs-unstable { inherit system; };
     in {
       default = pkgs.mkShell {
         buildInputs = with pkgs; [
