@@ -15,6 +15,7 @@ in
 
   config = lib.mkIf cfg.enable {
     nixfiles.programs.comma.enable = true;
+    nixfiles.common.nix.enable = true;
 
     home.sessionVariables = lib.mkMerge [
       (lib.mkIf config.programs.neovim.enable {
