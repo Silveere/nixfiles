@@ -1,6 +1,6 @@
 { pkgs, config, lib, options, osConfig ? { }, nixpkgs, home-manager, inputs, ... }@args:
 let
-  isStandalone = with builtins; !( (typeOf osConfig == "set") && hasAttr "home-manager" osConfig );
+  isStandalone = osConfig ? home-manager;
   cfg = config.nixfiles;
   flakeType = cfg.lib.types.flake;
 in
