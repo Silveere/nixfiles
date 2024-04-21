@@ -238,6 +238,7 @@ in
 
           "$mod, f, fullscreen"
           "$mod SHIFT, f, fakefullscreen"
+          "$mod CTRL, f, fullscreen, 1"
 
           # Move focus with mod + arrow keys
           "$mod, left, movefocus, l"
