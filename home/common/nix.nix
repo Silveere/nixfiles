@@ -14,7 +14,7 @@ in {
           };
           to = {
             type = "git";
-            url = "file://${config.home.homeDirectory}/nixfiles";
+            url = "file://${config.nixfiles.path}";
           };
         };
       };

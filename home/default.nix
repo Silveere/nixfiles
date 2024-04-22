@@ -61,5 +61,12 @@ in
       default = (lib.hasAttrByPath [ "nixfiles" "meta" "wayland" ] osConfig) && osConfig.nixfiles.meta.wayland;
       example = true;
     };
+    path = lib.mkOption {
+      description = "The absolute path of the nixfiles flake";
+      type = lib.types.str;
+      default = "${config.home.homeDirectory}/nixfiles";
+      defaultText = "\${config.home.homeDirectory}/nixfiles";
+      example = "/etc/nixos";
+    };
   };
 }
