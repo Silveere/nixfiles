@@ -298,7 +298,12 @@ in
           "$mod, mouse_up, workspace, e-1"
 
           # show this file (help)
-          ("$mod, slash, exec, ${terminal} -e ${pkgs.neovim}/bin/nvim '+set nomodifiable' '+noremap q :q<CR>'  " + args.vars.self.outPath + "/home/hyprland.nix")
+          ("$mod, slash, exec, ${terminal} -e ${pkgs.neovim}/bin/nvim '+set nomodifiable' '+noremap q :q<CR>'  "
+          + lib.escapeShellArg (args.vars.self.outPath + "/home/sessions/hyprland/default.nix"))
+
+          # edit this file
+          ("$mod SHIFT, slash, exec, ${terminal} -e ${pkgs.neovim}/bin/nvim "
+          + lib.escapeShellArg (config.nixfiles.path + "/home/sessions/hyprland/default.nix"))
         ];
 
         # repeat, ignore mods
