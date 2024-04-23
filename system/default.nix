@@ -30,7 +30,7 @@ in
 
     lib = lib.mkOption {
       description = "nixfiles library";
-      default = (import ../lib/nixfiles) pkgs;
+      default = (import ../lib/nixfiles) { inherit pkgs; };
       readOnly = true;
       type = lib.types.attrs;
     };
