@@ -45,7 +45,6 @@ in
     programs = {
       swaylock = {
         enable = true;
-        package = pkgs.swaylock-effects;
         settings = {
           image = "${pkgs.nixfiles-assets}/share/wallpapers/nixfiles-static/Djayjesse-finding_life.png";
           scaling = "fill";
