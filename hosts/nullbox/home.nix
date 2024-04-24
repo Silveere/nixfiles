@@ -11,6 +11,7 @@
     wayland.windowManager.hyprland.settings = {
       monitor = [
         "HDMI-A-3,disable"
+        "Unknown-1,disable"
         "DP-3,highrr,auto,1"
         # this is the "proper" multi monitor config but hyprland's multi
         # monitor system scares me so i am going to keep the other one disabled
