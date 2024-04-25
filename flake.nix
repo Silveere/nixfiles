@@ -324,9 +324,9 @@
         system = "aarch64-linux";
         stateVersion = "23.11";
         username = "root";
+        homeDirectory = "/root";
         config = { pkgs, ...}: {
           programs.bash.enable = true;
-          home.homeDirectory = "/root";
 
           # update nix system-wide since it's installed via root profile
           home.packages = with pkgs; [ nix ];
