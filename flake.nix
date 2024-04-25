@@ -319,12 +319,16 @@
     }; # end nixosConfigurations
 
     homeConfigurations = {
-      # minimal root config for installing terminfo
+      # minimal root config
       "root@rpi4" = mkHome {
         system = "aarch64-linux";
         stateVersion = "23.11";
-        config.programs = {
-          bash.enable = true;
+        username = "root";
+        config = { pkgs, ...}: {
+          programs.bash.enable = true;
+
+          # update nix system-wide since it's installed via root profile
+          home.packages = with pkgs; [ nix ];
         };
         nixpkgs = inputs.nixpkgs-unstable;
         home-manager = inputs.home-manager-unstable;
