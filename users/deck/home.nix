@@ -10,7 +10,7 @@
     (
       pkgs.runCommand "deckwrap" {} ''
         mkdir -p $out/bin/
-        cat << EOF > $out/bin/deckwrap
+        cat << 'EOF' > $out/bin/deckwrap
         #!/bin/sh
         #this shebang is a constant between nixos and non-nixos that can be
         #used to unset the two things below so we can get to the real command
