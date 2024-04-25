@@ -17,6 +17,8 @@
         unset LD_PRELOAD LD_LIBRARY_PATH
 
         exec "$@"
+        EOF
+        chmod +x $out/bin/deckwrap
       ''
     )
     ];
