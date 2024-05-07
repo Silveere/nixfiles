@@ -329,7 +329,7 @@
           programs.bash.enable = true;
 
           # update nix system-wide since it's installed via root profile
-          home.packages = with pkgs; [ nix ];
+          home.packages = with pkgs; [ btdu nix ];
         };
         nixpkgs = inputs.nixpkgs-unstable;
         home-manager = inputs.home-manager-unstable;
@@ -338,12 +338,15 @@
       "nullbite@rpi4" = mkHome {
         system = "aarch64-linux";
         stateVersion = "23.11";
-        config.programs = {
-          zsh.enable = false;
-          keychain.enable = false;
+        config = { pkgs, ...} : {
+          programs = {
+            zsh.enable = false;
+            keychain.enable = false;
+          };
+          nixpkgs = inputs.nixpkgs-unstable;
+          home-manager = inputs.home-manager-unstable;
+          home.packages = with pkgs; [ btdu ];
         };
-        nixpkgs = inputs.nixpkgs-unstable;
-        home-manager = inputs.home-manager-unstable;
       };
       "deck" = mkHome {
         system = "x86_64-linux";
