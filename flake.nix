@@ -343,10 +343,10 @@
             zsh.enable = false;
             keychain.enable = false;
           };
-          nixpkgs = inputs.nixpkgs-unstable;
-          home-manager = inputs.home-manager-unstable;
           home.packages = with pkgs; [ btdu ];
         };
+        nixpkgs = inputs.nixpkgs-unstable;
+        home-manager = inputs.home-manager-unstable;
       };
       "deck" = mkHome {
         system = "x86_64-linux";
