@@ -135,6 +135,13 @@ in
       };
 
       boot.loader.systemd-boot.configurationLimit = lib.mkDefault 15;
+
+      # see:
+      # https://redd.it/vdz86j
+      # https://github.com/NixOS/nixpkgs/commit/15d761a525a025de0680b62e8ab79a9d183f313d
+      # https://discourse.nixos.org/t/why-does-multi-user-target-depend-on-network-online-target/33565
+
+      systemd.targets.network-online.wantedBy = lib.mkForce [];
     })
   ];
 }
