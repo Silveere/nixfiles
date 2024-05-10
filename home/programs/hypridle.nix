@@ -43,45 +43,51 @@ in
   };
   config = lib.mkMerge [
     (lib.mkIf cfg.enable {
-      services.hypridle = let
-        lock = pkgs.writeShellScript "lock-once" ''
-          ${pkgs.procps}/bin/pgrep -x swaylock > /dev/null || "${config.programs.swaylock.package}/bin/swaylock"
-        '';
-      in {
+      services.hypridle = {
         enable = true;
-        listeners = let
-          dpms-wrapped = pkgs.writeShellScript "dpms-wrapped" ''
-            exec ${cfg.commands.dpms-off}
+        settings = let
+          lock = pkgs.writeShellScript "lock-once" ''
+            ${pkgs.procps}/bin/pgrep -x swaylock > /dev/null || "${config.programs.swaylock.package}/bin/swaylock"
           '';
-          lock-dpms = pkgs.writeShellScript "lock-dpms" ''
-            ${pkgs.procps}/bin/pgrep -x swaylock > /dev/null && "${dpms-wrapped}"
-          '';
+        in {
+          listener = let
+            dpms-wrapped = pkgs.writeShellScript "dpms-wrapped" ''
+              exec ${cfg.commands.dpms-off}
+            '';
+            lock-dpms = pkgs.writeShellScript "lock-dpms" ''
+              ${pkgs.procps}/bin/pgrep -x swaylock > /dev/null && "${dpms-wrapped}"
+            '';
 
-        in [
-          {
-            timeout = cfg.timeouts.dpms;
-            onTimeout = cfg.commands.dpms-off;
-            onResume = cfg.commands.dpms-on;
-          }
-          # {
-          #   timeout = cfg.timeouts.locked-dpms;
-          #   onTimeout = "${lock-dpms}";
-          #   onResume = cfg.commands.dpms-on;
-          # }
-          {
-            timeout = cfg.timeouts.lock;
-            onTimeout = "${lock}";
-          }
-          {
-            timeout = cfg.timeouts.lock + cfg.timeouts.locked-dpms;
-            onTimeout = cfg.commands.dpms-off;
-            onResume = cfg.commands.dpms-on;
-          }
-        ];
+          in [
+            {
+              timeout = cfg.timeouts.dpms;
+              on-timeout = cfg.commands.dpms-off;
+              on-resume = cfg.commands.dpms-on;
+            }
+            # {
+            #   timeout = cfg.timeouts.locked-dpms;
+            #   on-timeout = "${lock-dpms}";
+            #   on-resume = cfg.commands.dpms-on;
+            # }
+            {
+              timeout = cfg.timeouts.lock;
+              on-timeout = "${lock}";
+            }
+            {
+              timeout = cfg.timeouts.lock + cfg.timeouts.locked-dpms;
+              on-timeout = cfg.commands.dpms-off;
+              on-resume = cfg.commands.dpms-on;
+            }
+          ];
 
-        lockCmd = "${lock}";
-        unlockCmd = "${pkgs.procps}/bin/pkill -x -USR1 swaylock";
-        beforeSleepCmd = "${config.programs.swaylock.package}";
+          general = {
+            lock_cmd = "${lock}";
+            unlock_cmd = "${pkgs.procps}/bin/pkill -x -USR1 swaylock";
+            before_sleep_cmd = "${config.programs.swaylock.package}";
+            ignore_dbus_inhibit = false;
+            # after_sleep_cmd = "echo 'Awake...'";
+          };
+        };
       };
     })
     # why isn't this handled automatically??

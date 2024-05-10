@@ -11,8 +11,6 @@ in
     ./profile
     ./programs
     ./sessions
-
-    inputs.hypridle.homeManagerModules.default
   ];
   config = {};
   options.nixfiles = {
