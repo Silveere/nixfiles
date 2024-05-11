@@ -125,6 +125,15 @@ in
         default = null;
         example = "username";
       };
+      autolock = lib.mkOption {
+        description = ''
+          Whether to indicate to a window manager that it should immediately
+          lock. This needs to be implemented on a per window manager basis.
+        '';
+        type = bool;
+        default = false;
+        example = true;
+      };
     };
     presets.tuigreet.enable = lib.mkOption {
       description = "tuigreet greetd configuration";

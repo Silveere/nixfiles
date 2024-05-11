@@ -81,6 +81,20 @@ in
       example = true;
       description = "Whether to enable hyprland.";
     };
+
+    autolock = lib.mkOption {
+      description = ''
+        Whether to automatically lock Hyprland upon logging in. This is useful
+        on a system with auto-login enabled, so that user programs can start
+        automatically with the system, but there is still an added layer of
+        security. This can be configured system-wide via
+        nixfiles.greetd.settings.autolock.
+      '';
+      type = lib.types.bool;
+      default = osConfig.nixfiles.greetd.settings.autolock or false;
+      defaultText = "osConfig.nixfiles.greetd.settings.autolock or false";
+      example = true;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -114,7 +128,7 @@ in
         # Execute your favorite apps at launch
         # exec-once = waybar & hyprpaper & firefox
 
-        exec-once = [
+        exec-once = (lib.optional cfg.autolock lock-cmd) ++ [
           wallpaper-cmd
           notifydaemon
           polkit-agent
