@@ -76,10 +76,10 @@ in
 
   options.nixfiles.sessions.hyprland = {
     enable = lib.mkOption {
+      description = "Whether to enable hyprland.";
       type = lib.types.bool;
       default = if (builtins.hasAttr "home-manager" osConfig) then osConfig.nixfiles.sessions.hyprland.enable else false;
       example = true;
-      description = "Whether to enable hyprland.";
     };
 
     autolock = lib.mkOption {
@@ -91,8 +91,8 @@ in
         nixfiles.greetd.settings.autolock.
       '';
       type = lib.types.bool;
-      default = osConfig.nixfiles.greetd.settings.autolock or false;
-      defaultText = "osConfig.nixfiles.greetd.settings.autolock or false";
+      default = osConfig.nixfiles.programs.greetd.settings.autolock or false;
+      defaultText = "osConfig.nixfiles.programs.greetd.settings.autolock or false";
       example = true;
     };
   };
