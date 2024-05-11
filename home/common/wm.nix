@@ -7,6 +7,12 @@ in
 {
   options.nixfiles.common.wm = {
     enable = lib.mkEnableOption "common window manager config";
+    autostart = lib.mkOption {
+      description = "List of window manager agnostic commnads to run at window manager startup";
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      example = [ "steam -silent" ];
+    };
   };
   config = lib.mkIf cfg.enable {
     # Common options for standalone window managers; many of these (or

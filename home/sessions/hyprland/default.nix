@@ -128,7 +128,8 @@ in
         # Execute your favorite apps at launch
         # exec-once = waybar & hyprpaper & firefox
 
-        exec-once = (lib.optional cfg.autolock lock-cmd) ++ [
+        exec-once = (lib.optional cfg.autolock lock-cmd) ++ config.nixfiles.common.wm.autostart ++
+        [
           wallpaper-cmd
           notifydaemon
           polkit-agent

@@ -5,6 +5,10 @@ let
 in
 {
   config = lib.mkIf cfg.enable {
+    nixfiles.common.wm.autostart = [
+      "steam -silent"
+    ];
+
     home.packages = with pkgs; [
       ludusavi
       rclone # needed to sync ludusavi
