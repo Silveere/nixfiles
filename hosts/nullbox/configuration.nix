@@ -56,6 +56,11 @@
       programs.adb.enable = true;
       programs.greetd = {
         preset = "tuigreet";
+        settings = {
+          autologin = true;
+          autologinUser = "nullbite";
+          autolock = true;
+        };
       };
       programs.unbound.enable = true;
       common.remoteAccess.enable = true;
