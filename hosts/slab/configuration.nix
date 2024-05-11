@@ -63,12 +63,12 @@
       unbound.enable = false;
       greetd = {
         preset = "tuigreet";
+        settings = {
+          autologin = true;
+          autologinUser = "nullbite";
+        };
       };
     };
-  };
-  services.greetd.settings.initial_session = {
-    command = config.nixfiles.programs.greetd.settings.finalCommand;
-    user = "nullbite";
   };
 
 
