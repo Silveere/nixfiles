@@ -16,10 +16,26 @@ let
 in
 {
   config = lib.mkIf cfg.enable {
+    assertions = lib.optionals cfg.settings.autologin [
+      {
+        assertion = ! builtins.isNull cfg.settings.autologinUser;
+        message = "greetd: Auto-login is enabled but no user is configured";
+      }
+      {
+        assertion = ! builtins.isNull cfg.settings.command;
+        message = "greetd: Auto-login is enabled but no login command is configured";
+      }
+    ];
+
     environment.systemPackages = [ loginwrap ];
     services.greetd = {
       enable = true;
       settings = {
+        initial_session = lib.mkIf cfg.settings.autologin {
+          command = cfg.settings.finalCommand;
+          user = cfg.settings.autologinUser;
+        };
+
         default_session = lib.mkMerge [
 
           # tuigreet configuration
@@ -69,7 +85,7 @@ in
           command-login-wrapped = [ "loginwrap" ] ++ prevcmd;
           cmd = if (builtins.isNull prevcmd) then null else
             (if st.loginShell then command-login-wrapped else prevcmd);
-        in lib.escapeShellArgs cmd;
+        in if builtins.isNull cmd then null else lib.escapeShellArgs cmd;
         readOnly = true;
       };
       command = lib.mkOption {
@@ -95,6 +111,19 @@ in
         type = nullOr path;
         default = "${pkgs.nixfiles-assets}/share/wallpapers/nixfiles-static/Djayjesse-finding_life.png";
         example = "femboy-bee.png";
+      };
+
+      autologin = lib.mkOption {
+        description = "Whether to configure auto-login";
+        type = bool;
+        default = false;
+        example = true;
+      };
+      autologinUser = lib.mkOption {
+        description = "User to automatically log in";
+        type = nullOr str;
+        default = null;
+        example = "username";
       };
     };
     presets.tuigreet.enable = lib.mkOption {
