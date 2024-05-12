@@ -1,7 +1,7 @@
 {...}:
 {
   imports = [
-    ./wm.nix
+    ./wm
     ./nodm.nix
     ./nix.nix
   ];
