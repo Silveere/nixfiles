@@ -322,19 +322,8 @@ in
         ];
 
         # repeat, ignore mods
-        bindei = [
-          # Volume controls
-          ",XF86AudioRaiseVolume, exec, ${keysetting} volumeup"
-          ",XF86AudioLowerVolume, exec, ${keysetting} volumedown"
-          ",XF86AudioMute, exec, ${keysetting} mute"
-          ",XF86AudioMicMute, exec, ${keysetting} micmute"
-
-          # brightness
-          ",XF86KbdBrightnessDown, exec, ${keysetting} keydown"
-          ",XF86KbdBrightnessUp, exec, ${keysetting} keyup"
-          ",XF86MonBrightnessDown, exec, ${keysetting} mondown"
-          ",XF86MonBrightnessUp, exec, ${keysetting} monup"
-
+        bindei = lib.mapAttrsToList (keysym: command: ",${keysym}, exec, ${command}") config.nixfiles.common.wm.finalKeybinds
+        ++ [
         ];
 
         bindm = [

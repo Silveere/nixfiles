@@ -14,6 +14,10 @@ in
       example = [ "steam -silent" ];
     };
   };
+
+  imports = [
+    ./keybinds.nix
+  ];
   config = lib.mkIf cfg.enable {
     # Common options for standalone window managers; many of these (or
     # alternatives thereof) are pulled in by desktop environments.
@@ -32,6 +36,8 @@ in
       swaybg
       swayidle
       libsForQt5.qtstyleplugin-kvantum
+
+      playerctl
 
       pcmanfm-qt
       pcmanfm-qt-shim
@@ -79,6 +85,8 @@ in
     };
 
     services = {
+      playerctld.enable = mkDefault true;
+
       udiskie = {
         enable = mkDefault true;
         automount = mkDefault false;
