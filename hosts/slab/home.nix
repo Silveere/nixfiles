@@ -7,6 +7,8 @@
   config = {
     nixfiles = {
       profile.base.enable = true;
+
+      common.wm.keybinds.Launch1="playerctl play-pause";
     };
     home.stateVersion = "23.11";
 
