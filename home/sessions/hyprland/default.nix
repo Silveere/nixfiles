@@ -21,6 +21,13 @@ let
 
   lock-cmd = "${swaylock}";
 
+  mkKittyHdrop = name: command: let
+    class = if builtins.isNull (builtins.match "[[:alnum:]_]+" name) then throw "mkKittyHdrop: window name should be an alphanumeric string" else "kitty-${name}";
+    wrappedCommand = pkgs.writeShellScript "hdrop-${name}" ''
+      exec bash -c ${lib.escapeShellArg command}
+    '';
+  in "hdrop -f -c ${class} 'kitty --class=${class} ${wrappedCommand}'";
+
 
   # lock-cmd = let
   #   cmd = pkgs.writeShellScript "lock-script" ''
@@ -110,6 +117,8 @@ in
       hypr-dispatcher-package
       config.programs.swaylock.package
       pkgs.swayidle
+
+      inputs.hyprwm-contrib.packages.${pkgs.system}.hdrop
     ];
 
     wayland.windowManager.hyprland = {
@@ -307,6 +316,8 @@ in
           # lock screen
           "$mod SHIFT, x, exec, ${lock-cmd}"
 
+          # volume mixer
+          "$mod CTRL, v, exec, ${mkKittyHdrop "pulsemixer" "pulsemixer"}"
 
           # Scroll through existing workspaces with mod + scroll
           "$mod, mouse_down, workspace, e+1"
@@ -319,7 +330,8 @@ in
           # edit this file
           ("$mod SHIFT, slash, exec, ${terminal} -e ${pkgs.neovim}/bin/nvim "
           + lib.escapeShellArg (config.nixfiles.path + "/home/sessions/hyprland/default.nix"))
-        ];
+        ] ++ lib.optional config.nixfiles.programs.mopidy.enable
+          "$mod CTRL, n, exec, ${mkKittyHdrop "ncmpcpp" "ncmpcpp"}";
 
         # repeat, ignore mods
         bindei = lib.mapAttrsToList (keysym: command: ",${keysym}, exec, ${command}") config.nixfiles.common.wm.finalKeybinds
