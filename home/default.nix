@@ -59,6 +59,14 @@ in
       default = (lib.hasAttrByPath [ "nixfiles" "meta" "wayland" ] osConfig) && osConfig.nixfiles.meta.wayland;
       example = true;
     };
+
+    workarounds.nvidiaPrimary = lib.mkOption {
+      description = "Whether to enable workarounds for NVIDIA as the primary GPU";
+      default = osConfig.nixfiles.workarounds.nvidiaPrimary or false;
+      example = true;
+      type = lib.types.bool;
+    };
+
     path = lib.mkOption {
       description = "The absolute path of the nixfiles flake";
       type = lib.types.str;

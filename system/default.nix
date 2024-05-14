@@ -28,6 +28,13 @@ in
       type = lib.types.bool;
     };
 
+    workarounds.nvidiaPrimary = lib.mkOption {
+      description = "Whether to enable workarounds for NVIDIA as the primary GPU";
+      default = false;
+      example = true;
+      type = lib.types.bool;
+    };
+
     lib = lib.mkOption {
       description = "nixfiles library";
       default = (import ../lib/nixfiles) { inherit pkgs; };

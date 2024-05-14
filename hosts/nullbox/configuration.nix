@@ -54,6 +54,7 @@
     nixfiles = {
       profile.pc.enable = true;
       programs.adb.enable = true;
+      workarounds.nvidiaPrimary = true;
       programs.greetd = {
         preset = "tuigreet";
         settings = {

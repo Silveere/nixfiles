@@ -6,7 +6,9 @@ let
   else
     pkgs.rustdesk-flutter;
 
-  vesktop-ozone-cmd = "env NIXOS_OZONE_WL=1 vesktop --disable-gpu";
+  vesktop-ozone-cmd = let
+    extraFlags = lib.optionalString config.nixfiles.workarounds.nvidiaPrimary " --disable-gpu";
+  in "env NIXOS_OZONE_WL=1 vesktop${extraFlags}";
 in
 {
   options.nixfiles.packageSets.communication = {

@@ -15,7 +15,10 @@ in
     xdg.desktopEntries.obsidian = lib.mkIf config.nixfiles.meta.graphical {
         categories = [ "Office" ];
         comment = "Knowledge base";
-        exec = "env NIXOS_OZONE_WL=1 obsidian --disable-gpu %u";
+        exec = let
+          extraFlags = with lib.strings;
+            optionalString config.nixfiles.workarounds.nvidiaPrimary " --disable-gpu";
+        in "env NIXOS_OZONE_WL=1 obsidian${extraFlags} %u";
         icon = "obsidian";
         mimeType = [ "x-scheme-handler/obsidian" ];
         name = "Obsidian";
