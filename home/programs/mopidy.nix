@@ -10,6 +10,13 @@ in
     systemd.user.services = lib.mkIf config.services.mopidy.enable {
       mopidy.Service = {
         TimeoutStopSec = lib.mkDefault 10;
+        ExecStartPre = pkgs.writeShellScript "mopidy-wait-net" ''
+          until ${pkgs.curl}/bin/curl -fs https://www.google.com &>/dev/null ; do
+            sleep 5
+            ((counter++)) && ((counter==60)) && break
+          done || true
+          # don't know why i need a true here
+        '';
       };
     };
 

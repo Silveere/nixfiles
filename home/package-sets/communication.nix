@@ -9,6 +9,14 @@ let
   vesktop-ozone-cmd = let
     extraFlags = lib.optionalString config.nixfiles.workarounds.nvidiaPrimary " --disable-gpu";
   in "env NIXOS_OZONE_WL=1 vesktop${extraFlags}";
+
+  waitNet = pkgs.writeShellScript "wait-network" ''
+    until ${pkgs.curl}/bin/curl -fs https://www.google.com &>/dev/null; do
+      sleep 5
+      ((counter++)) && ((counter>=60)) && break
+    done
+    exec "$@"
+  '';
 in
 {
   options.nixfiles.packageSets.communication = {
@@ -30,7 +38,7 @@ in
     };
 
     nixfiles.common.wm.autostart = lib.optionals config.nixfiles.meta.graphical [
-      (vesktop-ozone-cmd + " --start-minimized")
+      (waitNet + " " + vesktop-ozone-cmd + " --start-minimized")
     ];
 
     home.packages = with pkgs; lib.optionals config.nixfiles.meta.graphical [
