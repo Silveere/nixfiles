@@ -6,7 +6,7 @@ let
 
   # commands
   terminal = "${pkgs.kitty}/bin/kitty";
-  files = "${pkgs.pcmanfm-qt}/bin/pcmanfm-qt";
+  files = "pcmanfm"; # this should be installed in path
   rofi = "${pkgs.rofi-wayland}/bin/rofi";
   notifydaemon = "${pkgs.dunst}/bin/dunst";
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";

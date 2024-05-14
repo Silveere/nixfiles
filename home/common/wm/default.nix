@@ -39,8 +39,8 @@ in
 
       playerctl
 
-      pcmanfm-qt
-      pcmanfm-qt-shim
+      pcmanfm
+      ffmpegthumbnailer
 
       wlr-randr
       nwg-look
