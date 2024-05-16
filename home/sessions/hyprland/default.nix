@@ -150,7 +150,7 @@ in
         # source = ~/.config/hypr/myColors.conf
 
         # Some default env vars.
-        env = mkd "XCURSOR_SIZE,24";
+        # env = mkd "XCURSOR_SIZE,24";
 
 
         # For all categories, see https://wiki.hyprland.org/Configuring/Variables/

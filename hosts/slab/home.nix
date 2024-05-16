@@ -16,6 +16,9 @@
     };
     home.stateVersion = "23.11";
 
+    home.pointerCursor = lib.mkIf config.nixfiles.theming.enable { size = 32; };
+    nixfiles.theming.catppuccin.themeDPI = "hdpi";
+
     wayland.windowManager.hyprland.settings = {
       monitor = ",preferred,auto,1.25";
     };
