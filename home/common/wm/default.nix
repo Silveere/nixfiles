@@ -22,6 +22,8 @@ in
     # Common options for standalone window managers; many of these (or
     # alternatives thereof) are pulled in by desktop environments.
 
+    nixfiles.theming.enable = lib.mkDefault true;
+
     qt.enable = true;
     qt.platformTheme.name = "qtct";
     qt.style.name = "kvantum";

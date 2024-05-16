@@ -84,8 +84,9 @@ in
     };
 
     # this fixes a lot of theme weirdness
-    home.file.".icons".source = config.lib.file.mkOutOfStoreSymlink "${config.xdg.dataHome}/icons";
-    home.file.".themes".source = config.lib.file.mkOutOfStoreSymlink "${config.xdg.dataHome}/themes";
+    # this actually breaks home-manager's icon/theme management
+    # home.file.".icons".source = config.lib.file.mkOutOfStoreSymlink "${config.xdg.dataHome}/icons";
+    # home.file.".themes".source = config.lib.file.mkOutOfStoreSymlink "${config.xdg.dataHome}/themes";
 
     # some packages defined here may be redundant with packages on a non-NixOS
     # home-manager setup, but it's better to have a consistent environment at
