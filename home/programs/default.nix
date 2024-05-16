@@ -4,5 +4,6 @@
     ./comma.nix
     ./mopidy.nix
     ./hypridle.nix
+    ./dunst.nix
   ];
 }
