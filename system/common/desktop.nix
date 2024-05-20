@@ -43,7 +43,10 @@ in
     services.flatpak.enable = mkDefault true;
 
     # Enable CUPS to print documents.
-    services.printing.enable = mkDefault true;
+    services.printing = {
+      enable = mkDefault true;
+      cups-pdf.enable = mkDefault true;
+    };
 
     fonts.packages = with pkgs; [
       (nerdfonts.override { fonts = [ "FiraCode" ]; })
