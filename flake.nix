@@ -59,6 +59,12 @@
 
     impermanence.url = "github:nix-community/impermanence";
 
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     nixfiles-assets = {
       # using self-hosted gitea mirror because of GitHub LFS bandwidth limit (even though i'd probably never hit it)
       type = "github";
