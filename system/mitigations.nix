@@ -11,13 +11,4 @@ let
   in pkgs-new.linuxPackages_latest;
 in
 {
-  config = lib.mkMerge [
-    {
-      boot.kernelPackages = newKernelPackages;
-      assertions = [
-        { assertion = (!(isNewer "6.8" nixpkgs.legacyPackages.${pkgs.system}.linuxPackages.kernel.version));
-          message = "Kernel is no longer outdated. Please remove this."; }
-      ];
-    }
-  ];
 }
