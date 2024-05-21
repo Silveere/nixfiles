@@ -2,6 +2,7 @@
 let
   cfg = config.nixfiles.sessions.hyprland;
   flake-package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+  flake-portal = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
 in
 {
   # imports = [
@@ -44,6 +45,7 @@ in
       # enableNvidiaPatches = lib.mkIf (!cfg.useFlake) lib.mkDefault true;
       xwayland.enable = true;
       package = lib.mkIf cfg.useFlake flake-package;
+      portalPackage = lib.mkIf cfg.useFlake flake-portal;
     };
 
     hardware.opengl = let
