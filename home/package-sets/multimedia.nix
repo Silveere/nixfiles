@@ -18,7 +18,7 @@ in
   config = mkIf cfg.enable {
     home.packages = with pkgs; optionals config.nixfiles.meta.graphical [
       mpv
-      gimp-with-plugins
+      gimp
       krita
       inkscape
       obs-studio

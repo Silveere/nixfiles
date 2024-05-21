@@ -11,7 +11,7 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; optionals config.services.xserver.enable [
       mpv
-      gimp-with-plugins
+      gimp
       krita
       inkscape
       obs-studio
