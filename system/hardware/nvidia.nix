@@ -1,12 +1,22 @@
 { config, lib, pkgs, ...}:
 let
   cfg = config.nixfiles.hardware.nvidia;
-  nvidia-535 = let
-    rcu_patch = pkgs.fetchpatch {
-      url = "https://github.com/gentoo/gentoo/raw/c64caf53/x11-drivers/nvidia-drivers/files/nvidia-drivers-470.223.02-gpl-pfn_valid.patch";
-      hash = "sha256-eZiQQp2S/asE7MfGvfe6dA/kdCvek9SYa/FFGp24dVg=";
-    };
-  in config.boot.kernelPackages.nvidiaPackages.mkDriver {
+  
+  rcu_patch = pkgs.fetchpatch {
+    url = "https://github.com/gentoo/gentoo/raw/c64caf53/x11-drivers/nvidia-drivers/files/nvidia-drivers-470.223.02-gpl-pfn_valid.patch";
+    hash = "sha256-eZiQQp2S/asE7MfGvfe6dA/kdCvek9SYa/FFGp24dVg=";
+  };
+
+  nvidia_555 = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+    version = "555.42.02";
+    sha256_64bit = "sha256-k7cI3ZDlKp4mT46jMkLaIrc2YUx1lh1wj/J4SVSHWyk=";
+    sha256_aarch64 = lib.fakeSha256;
+    openSha256 =  "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
+    settingsSha256 =  "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
+    persistencedSha256 = lib.fakeSha256;
+  };
+
+  nvidia_535 = config.boot.kernelPackages.nvidiaPackages.mkDriver {
     version = "535.154.05";
     sha256_64bit = "sha256-fpUGXKprgt6SYRDxSCemGXLrEsIA6GOinp+0eGbqqJg=";
     sha256_aarch64 = "sha256-G0/GiObf/BZMkzzET8HQjdIcvCSqB1uhsinro2HLK9k=";
@@ -56,7 +66,7 @@ in
       nvidiaSettings = lib.mkDefault true;
 
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
-      package = lib.mkDefault nvidia-535;
+      package = lib.mkDefault nvidia_555;
     };
   };
 }
