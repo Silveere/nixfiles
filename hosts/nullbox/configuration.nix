@@ -19,8 +19,6 @@
 
   config = {
 
-    boot.kernelPackages = pkgs.linuxPackages_6_8;
-
     fileSystems = lib.mkMerge [
       {
         "/ntfs" = {
