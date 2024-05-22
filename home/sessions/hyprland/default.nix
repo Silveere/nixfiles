@@ -126,6 +126,9 @@ in
       package = lib.mkIf (osConfig ? programs) (lib.mkDefault osConfig.programs.hyprland.finalPackage);
       settings = {
 
+        # enable debug logging
+        debug.disable_logs = mkd false;
+
         # Xwayland fix
         xwayland.force_zero_scaling = mkd true;
 
