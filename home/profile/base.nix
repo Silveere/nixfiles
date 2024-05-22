@@ -103,34 +103,25 @@ in
         exec "${pkgs.hyfetch}/bin/neowofetch" "$@"
       '';
     in [
-      mosh
-      btop
-      htop
-      fzf
-      zoxide
-      tmux
-      restic
-      rclone
-      rmlint
-      pv
-      ncdu
-      rmlint
-
       # nix stuff
       nvd
       nix-tree
       nh
+      nix-output-monitor
 
       git
       git-lfs
       stow
       curl
 
+      # shell
       ripgrep
       fd
       bat
       moreutils
       grc
+      fzf
+      pv
 
       # for icat on all systems
       kitty.kitten
@@ -144,6 +135,21 @@ in
       # pretty
       hyfetch
       neofetch-hyfetch-shim
+
+      # files
+      restic
+      rclone
+      rmlint
+      ncdu
+
+      # other utilities
+      tmux
+      mosh
+      btop
+      htop
+      zoxide
+      asciinema
+
     ];
   };
 }
