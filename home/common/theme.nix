@@ -59,11 +59,11 @@ in {
 
     gtk = {
       enable = true;
-      font = lib.mkDefault {
+      font = lib.mkIf (!(config.stylix.enable)) (lib.mkDefault {
         name = "Ubuntu";
         package = pkgs.ubuntu_font_family;
-        size = 12;
-      };
+        size = lib.mkDefault 12;
+      });
 
       theme = lib.mkDefault {
         package = ctp.packages.gtk;
@@ -105,6 +105,13 @@ in {
         sansSerif = {
           package = ubuntu;
           name = "Ubuntu";
+        };
+
+        sizes = {
+          applications = 13;
+          desktop = 13;
+          popups = 13;
+          terminal = 13;
         };
       };
     };
