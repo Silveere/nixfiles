@@ -18,6 +18,7 @@ in
     # modules
     inputs.nix-minecraft.nixosModules.minecraft-servers
     inputs.impermanence.nixosModules.impermanence
+    ./stylix.nix # imports inputs.stylix
   ];
   config = {};
   options.nixfiles = {

@@ -11,6 +11,9 @@ in
     ./profile
     ./programs
     ./sessions
+
+    # modules
+    ./stylix.nix # imports inputs.stylix
   ];
   config = {};
   options.nixfiles = {
