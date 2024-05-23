@@ -73,6 +73,23 @@ in
 
     programs.btop.enable = lib.mkDefault true;
 
+    programs.ranger = let
+      defaultTerminal = "kitty";
+      # defaultTerminal =
+      #   if config.programs.kitty.enable then "kitty"
+      #     else null;
+
+    in {
+      enable = lib.mkDefault true;
+      settings = lib.mkMerge [{
+        use_preview_script = lib.mkDefault true;
+        preview_files = lib.mkDefault true;
+      } (lib.mkIf (!(isNull defaultTerminal)) {
+        preview_images = lib.mkDefault true;
+        preview_images_method = lib.mkDefault defaultTerminal;
+      })];
+    };
+
     programs.keychain = {
       enable = lib.mkDefault true;
       enableBashIntegration = lib.mkDefault true;
