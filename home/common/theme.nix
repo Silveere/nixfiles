@@ -76,12 +76,37 @@ in {
       };
     };
 
-    home.pointerCursor = {
-      package = lib.mkDefault ctp.packages.cursors;
-      name = lib.mkDefault ctp.names.cursors;
-      size = lib.mkDefault 24;
-      x11.enable = lib.mkDefault true;
-      gtk.enable = lib.mkDefault true;
+    stylix = {
+      enable = true;
+      autoEnable = true;
+      cursor = {
+        package = lib.mkDefault ctp.packages.cursors;
+        name = lib.mkDefault ctp.names.cursors;
+        size = lib.mkDefault 24;
+        # x11.enable = lib.mkDefault true;
+        # gtk.enable = lib.mkDefault true;
+      };
+
+      fonts = let
+        ubuntu = pkgs.ubuntu_font_family;
+      in {
+        # packages = with pkgs; [
+        #   ubuntu_font_family
+        #   noto-fonts-emoji-blob-bin
+        # ];
+        emoji = {
+          package = pkgs.noto-fonts-emoji-blob-bin;
+          name = "Blobmoji";
+        };
+        monospace = {
+          package = ubuntu;
+          name = "Ubuntu Mono";
+        };
+        sansSerif = {
+          package = ubuntu;
+          name = "Ubuntu";
+        };
+      };
     };
   };
 }
