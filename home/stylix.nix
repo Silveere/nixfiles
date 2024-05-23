@@ -6,6 +6,9 @@
       {
         targets.vim.enable = lib.mkDefault false;
         targets.gtk.enable = lib.mkDefault false;
+        targets.fzf.enable = lib.mkDefault false;
+        # the ring is styled light so it's light on light which looks worse than the default theme
+        targets.swaylock.enable = lib.mkDefault false;
       }
       # only if styix is standalone
       (lib.mkIf (!(args ? osConfig && args.osConfig ? stylix)) {
