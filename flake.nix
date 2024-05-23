@@ -60,7 +60,7 @@
     impermanence.url = "github:nix-community/impermanence";
 
     stylix = {
-      url = "github:danth/stylix";
+      url = "github:danth/stylix?ref=e8e3304c2f8cf2ca60dcfc736a7422af2f24b8a8";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
@@ -172,6 +172,27 @@
     # TODO rewrite this so it follows the same wrapper pattern as mkHome
     # This function produces a nixosSystem which imports configuration.nix and
     # a Home Manager home.nix for the given user from ./hosts/${hostname}/
+    mkSystemN = let
+      _username = username;
+      _overlays = overlays;
+    in { nixpkgs ? inputs.nixpkgs,
+          home-manager ? inputs.home-manager,
+          username ? _username,
+          entrypoint ? ./system,
+          modules ? [ ],
+          stateVersion ? null,
+          config ? { },
+          overlays ? _overlays,
+          system,
+          ... }@args: let
+        _modules = [ entrypoint config ] ++ modules ++ [{
+          nixpkgs.config = {
+            inherit overlays;
+            allowUnfree = true;
+          };
+        }] ++ lib.optional (args ? stateVersion) { config.system.stateVersion = stateVersion; };
+      in nixpkgs.lib.nixosSystem {
+      };
     mkSystem = let _username=username; _overlays=overlays; _nixpkgs=nixpkgs;
     in { system,
         nixpkgs ? _nixpkgs,
