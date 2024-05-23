@@ -71,6 +71,8 @@ in
       };
     };
 
+    programs.btop.enable = lib.mkDefault true;
+
     programs.keychain = {
       enable = lib.mkDefault true;
       enableBashIntegration = lib.mkDefault true;

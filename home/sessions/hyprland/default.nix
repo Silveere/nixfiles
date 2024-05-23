@@ -121,6 +121,11 @@ in
       inputs.hyprwm-contrib.packages.${pkgs.system}.hdrop
     ];
 
+    programs.rofi = {
+      enable = lib.mkDefault true;
+      package = lib.mkDefault pkgs.rofi-wayland;
+    };
+
     wayland.windowManager.hyprland = {
       enable = true;
       package = lib.mkIf (osConfig ? programs) (lib.mkDefault osConfig.programs.hyprland.finalPackage);

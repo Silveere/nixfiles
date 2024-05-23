@@ -3,7 +3,10 @@
   imports = [ inputs.stylix.homeManagerModules.stylix ];
   config = {
     stylix = lib.mkMerge [
-      { targets.vim.enable = lib.mkDefault false; }
+      {
+        targets.vim.enable = lib.mkDefault false;
+        targets.gtk.enable = lib.mkDefault false;
+      }
       # only if styix is standalone
       (lib.mkIf (!(args ? osConfig && args.osConfig ? stylix)) {
         # all of this is documented in system/stylix.nix

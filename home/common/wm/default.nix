@@ -23,6 +23,7 @@ in
     # alternatives thereof) are pulled in by desktop environments.
 
     nixfiles.theming.enable = lib.mkDefault true;
+    nixfiles.programs.dunst.enable = lib.mkDefault true;
 
     qt.enable = true;
     qt.platformTheme.name = "qtct";
@@ -57,6 +58,7 @@ in
     ];
 
     programs = {
+
       swaylock = {
         enable = true;
         package = pkgs.swaylock-effects;
