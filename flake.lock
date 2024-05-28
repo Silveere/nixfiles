@@ -618,6 +618,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-yt-dlp-2024": {
+      "locked": {
+        "lastModified": 1716813593,
+        "narHash": "sha256-862V4NORGlvQ6g8Y5ZSBrtosqYep2lXGsywTcV6OvHw=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "528db5fa94041f0b4909a855d8b9fb9b44fa4f5d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "528db5fa94041f0b4909a855d8b9fb9b44fa4f5d",
+        "type": "github"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1716633019,
@@ -664,6 +680,7 @@
         "nixfiles-assets": "nixfiles-assets",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "nixpkgs-yt-dlp-2024": "nixpkgs-yt-dlp-2024",
         "pkg-android-tools": "pkg-android-tools",
         "rust-overlay": "rust-overlay",
         "stylix": "stylix",
