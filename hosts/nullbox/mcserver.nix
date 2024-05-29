@@ -54,7 +54,6 @@ in
           enable = true;
           autoStart = true;
           modpack = notlite-modpack;
-          package = shimPackage;
           modpackSymlinks = [ "mods" ];
           modpackFiles = [ "config/" "kubejs/" ];
           serverProperties = {
@@ -74,7 +73,7 @@ in
         in config.nixfiles.lib.minecraft.mkServer {
           enable = false;
           modpack = notlite-modpack;
-          package = shimPackage;
+          # package = shimPackage;
           autoStart = self.enable;
           whitelist = {
             YzumThreeEye = "3dad78e8-6979-404f-820e-952ce20964a0";
@@ -83,8 +82,10 @@ in
           };
           modpackSymlinks = [ "mods" ];
           modpackFiles = [ "config/" "kubejs/" ];
-          serverProperties = {
+          serverProperties = rec {
             motd = "owo what's this (nix edition)";
+            server-port = 25568;
+            "query.port" = server-port;
           };
         };
       };
