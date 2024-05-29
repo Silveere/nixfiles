@@ -89,6 +89,7 @@ in
         htop
         lshw
         pciutils
+        usbutils
         compsize
         efibootmgr
         ncdu
