@@ -539,6 +539,7 @@
       "original": {
         "owner": "infinidoge",
         "repo": "nix-minecraft",
+        "rev": "ab4790259bf8ed20f4417de5a0e5ee592094c7c3",
         "type": "github"
       }
     },
