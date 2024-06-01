@@ -41,6 +41,8 @@ in
 
     nixfiles.hardware.opengl.enable = true;
 
+    boot.kernelParams = [ "nvidia-drm.fbdev=1" ];
+
     hardware.nvidia = {
 
       # Modesetting is required.
