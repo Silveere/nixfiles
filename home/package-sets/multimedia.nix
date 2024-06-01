@@ -25,6 +25,7 @@ in
       nomacs
       audacity
       picard
+      spicetify-cli
     ] ++ [
       yt-dlp
       gallery-dl
