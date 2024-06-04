@@ -8,7 +8,7 @@ let
 
   mkCtp = flavor: accent: with pkgs; {
     names = {
-      cursors = "Catppuccin-${toCaps flavor}-${toCaps accent}-Cursors";
+      cursors = "catppuccin-${toLower flavor}-${toLower accent}-cursors";
       icons = "Papirus-Dark";
       gtk = let
         base = "Catppuccin-${toCaps flavor}-Standard-${toCaps accent}-Dark";

@@ -128,7 +128,7 @@ in
 
     wayland.windowManager.hyprland = {
       enable = true;
-      package = lib.mkIf (osConfig ? programs) (lib.mkDefault osConfig.programs.hyprland.finalPackage);
+      package = lib.mkIf (osConfig ? programs) (lib.mkDefault osConfig.programs.hyprland.package);
       settings = {
 
         # enable debug logging

@@ -35,7 +35,7 @@ in
     nixfiles.programs.greetd = {
       enable = true;
       settings = {
-        command = [ "${config.programs.hyprland.finalPackage}/bin/Hyprland" ];
+        command = [ "${config.programs.hyprland.package}/bin/Hyprland" ];
       };
     };
 
