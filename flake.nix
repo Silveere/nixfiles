@@ -163,6 +163,7 @@
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
+          backupFileExtension = "hm.bak";
           inherit users;
           extraSpecialArgs = {
             inherit inputs outputs vars nixpkgs home-manager;
