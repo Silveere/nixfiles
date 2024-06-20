@@ -10,6 +10,9 @@
       ./hardware-configuration.nix
     ];
 
+  # this should be the default unless i am specifically on a pc
+  networking.networkmanager.enable = false;
+
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
   boot.loader.grub.enable = false;
   # Enables the generation of /boot/extlinux/extlinux.conf
