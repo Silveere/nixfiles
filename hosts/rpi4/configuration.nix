@@ -15,12 +15,16 @@
   # Enables the generation of /boot/extlinux/extlinux.conf
   boot.loader.generic-extlinux-compatible.enable = true;
 
+  nixfiles = {
+    profile.base.enable = true;
+  };
 
   services.openssh = {
   	enable = true;
 	openFirewall = true;
   };
   # networking.hostName = "nixos"; # Define your hostname.
+  networking.hostname = "rpi4";
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
