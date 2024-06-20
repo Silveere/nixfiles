@@ -346,6 +346,14 @@
         stateVersion = "23.11";
         hostname = "nixos-wsl";
       };
+
+      rpi4 = mkSystem {
+        nixpkgs = inputs.nixpkgs-unstable;
+        home-manager = inputs.home-manager-unstable;
+        system = "aarch64-linux";
+        stateVersion = "24.11";
+        hostname = "rpi4";
+      };
     }; # end nixosConfigurations
 
     homeConfigurations = {
