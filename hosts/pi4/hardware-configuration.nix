@@ -13,33 +13,28 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-  # fileSystems."/" =
-  #   { device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
-  #     fsType = "ext4";
-  #   };
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/112535b6-4318-4d26-812b-7baf0d65dae5";
+      fsType = "btrfs";
+      options = [ "subvol=nixos/@" ];
+    };
 
-  fileSystems."/nix" = {
-  	device = "/dev/disk/by-label/NIXOS_BTRFS";
-	fsType = "btrfs";
-	options = [ "subvol=/nixos/@nix" ];
-  };
+  fileSystems."/nix" =
+    { device = "/dev/disk/by-uuid/112535b6-4318-4d26-812b-7baf0d65dae5";
+      fsType = "btrfs";
+      options = [ "subvol=nixos/@nix" ];
+    };
 
-  fileSystems."/" = {
-  	device = "/dev/disk/by-label/NIXOS_BTRFS";
-	fsType = "btrfs";
-	options = [ "subvol=/nixos/@" ];
-  };
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/112535b6-4318-4d26-812b-7baf0d65dae5";
+      fsType = "btrfs";
+      options = [ "subvol=@home" ];
+    };
 
-  fileSystems."/home" = {
-  	device = "/dev/disk/by-label/NIXOS_BTRFS";
-	fsType = "btrfs";
-	options = [ "subvol=/@home" ];
-  };
-
-  fileSystems."/boot" = {
-  	device = "/dev/disk/by-label/NIXOS_BOOT";
-	fsType = "ext4";
-  };
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/18e0dfd8-78bd-478d-9df8-1c28bc0b55df";
+      fsType = "ext4";
+    };
 
   swapDevices = [ ];
 
@@ -53,3 +48,4 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 }
+
