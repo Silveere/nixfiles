@@ -13,6 +13,12 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
+  fileSystems."/.btrfsroot" =
+    { device = "/dev/disk/by-uuid/112535b6-4318-4d26-812b-7baf0d65dae5";
+      fsType = "btrfs";
+      options = [ "subvol=/" ];
+    };
+
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/112535b6-4318-4d26-812b-7baf0d65dae5";
       fsType = "btrfs";
