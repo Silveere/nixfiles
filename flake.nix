@@ -312,6 +312,7 @@
       default = pkgs.mkShell {
         buildInputs = with pkgs; [
           nix-update
+          inputs.agenix.packages.${system}.default
         ];
       };
     });
