@@ -10,21 +10,18 @@
       ./hardware-configuration.nix
     ];
 
-  # this should be the default unless i am specifically on a pc
-  networking.networkmanager.enable = false;
-
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
   boot.loader.grub.enable = false;
   # Enables the generation of /boot/extlinux/extlinux.conf
   boot.loader.generic-extlinux-compatible.enable = true;
 
   nixfiles = {
-    profile.base.enable = true;
+    profile.server.enable = true;
   };
 
   services.openssh = {
-  	enable = true;
-	openFirewall = true;
+    enable = true;
+    openFirewall = true;
   };
   # networking.hostName = "nixos"; # Define your hostname.
   networking.hostName = "rpi4";
