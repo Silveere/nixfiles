@@ -61,6 +61,11 @@
 
     impermanence.url = "github:nix-community/impermanence";
 
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     stylix = {
       url = "github:danth/stylix?ref=e8e3304c2f8cf2ca60dcfc736a7422af2f24b8a8";
       inputs.nixpkgs.follows = "nixpkgs";
