@@ -8,9 +8,8 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./services.nix
     ];
-
-  age.secrets.cloudflaredns.file = ../../secrets/cloudflare-dns.age;
 
   fileSystems = let
     mounts = [ "/nix" "/" "/.btrfsroot" "/home" ];
