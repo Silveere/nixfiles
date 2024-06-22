@@ -10,6 +10,8 @@
       ./hardware-configuration.nix
     ];
 
+  age.secrets.cloudflaredns.file = ../../secrets/cloudflare-dns.age;
+
   fileSystems = let
     mounts = [ "/nix" "/" "/.btrfsroot" "/home" ];
     fn = (x: { options = [ "compress=zstd" ];});
