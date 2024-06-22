@@ -10,6 +10,39 @@
       group = "secrets";
     };
 
+    users.users.nginx.extraGroups = [ "acme" ];
+
+    networking.firewall.allowedTCPPorts = [ 80 443 ];
+
+    services.nginx = {
+      enable = true;
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
+      recommendedOptimisation = true;
+
+      commonHttpConfig = ''
+        port_in_redirect off;
+      '';
+
+      virtualHosts = {
+        "localhost" = {
+          default = true;
+          locations."/" = {
+            return = "302 https://protogen.io$request_uri";
+          };
+        };
+        "protogen.io" = {
+          useACMEHost = "protogen.io";
+          forceSSL = true;
+          locations."/" = {
+            root = "/srv/http";
+            extraConfig = ''
+              autoindex on;
+            '';
+          };
+        };
+      };
+    };
 
     security.acme = {
       acceptTerms = true;
