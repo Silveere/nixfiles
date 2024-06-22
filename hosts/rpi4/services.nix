@@ -14,16 +14,14 @@
     security.acme = {
       acceptTerms = true;
       maxConcurrentRenewals = 1;
-      defaults = {
-      };
+
+      defaults.email = "iancoguz@gmail.com";
 
       certs = {
         "protogen.io" = {
           credentialFiles = {
-            CLOUDFLARE_EMAIL_FILE = pkgs.writeTextFile "cloudflare-email" ''
-              iancoguz@gmail.com
-            '';
-            CLOUDFLARE_API_KEY_FILE = config.age.secrets.cloudflaredns.path;
+            "CLOUDFLARE_EMAIL_FILE" = pkgs.writeText "email" "iancoguz@gmail.com";
+            "CLOUDFLARE_API_KEY_FILE" = config.age.secrets.cloudflaredns.path;
           };
 
           dnsProvider = "cloudflare";
