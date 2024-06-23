@@ -89,7 +89,7 @@
     services.libreddit = {
       enable = true;
       port = 8087;
-      pkg = pkgs.redlib;
+      package = pkgs.redlib;
     };
   };
 }
