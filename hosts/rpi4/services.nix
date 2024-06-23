@@ -77,5 +77,19 @@
       enable = true;
       storageDriver = "btrfs";
     };
+
+    systemd.services.libreddit.environment = {
+      LIBREDDIT_DEFAULT_SUBSCRIPTIONS = lib.pipe ./reddit-subscriptions.txt [
+        builtins.readFile
+        (lib.splitString "\n")
+        (lib.filter (x: x != ""))
+        (lib.concatStringsSep "+")
+      ];
+    };
+    services.libreddit = {
+      enable = true;
+      port = 8087;
+      pkg = pkgs.redlib;
+    };
   };
 }
