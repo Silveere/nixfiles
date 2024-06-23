@@ -88,6 +88,8 @@
 
         "localhost" = {
           default = true;
+          addSSL = true;
+          useACMEHost = "protogen.io";
           locations."/" = {
             return = "302 https://protogen.io$request_uri";
           };
