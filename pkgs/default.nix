@@ -12,4 +12,5 @@ in
   wm-helpers = callPackage ./wm-helpers { };
   atool = callPackage ./atool-wrapped { };
   nixfiles-assets = callPackage ./nixfiles-assets { };
+  redlib = callPackage ./redlib { };
 }
