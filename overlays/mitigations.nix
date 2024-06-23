@@ -19,6 +19,12 @@ in {
   in if ((builtins.compareVersions "2024.5.27" prev.yt-dlp.version) == 1)
     then (final.python3Packages.toPythonApplication pkgs-y.python3Packages.yt-dlp)
     else prev.yt-dlp;
+
+  redlib = let
+    redlib-new = final.callPackage nixfiles.packages.${prev.system}.redlib {};
+    inherit (prev) redlib;
+    notOlder = (builtins.compareVersions redlib-new.version redlib.version) >= 0;
+  in if notOlder then redlib-new else redlib;
 }
   # # can't optionalAttrs for version checks because it breaks lazy eval and causes infinite recursion
   # // {
