@@ -32,7 +32,7 @@
           };
         };
         "protogen.io" = {
-          serverAliases = "x.protogen.io";
+          serverAliases = [ "x.protogen.io" ];
           useACMEHost = "protogen.io";
           forceSSL = true;
           locations."/" = {
