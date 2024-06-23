@@ -42,6 +42,12 @@
     autostart = true;
   };
 
+  networking.firewall.trustedInterfaces = [
+    "wg0"
+    "tailscale0"
+  ];
+  networking.firewall.allowedUDPPorts = [ 51820 ];
+
   services.openssh = {
     enable = true;
     openFirewall = true;
