@@ -13,5 +13,6 @@ let
 in
 {
   "cloudflare-dns.age".publicKeys = [ rpi4 ] ++ all-user;
+  "wg0.conf.age".publicKeys = [ rpi4 ] ++ all-user;
 }
 
