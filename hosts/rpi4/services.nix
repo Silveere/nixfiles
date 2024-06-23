@@ -71,7 +71,7 @@
         "hass.protogen.io" = mkReverseProxy 8123;
         "node.protogen.io" = mkReverseProxy 1880;
         # z2m auth 8124
-        "jellyfin.protogen.io" = mkReverseProxy 8096;
+        "room.protogen.io" = mkReverseProxy 8096;
         # deemix auth 8096
         # libreddit auth 8087
         "rss.protogen.io" = mkReverseProxy 8082;
