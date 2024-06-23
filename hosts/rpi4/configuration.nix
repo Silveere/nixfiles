@@ -12,7 +12,14 @@
     ];
 
   fileSystems = let
-    mounts = [ "/nix" "/" "/.btrfsroot" "/home" ];
+    mounts = [
+      "/nix"
+      "/"
+      "/.btrfsroot"
+      "/home"
+      "/opt/hassio"
+      "/opt/hassio/.snapshots"
+    ];
     fn = (x: { options = [ "compress=zstd" ];});
   in lib.genAttrs mounts fn;
 

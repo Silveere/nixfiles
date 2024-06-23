@@ -42,6 +42,19 @@
       fsType = "ext4";
     };
 
+  fileSystems."/opt/hassio" =
+    { device = "/dev/disk/by-uuid/112535b6-4318-4d26-812b-7baf0d65dae5";
+      fsType = "btrfs";
+      options = [ "subvol=/@hassio" ];
+    };
+
+  fileSystems."/opt/hassio/.snapshots" =
+    { device = "/dev/disk/by-uuid/112535b6-4318-4d26-812b-7baf0d65dae5";
+      fsType = "btrfs";
+      options = [ "subvol=/snapshots/@hassio" ];
+    };
+
+
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
