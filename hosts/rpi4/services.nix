@@ -1,5 +1,8 @@
 { config, lib, pkgs, ... }:
 {
+  imports = [
+    ./gitea.nix
+  ];
   config = {
 
     age.secrets.cloudflaredns = {
