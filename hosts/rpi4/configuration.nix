@@ -32,7 +32,15 @@
     profile.server.enable = true;
   };
 
+  # VPN services
+  age.secrets.wg0 = {
+    file = ../../secrets/wireguard-rpi4.age;
+  };
   services.tailscale.enable = true;
+  networking.wg-quick.interfaces.wg0 = {
+    configFile = config.age.secrets.wg0.path;
+    autostart = true;
+  };
 
   services.openssh = {
     enable = true;
