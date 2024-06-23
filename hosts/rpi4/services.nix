@@ -40,7 +40,11 @@
 
     users.users.nginx.extraGroups = [ "acme" ];
 
-    networking.firewall.allowedTCPPorts = [ 80 443 ];
+    networking.firewall.allowedTCPPorts = [
+      80 443
+      # this is needed for node to work for some reason
+      8123
+    ];
 
     services.nginx = {
       enable = true;
