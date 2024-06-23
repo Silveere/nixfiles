@@ -42,6 +42,18 @@
       fsType = "ext4";
     };
 
+  fileSystems."/srv/syncthing" =
+    { device = "/dev/disk/by-uuid/112535b6-4318-4d26-812b-7baf0d65dae5";
+      fsType = "btrfs";
+      options = [ "subvol=/@syncthing" ];
+    };
+
+  fileSystems."/srv/media" =
+    { device = "/dev/disk/by-uuid/112535b6-4318-4d26-812b-7baf0d65dae5";
+      fsType = "btrfs";
+      options = [ "subvol=/@media" ];
+    };
+
   fileSystems."/opt/hassio" =
     { device = "/dev/disk/by-uuid/112535b6-4318-4d26-812b-7baf0d65dae5";
       fsType = "btrfs";
