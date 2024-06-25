@@ -20,7 +20,7 @@ in
       '');
     in [ auto-offload ];
     # Enable OpenGL
-    hardware.opengl = {
+    hardware.graphics = {
       enable = true;
       enable32Bit = true;
     };
