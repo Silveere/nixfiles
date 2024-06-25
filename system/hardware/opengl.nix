@@ -20,10 +20,9 @@ in
       '');
     in [ auto-offload ];
     # Enable OpenGL
-    hardware.opengl = {
+    hardware.graphics = {
       enable = true;
-      driSupport = lib.mkDefault true;
-      driSupport32Bit = lib.mkDefault config.hardware.opengl.driSupport;
+      enable32Bit = true;
     };
   };
 }
