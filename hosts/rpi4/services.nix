@@ -120,6 +120,9 @@
       storageDriver = "btrfs";
     };
 
+    # needed for mDNS in Home Assistant
+    networking.firewall.allowedUDPPorts = [ 5353 ];
+
     systemd.services.libreddit.environment = {
       LIBREDDIT_DEFAULT_SUBSCRIPTIONS = lib.pipe ./reddit-subscriptions.txt [
         builtins.readFile
