@@ -22,8 +22,7 @@ in
     # Enable OpenGL
     hardware.opengl = {
       enable = true;
-      driSupport = lib.mkDefault true;
-      driSupport32Bit = lib.mkDefault config.hardware.opengl.driSupport;
+      enable32Bit = true;
     };
   };
 }
