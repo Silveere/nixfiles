@@ -3,6 +3,31 @@
   imports = [
     ./gitea.nix
   ];
+
+  # authelia
+  options.services.nginx = let
+    inherit (lib) types;
+    mkAttrsOfSubmoduleOpt = module: lib.mkOption { type = with types; attrsOf (submodule module); };
+
+    # make system config accessible from submodules
+    systemConfig = config;
+
+    # submodule definitions
+    locationModule' = vhostAttrs: { name, config, ... }: {
+      options.testModuleExtension = lib.mkEnableOption "module extension test";
+      config.extraConfig = lib.mkIf config.testModuleExtension ''
+        # vhostAttrs is ${vhostAttrs.name}
+        # location is ${name}
+      '';
+    };
+    vhostModule = { name, config, ... }@attrs: {
+      options.locations = mkAttrsOfSubmoduleOpt (locationModule' attrs);
+    };
+
+  in {
+    virtualHosts = mkAttrsOfSubmoduleOpt vhostModule;
+  };
+
   config = {
 
     age.secrets.cloudflaredns = {
