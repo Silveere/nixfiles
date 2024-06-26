@@ -1,7 +1,6 @@
 { pkgs, lib, config, ... }:
 let
   cfg = config.services.minecraft-servers;
-  inherit (config.nixfiles.lib.minecraft) mkServer;
 in
 {
   config = {
@@ -50,7 +49,8 @@ in
           exec ${pkgs.jre_headless}/bin/java $@ -jar ./quilt-server-launch.jar nogui
         '';
       in {
-        notlite = mkServer {
+        notlite = {
+          useRecommendedDefaults = true;
           enable = true;
           autoStart = true;
           modpack = notlite-modpack;
@@ -70,7 +70,8 @@ in
         minecraft-nixtest = let
           self = cfg.servers.minecraft-nixtest;
           package = pkgs.quiltServers.quilt-1_20_1.override { loaderVersion = "0.21.0"; };
-        in config.nixfiles.lib.minecraft.mkServer {
+        in {
+          useRecommendedDefaults = true;
           enable = false;
           modpack = notlite-modpack;
           # package = shimPackage;

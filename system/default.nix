@@ -16,7 +16,7 @@ in
     ./mitigations.nix
 
     # modules
-    inputs.nix-minecraft.nixosModules.minecraft-servers
+    ./minecraft.nix # imports inputs.nix-minecraft
     inputs.impermanence.nixosModules.impermanence
     inputs.agenix.nixosModules.default
     ./stylix.nix # imports inputs.stylix
