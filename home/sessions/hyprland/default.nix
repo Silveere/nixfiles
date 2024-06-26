@@ -235,7 +235,7 @@ in
 
         master = {
             # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-            new_is_master = mkd "true";
+            # new_is_master = mkd "true";
         };
 
         gestures = {
