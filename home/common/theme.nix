@@ -66,8 +66,8 @@ in {
       });
 
       theme = lib.mkDefault {
-        package = ctp.packages.gtk;
-        name = ctp.names.gtk.normal;
+        package = pkgs.gnome.gnome-themes-extra;
+        name = "Adwaita-dark";
       };
 
       iconTheme = lib.mkDefault {
