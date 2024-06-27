@@ -14,11 +14,6 @@
 
     # submodule definitions
     locationModule' = vhostAttrs: { name, config, ... }: {
-      options.testModuleExtension = lib.mkEnableOption "module extension test";
-      config.extraConfig = lib.mkIf config.testModuleExtension ''
-        # vhostAttrs is ${vhostAttrs.name}
-        # location is ${name}
-      '';
     };
     vhostModule = { name, config, ... }@attrs: {
       options.locations = mkAttrsOfSubmoduleOpt (locationModule' attrs);
