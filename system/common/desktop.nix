@@ -13,7 +13,7 @@ in
   # ];
 
   options.nixfiles.common.desktop = {
-    enable = mkEnableOption "common desktop options";
+    enable = mkEnableOption "common desktop configuration";
   };
 
   config = mkIf cfg.enable {
@@ -50,6 +50,7 @@ in
 
     fonts.packages = with pkgs; [
       (nerdfonts.override { fonts = [ "FiraCode" ]; })
+      font-awesome
       noto-fonts-cjk
       (google-fonts.override { fonts = [ "NovaSquare" ];})
     ];
