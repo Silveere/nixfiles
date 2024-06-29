@@ -115,12 +115,16 @@
         # octoprint (proxy_addr is 10.10.1.8)
         "print.protogen.io" = mkProxy { auth = true; upstream = "http://10.10.1.8:80"; };
         # searx auth 8088 (none for /favicon.ico, /autocompleter, /opensearch.xml)
+        "search.protogen.io".locations."/".return = "302 https://searx.protogen.io$request_uri";
         "searx.protogen.io" = let
           port = 8088;
         in mkProxy { auth = true; inherit port; extraConfig = {
           locations = lib.genAttrs [ "/favicon.ico" "/autocompleter" "/opensearch.xml" ] (attr: {
-            basicAuthFile = lib.mkForce null;
-            basicAuth = lib.mkForce { };
+            proxyPass = "http://localhost:${builtins.toString port}";
+            proxyWebsockets = true;
+            extraConfig = ''
+              auth_basic off;
+            '';
           });
         };};
         # nbt.sh alias proot.link 8090
