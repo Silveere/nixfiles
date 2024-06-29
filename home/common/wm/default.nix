@@ -58,6 +58,9 @@ in
     ];
 
     programs = {
+      waybar = {
+        enable = true;
+      };
 
       swaylock = {
         enable = true;

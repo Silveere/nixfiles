@@ -61,6 +61,7 @@ let
       ${pkgs.systemd}/bin/systemctl --user restart xdg-desktop-portal.service
     '';
 
+  bar-cmd = "${pkgs.waybar}/bin/waybar";
   # Hyprland workspace configuration
   mainWorkspaces = builtins.genList (x: x+1) (9 ++ [0]);
   workspaceName = key: let
@@ -152,6 +153,7 @@ in
           polkit-agent
           idle-cmd
           xdpg-workaround
+          bar-cmd
         ];
 
         # Source a file (multi-file configs)
