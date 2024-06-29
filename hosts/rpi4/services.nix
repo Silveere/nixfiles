@@ -10,6 +10,12 @@
       group = "secrets";
     };
 
+    age.secrets.htpasswd = {
+      file = ../../secrets/htpasswd.age;
+      group = "nginx";
+      mode = "0750";
+    };
+
     users.groups.secrets = {};
     users.users.acme.extraGroups = [ "secrets" ];
 

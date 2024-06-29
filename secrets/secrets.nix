@@ -14,5 +14,6 @@ in
 {
   "cloudflare-dns.age".publicKeys = [ rpi4 ] ++ all-user;
   "wireguard-rpi4.age".publicKeys = [ rpi4 ] ++ all-user;
+  "htpasswd.age".publicKeys = [ rpi4 ] ++ all-user;
 }
 
