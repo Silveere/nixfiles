@@ -110,6 +110,11 @@
     unitConfig.DefaultDependencies = "no";
   });
 
+  # might make hibernate better idk
+  systemd.sleep.extraConfig = ''
+    disk=shutdown
+  '';
+
   services.logind = {
     lidSwitch = "lock";
     suspendKey = "hibernate";
