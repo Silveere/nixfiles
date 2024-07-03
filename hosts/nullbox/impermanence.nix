@@ -107,7 +107,6 @@ in {
 
     users.mutableUsers = false;
     users.users.nullbite.hashedPasswordFile = "/persist/passfile/nullbite";
-    users.users.nullbite.initialPassword = null;
     users.users.root.hashedPasswordFile = "/persist/passfile/root";
   };
 }

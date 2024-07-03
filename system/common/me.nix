@@ -16,8 +16,12 @@ in
       packages = with pkgs; [
         keychain
       ];
-      initialPassword = lib.mkDefault "changeme";
       shell = pkgs.zsh;
+
+      # this should only be configured if mutableUsers is enabled, otherwise it
+      # behaves the same as `password` and takes precedence over
+      # `hashedPasswordFile`, which is undesirable.
+      initialPassword = lib.mkIf config.users.mutableUsers (lib.mkDefault "changeme");
     };
 
     users.groups.nullbite.gid = 1000;
