@@ -1,39 +1,30 @@
 { pkgs, config, lib, ... }:
 let
-  mkBtrfsInit = { prefix ? "",
-                  volume }:
+  inherit (lib) escapeShellArg;
+  # (wip) more configurable than old one, will be used by volatile btrfs module
+  mkBtrfsInit = { volatileRoot ? "/volatile",
+                      oldRoots ? "/old_roots",
+                      volume }:
   ''
-    mkdir /btrfs_tmp
-    mount ${volume} /btrfs_tmp -o subvol=/
+    mkdir -p /btrfs_tmp
+    mount ${escapeShellArg volume} /btrfs_tmp -o subvol=/
 
-    # unix is fine with multiple consecutive slashes if prefix is empty or
-    # contains a leading or trailing slash
-    mkdir -p "/btrfs_tmp/${prefix}/"
+    # ensure subvol parent directory exists
+    mkdir -p $(dirname /btrfs_tmp/${escapeShellArg volatileRoot})
 
-    if [[ -e "/btrfs_tmp/${prefix}/volatile" ]] ; then
-      mkdir -p "/btrfs_tmp/${prefix}/old_roots"
-      timestamp=$(date --date="@$(stat -c %Y "/btrfs_tmp/${prefix}/volatile")" "+%Y-%m-%-d_%H:%M:%S")
-      mv "/btrfs_tmp/${prefix}/volatile" "/btrfs_tmp/${prefix}/old_roots/$timestamp"
+    if [[ -e /btrfs_tmp/${escapeShellArg volatileRoot} ]] ; then
+      mkdir -p /btrfs_tmp/${escapeShellArg oldRoots}
+      timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/${escapeShellArg volatileRoot})" "+%Y-%m-%-d_%H:%M:%S")
+      mv /btrfs_tmp/${escapeShellArg volatileRoot} /btrfs_tmp/${escapeShellArg oldRoots}/"$timestamp"
     fi
 
-    delete_subvolume_recursively() {
-      IFS=$'\n'
-      for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
-        delete_subvolume_recursively "/btrfs_tmp/$i"
-      done
-      # btrfs subvolume delete "$1"
-      echo would run: btrfs subvolume delete "$1"
-      echo remove this echo once you see this message
-
-    }
-
-    for i in $(find /btrfs_tmp/${prefix}/old_roots/ -maxdepth 1 -mtime +30); do
-      delete_subvolume_recursively "$i"
-    done
-
-    btrfs subvolume create /btrfs_tmp/${prefix}/volatile
+    btrfs subvolume create /btrfs_tmp/${escapeShellArg volatileRoot}
 
     umount /btrfs_tmp
+
+    # TODO implement deletion once system is booted. the old implementation did
+    # it here, which is not safe until system time is at least monotonic.
+    # systemd tmpfiles is good enough, just mount it to somewhere in /run
   '';
 
   root_vol = "/dev/archdesktop/root";
@@ -46,7 +37,13 @@ in {
       options = [ "subvol=/nixos/@persist" ];
     };
 
-    boot.initrd.postDeviceCommands = lib.mkAfter (mkBtrfsInit { prefix = "nixos"; volume = root_vol; });
+    # TODO volatile btrfs module
+    boot.initrd.postDeviceCommands = lib.mkAfter (mkBtrfsInit {
+      volume = root_vol;
+      volatileRoot = "/nixos/volatile";
+      oldRoots = "/nixos/old_roots";
+    });
+
     fileSystems."/" = lib.mkForce {
       device = root_vol;
       fsType = "btrfs";
