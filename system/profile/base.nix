@@ -129,6 +129,10 @@ in
         enableSSHSupport = lib.mkDefault false;
       };
 
+      # initrd rescue password (can store plain hash since it is extremely
+      # unlikely to be brute forced)
+      boot.initrd.systemd.emergencyAccess = "$2b$15$jljA4yma8GrD2LmvhrlUkuXWBry/0jhMnXs1qB1y/byBGXKq74wMK";
+
       boot.loader.systemd-boot.configurationLimit = lib.mkDefault 15;
 
       # see:
