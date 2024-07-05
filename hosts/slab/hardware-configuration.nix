@@ -19,20 +19,10 @@
       options = [ "subvol=nixos/@root" ];
     };
 
-  # fileSystems."/boot" =
-  #   { device = "/dev/disk/by-uuid/b9813c1d-5b6c-4026-9ee3-53ba80b90dc4";
-  #     fsType = "ext4";
-  #   };
-
   fileSystems."/nix" =
     { device = "/dev/disk/by-uuid/5723dafa-81df-4bb4-a039-7f52b61cbb02";
       fsType = "btrfs";
       options = [ "subvol=nixos/@nix" ];
-    };
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/4E1B-8BEE";
-      fsType = "vfat";
     };
 
   fileSystems."/.btrfsroot" =
@@ -45,6 +35,18 @@
     { device = "/dev/disk/by-uuid/5723dafa-81df-4bb4-a039-7f52b61cbb02";
       fsType = "btrfs";
       options = [ "subvol=@home" ];
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/50D3-45F0";
+      fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
+    };
+
+  fileSystems."/efi" =
+    { device = "/dev/disk/by-uuid/4E1B-8BEE";
+      fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
     };
 
   swapDevices =

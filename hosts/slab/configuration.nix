@@ -88,7 +88,7 @@
   boot.loader = {
     efi = {
       canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot";
+      efiSysMountPoint = "/efi";
     };
     # grub = {
     #   enable = true;
@@ -97,10 +97,9 @@
     # };
     systemd-boot = {
       enable = true;
+      xbootldrMountPoint = "/boot";
       netbootxyz.enable = true;
       memtest86.enable = true;
-      # grr oem efi partitions
-      configurationLimit = 4;
     };
   };
 
