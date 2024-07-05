@@ -255,6 +255,20 @@
       in
         mkSystem (args // override);
 
+    mkISOSystem = system: inputs.nixpkgs-unstable.lib.nixosSystem {
+      inherit system;
+      modules = [
+        "${inputs.nixpkgs-unstable}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
+        ({ config, pkgs, lib, ... }:
+        {
+          environment.systemPackages = with pkgs; [
+            neovim
+            gparted
+          ];
+        })
+      ];
+    };
+
     # values to be passed to nixosModules and homeManagerModules wrappers
     moduleInputs = {
       inherit mkExtraPkgs;
@@ -322,13 +336,20 @@
     nixosModules = (import ./modules/nixos) moduleInputs;
     homeManagerModules = (import ./modules/home-manager) moduleInputs;
     packages = eachSystem (system: let pkgs = import nixpkgs { inherit system; };
-      in import ./pkgs { inherit pkgs; });
+      in (
+        import ./pkgs { inherit pkgs; }) // {
+          iso = let
+            isoSystem = mkISOSystem system;
+          in isoSystem.config.system.build.isoImage;
+        }
+      );
     apps = eachSystem (system: import ./pkgs/apps.nix
       { inherit (self.outputs) packages; inherit system; });
 
     overlays = import ./overlays self;
 
     nixosConfigurations = {
+      iso = mkISOSystem "x86_64-linux";
       slab = mkSystem {
         nixpkgs = inputs.nixpkgs-unstable;
         home-manager = inputs.home-manager-unstable;
