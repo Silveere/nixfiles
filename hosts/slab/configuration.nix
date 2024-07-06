@@ -77,7 +77,10 @@
   boot.initrd.systemd.enable = true;
 
   boot.plymouth.enable = true;
+
   boot.kernelParams = [ "quiet" ];
+  # annoying ACPI bug
+  boot.consoleLogLevel = 2;
 
   # cryptsetup
   boot.initrd.luks.devices = {
