@@ -88,6 +88,7 @@ in {
           "/var/lib/NetworkManager"
           "/var/lib/power-profiles-daemon"
           "/var/lib/systemd/rfkill"
+          "/var/lib/systemd/timesync"
           { directory = "/var/lib/tailscale"; mode = "0700"; }
           "/var/lib/unbound"
           "/var/db/sudo/lectured"
