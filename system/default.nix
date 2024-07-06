@@ -1,4 +1,4 @@
-{ pkgs, config, lib, options, nixpkgs, home-manager, inputs, ... }@args:
+{ pkgs, config, lib, options, nixpkgs, home-manager, inputs, utils, ... }@args:
 let
   cfg = config.nixfiles;
   flakeType = cfg.lib.types.flake;
@@ -28,6 +28,12 @@ in
       default = false;
       example = true;
       type = lib.types.bool;
+    };
+
+    utils = lib.mkOption {
+      description = "nixpkgs `utils` argument passthrough";
+      default = utils;
+      readOnly = true;
     };
 
     workarounds.nvidiaPrimary = lib.mkOption {
