@@ -29,6 +29,9 @@ let
 
   root_vol = "/dev/archdesktop/root";
 in {
+  imports = [
+    ./btrfs-clean.nix
+  ];
   config = lib.mkIf (!(config.virtualisation ? qemu)) {
     fileSystems."/persist" = {
       neededForBoot = true;
