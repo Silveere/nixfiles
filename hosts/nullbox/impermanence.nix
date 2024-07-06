@@ -40,17 +40,16 @@ in {
       options = [ "subvol=/nixos/@persist" ];
     };
 
-    # TODO volatile btrfs module
-    boot.initrd.postDeviceCommands = lib.mkAfter (mkBtrfsInit {
-      volume = root_vol;
-      volatileRoot = "/nixos/volatile";
-      oldRoots = "/nixos/old_roots";
-    });
-
     fileSystems."/" = lib.mkForce {
       device = root_vol;
       fsType = "btrfs";
-      options = [ "subvol=/nixos/volatile" ];
+      btrfs = {
+        subvolume = "/nixos/volatile";
+        cleanOnBoot = {
+          enable = true;
+          destination = "/nixos/old_roots";
+        };
+      };
     };
     environment.persistence = {
       "/persist/nobackup" = {
