@@ -607,17 +607,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1716948931,
-        "narHash": "sha256-wP2A/wbxE7h8u5iwlogkEevsIvx/dJmZlyoyy/2x3rE=",
-        "owner": "infinidoge",
+        "lastModified": 1720392297,
+        "narHash": "sha256-NHz+s1H1uRlDYfzhUF4JW1DfhsJ22o44ujSPqZfzJeI=",
+        "owner": "Silveere",
         "repo": "nix-minecraft",
-        "rev": "ab4790259bf8ed20f4417de5a0e5ee592094c7c3",
+        "rev": "13e03a3b1886660201e9923d0ae1fc37e68b817c",
         "type": "github"
       },
       "original": {
-        "owner": "infinidoge",
+        "owner": "Silveere",
+        "ref": "quilt-revert",
         "repo": "nix-minecraft",
-        "rev": "ab4790259bf8ed20f4417de5a0e5ee592094c7c3",
         "type": "github"
       }
     },

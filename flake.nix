@@ -26,7 +26,7 @@
     pkg-android-tools.url = "github:NixOS/nixpkgs/55070e598e0e03d1d116c49b9eff322ef07c6ac6";
 
     nix-minecraft = {
-      url = "github:infinidoge/nix-minecraft/ab4790259bf8ed20f4417de5a0e5ee592094c7c3";
+      url = "github:Silveere/nix-minecraft/quilt-revert";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
