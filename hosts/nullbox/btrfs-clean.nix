@@ -1,10 +1,10 @@
 { config, lib, utils, pkgs, ... }:
 let
+  inherit (builtins) attrValues all;
   inherit (lib) escapeShellArg optionalString concatStringsSep
     nameValuePair mapAttrs' filterAttrs mapAttrsToList
     mkIf mkOption types;
   inherit (utils) escapeSystemdPath;
-  # (wip) more configurable than old one, will be used by volatile btrfs module
 
   genBtrfsInit' = fsConfig: genBtrfsInit {
     inherit (fsConfig) device;
@@ -95,11 +95,10 @@ in
     configuredFileSystems = filterAttrs (k: v: v.btrfs.cleanOnBoot.enable) config.fileSystems;
   in mkIf (configuredFileSystems != { }) {
 
-    # assertions = mapAttrsToList (name: values:
-    #   { assertion = (!(isNull values.btrfs.subvolume));
-    #     message = "`fileSystems.${name}.btrfs.cleanOnBoot.enabled` is set to true, but `filesystems.${name}.btrfs.subvolume` is not set."; }) configuredFileSystems;
-
-    # assertions = [{ assertion = false; message = "btrfs-clean.nix: fix this assertion. look at nixos/modules/system/boot/luksroot preOpenCommands assertion for inspiration."; }];
+    assertions = [
+      { assertion = all (x: x.btrfs.cleanOnBoot.enable -> x.btrfs.subvolume != null) (attrValues configuredFileSystems);
+        message = "fileSystems.<name>.btrfs.cleanOnBoot.enable is set but no subvolume is configured."; }
+    ];
     boot.initrd.systemd.services = mapAttrs' generateInitrdUnit configuredFileSystems;
 
     boot.initrd.postDeviceCommands = let
