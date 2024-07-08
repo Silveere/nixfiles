@@ -48,7 +48,25 @@ in
         shimPackage = pkgs.writeShellScriptBin "minecraft-server" ''
           exec ${pkgs.jre_headless}/bin/java $@ -jar ./quilt-server-launch.jar nogui
         '';
+
+        nulllite-staging = let
+          commit = "b8c639a";
+          packHash = "sha256-HTDVIkcBf0DyLbSCuU08/HnEQuesi3cmXXhB4y4lyko=";
+        in pkgs.fetchPackwizModpack {
+          url = "https://gitea.protogen.io/nullbite/nulllite/raw/commit/${commit}/pack.toml";
+          inherit packHash;
+        };
       in {
+        nulllite-staging = {
+          useRecommendedDefaults = true;
+          enable = true;
+          autoStart = false;
+          modpack = nulllite-staging;
+          modpackSymlinks = [ "mods" ];
+          modpackFiles = [ "config/" ];
+          serverProperties.server-port = 25574;
+          serverProperties.motd = "staging server";
+        };
         notlite = {
           useRecommendedDefaults = true;
           enable = true;
