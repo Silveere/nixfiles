@@ -30,6 +30,11 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    nix-minecraft-upstream = {
+      url = "github:infinidoge/nix-minecraft";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     # provides an up-to-date database for comma
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
@@ -89,7 +94,19 @@
     lib = nixpkgs.lib;
     systems = [ "x86_64-linux" "aarch64-linux" ];
 
-    overlays = [
+    overlays = let
+      nix-minecraft-patched-overlay = let
+        normal = inputs.nix-minecraft-upstream.overlays.default;
+        quilt = inputs.nix-minecraft.overlays.default;
+      in lib.composeExtensions
+        normal
+        (final: prev: let
+          x=quilt final prev;
+        in {
+          inherit (x) quiltServers quilt-server;
+          minecraftServers = prev.minecraftServers // x.quiltServers;
+        });
+    in [
       /* android-tools 33.0.3p2 */ (final: prev: {
         inherit (inputs.pkg-android-tools.legacyPackages.${final.system})
           android-tools android-udev-rules;
@@ -110,7 +127,7 @@
       inputs.hyprwm-contrib.overlays.default
       inputs.rust-overlay.overlays.default
       inputs.nixfiles-assets.overlays.default
-      inputs.nix-minecraft.overlays.default
+      nix-minecraft-patched-overlay
       # inputs.hypridle.overlays.default
       (final: prev: { inherit (inputs.hypridle.packages.${prev.system}) hypridle; })
     ];
