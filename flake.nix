@@ -21,10 +21,6 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    # 33.0.3p2 as suggested by https://xdaforums.com/t/guide-january-3-2024-root-pixel-7-pro-unlock-bootloader-pass-safetynet-both-slots-bootable-more.4505353/
-    # android tools versions [ 34.0.0, 34.0.5 ) causes bootloops somehow and 34.0.5 isn't in nixpkgs yet
-    pkg-android-tools.url = "github:NixOS/nixpkgs/55070e598e0e03d1d116c49b9eff322ef07c6ac6";
-
     nix-minecraft = {
       url = "github:Silveere/nix-minecraft/quilt-revert";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -107,10 +103,6 @@
           minecraftServers = prev.minecraftServers // x.quiltServers;
         });
     in [
-      /* android-tools 33.0.3p2 */ (final: prev: {
-        inherit (inputs.pkg-android-tools.legacyPackages.${final.system})
-          android-tools android-udev-rules;
-      })
       (final: prev: let
         packages = import ./pkgs { inherit (prev) pkgs; };
       in {
@@ -138,10 +130,11 @@
     # My current timezone for any mobile devices (i.e., my laptop)
     mobileTimeZone = "America/New_York";
 
+    # TODO this was something for android-tools. overlays are a better way to
+    # define packages anyway, probably remove this.
+    #
     # define extra packages here
     mkExtraPkgs = system: {
-      # android-tools = inputs.pkg-android-tools.legacyPackages.${system}.android-tools;
-      inherit (inputs.pkg-android-tools.legacyPackages.${system}) android-tools android-udev-rules;
     };
 
     # Variables to be passed to NixOS modules in the vars attrset

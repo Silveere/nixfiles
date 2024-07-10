@@ -3,8 +3,6 @@ let
   cfg = config.nixfiles.programs.adb;
 in
 {
-  # imports = [ outputs.nixosModules.adb ];
-
   options.nixfiles.programs.adb = {
     enable = lib.mkEnableOption "adb configuration";
   };
