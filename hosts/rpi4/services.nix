@@ -10,6 +10,11 @@
       group = "secrets";
     };
 
+    age.secrets.htpasswd-cam = {
+      file = ../../secrets/htpasswd-cam.age;
+      group = "nginx";
+      mode = "0750";
+    };
     age.secrets.htpasswd = {
       file = ../../secrets/htpasswd.age;
       group = "nginx";
@@ -113,7 +118,14 @@
         "rss.protogen.io" = mkReverseProxy 8082;
         "blahaj.protogen.io" = mkReverseProxy 8086;
         # octoprint (proxy_addr is 10.10.1.8)
-        "print.protogen.io" = mkProxy { auth = true; upstream = "http://10.10.1.8:80"; };
+        "print.protogen.io" = lib.mkMerge [ (mkProxy { auth = true; upstream = "http://10.10.1.8:80"; }) 
+        {
+          locations."/webcam" = {
+            proxyPass = "http://10.10.1.8:80$request_uri";
+            proxyWebsockets = true;
+            basicAuthFile = config.age.secrets.htpasswd-cam.path;
+          };
+        }];
         # searx auth 8088 (none for /favicon.ico, /autocompleter, /opensearch.xml)
         "search.protogen.io".locations."/".return = "302 https://searx.protogen.io$request_uri";
         "searx.protogen.io" = let
