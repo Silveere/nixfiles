@@ -37,10 +37,10 @@ in
       dataDir = "/srv/mcserver";
       servers = let
         notlite-modpack = let
-          commit = "773337e";
+          commit = "7697c3a";
         in pkgs.fetchPackwizModpack {
           url = "https://gitea.protogen.io/nullbite/notlite/raw/commit/${commit}/pack.toml";
-          packHash = "sha256-WU+5iRCI+7hyBn1KlxW6aOLRkiqKEcUbeGHb/mmlBY0=";
+          packHash = "sha256-/IA/NP1w9RcWg+71lxUN+Q3hz12GhN/e4lkSnaYyAb4=";
         };
 
         # hack to make quilt work. requires manual installation.
