@@ -111,6 +111,10 @@ in
 
         # kitty compatibility on all systems
         kitty.terminfo
+
+        # GPG
+        gnupg
+        pinentry # i want all of them
       ];
 
       # Needed for Kvantum themes to be detected
