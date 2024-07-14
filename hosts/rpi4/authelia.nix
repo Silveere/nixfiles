@@ -1,19 +1,31 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  inherit (lib) types
-    mkIf
-    optionalString;
+  inherit (lib) types mkIf optionalString;
   inherit (builtins) isNull any attrValues;
 
-  validAuthMethods = [ "normal" "basic" ];
-  getUpstreamFromInstance = instance: let
-    inherit (config.services.authelia.instances.${instance}.settings) server;
-    inherit (server) port;
-    host = if server.host == "0.0.0.0" then "127.0.0.1"
-      else if lib.hasInfix ":" server.host then
-        throw "TODO IPv6 not supported in Authelia server address (hard to parse, can't tell if it is [::])."
-      else server.host;
-  in "http://${host}:${port}";
+  validAuthMethods = [
+    "normal"
+    "basic"
+  ];
+  getUpstreamFromInstance =
+    instance:
+    let
+      inherit (config.services.authelia.instances.${instance}.settings) server;
+      inherit (server) port;
+      host =
+        if server.host == "0.0.0.0" then
+          "127.0.0.1"
+        else if lib.hasInfix ":" server.host then
+          throw "TODO IPv6 not supported in Authelia server address (hard to parse, can't tell if it is [::])."
+        else
+          server.host;
+    in
+    "http://${host}:${port}";
 
   # use this when reverse proxying to authelia (and only authelia because i
   # like the nixos recommended proxy settings better)
@@ -54,7 +66,6 @@ let
     proxy_send_timeout 360;
     proxy_connect_timeout 360;
   '';
-
 
   autheliaLocation = ''
     internal;
@@ -98,118 +109,132 @@ let
 in
 {
   # authelia
-  options.services.nginx = let
-    mkAttrsOfSubmoduleOpt = module: lib.mkOption { type = with types; attrsOf (submodule module); };
+  options.services.nginx =
+    let
+      mkAttrsOfSubmoduleOpt = module: lib.mkOption { type = with types; attrsOf (submodule module); };
 
-    # make system config accessible from submodules
-    systemConfig = config;
+      # make system config accessible from submodules
+      systemConfig = config;
 
-    # submodule definitions
-    vhostModule = { name, config, ... }@attrs: {
-      options = {
-        locations = mkAttrsOfSubmoduleOpt (locationModule' attrs);
-        authelia = {
-          endpoint = {
-            instance = lib.mkOption {
-              description = ''
-                Local Authelia instance to act as the authentication endpoint.
-                This virtualHost will be configured to provide the
-                public-facing authentication service.
-              '';
-              type = with types; nullOr str;
-              default = null;
+      # submodule definitions
+      vhostModule =
+        { name, config, ... }@attrs:
+        {
+          options = {
+            locations = mkAttrsOfSubmoduleOpt (locationModule' attrs);
+            authelia = {
+              endpoint = {
+                instance = lib.mkOption {
+                  description = ''
+                    Local Authelia instance to act as the authentication endpoint.
+                    This virtualHost will be configured to provide the
+                    public-facing authentication service.
+                  '';
+                  type = with types; nullOr str;
+                  default = null;
+                };
+                upstream = lib.mkOption {
+                  description = ''
+                    Internal URL of the Authelia endpoint to forward authentication
+                    requests to.
+                  '';
+                  type = with types; nullOr str;
+                  default = null;
+                };
+              };
+              instance = lib.mkOption {
+                description = ''
+                  Local Authelia instance to use. Setting this option will
+                  automatically configure Authelia on the specified virtualHost
+                  with the given instance of Authelia.
+                '';
+                type = with types; nullOr str;
+                default = null;
+              };
+              upstream = lib.mkOption {
+                description = ''
+                  Internal URL of the Authelia endpoint to forward authorization
+                  requests to. This should not be the public-facing authentication
+                  endpoint URL.
+                '';
+              };
+              method = lib.mkOption {
+                description = ''
+                  Default Authelia authentication method to use for all locations
+                  in this virtualHost. Authentication is disabled by default for
+                  all locations if this is set to `null`.
+                '';
+                type = with types; nullOr oneOf validAuthMethods;
+                default = "regular";
+                example = "basic";
+              };
             };
-            upstream = lib.mkOption {
-              description = ''
-                Internal URL of the Authelia endpoint to forward authentication
-                requests to.
-              '';
-              type = with types; nullOr str;
-              default = null;
-            };
           };
-          instance = lib.mkOption {
-            description = ''
-              Local Authelia instance to use. Setting this option will
-              automatically configure Authelia on the specified virtualHost
-              with the given instance of Authelia.
-            '';
-            type = with types; nullOr str;
-            default = null;
+          config = {
+            authelia.upstream = mkIf (!(isNull config.authelia.instance)) (
+              getUpstreamFromInstance config.authelia.instance
+            );
+            authelia.endpoint.upstream = mkIf (!(isNull config.authelia.endpoint.instance)) (
+              getUpstreamFromInstance config.authelia.endpoint.instance
+            );
+
+            # authelia nginx internal endpoints
+            locations =
+              let
+                api = "${config.authelia.upstream}/api/authz/auth-request";
+              in
+              lib.mkIf (!(isNull config.authelia.upstream)) {
+                # just setup both, they can't be accessed externally anyways.
+                "/internal/authelia/authz" = {
+                  proxyPass = api;
+                  recommendedProxyConfig = false;
+                  extraConfig = ''
+                    include ${autheliaLocationConfig};
+                  '';
+                };
+                "/internal/authelia/authz/basic" = {
+                  proxyPass = "${api}/basic";
+                  recommendedProxyConfig = false;
+                  extraConfig = ''
+                    include ${autheliaBasicLocationConfig};
+                  '';
+                };
+              };
           };
-          upstream = lib.mkOption {
+        };
+
+      locationModule' =
+        vhostAttrs:
+        { name, config, ... }:
+        let
+          vhostConfig = vhostAttrs.config;
+        in
+        {
+          options.authelia.method = lib.mkOption {
             description = ''
-              Internal URL of the Authelia endpoint to forward authorization
-              requests to. This should not be the public-facing authentication
-              endpoint URL.
-            '';
-          };
-          method = lib.mkOption {
-            description = ''
-              Default Authelia authentication method to use for all locations
-              in this virtualHost. Authentication is disabled by default for
-              all locations if this is set to `null`.
+              Authelia authentication method to use for this location.
+              Authentication is disabled for this location if this is set to
+              `null`.
             '';
             type = with types; nullOr oneOf validAuthMethods;
-            default = "regular";
+            default = vhostConfig.authelia.method;
             example = "basic";
           };
+          config =
+            lib.mkIf (!(isNull vhostConfig.authelia.upstream))
+            && (!(lib.strings.hasPrefix "/internal/authelia/" name)) lib.mkMerge [
+              (
+                lib.mkIf config.authelia.method == "regular" {
+
+                }
+              )
+            ];
         };
-      };
-      config = {
-        authelia.upstream = mkIf (!(isNull config.authelia.instance))
-          (getUpstreamFromInstance config.authelia.instance);
-        authelia.endpoint.upstream = mkIf (!(isNull config.authelia.endpoint.instance))
-          (getUpstreamFromInstance config.authelia.endpoint.instance);
 
-        # authelia nginx internal endpoints
-        locations = let
-          api = "${config.authelia.upstream}/api/authz/auth-request";
-        in lib.mkIf (!(isNull config.authelia.upstream)) {
-          # just setup both, they can't be accessed externally anyways.
-          "/internal/authelia/authz" = {
-            proxyPass = api;
-            recommendedProxyConfig = false;
-            extraConfig = ''
-              include ${autheliaLocationConfig};
-            '';
-          };
-          "/internal/authelia/authz/basic" = {
-            proxyPass = "${api}/basic";
-            recommendedProxyConfig = false;
-            extraConfig = ''
-              include ${autheliaBasicLocationConfig};
-            '';
-          };
-        };
-      };
+    in
+    {
+      virtualHosts = mkAttrsOfSubmoduleOpt vhostModule;
     };
-
-    locationModule' = vhostAttrs: { name, config, ... }: let
-      vhostConfig = vhostAttrs.config;
-    in {
-      options.authelia.method = lib.mkOption {
-        description = ''
-          Authelia authentication method to use for this location.
-          Authentication is disabled for this location if this is set to
-          `null`.
-        '';
-        type = with types; nullOr oneOf validAuthMethods;
-        default = vhostConfig.authelia.method;
-        example = "basic";
-      };
-      config = lib.mkIf (!(isNull vhostConfig.authelia.upstream)) &&
-        (!(lib.strings.hasPrefix "/internal/authelia/" name))
-      lib.mkMerge [
-        (lib.mkIf config.authelia.method == "regular" {
-
-        })
-      ];
-    };
-
-  in {
-    virtualHosts = mkAttrsOfSubmoduleOpt vhostModule;
-  };
 
   # TODO check if any vhosts have authelia configured
   config = mkIf false {
