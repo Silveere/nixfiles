@@ -5,6 +5,7 @@ let
     optionalString;
   inherit (builtins) isNull any attrValues;
 
+  validAuthMethods = [ "normal" "basic" ];
   getUpstreamFromInstance = instance: let
     inherit (config.services.authelia.instances.${instance}.settings) server;
     inherit (server) port;
@@ -29,7 +30,8 @@ let
 
     ## Basic Proxy Configuration
     client_body_buffer_size 128k;
-    proxy_next_upstream error timeout invalid_header http_500 http_502 http_503; ## Timeout if the real server is dead.
+    # Timeout if the real server is dead.
+    proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
     proxy_redirect  http://  $scheme://;
     proxy_http_version 1.1;
     proxy_cache_bypass $cookie_session;
@@ -142,6 +144,16 @@ in
               endpoint URL.
             '';
           };
+          method = lib.mkOption {
+            description = ''
+              Default Authelia authentication method to use for all locations
+              in this virtualHost. Authentication is disabled by default for
+              all locations if this is set to `null`.
+            '';
+            type = with types; nullOr oneOf validAuthMethods;
+            default = "regular";
+            example = "basic";
+          };
         };
       };
       config = {
@@ -154,6 +166,7 @@ in
         locations = let
           api = "${config.authelia.upstream}/api/authz/auth-request";
         in lib.mkIf (!(isNull config.authelia.upstream)) {
+          # just setup both, they can't be accessed externally anyways.
           "/internal/authelia/authz" = {
             proxyPass = api;
             recommendedProxyConfig = false;
@@ -175,6 +188,23 @@ in
     locationModule' = vhostAttrs: { name, config, ... }: let
       vhostConfig = vhostAttrs.config;
     in {
+      options.authelia.method = lib.mkOption {
+        description = ''
+          Authelia authentication method to use for this location.
+          Authentication is disabled for this location if this is set to
+          `null`.
+        '';
+        type = with types; nullOr oneOf validAuthMethods;
+        default = vhostConfig.authelia.method;
+        example = "basic";
+      };
+      config = lib.mkIf (!(isNull vhostConfig.authelia.upstream)) &&
+        (!(lib.strings.hasPrefix "/internal/authelia/" name))
+      lib.mkMerge [
+        (lib.mkIf config.authelia.method == "regular" {
+
+        })
+      ];
     };
 
   in {
