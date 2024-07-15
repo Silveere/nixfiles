@@ -197,7 +197,10 @@
 
         # URL shortener
         "nbt.sh" = mkProxy { port = 8090; extraConfig.serverAliases = [ "proot.link" ]; };
-        "admin.nbt.sh" = mkProxy { authelia = true; port = 8091; extraConfig.serverAliases = [ "admin.proot.link" ]; };
+        "admin.nbt.sh" = mkProxy { authelia = true; port = 8091; extraConfig = {
+          # authelia version in NixOS does not support multiple domains, use basic
+          authelia.method = "basic"; serverAliases = [ "admin.proot.link" ];
+        };};
 
         # uptime
         "uptime.protogen.io" = mkReverseProxy 3001;
