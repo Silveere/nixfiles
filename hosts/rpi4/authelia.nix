@@ -222,6 +222,8 @@ in
               getUpstreamFromInstance config.authelia.endpoint.instance
             );
 
+            forceSSL = lib.mkIf (!(isNull config.authelia.endpoint.upstream)) true;
+
             # authelia nginx internal endpoints
             locations =
               let
