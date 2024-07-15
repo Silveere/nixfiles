@@ -235,23 +235,42 @@ in
               let
                 api = "${config.authelia.upstream}/api/authz/auth-request";
               in
-              lib.mkIf (!(isNull config.authelia.upstream)) {
-                # just setup both, they can't be accessed externally anyways.
-                "/internal/authelia/authz" = {
-                  proxyPass = api;
-                  recommendedProxySettings = false;
-                  extraConfig = ''
-                    include ${autheliaLocationConfig};
-                  '';
-                };
-                "/internal/authelia/authz/basic" = {
-                  proxyPass = "${api}/basic";
-                  recommendedProxySettings = false;
-                  extraConfig = ''
-                    include ${autheliaBasicLocationConfig};
-                  '';
-                };
-              };
+              lib.mkMerge [
+                (lib.mkIf (!(isNull config.authelia.upstream)) {
+                  # just setup both, they can't be accessed externally anyways.
+                  "/internal/authelia/authz" = {
+                    proxyPass = api;
+                    recommendedProxySettings = false;
+                    extraConfig = ''
+                      include ${autheliaLocationConfig};
+                    '';
+                  };
+                  "/internal/authelia/authz/basic" = {
+                    proxyPass = "${api}/basic";
+                    recommendedProxySettings = false;
+                    extraConfig = ''
+                      include ${autheliaBasicLocationConfig};
+                    '';
+                  };
+                })
+                (lib.mkIf (!(isNull config.authelia.endpoint.upstream)) {
+                  "/" = {
+                    extraConfig = ''
+                      include "${autheliaProxyConfig}";
+                    '';
+                    proxyPass = "${config.authelia.endpoint.upstream}";
+                    recommendedProxySettings = false;
+                  };
+                  "= /api/verify" = {
+                    proxyPass = "${config.authelia.endpoint.upstream}";
+                    recommendedProxySettings = false;
+                  };
+                  "/api/authz" = {
+                    proxyPass = "${config.authelia.endpoint.upstream}";
+                    recommendedProxySettings = false;
+                  };
+                })
+              ];
           };
         };
 
