@@ -36,13 +36,6 @@ in
       eula = true;
       dataDir = "/srv/mcserver";
       servers = let
-        notlite-modpack = let
-          commit = "7697c3a";
-        in pkgs.fetchPackwizModpack {
-          url = "https://gitea.protogen.io/nullbite/notlite/raw/commit/${commit}/pack.toml";
-          packHash = "sha256-/IA/NP1w9RcWg+71lxUN+Q3hz12GhN/e4lkSnaYyAb4=";
-        };
-
         # hack to make quilt work. requires manual installation.
         # workaround for nix-minecraft#60
         shimPackage = pkgs.writeShellScriptBin "minecraft-server" ''
@@ -71,7 +64,7 @@ in
           useRecommendedDefaults = true;
           enable = true;
           autoStart = true;
-          modpack = notlite-modpack;
+          modpack = pkgs.modpacks.notlite;
           modpackSymlinks = [ "mods" ];
           modpackFiles = [ "config/" "kubejs/" ];
           serverProperties = {
@@ -91,7 +84,7 @@ in
         in {
           useRecommendedDefaults = true;
           enable = false;
-          modpack = notlite-modpack;
+          modpack = pkgs.modpacks.notlite;
           # package = shimPackage;
           autoStart = self.enable;
           whitelist = {
