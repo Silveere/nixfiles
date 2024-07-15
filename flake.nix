@@ -130,13 +130,6 @@
     # My current timezone for any mobile devices (i.e., my laptop)
     mobileTimeZone = "America/New_York";
 
-    # TODO this was something for android-tools. overlays are a better way to
-    # define packages anyway, probably remove this.
-    #
-    # define extra packages here
-    mkExtraPkgs = system: {
-    };
-
     # Variables to be passed to NixOS modules in the vars attrset
     vars = {
       inherit username mobileTimeZone self;
@@ -182,7 +175,6 @@
           inherit users;
           extraSpecialArgs = {
             inherit inputs outputs vars nixpkgs home-manager;
-            extraPkgs = mkExtraPkgs system;
           };
         };
       };
@@ -248,7 +240,6 @@
         ] ++ extraModules;
         specialArgs = {
           inherit inputs outputs vars nixpkgs home-manager;
-          extraPkgs = mkExtraPkgs system;
         };
       };
 
@@ -281,7 +272,6 @@
 
     # values to be passed to nixosModules and homeManagerModules wrappers
     moduleInputs = {
-      inherit mkExtraPkgs;
     };
 
     # Make a home-manager standalone configuration. This implementation is
@@ -318,7 +308,6 @@
 
       extraSpecialArgs = {
         inherit inputs outputs vars nixpkgs home-manager;
-        extraPkgs = mkExtraPkgs system;
 
         # this is needed because modules don't use the default arg for some reason???
         osConfig = {};

@@ -15,7 +15,6 @@ stuff may not match yet):
 		- inputs: all specified flake inputs
 		- vars: attrset of variables that are passed to modules
 	- The flake also has multiple helper functions:
-		- `mkExtraPkgs`: Produce a set of packages for the given system
 		- `eachSystem :: (system -> attrset) -> attrset`: Generate an attrset
 		  of default systems (used for packages)
 		- `homeManagerInit`: Generate a NixOS Module that initializes
