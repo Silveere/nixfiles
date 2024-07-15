@@ -24,19 +24,19 @@
 
     age.secrets.authelia-users = {
       file = ../../secrets/authelia-users.age;
-      group = "authelia-main";
+      group = "authelia-shared";
       mode = "0750";
     };
 
     age.secrets.authelia-jwt = {
       file = ../../secrets/authelia-jwt.age;
-      group = "authelia-main";
+      group = "authelia-shared";
       mode = "0750";
     };
 
     age.secrets.authelia-storage = {
       file = ../../secrets/authelia-storage.age;
-      group = "authelia-main";
+      group = "authelia-shared";
       mode = "0750";
     };
 
@@ -81,18 +81,34 @@
       8123
     ];
 
-    services.authelia.instances.main = {
+    users.groups.authelia-shared = { };
+    services.authelia.instances = lib.mapAttrs (inst: opts: {
       enable = true;
+      group = "authelia-shared";
       secrets = {
         jwtSecretFile = config.age.secrets.authelia-jwt.path;
         storageEncryptionKeyFile = config.age.secrets.authelia-storage.path;
       };
       settings = {
         access_control.default_policy = "one_factor";
-        storage.local.path = "/var/lib/authelia-main/db.sqlite";
-        session.domain = "protogen.io";
-        notifier.filesystem.filename = "/var/lib/authelia-main/notification.txt";
+        storage.local.path = "/var/lib/authelia-${inst}/db.sqlite";
+        session.domain = "${opts.domain}";
+        notifier.filesystem.filename = "/var/lib/authelia-${inst}/notification.txt";
         authentication_backend.file.path = config.age.secrets.authelia-users.path;
+        server.port = lib.mkIf (opts ? port) (opts.port or null);
+      };
+    }) {
+      main = {
+        domain = "protogen.io";
+        # port = 9091 # default
+      };
+      nbt-sh = {
+        domain = "nbt.sh";
+        port = 9092;
+      };
+      proot-link = {
+        domain = "proot.link";
+        port = 9093;
       };
     };
 
@@ -122,8 +138,8 @@
             basicAuthFile = config.age.secrets.htpasswd.path;
           })
           (lib.mkIf authelia {
-            authelia.instance = "main";
-            authelia.endpointURL = "https://auth.protogen.io";
+            authelia.instance = lib.mkDefault "main";
+            authelia.endpointURL = lib.mkDefault "https://auth.protogen.io";
           })
           extraConfig
         ];
@@ -140,12 +156,11 @@
         mkAuthProxy = port: mkProxy { inherit port; authelia = true; };
 
         mkReverseProxy = port: mkProxy { inherit port; };
-      in {
-        "auth.protogen.io" = {
-          forceSSL = true;
-          inherit useACMEHost;
-          authelia.endpoint.instance = "main";
-        };
+      in (lib.mapAttrs (domain: instance: { forceSSL = true; inherit useACMEHost; authelia.endpoint = { inherit instance; };}) {
+        "auth.protogen.io" = "main";
+        "auth.nbt.sh" = "nbt-sh";
+        "auth.proot.link" = "proot-link";
+      }) // {
         "changedetection.protogen.io" = mkReverseProxy 5000;
 
         # firefly
@@ -197,9 +212,18 @@
 
         # URL shortener
         "nbt.sh" = mkProxy { port = 8090; extraConfig.serverAliases = [ "proot.link" ]; };
+
         "admin.nbt.sh" = mkProxy { authelia = true; port = 8091; extraConfig = {
-          # authelia version in NixOS does not support multiple domains, use basic
-          authelia.method = "basic"; serverAliases = [ "admin.proot.link" ];
+          authelia = {
+            instance = "nbt-sh";
+            endpointURL = "https://auth.nbt.sh";
+          };
+        };};
+        "admin.proot.link" = mkProxy { authelia = true; port = 8091; extraConfig = {
+          authelia = {
+            instance = "proot-link";
+            endpointURL = "https://auth.proot.link";
+          };
         };};
 
         # uptime
