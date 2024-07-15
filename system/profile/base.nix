@@ -114,7 +114,7 @@ in
 
         # GPG
         gnupg
-        pinentry # i want all of them
+        pinentry-tty
       ];
 
       # Needed for Kvantum themes to be detected
