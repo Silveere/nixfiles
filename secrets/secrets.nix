@@ -16,5 +16,8 @@ in
   "wireguard-rpi4.age".publicKeys = [ rpi4 ] ++ all-user;
   "htpasswd.age".publicKeys = [ rpi4 ] ++ all-user;
   "htpasswd-cam.age".publicKeys = [ rpi4 ] ++ all-user;
+  "authelia-users.age".publicKeys = [ rpi4 ] ++ all-user;
+  "authelia-storage.age".publicKeys = [ rpi4 ] ++ all-user;
+  "authelia-jwt.age".publicKeys = [ rpi4 ] ++ all-user;
 }
 
