@@ -66,6 +66,8 @@
             "*.nullbite.dev"
             "nbt.sh"
             "*.nbt.sh"
+            "proot.link"
+            "*.proot.link"
           ];
         };
       };
@@ -144,22 +146,29 @@
           inherit useACMEHost;
           authelia.endpoint.instance = "main";
         };
-        # TODO change all these with a vim macro when i learn how to extend submodules
         "changedetection.protogen.io" = mkReverseProxy 5000;
+
+        # firefly
         "firefly.protogen.io" = mkReverseProxy 8083;
-        # firefly-import auth 8084
+        "firefly-import.protogen.io" = mkAuthProxy 8084;
+
         "gitea.protogen.io" = mkReverseProxy 3000;
+
         # home assistant
         "hass.protogen.io" = mkReverseProxy 8123;
         "node.protogen.io" = mkReverseProxy 1880;
-        # z2m auth 8124
         "z2m.protogen.io" = mkAuthProxy 8124;
+        "vsc-hass.protogen.io" = mkReverseProxy 1881;
+
+        # jellyfin
         "room.protogen.io" = mkReverseProxy 8096;
         "deemix.protogen.io" = mkAuthProxy 6595;
+
         # libreddit auth 8087
         "libreddit.protogen.io" = mkAuthProxy 8087;
         "rss.protogen.io" = mkReverseProxy 8082;
         "blahaj.protogen.io" = mkReverseProxy 8086;
+
         # octoprint (proxy_addr is 10.10.1.8)
         "print.protogen.io" = lib.mkMerge [ (mkProxy { authelia = true; upstream = "http://10.10.1.8:80"; })
         {
@@ -170,6 +179,7 @@
             authelia.method = null;
           };
         }];
+
         # searx auth 8088 (none for /favicon.ico, /autocompleter, /opensearch.xml)
         "search.protogen.io".locations."/".return = "302 https://searx.protogen.io$request_uri";
         "searx.protogen.io" = let
@@ -184,14 +194,14 @@
             '';
           });
         };};
-        # nbt.sh alias proot.link 8090
+
+        # URL shortener
         "nbt.sh" = mkProxy { port = 8090; extraConfig.serverAliases = [ "proot.link" ]; };
-        # admin.nbt.sh alias admin.proot.link 8091 auth
         "admin.nbt.sh" = mkProxy { authelia = true; port = 8091; extraConfig.serverAliases = [ "admin.proot.link" ]; };
-        # create track map todo later
+
+        # uptime
         "uptime.protogen.io" = mkReverseProxy 3001;
         "kuma.protogen.io".locations."/".return = "301 https://uptime.protogen.io";
-        "vsc-hass.protogen.io" = mkReverseProxy 1881;
 
         "trackmap.protogen.io" = let
           root = pkgs.modpacks.notlite-ctm-static;
@@ -217,15 +227,7 @@
           };
         };
 
-
-        "localhost" = {
-          default = true;
-          addSSL = true;
-          useACMEHost = "protogen.io";
-          locations."/" = {
-            return = "302 https://protogen.io$request_uri";
-          };
-        };
+        # main site
         "protogen.io" = {
           serverAliases = [ "x.protogen.io" ];
           useACMEHost = "protogen.io";
@@ -237,6 +239,28 @@
             '';
           };
         };
+
+        # fallback for known hosts
+        "nullbite.com" = {
+          forceSSL = true;
+          useACMEHost = "protogen.io";
+          locations."/" = {
+            return = "302 https://protogen.io$request_uri";
+          };
+          serverAliases = [ "www.nullbite.com" "nullbite.dev" "www.nullbite.dev" "www.protogen.io" ];
+        };
+
+        # show blank page for unknown hosts
+        "localhost" = {
+          default = true;
+          addSSL = true;
+          useACMEHost = "protogen.io";
+          locations."/" = {
+            return = "404";
+          };
+        };
+
+
       };
     };
 
