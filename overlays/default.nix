@@ -9,6 +9,7 @@ let
 in rec {
   backports = import ./backports.nix nixfiles;
   mitigations = import ./mitigations.nix nixfiles;
+  modpacks = import ./modpacks.nix nixfiles;
   default = composeManyExtensions [
     backports
     mitigations

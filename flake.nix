@@ -116,6 +116,10 @@
       # auto backports from nixpkgs unstable
       self.overlays.backports
 
+      # modpacks (keeps modpack version in sync between hosts so i can reverse
+      # proxy create track map because it's broken)
+      self.overlays.modpacks
+
       inputs.hyprwm-contrib.overlays.default
       inputs.rust-overlay.overlays.default
       inputs.nixfiles-assets.overlays.default
