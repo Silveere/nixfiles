@@ -193,6 +193,30 @@
         "kuma.protogen.io".locations."/".return = "301 https://uptime.protogen.io";
         "vsc-hass.protogen.io" = mkReverseProxy 1881;
 
+        "trackmap.protogen.io" = let
+          root = pkgs.modpacks.notlite-ctm-static;
+        in {
+          useACMEHost = "protogen.io";
+          forceSSL = true;
+          authelia.instance = "main";
+          authelia.endpointURL = "https://auth.protogen.io";
+          locations."/" = {
+            inherit root;
+            extraConfig = ''
+              autoindex off;
+            '';
+          };
+          locations."/api/" = {
+            proxyPass = "http://10.10.0.3:3876";
+            proxyWebsockets = true;
+            extraConfig = ''
+              chunked_transfer_encoding off;
+              proxy_buffering off;
+              proxy_cache off;
+            '';
+          };
+        };
+
 
         "localhost" = {
           default = true;
