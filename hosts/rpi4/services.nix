@@ -22,6 +22,24 @@
       mode = "0750";
     };
 
+    age.secrets.authelia-users = {
+      file = ../../secrets/authelia-users.age;
+      group = "authelia-main";
+      mode = "0750";
+    };
+
+    age.secrets.authelia-jwt = {
+      file = ../../secrets/authelia-jwt.age;
+      group = "authelia-main";
+      mode = "0750";
+    };
+
+    age.secrets.authelia-storage = {
+      file = ../../secrets/authelia-storage.age;
+      group = "authelia-main";
+      mode = "0750";
+    };
+
     users.groups.secrets = {};
     users.users.acme.extraGroups = [ "secrets" ];
 
@@ -61,6 +79,21 @@
       8123
     ];
 
+    services.authelia.instances.main = {
+      enable = true;
+      secrets = {
+        jwtSecretFile = config.age.secrets.authelia-jwt.path;
+        storageEncryptionKeyFile = config.age.secrets.authelia-storage.path;
+      };
+      settings = {
+        access_control.default_policy = "one_factor";
+        storage.local.path = "/var/lib/authelia-main/db.sqlite";
+        session.domain = "protogen.io";
+        notifier.filesystem.filename = "/var/lib/authelia-main/notification.txt";
+        authentication_backend.file.path = config.age.secrets.authelia-users.path;
+      };
+    };
+
     services.nginx = {
       enable = true;
       recommendedProxySettings = true;
@@ -73,7 +106,7 @@
 
       virtualHosts = let
         useACMEHost = "protogen.io";
-        mkProxy = args@{ upstream ? "http://127.0.0.1:${builtins.toString args.port}", auth ? false, extraConfig ? {}, ... }:
+        mkProxy = args@{ upstream ? "http://127.0.0.1:${builtins.toString args.port}", auth ? false, authelia ? false, extraConfig ? {}, ... }:
         lib.mkMerge [
           {
             inherit useACMEHost;
@@ -85,6 +118,10 @@
           }
           (lib.mkIf auth {
             basicAuthFile = config.age.secrets.htpasswd.path;
+          })
+          (lib.mkIf authelia {
+            authelia.instance = "main";
+            authelia.endpointURL = "https://auth.protogen.io";
           })
           extraConfig
         ];
@@ -98,10 +135,15 @@
         #   };
         # };
 
-        mkAuthProxy = port: mkProxy { inherit port; auth = true; };
+        mkAuthProxy = port: mkProxy { inherit port; authelia = true; };
 
         mkReverseProxy = port: mkProxy { inherit port; };
       in {
+        "auth.protogen.io" = {
+          forceSSL = true;
+          inherit useACMEHost;
+          authelia.endpoint.instance = "main";
+        };
         # TODO change all these with a vim macro when i learn how to extend submodules
         "changedetection.protogen.io" = mkReverseProxy 5000;
         "firefly.protogen.io" = mkReverseProxy 8083;
@@ -119,22 +161,24 @@
         "rss.protogen.io" = mkReverseProxy 8082;
         "blahaj.protogen.io" = mkReverseProxy 8086;
         # octoprint (proxy_addr is 10.10.1.8)
-        "print.protogen.io" = lib.mkMerge [ (mkProxy { auth = true; upstream = "http://10.10.1.8:80"; }) 
+        "print.protogen.io" = lib.mkMerge [ (mkProxy { authelia = true; upstream = "http://10.10.1.8:80"; })
         {
           locations."/webcam" = {
             proxyPass = "http://10.10.1.8:80$request_uri";
             proxyWebsockets = true;
             basicAuthFile = config.age.secrets.htpasswd-cam.path;
+            authelia.method = null;
           };
         }];
         # searx auth 8088 (none for /favicon.ico, /autocompleter, /opensearch.xml)
         "search.protogen.io".locations."/".return = "302 https://searx.protogen.io$request_uri";
         "searx.protogen.io" = let
           port = 8088;
-        in mkProxy { auth = true; inherit port; extraConfig = {
+        in mkProxy { authelia = true; inherit port; extraConfig = {
           locations = lib.genAttrs [ "/favicon.ico" "/autocompleter" "/opensearch.xml" ] (attr: {
             proxyPass = "http://localhost:${builtins.toString port}";
             proxyWebsockets = true;
+            authelia.method = null;
             extraConfig = ''
               auth_basic off;
             '';
@@ -143,7 +187,7 @@
         # nbt.sh alias proot.link 8090
         "nbt.sh" = mkProxy { port = 8090; extraConfig.serverAliases = [ "proot.link" ]; };
         # admin.nbt.sh alias admin.proot.link 8091 auth
-        "admin.nbt.sh" = mkProxy { auth = true; port = 8091; extraConfig.serverAliases = [ "admin.proot.link" ]; };
+        "admin.nbt.sh" = mkProxy { authelia = true; port = 8091; extraConfig.serverAliases = [ "admin.proot.link" ]; };
         # create track map todo later
         "uptime.protogen.io" = mkReverseProxy 3001;
         "kuma.protogen.io".locations."/".return = "301 https://uptime.protogen.io";
