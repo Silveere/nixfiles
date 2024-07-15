@@ -6,10 +6,18 @@
 }:
 let
   inherit (lib) types mkIf optionalString;
-  inherit (builtins) isNull any attrValues;
+  inherit (builtins)
+    isNull
+    any
+    all
+    attrValues
+    toString
+    ;
+
+  inherit (config.services) nginx;
 
   validAuthMethods = [
-    "normal"
+    "regular"
     "basic"
   ];
   getUpstreamFromInstance =
@@ -25,7 +33,7 @@ let
         else
           server.host;
     in
-    "http://${host}:${port}";
+    "http://${host}:${toString port}";
 
   # use this when reverse proxying to authelia (and only authelia because i
   # like the nixos recommended proxy settings better)
@@ -129,7 +137,7 @@ let
       ## Send a subrequest to Authelia to verify if the user is authenticated and
       # has permission to access the resource.
 
-      auth_request /internal/authelia/authz${optionalString method == "basic" "/basic"};
+      auth_request /internal/authelia/authz${optionalString (method == "basic") "/basic"};
 
       ## Save the upstream metadata response headers from Authelia to variables.
       auth_request_set $user $upstream_http_remote_user;
@@ -144,7 +152,7 @@ let
       proxy_set_header Remote-Name $name;
       proxy_set_header Remote-Email $email;
 
-      ${optionalString method == "regular" snippet_regular}
+      ${optionalString (method == "regular") snippet_regular}
     '';
   genAuthConfigPkg =
     method: pkgs.writeText "authelia-authrequest-${method}.conf" (genAuthConfig method);
@@ -163,7 +171,7 @@ in
         { name, config, ... }@attrs:
         {
           options = {
-            locations = mkAttrsOfSubmoduleOpt (locationModule' attrs);
+            locations = mkAttrsOfSubmoduleOpt (genLocationModule attrs);
             authelia = {
               endpoint = {
                 instance = lib.mkOption {
@@ -199,6 +207,8 @@ in
                   requests to. This should not be the public-facing authentication
                   endpoint URL.
                 '';
+                type = with types; nullOr str;
+                default = null;
               };
               method = lib.mkOption {
                 description = ''
@@ -206,7 +216,7 @@ in
                   in this virtualHost. Authentication is disabled by default for
                   all locations if this is set to `null`.
                 '';
-                type = with types; nullOr oneOf validAuthMethods;
+                type = with types; nullOr (enum validAuthMethods);
                 default = "regular";
                 example = "basic";
               };
@@ -229,14 +239,14 @@ in
                 # just setup both, they can't be accessed externally anyways.
                 "/internal/authelia/authz" = {
                   proxyPass = api;
-                  recommendedProxyConfig = false;
+                  recommendedProxySettings = false;
                   extraConfig = ''
                     include ${autheliaLocationConfig};
                   '';
                 };
                 "/internal/authelia/authz/basic" = {
                   proxyPass = "${api}/basic";
-                  recommendedProxyConfig = false;
+                  recommendedProxySettings = false;
                   extraConfig = ''
                     include ${autheliaBasicLocationConfig};
                   '';
@@ -245,7 +255,7 @@ in
           };
         };
 
-      locationModule' =
+      genLocationModule =
         vhostAttrs:
         { name, config, ... }:
         let
@@ -258,18 +268,22 @@ in
               Authentication is disabled for this location if this is set to
               `null`.
             '';
-            type = with types; nullOr oneOf validAuthMethods;
+            type = with types; nullOr (enum validAuthMethods);
             default = vhostConfig.authelia.method;
             example = "basic";
           };
           config =
-            lib.mkIf (!(lib.strings.hasPrefix "/internal/authelia/" name))
-            && (!(isNull vhostConfig.authelia.upstream))
-            && (!(isNull config.authelia.method)) {
-              extraConfig = ''
-                include ${genAuthConfigPkg config.authelia.method};
-              '';
-            };
+            lib.mkIf
+              (
+                (!(lib.strings.hasPrefix "/internal/authelia/" name))
+                && (!(isNull vhostConfig.authelia.upstream))
+                && (!(isNull config.authelia.method))
+              )
+              {
+                extraConfig = ''
+                  include ${genAuthConfigPkg config.authelia.method};
+                '';
+              };
         };
 
     in
@@ -278,10 +292,27 @@ in
     };
 
   # TODO check if any vhosts have authelia configured
-  config = mkIf false {
-
-    assertions = [
-      # TODO vhost cannot be both auth endpoint proxy and regular reverse proxy
-    ];
-  };
+  config =
+    let
+      # TODO later, there are only assertions here
+      configured = any (
+        vhost: (!(isNull vhost.authelia.upstream)) || (!(isNull vhost.authelia.endpoint.upstream))
+      ) (attrValues nginx.virtualHosts);
+    in
+    mkIf true {
+      assertions = [
+        {
+          assertion = all (
+            vhost: (!(isNull vhost.authelia.upstream)) -> (isNull vhost.authelia.endpoint.upstream)
+          ) (attrValues nginx.virtualHosts);
+          message = "`services.nginx.virtualHosts.<name>.authelia.upstream` and `services.nginx.virtualHosts.<name>.authelia.endpoint.upstream` cannot be set at the same time.";
+        }
+        # {
+        #   assertion = all (
+        #     vhost: vhost.authelia.instance -> config.services.authelia.instances ? "${vhost.authelia.instance}"
+        #   ) (attrValues nginx.virtualHosts);
+        #   message = "`services.authelia.instances.<name>` must be configured if `services.nginx.virtualHosts.<name>.authelia.instance` is set.";
+        # }
+      ];
+    };
 }
