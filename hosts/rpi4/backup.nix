@@ -26,6 +26,7 @@ in
         "/etc"
       ];
       dynamicFilesFrom = ''
+        echo
         find /var/lib -mindepth 1 -maxdepth 1 -type d -name 'authelia-*'
       '';
 
