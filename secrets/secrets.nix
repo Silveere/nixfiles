@@ -3,6 +3,8 @@ let
   lib = pkgs.lib;
 
   rpi4 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG0FSLInClzASv4Ul0bZ5Rxa59M7ExyCYt1emHOwztGr";
+  nullbox = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPXbOKHkWi04pCrbs6AyYgB4Im74akpqlTwC9NkL+MKe";
+  slab = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOEo2nseQPm2jtiKXJMk9wOWrfIYSAbQwWEqtksHsftB";
 
   all-user = [
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC6HOSwsMvNtv6iOxDLhSTnjREyAIGXoQ5IgC/mXfAIT9vA59fbI74wjdzbIUd9sZLd4mIExhdKw5ihaSOmsIb2x4tokjIHvjsdWJVBXqwqoYCd+9S4aoi5Nc0YHLCqTQM7LqJTCbE6HzLqkiZNhocgAnEIXpgcpnf0kB7suFXSKY/XY2ALFYXVohPfZTQsJqfkGkkVTgzglFV8kaVUeas0vLsDVU73lQjZ1oO4n2Ps+O9jbjFp3Zk/5txcKO3rVEqEy8vJLHIHFXnqo/2WOiM/ZagwoDXBwGZjH++klVwBb1Bu6MKbahI986gamVrWPgoRr/AaeC/WkVXIG3Yi4BG6sxhTlYoO3MwfnaQNetAAfT6XmzifTxtCGxIM5MdwC0n19C2qLwAU6EXhW0/W7RPqdsA5BcsQX9Fg+3yJX/xVwAeiRE5DzyI8aCkemXn7y7BAAbXG+e3YEetUrNjdRNWIeMrGv8LckE5z5sfifbwks5+++K+1X256bGX93m7Nn7U="
@@ -19,5 +21,8 @@ in
   "authelia-users.age".publicKeys = [ rpi4 ] ++ all-user;
   "authelia-storage.age".publicKeys = [ rpi4 ] ++ all-user;
   "authelia-jwt.age".publicKeys = [ rpi4 ] ++ all-user;
+
+  "restic-rclone.age".publicKeys = [ rpi4 nullbox slab ] ++ all-user;
+  "restic-password.age".publicKeys = [ rpi4 nullbox slab ] ++ all-user;
 }
 
