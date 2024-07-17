@@ -4,6 +4,8 @@ let
   mkd = lib.mkDefault;
   hyprland-pkg = config.wayland.windowManager.hyprland.finalPackage;
 
+  inherit (builtins) map;
+
   # commands
   terminal = "${pkgs.kitty}/bin/kitty";
   files = "pcmanfm"; # this should be installed in path
@@ -146,7 +148,9 @@ in
         # Execute your favorite apps at launch
         # exec-once = waybar & hyprpaper & firefox
 
-        exec-once = (lib.optional cfg.autolock lock-cmd) ++ config.nixfiles.common.wm.autostart ++
+        exec-once = let
+          wrapScope = cmd: "systemd-run --user --scope -- ${cmd}";
+        in (lib.optional cfg.autolock lock-cmd) ++ (map wrapScope config.nixfiles.common.wm.autostart) ++
         [
           wallpaper-cmd
           notifydaemon
@@ -266,7 +270,8 @@ in
           "$mod, M, exit, "
           "$mod, E, exec, ${files}"
           "$mod, V, togglefloating, "
-          "$mod, R, exec, ${rofi} -show drun"
+          # run rofi in scope to help oomd not kill everything
+          "$mod, R, exec, systemd-run --user --scope -- ${rofi} -show drun"
           "$mod, P, pseudo," # dwindle"
           "$mod, O, togglesplit," # dwindle"
 
