@@ -145,6 +145,14 @@ in
       # https://discourse.nixos.org/t/why-does-multi-user-target-depend-on-network-online-target/33565
 
       systemd.targets.network-online.wantedBy = lib.mkForce [];
+
+      # enable systemd OOM management
+      systemd.oomd = {
+        enable = lib.mkDefault true;
+        enableRootSlice = lib.mkDefault true;
+        enableUserSlices = lib.mkDefault true;
+        enableSystemSlice = lib.mkDefault true;
+      };
     })
   ];
 }
