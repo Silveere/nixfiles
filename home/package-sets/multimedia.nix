@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, osConfig ? { }, ...}:
+{ config, lib, pkgs, osConfig ? { }, ...}:
 let
   cfg = config.nixfiles.packageSets.multimedia;
   inherit (lib) optionals mkEnableOption mkIf;
@@ -16,8 +16,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    assertions = [ { assertion = inputs.nixpkgs-unstable.sourceInfo.lastModified <= 1720571246; message = "re-add picard and remove this assertion"; } ];
-
     home.packages = with pkgs; optionals config.nixfiles.meta.graphical [
       mpv
       gimp
@@ -26,7 +24,7 @@ in
       obs-studio
       nomacs
       audacity
-      # picard
+      picard
       spicetify-cli
     ] ++ [
       yt-dlp
