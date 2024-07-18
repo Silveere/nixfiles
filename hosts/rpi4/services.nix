@@ -118,6 +118,7 @@
         notifier.filesystem.filename = "/var/lib/authelia-${inst}/notification.txt";
         authentication_backend.file.path = config.age.secrets.authelia-users.path;
         server.port = lib.mkIf (opts ? port) (opts.port or null);
+        theme = "auto";
       };
     }) {
       main = {
