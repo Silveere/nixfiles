@@ -24,16 +24,18 @@ let
     instance:
     let
       inherit (config.services.authelia.instances.${instance}.settings) server;
-      inherit (server) port;
-      host =
-        if server.host == "0.0.0.0" then
+      port = server.port or 9091;
+      host = server.host or "127.0.0.1";
+
+      targetHost = 
+        if host == "0.0.0.0" then
           "127.0.0.1"
-        else if lib.hasInfix ":" server.host then
+        else if lib.hasInfix ":" host then
           throw "TODO IPv6 not supported in Authelia server address (hard to parse, can't tell if it is [::])."
         else
-          server.host;
+          host;
     in
-    "http://${host}:${toString port}";
+    "http://${targetHost}:${toString port}";
 
   # use this when reverse proxying to authelia (and only authelia because i
   # like the nixos recommended proxy settings better)
@@ -80,12 +82,8 @@ let
 
     ## Headers
     ## The headers starting with X-* are required.
-    proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
     proxy_set_header X-Original-Method $request_method;
-    proxy_set_header X-Forwarded-Method $request_method;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Forwarded-Host $http_host;
-    proxy_set_header X-Forwarded-Uri $request_uri;
+    proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
     proxy_set_header X-Forwarded-For $remote_addr;
     proxy_set_header Content-Length "";
     proxy_set_header Connection "";
@@ -107,39 +105,59 @@ let
     proxy_connect_timeout 240;
   '';
   autheliaLocationConfig = pkgs.writeText "authelia-location.conf" autheliaLocation;
-  autheliaBasicLocationConfig = autheliaLocationConfig;
-  genAuthConfig = method: endpoint: let
-      redirect = ''
-        ## If the subreqest returns 200 pass to the backend, if the subrequest returns 401 redirect to the portal.
-        error_page 401 =302 ${endpoint}/?rd=$target_url;
+  autheliaBasicLocationConfig = pkgs.writeText "authelia-location-basic.conf" ''
+    ${autheliaLocation}
+
+    # Auth Basic Headers
+    proxy_set_header X-Original-Method $request_method;
+    proxy_set_header X-Forwarded-Method $request_method;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-Host $http_host;
+    proxy_set_header X-Forwarded-URI $request_uri;
+  '';
+
+  genAuthConfig =
+    method:
+    let
+      snippet_regular = ''
+        ## Configure the redirection when the authz failure occurs. Lines starting
+        ## with 'Modern Method' and 'Legacy Method' should be commented /
+        ## uncommented as pairs. The modern method uses the session cookies
+        ## configuration's authelia_url value to determine the redirection URL here.
+        ## It's much simpler and compatible with the mutli-cookie domain easily.
+
+        ## Modern Method: Set the $redirection_url to the Location header of the
+        ## response to the Authz endpoint.
+        auth_request_set $redirection_url $upstream_http_location;
+
+        ## Modern Method: When there is a 401 response code from the authz endpoint
+        ## redirect to the $redirection_url.
+        error_page 401 =302 $redirection_url;
       '';
-    in ''
+    in
+    ''
+      ## Send a subrequest to Authelia to verify if the user is authenticated and
+      # has permission to access the resource.
+
       auth_request /internal/authelia/authz${optionalString (method == "basic") "/basic"};
 
-      ## Set the $target_url variable based on the original request.
-
-      ## Comment this line if you're using nginx without the http_set_misc module.
-      # set_escape_uri $target_url $scheme://$http_host$request_uri;
-
-      ## Uncomment this line if you're using NGINX without the http_set_misc module.
-      set $target_url $scheme://$http_host$request_uri;
-
-      ## Save the upstream response headers from Authelia to variables.
+      ## Save the upstream metadata response headers from Authelia to variables.
       auth_request_set $user $upstream_http_remote_user;
       auth_request_set $groups $upstream_http_remote_groups;
       auth_request_set $name $upstream_http_remote_name;
       auth_request_set $email $upstream_http_remote_email;
 
-      ## Inject the response headers from the variables into the request made to the backend.
+      ## Inject the metadata response headers from the variables into the request
+      ## made to the backend.
       proxy_set_header Remote-User $user;
       proxy_set_header Remote-Groups $groups;
       proxy_set_header Remote-Name $name;
       proxy_set_header Remote-Email $email;
 
-      ${optionalString (method == "regular") redirect}
+      ${optionalString (method == "regular") snippet_regular}
     '';
   genAuthConfigPkg =
-    method: endpoint: pkgs.writeText "authelia-authrequest-${method}.conf" (genAuthConfig method endpoint);
+    method: pkgs.writeText "authelia-authrequest-${method}.conf" (genAuthConfig method);
 in
 {
   # authelia
@@ -158,7 +176,6 @@ in
             locations = mkAttrsOfSubmoduleOpt (genLocationModule attrs);
             authelia = {
               endpoint = {
-                # endpoint settings
                 instance = lib.mkOption {
                   description = ''
                     Local Authelia instance to act as the authentication endpoint.
@@ -176,13 +193,6 @@ in
                   type = with types; nullOr str;
                   default = null;
                 };
-              };
-              # client settings
-              endpointURL = lib.mkOption {
-                description = ''
-                  (temporary) authelia endpoint redirect URL.
-                '';
-                type = with types; str;
               };
               instance = lib.mkOption {
                 description = ''
@@ -227,7 +237,7 @@ in
             # authelia nginx internal endpoints
             locations =
               let
-                api = "${config.authelia.upstream}/api/verify";
+                api = "${config.authelia.upstream}/api/authz/auth-request";
               in
               lib.mkMerge [
                 (lib.mkIf (!(isNull config.authelia.upstream)) {
@@ -240,7 +250,7 @@ in
                     '';
                   };
                   "/internal/authelia/authz/basic" = {
-                    proxyPass = "${api}?auth=basic";
+                    proxyPass = "${api}/basic";
                     recommendedProxySettings = false;
                     extraConfig = ''
                       include ${autheliaBasicLocationConfig};
@@ -285,14 +295,6 @@ in
             default = vhostConfig.authelia.method;
             example = "basic";
           };
-          options.authelia.endpointURL = lib.mkOption {
-            description = ''
-              (temporary) authelia endpoint redirect URL.
-            '';
-            type = with types; str;
-            default = vhostConfig.authelia.endpointURL;
-          };
-
           config =
             lib.mkIf
               (
@@ -302,7 +304,7 @@ in
               )
               {
                 extraConfig = ''
-                  include ${genAuthConfigPkg config.authelia.method config.authelia.endpointURL};
+                  include ${genAuthConfigPkg config.authelia.method};
                 '';
               };
         };
