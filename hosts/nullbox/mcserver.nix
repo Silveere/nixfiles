@@ -65,8 +65,8 @@ in
           enable = true;
           autoStart = true;
           modpack = pkgs.modpacks.notlite;
-          modpackSymlinks = [ "mods" ];
-          modpackFiles = [ "config/" "kubejs/" ];
+          modpackSymlinks = [ "config/yosbr" "config/quilt-loader-overrides.json" "mods" ];
+          modpackFiles = [ "kubejs/" ];
           serverProperties = {
             motd = "owo what's this (nix notlite edition)";
             server-port = 25567;
