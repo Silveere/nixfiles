@@ -40,6 +40,12 @@
       mode = "0750";
     };
 
+    age.secrets.authelia-session = {
+      file = ../../secrets/authelia-session.age;
+      group = "authelia-shared";
+      mode = "0750";
+    };
+
     users.groups.secrets = {};
     users.users.acme.extraGroups = [ "secrets" ];
 
@@ -92,7 +98,23 @@
       settings = {
         access_control.default_policy = "one_factor";
         storage.local.path = "/var/lib/authelia-${inst}/db.sqlite";
-        session.domain = "${opts.domain}";
+        session.cookies = [
+          {
+            domain = "protogen.io";
+            authelia_url = "https://auth.protogen.io";
+            default_redirection_url = "https://searx.protogen.io";
+          }
+          {
+            domain = "nbt.sh";
+            authelia_url = "https://auth.nbt.sh";
+            default_redirection_url = "https://admin.nbt.sh";
+          }
+          {
+            domain = "proot.link";
+            authelia_url = "https://auth.proot.link";
+            default_redirection_url = "https://admin.proot.link";
+          }
+        ];
         notifier.filesystem.filename = "/var/lib/authelia-${inst}/notification.txt";
         authentication_backend.file.path = config.age.secrets.authelia-users.path;
         server.port = lib.mkIf (opts ? port) (opts.port or null);
@@ -101,14 +123,6 @@
       main = {
         domain = "protogen.io";
         # port = 9091 # default
-      };
-      nbt-sh = {
-        domain = "nbt.sh";
-        port = 9092;
-      };
-      proot-link = {
-        domain = "proot.link";
-        port = 9093;
       };
     };
 
@@ -139,7 +153,6 @@
           })
           (lib.mkIf authelia {
             authelia.instance = lib.mkDefault "main";
-            authelia.endpointURL = lib.mkDefault "https://auth.protogen.io";
           })
           extraConfig
         ];
@@ -158,8 +171,8 @@
         mkReverseProxy = port: mkProxy { inherit port; };
       in (lib.mapAttrs (domain: instance: { forceSSL = true; inherit useACMEHost; authelia.endpoint = { inherit instance; };}) {
         "auth.protogen.io" = "main";
-        "auth.nbt.sh" = "nbt-sh";
-        "auth.proot.link" = "proot-link";
+        "auth.nbt.sh" = "main";
+        "auth.proot.link" = "main";
       }) // {
         "changedetection.protogen.io" = mkReverseProxy 5000;
 
@@ -212,19 +225,7 @@
 
         # URL shortener
         "nbt.sh" = mkProxy { port = 8090; extraConfig.serverAliases = [ "proot.link" ]; };
-
-        "admin.nbt.sh" = mkProxy { authelia = true; port = 8091; extraConfig = {
-          authelia = {
-            instance = "nbt-sh";
-            endpointURL = "https://auth.nbt.sh";
-          };
-        };};
-        "admin.proot.link" = mkProxy { authelia = true; port = 8091; extraConfig = {
-          authelia = {
-            instance = "proot-link";
-            endpointURL = "https://auth.proot.link";
-          };
-        };};
+        "admin.nbt.sh" = mkProxy { authelia = true; port = 8091; extraConfig.serverAliases = [ "admin.proot.link" ]; };
 
         # uptime
         "uptime.protogen.io" = mkReverseProxy 3001;
@@ -236,7 +237,6 @@
           useACMEHost = "protogen.io";
           forceSSL = true;
           authelia.instance = "main";
-          authelia.endpointURL = "https://auth.protogen.io";
           locations."/" = {
             inherit root;
             extraConfig = ''
