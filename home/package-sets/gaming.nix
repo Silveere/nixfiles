@@ -5,6 +5,12 @@ let
 in
 {
   config = lib.mkIf cfg.enable {
+    nixpkgs.overlays = let
+      prismlauncher-config = (final: prev: {
+        prismlauncher = prev.prismlauncher.override { withWaylandGLFW = true; };
+      });
+    in lib.mkAfter [ prismlauncher-config ];
+
     nixfiles.common.wm.autostart = [
       "steam -silent"
     ];
