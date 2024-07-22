@@ -18,8 +18,8 @@ in
     nixfiles.common.desktop.enable = true;
 
     services.displayManager.sddm.enable = mkDefault true;
-    services.xserver.desktopManager.plasma5.enable = true;
-    services.displayManager.defaultSession = "plasmawayland";
+    services.xserver.desktopManager.plasma6.enable = true;
+    services.displayManager.defaultSession = "plasma";
     programs.kdeconnect.enable = mkDefault true;
     nixfiles.meta.wayland = true;
 
