@@ -49,7 +49,7 @@
   services.displayManager.sddm.enable = false;
 
   nixfiles = {
-    profile.pc.enable = true;
+    profile.workstation.enable = true;
     common.remoteAccess.enable = true;
     hardware.opengl.enable = true;
     packageSets = {

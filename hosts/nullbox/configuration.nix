@@ -52,7 +52,7 @@
 
     # nixfiles
     nixfiles = {
-      profile.pc.enable = true;
+      profile.workstation.enable = true;
       programs.adb.enable = true;
       workarounds.nvidiaPrimary = true;
       programs.greetd = {
@@ -65,8 +65,8 @@
       };
       programs.unbound.enable = true;
       common.remoteAccess.enable = true;
-      sessions.plasma.enable = lib.mkDefault false;
-      sessions.hyprland.enable = lib.mkDefault true;
+      sessions.plasma.enable = lib.mkDefault true;
+      sessions.hyprland.enable = lib.mkDefault false;
       hardware.nvidia.modesetting.enable = true;
       packageSets.gaming.enable = true;
     };

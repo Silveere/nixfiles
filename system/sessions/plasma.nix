@@ -15,8 +15,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    nixfiles.common.desktop.enable = true;
-
+    services.xserver.enable = true;
     services.displayManager.sddm.enable = mkDefault true;
     services.xserver.desktopManager.plasma6.enable = true;
     services.displayManager.defaultSession = "plasma";

@@ -26,7 +26,6 @@ in
   config = lib.mkIf cfg.enable {
     # enable dependencies
     nixfiles.common = {
-      desktop.enable = true;
       wm.enable = true;
     };
     nixfiles.meta.wayland = true;
@@ -39,6 +38,8 @@ in
       };
     };
 
+    # misleading name
+    services.xserver.enable = true;
     programs.hyprland = {
       enable = true;
       # # TODO base this on if nvidia is enabled
