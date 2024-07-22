@@ -42,8 +42,7 @@
     specialisation.plasma.configuration = {
       system.nixos.tags = [ "Plasma" ];
       nixfiles = {
-        sessions.hyprland.enable = false;
-        sessions.plasma.enable = true;
+        session = "plasma";
       };
     };
 
@@ -65,8 +64,7 @@
       };
       programs.unbound.enable = true;
       common.remoteAccess.enable = true;
-      sessions.plasma.enable = lib.mkDefault true;
-      sessions.hyprland.enable = lib.mkDefault false;
+      session = lib.mkDefault "hyprland";
       hardware.nvidia.modesetting.enable = true;
       packageSets.gaming.enable = true;
     };

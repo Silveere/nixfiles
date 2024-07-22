@@ -36,8 +36,7 @@
   specialisation.plasma.configuration = {
     system.nixos.tags = [ "Plasma" ];
     nixfiles = {
-      sessions.hyprland.enable = false;
-      sessions.plasma.enable = true;
+      session = "plasma";
     };
     services.displayManager.sddm.enable = lib.mkForce true;
     services.xserver.displayManager.startx.enable = lib.mkForce false;
@@ -56,8 +55,7 @@
       gaming.enable = true;
       fun.enable = true;
     };
-    sessions.hyprland.enable = lib.mkDefault true;
-    sessions.plasma.enable = lib.mkDefault false;
+    session = lib.mkDefault "hyprland";
     programs = {
       adb.enable = true;
       unbound.enable = false;
