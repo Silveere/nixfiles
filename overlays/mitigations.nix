@@ -1,8 +1,13 @@
 nixfiles: final: prev:
 let
-  inherit (prev) lib callPackage fetchFromGitHub;
-  inherit (prev.lib) recurseIntoAttrs optionalAttrs;
-  isNewer = ref: ver: (builtins.compareVersions ver ref) == 1;
+  inherit (final) lib callPackage fetchFromGitHub;
+  inherit (lib) recurseIntoAttrs optionalAttrs
+    versionOlder versionAtLeast;
+
+  pickFixed = ours: theirs: if versionAtLeast ours.version theirs.version then ours else theirs;
+  pickNewer = ours: theirs: if versionOlder theirs.version ours.version then ours else theirs;
+
+  optionalPkg = cond: val: if cond then val else null;
 
   gimp-with-plugins-good = let
     badPlugins = [ "gap" ];
@@ -11,6 +16,9 @@ let
     filteredPlugins = lib.filterAttrs pluginFilter prev.gimpPlugins;
     plugins = lib.mapAttrsToList (_: v: v) filteredPlugins;
   in prev.gimp-with-plugins.override { inherit plugins; };
+
+# this also causes an infinite recursion and i have no idea why
+# in nixfiles.inputs.nixpkgs.lib.filterAttrs (k: v: v != null) {
 in {
   gimp-with-plugins = gimp-with-plugins-good;
 
@@ -26,9 +34,3 @@ in {
     notOlder = (builtins.compareVersions redlib-new.version redlib.version) >= 0;
   in if notOlder then redlib-new else redlib;
 }
-  # # can't optionalAttrs for version checks because it breaks lazy eval and causes infinite recursion
-  # // {
-  #   obsidian = let
-  #     pkg = final.callPackage "${nixfiles.inputs.nixpkgs-unstable}/pkgs/applications/misc/obsidian" { electron = final.electron_28; };
-  #   in if isNewer "1.4.16" prev.obsidian.version then prev.obsidian else pkg;
-  # }
