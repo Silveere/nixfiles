@@ -32,6 +32,11 @@ in
       };
     };
 
+    # enable filesystems
+    boot.supportedFilesystems = {
+      exfat = mkDefault true;
+    };
+
     # probably unnecessary, this will be enabled by whatever session i use
     # Enable the X11 windowing system.
     # services.xserver.enable = true;
