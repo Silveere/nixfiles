@@ -3,6 +3,8 @@ let
   cfg = config.nixfiles.sessions.hyprland;
   flake-package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   flake-portal = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
+
+  nvidiaEnabled = (lib.elem "nvidia" config.services.xserver.videoDrivers);
 in
 {
   # imports = [
@@ -64,7 +66,7 @@ in
         # NIXOS_OZONE_WL = "1"; # this is breaking things for some reason
       }
 
-      (lib.mkIf config.hardware.nvidia.modesetting.enable {
+      (lib.mkIf (nvidiaEnabled && config.hardware.nvidia.modesetting.enable) {
         WLR_NO_HARDWARE_CURSORS = "1";
       })
     ];
