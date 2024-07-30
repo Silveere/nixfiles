@@ -194,7 +194,12 @@
         "deemix.protogen.io" = mkAuthProxy 6595;
 
         # libreddit auth 8087
-        "libreddit.protogen.io" = mkAuthProxy 8087;
+        "libreddit.protogen.io" = {
+          locations."/".return = "302 https://redlib.protogen.io$request_uri";
+          forceSSL = true;
+          useACMEHost = "protogen.io";
+        };
+        "redlib.protogen.io" = mkAuthProxy 8087;
         "rss.protogen.io" = mkReverseProxy 8082;
         "blahaj.protogen.io" = mkReverseProxy 8086;
 
@@ -300,18 +305,18 @@
     # needed for mDNS in Home Assistant
     networking.firewall.allowedUDPPorts = [ 5353 ];
 
-    systemd.services.libreddit.environment = {
-      LIBREDDIT_DEFAULT_SUBSCRIPTIONS = lib.pipe ./reddit-subscriptions.txt [
+    systemd.services.redlib.environment = {
+      REDLIB_DEFAULT_SUBSCRIPTIONS = lib.pipe ./reddit-subscriptions.txt [
         builtins.readFile
         (lib.splitString "\n")
         (lib.filter (x: x != ""))
         (lib.concatStringsSep "+")
       ];
     };
-    services.libreddit = {
+
+    services.redlib = {
       enable = true;
       port = 8087;
-      package = pkgs.redlib;
     };
   };
 }
