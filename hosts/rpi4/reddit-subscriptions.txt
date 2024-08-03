@@ -21,6 +21,7 @@ flatpak
 geometrydash
 homeassistant
 ihaveihaveihavereddit
+LinkedInLunatics
 linux
 linux_gaming
 NixOS
