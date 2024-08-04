@@ -276,7 +276,7 @@ in
           "$mod, O, togglesplit," # dwindle"
 
           "$mod, f, fullscreen"
-          "$mod SHIFT, f, fakefullscreen"
+          "$mod SHIFT, f, fullscreenstate, -1 2"
           "$mod CTRL, f, fullscreen, 1"
 
           # Move focus with mod + arrow keys

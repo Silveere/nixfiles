@@ -8,6 +8,8 @@
 
     nixpkgs-yt-dlp-2024.url = "github:NixOS/nixpkgs/528db5fa94041f0b4909a855d8b9fb9b44fa4f5d";
 
+    nixpkgs-nix-du.url = "github:NixOS/nixpkgs/c933cf4698e5189b35dd83bf4d7a81aef16d464a";
+
     # this seems to be a popular way to declare systems
     systems.url = "github:nix-systems/default";
 

@@ -4,6 +4,8 @@ let
   inherit (lib) recurseIntoAttrs optionalAttrs
     versionOlder versionAtLeast;
 
+  pkgsFromFlake = flake: (import flake.outPath) { inherit (prev) system; };
+  pkgsFromInput = name: pkgsFromFlake nixfiles.inputs.${name};
   pickFixed = ours: theirs: if versionAtLeast ours.version theirs.version then ours else theirs;
   pickNewer = ours: theirs: if versionOlder theirs.version ours.version then ours else theirs;
 
@@ -20,6 +22,11 @@ let
 # this also causes an infinite recursion and i have no idea why
 # in nixfiles.inputs.nixpkgs.lib.filterAttrs (k: v: v != null) {
 in {
+  nix-du = let
+    old = prev.nix-du;
+    new = (pkgsFromInput "nixpkgs-nix-du").nix-du;
+  in pickNewer old new;
+
   gimp-with-plugins = gimp-with-plugins-good;
 
   yt-dlp = let
