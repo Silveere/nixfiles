@@ -15,6 +15,8 @@
       ./mcserver.nix
 
       ./impermanence.nix
+
+      ./backup.nix
     ];
 
   config = {
