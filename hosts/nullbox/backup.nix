@@ -11,8 +11,6 @@ in
 
     systemd.services.restic-backups-system = {
       path = with pkgs; [ btrfs-progs ];
-      # ensures mounts are isolated to only this service
-      serviceConfig.PrivateMounts = true;
     };
 
     services.restic.backups.system = {
@@ -20,20 +18,15 @@ in
       # create an atomic backup
       backupPrepareCommand = ''
         set -Eeuxo pipefail
-        mkdir -p /tmp/btrfs_root
-        mount -t btrfs -o subvol=/ ${escapeShellArg fs.device} /tmp/btrfs_root
 
-        if btrfs subvol delete /tmp/btrfs_root/@restic-snapshot-mcserver; then
+        if btrfs subvol delete /srv/mcserver/@restic; then
           echo "Old restic snapshot deleted.";
         fi
 
-        btrfs subvol snapshot -r /srv/mcserver /tmp/btrfs_root/@restic-snapshot-mcserver
-
-        umount /srv/mcserver
-        mount -t btrfs -o subvol=/@restic-snapshot-mcserver ${escapeShellArg fs.device} /srv/mcserver
+        btrfs subvol snapshot -r /srv/mcserver /srv/mcserver/@restic
       '';
       backupCleanupCommand = ''
-        btrfs subvolume delete /tmp/btrfs_root/@restic-snapshot-mcserver
+        btrfs subvolume delete /srv/mcserver/@restic
       '';
 
       rcloneConfigFile = secret "restic-rclone";
@@ -43,7 +36,7 @@ in
         ".snapshots"
       ];
       paths = [
-        "/srv/mcserver"
+        "/srv/mcserver/@restic"
       ];
       dynamicFilesFrom = ''
         echo
