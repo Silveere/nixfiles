@@ -46,6 +46,10 @@
       mode = "0750";
     };
 
+    age.secrets.anki = {
+      file = ../../secrets/anki-user.age;
+    };
+
     users.groups.secrets = {};
     users.users.acme.extraGroups = [ "secrets" ];
 
@@ -237,6 +241,8 @@
         "uptime.protogen.io" = mkReverseProxy 3001;
         "kuma.protogen.io".locations."/".return = "301 https://uptime.protogen.io";
 
+        "anki.protogen.io" = mkReverseProxy config.services.anki-sync-server.port;
+
         "trackmap.protogen.io" = let
           root = pkgs.modpacks.notlite-ctm-static;
         in {
@@ -317,6 +323,16 @@
     services.redlib = {
       enable = true;
       port = 8087;
+    };
+
+    services.anki-sync-server = {
+      enable = true;
+      users = [
+        {
+          username = "nullbite";
+          passwordFile = config.age.secrets.anki.path;
+        }
+      ];
     };
   };
 }

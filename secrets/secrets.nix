@@ -25,5 +25,7 @@ in
 
   "restic-rclone.age".publicKeys = [ rpi4 nullbox slab ] ++ all-user;
   "restic-password.age".publicKeys = [ rpi4 nullbox slab ] ++ all-user;
+
+  "anki-user.age".publicKeys = [ rpi4 ] ++ all-user;
 }
 
