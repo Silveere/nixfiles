@@ -379,6 +379,18 @@
         hostname = "nixos-wsl";
       };
 
+      # for eval testing
+      rpi4-x86_64 = mkSystem {
+        nixpkgs = inputs.nixpkgs-unstable;
+        home-manager = inputs.home-manager-unstable;
+        system = "x86_64-linux";
+        stateVersion = "24.11";
+        hostname = "rpi4";
+        extraModules = [{
+            nixpkgs.hostPlatform = "x86_64-linux";
+        }];
+      };
+
       rpi4 = mkSystem {
         nixpkgs = inputs.nixpkgs-unstable;
         home-manager = inputs.home-manager-unstable;
