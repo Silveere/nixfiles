@@ -64,7 +64,6 @@
           autolock = true;
         };
       };
-      programs.unbound.enable = true;
       common.remoteAccess.enable = true;
       session = lib.mkDefault "hyprland";
       hardware.nvidia.modesetting.enable = true;
