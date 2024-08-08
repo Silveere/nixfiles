@@ -23,6 +23,7 @@ in
         "/opt"
         "/var/lib/gitea"
         "/var/lib/tailscale"
+        "/var/lib/private/anki-sync-server"
         "/etc"
       ];
       dynamicFilesFrom = ''
