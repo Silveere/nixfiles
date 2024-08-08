@@ -8,6 +8,7 @@ in
     home.packages = with pkgs; optionals config.nixfiles.meta.graphical [
       libreoffice-fresh
       obsidian
+      anki
     ] ++ [
       pandoc
     ];
