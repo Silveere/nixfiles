@@ -59,7 +59,7 @@
       programs.greetd = {
         preset = "tuigreet";
         settings = {
-          autologin = true;
+          autologin = false;
           autologinUser = "nullbite";
           autolock = true;
         };
