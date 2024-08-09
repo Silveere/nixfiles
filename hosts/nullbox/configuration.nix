@@ -88,6 +88,9 @@
       };
     };
 
+    # temporary while i am away from server
+    boot.kernelPackages = pkgs.linuxPackages_6_6;
+
     networking.wg-quick.interfaces.wg0 = {
       configFile = "/etc/wireguard/wg0.conf";
       autostart = true;

@@ -30,6 +30,9 @@
   # Enables the generation of /boot/extlinux/extlinux.conf
   boot.loader.generic-extlinux-compatible.enable = true;
 
+  # temporary while i am away from server
+  boot.kernelPackages = pkgs.linuxPackages_6_6;
+
   nixfiles = {
     profile.server.enable = true;
   };
