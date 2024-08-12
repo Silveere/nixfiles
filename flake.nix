@@ -134,7 +134,7 @@
     # My username
     username = "nullbite";
     # My current timezone for any mobile devices (i.e., my laptop)
-    mobileTimeZone = "America/New_York";
+    mobileTimeZone = "Europe/Amsterdam";
 
     # Variables to be passed to NixOS modules in the vars attrset
     vars = {
