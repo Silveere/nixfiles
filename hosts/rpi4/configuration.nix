@@ -41,7 +41,10 @@
   age.secrets.wg0 = {
     file = ../../secrets/wireguard-rpi4.age;
   };
-  services.tailscale.enable = true;
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "server";
+  };
 
   systemd.services.wg-quick-wg0.serviceConfig.execStartPre = pkgs.writeShellScript "wait-dns" ''
     until ${lib.getExe pkgs.getent} ahostsv4 example.com ; do echo sleep 1 ; done
