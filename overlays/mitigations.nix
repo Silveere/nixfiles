@@ -1,5 +1,8 @@
 nixfiles: final: prev:
 let
+  pkgsStable = import nixfiles.inputs.nixpkgs.outPath { inherit (prev) system; };
+  updateTime = nixfiles.inputs.nixpkgs-unstable.lastModified;
+
   inherit (final) lib callPackage fetchFromGitHub;
   inherit (lib) recurseIntoAttrs optionalAttrs
     versionOlder versionAtLeast;
@@ -34,6 +37,11 @@ in {
   in if ((builtins.compareVersions "2024.5.27" prev.yt-dlp.version) == 1)
     then (final.python3Packages.toPythonApplication pkgs-y.python3Packages.yt-dlp)
     else prev.yt-dlp;
+
+  easyeffects = let
+    stable = pkgsStable.easyeffects;
+    unstable = prev.easyeffects;
+  in if updateTime < 1726148749 then stable else unstable;
 
   redlib = let
     redlib-new = final.callPackage nixfiles.packages.${prev.system}.redlib.override {};
