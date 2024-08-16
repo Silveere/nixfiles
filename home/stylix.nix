@@ -1,10 +1,11 @@
 { pkgs, lib, config, inputs, ... }@args:
 {
-  imports = [ inputs.stylix.homeManagerModules.stylix ];
+  imports = [ ];
   config = {
     stylix = lib.mkMerge [
       {
         targets.vim.enable = lib.mkDefault false;
+        targets.neovim.enable = lib.mkDefault false;
         targets.gtk.enable = lib.mkDefault false;
         targets.fzf.enable = lib.mkDefault false;
         # the ring is styled light so it's light on light which looks worse than the default theme

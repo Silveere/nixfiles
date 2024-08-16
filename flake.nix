@@ -70,7 +70,7 @@
     };
 
     stylix = {
-      url = "github:danth/stylix?ref=e8e3304c2f8cf2ca60dcfc736a7422af2f24b8a8";
+      url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };

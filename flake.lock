@@ -157,15 +157,15 @@
     "base16-vim": {
       "flake": false,
       "locked": {
-        "lastModified": 1663659192,
-        "narHash": "sha256-uJvaYYDMXvoo0fhBZUhN8WBXeJ87SRgof6GEK2efFT0=",
-        "owner": "chriskempson",
+        "lastModified": 1722597040,
+        "narHash": "sha256-F4XRYPXhN47vwBQWPhWS5mBRNNwrgZ+n+n2WsRSh+vQ=",
+        "owner": "tinted-theming",
         "repo": "base16-vim",
-        "rev": "3be3cd82cd31acfcab9a41bad853d9c68d30478d",
+        "rev": "5a200412c9856085ce726beb4c14c47326c19700",
         "type": "github"
       },
       "original": {
-        "owner": "chriskempson",
+        "owner": "tinted-theming",
         "repo": "base16-vim",
         "type": "github"
       }
@@ -931,16 +931,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1716384443,
-        "narHash": "sha256-utea2y5nEwzMM9rWJXDN0qmV4tJjRcMERQEcgk/ng00=",
+        "lastModified": 1722946882,
+        "narHash": "sha256-mxtnMye8gs82tdQbVC+g6v3aPOZlH150f9WyntHIkTg=",
         "owner": "danth",
         "repo": "stylix",
-        "rev": "e8e3304c2f8cf2ca60dcfc736a7422af2f24b8a8",
+        "rev": "5853f1a8bd072f2ebabfc3de3973084353cf6f1e",
         "type": "github"
       },
       "original": {
         "owner": "danth",
-        "ref": "e8e3304c2f8cf2ca60dcfc736a7422af2f24b8a8",
         "repo": "stylix",
         "type": "github"
       }

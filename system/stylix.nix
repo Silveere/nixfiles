@@ -10,7 +10,7 @@
       # this naming is confusing as shit
       # this enables color theming of things by stylix
       autoEnable = lib.mkDefault config.stylix.enable;
-      # this enables installation of fonts/images/etc
+      # this enables the entire module. keep this off by default.
       enable = lib.mkDefault false;
 
       # an image i like
@@ -22,8 +22,7 @@
         # use system config in home-manager
         followSystem = lib.mkDefault true;
 
-        # I will manually import within home-manager so it works standalone
-        autoImport = lib.mkDefault false;
+        autoImport = lib.mkDefault true;
       };
     };
   };

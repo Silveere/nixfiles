@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   cfg = config.nixfiles.theming;
+  mkDefaultStylix = lib.mkOverride 999;
 
   toCaps = s: with lib.strings; with builtins;
     (toUpper (substring 0 1 s)) + toLower (substring 1 ((stringLength s)-1) s);
@@ -80,9 +81,9 @@ in {
       enable = true;
       autoEnable = true;
       cursor = {
-        package = lib.mkDefault ctp.packages.cursors;
-        name = lib.mkDefault ctp.names.cursors;
-        size = lib.mkDefault 24;
+        package = mkDefaultStylix ctp.packages.cursors;
+        name = mkDefaultStylix ctp.names.cursors;
+        size = mkDefaultStylix 24;
         # x11.enable = lib.mkDefault true;
         # gtk.enable = lib.mkDefault true;
       };
