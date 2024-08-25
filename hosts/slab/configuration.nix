@@ -19,6 +19,12 @@
       };
     }
 
+    # Lanzaboote workaround (nix-community/lanzaboote#173)
+    (lib.mkIf config.boot.lanzaboote.enable {
+      "/efi/EFI/Linux" = { device = "/boot/EFI/Linux"; options = [ "bind" ]; };
+      "/efi/EFI/nixos" = { device = "/boot/EFI/nixos"; options = [ "bind" ]; };
+    })
+
     (lib.genAttrs [ "/.btrfsroot" "/" "/home" "/nix" ] ( fs: {
       options = [ "compress=zstd" ];
     }))
@@ -102,11 +108,16 @@
     #   device = "nodev";
     # };
     systemd-boot = {
-      enable = true;
+      enable = lib.mkForce (!config.boot.lanzaboote.enable);
       xbootldrMountPoint = "/boot";
       netbootxyz.enable = true;
       memtest86.enable = true;
     };
+  };
+
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/etc/secureboot";
   };
 
   # systemd power/suspend configuration
