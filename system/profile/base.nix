@@ -67,9 +67,13 @@ in
 
         fd
         ripgrep
-        sbctl # TODO move this elsewhere
         comma
         nil
+
+        # UEFI utils
+        efitools
+        sbctl
+        sbsigntool
 
         # network utilities
         inetutils

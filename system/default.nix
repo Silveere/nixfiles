@@ -19,6 +19,7 @@ in
     ./minecraft.nix # imports inputs.nix-minecraft
     inputs.impermanence.nixosModules.impermanence
     inputs.agenix.nixosModules.default
+    inputs.lanzaboote.nixosModules.lanzaboote
     ./stylix.nix # imports inputs.stylix
   ];
   config = {};
