@@ -28,10 +28,7 @@ in
           ];
         };
       });
-      prismlauncherWayland = (final: prev: {
-        prismlauncher = prev.prismlauncher.override { withWaylandGLFW = true; };
-      });
-    in [ steamGamescopeFix prismlauncherWayland ];
+    in [ steamGamescopeFix ];
 
     programs.steam = {
       enable = lib.mkDefault true;
