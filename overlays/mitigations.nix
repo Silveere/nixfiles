@@ -12,6 +12,11 @@ let
   pickFixed = ours: theirs: if versionAtLeast ours.version theirs.version then ours else theirs;
   pickNewer = ours: theirs: if versionOlder theirs.version ours.version then ours else theirs;
 
+  hold = now: days: ours: theirs: let
+      seconds = days * 24 * 60 * 60;
+      endTimestamp = now + seconds;
+    in if now < endTimestamp then ours else theirs;
+
   optionalPkg = cond: val: if cond then val else null;
 
   gimp-with-plugins-good = let
@@ -42,6 +47,12 @@ in {
     stable = pkgsStable.easyeffects;
     unstable = prev.easyeffects;
   in if updateTime < 1726148749 then stable else unstable;
+
+  compsize = let
+    stable = pkgsStable.compsize;
+    unstable = prev.compsize;
+    now = 1724786296;
+  in hold now 7 stable unstable;
 
   redlib = let
     redlib-new = final.callPackage nixfiles.packages.${prev.system}.redlib.override {};
