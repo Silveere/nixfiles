@@ -26,6 +26,7 @@ in
       audacity
       picard
       spicetify-cli
+      (kodi.withPackages (_: [])) # this is required to get python libs
     ] ++ [
       yt-dlp
       gallery-dl
