@@ -8,20 +8,20 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "redlib";
-  version = "0.34.0";
+  version = "0.35.1";
 
   src = fetchFromGitHub {
     owner = "redlib-org";
     repo = "redlib";
-    rev = "refs/tags/v${version}";
-    hash = "sha256-JpuCX2ae9me+zHxQj5jqQlgDci2NV+TEVUAqnuTn3cA=";
+    # rev = "refs/tags/v${version}";
+    rev = "793047f63f0f603e342c919bbfc469c7569276fa";
+    hash = "sha256-A6t/AdKP3fCEyIo8fTIirZAlZPfyS8ba3Pejp8J6AUQ=";
   };
 
   patches = [
-    ./auth-fix.patch
   ];
 
-  cargoHash = "sha256-gkRblCHUFiprZeYtu43GIGBZqCq5l/HEGaQN91XbfSs=";
+  cargoHash = "sha256-rJXKH9z8DC+7qqawbnSkYoQby6hBLLM6in239Wc8rvk=";
 
   buildInputs = lib.optionals stdenv.isDarwin [
     darwin.apple_sdk.frameworks.Security
@@ -30,6 +30,7 @@ rustPlatform.buildRustPackage rec {
   checkFlags = [
     # All these test try to connect to Reddit.
     "--skip=test_fetching_subreddit_quarantined"
+    "--skip=test_gated_and_quarantined"
     "--skip=test_fetching_nsfw_subreddit"
     "--skip=test_fetching_ws"
 
