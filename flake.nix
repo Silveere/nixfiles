@@ -44,6 +44,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # https://github.com/nix-community/lanzaboote/releases
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v0.4.1";
 
@@ -51,7 +52,14 @@
     };
 
     # no inputs.nixpkgs.follows so i can use cachix
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    # https://github.com/hyprwm/Hyprland/releases
+    # hyprland.url = "git+https://github.com/hyprwm/Hyprland?rev=v0.4.1&submodules=1";
+    hyprland = {
+      type = "git";
+      url = "https://github.com/hyprwm/Hyprland";
+      submodules = true;
+      # ref = "refs/tags/v0.44.1";
+    };
 
     hyprwm-contrib = {
       url = "github:hyprwm/contrib";
