@@ -98,6 +98,7 @@
       secrets = {
         jwtSecretFile = config.age.secrets.authelia-jwt.path;
         storageEncryptionKeyFile = config.age.secrets.authelia-storage.path;
+        sessionSecretFile = config.age.secrets.authelia-session.path;
       };
       settings = {
         access_control.default_policy = "one_factor";
