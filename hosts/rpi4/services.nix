@@ -119,6 +119,9 @@
             default_redirection_url = "https://admin.proot.link";
           }
         ];
+        session.redis = {
+          host = config.services.redis.servers.authelia.unixSocket;
+        };
         notifier.filesystem.filename = "/var/lib/authelia-${inst}/notification.txt";
         authentication_backend.file.path = config.age.secrets.authelia-users.path;
         server.port = lib.mkIf (opts ? port) (opts.port or null);
@@ -130,6 +133,16 @@
         # port = 9091 # default
       };
     };
+
+    services.redis = {
+      servers.authelia = {
+        enable = true;
+      };
+    };
+
+    users.users."${config.services.authelia.instances.main.user}".extraGroups = let
+      name = config.services.redis.servers.authelia.user;
+    in [ name ];
 
     services.nginx = {
       enable = true;
