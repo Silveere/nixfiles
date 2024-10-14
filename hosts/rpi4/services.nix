@@ -332,6 +332,13 @@
         (lib.filter (x: x != ""))
         (lib.concatStringsSep "+")
       ];
+      REDLIB_DEFAULT_SHOW_NSFW = "on";
+      REDLIB_DEFAULT_BLUR_NSFW = "on";
+      REDLIB_DEFAULT_BLUR_SPOILER = "on";
+      REDLIB_DEFAULT_USE_HLS = "on";
+      REDLIB_DEFAULT_DISABLE_VISIT_REDDIT_CONFIRMATION = "on";
+
+      REDLIB_ENABLE_RSS = "on";
     };
 
     services.redlib = {
