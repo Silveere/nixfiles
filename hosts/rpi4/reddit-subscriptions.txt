@@ -4,8 +4,8 @@ AreTheStraightsOK
 autism
 beatsaber
 Bitwarden
-btd6
 boykisser
+btd6
 ConservativeRap
 crackheadcraigslist
 crackwatch
@@ -34,6 +34,7 @@ prismlauncher
 rust
 rustjerk
 selfhosted
+Shark_Park
 steam
 SteamDeck
 talesfromtechsupport
