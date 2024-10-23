@@ -39,19 +39,21 @@
       ./supergfxd.nix
     ];
 
-  specialisation.plasma.configuration = {
-    system.nixos.tags = [ "Plasma" ];
-    nixfiles = {
-      session = "plasma";
-    };
-    services.displayManager.sddm.enable = lib.mkForce true;
-    services.xserver.displayManager.startx.enable = lib.mkForce false;
+  # specialisation.plasma.configuration = {
+  #   system.nixos.tags = [ "Plasma" ];
+  #   nixfiles = {
+  #     session = "plasma";
+  #   };
+  #   services.displayManager.sddm.enable = lib.mkForce true;
+  #   # services.xserver.displayManager.startx.enable = lib.mkForce false;
+  # };
+
+  specialisation.hyprland.configuration = {
+    system.nixos.tags = [ "Hyprland" ];
+    nixfiles.session = "hyprland";
   };
 
   nixfiles.supergfxd.profile = lib.mkDefault "Integrated";
-
-  # who needs a display manager?
-  services.displayManager.sddm.enable = false;
 
   nixfiles = {
     profile.workstation.enable = true;
@@ -61,7 +63,8 @@
       gaming.enable = true;
       fun.enable = true;
     };
-    session = lib.mkDefault "hyprland";
+    # session = lib.mkDefault "hyprland";
+    session = lib.mkDefault "plasma";
     programs = {
       adb.enable = true;
       unbound.enable = false;
