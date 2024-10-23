@@ -36,7 +36,7 @@ in
     fonts.packages = with pkgs; [
       (nerdfonts.override { fonts = [ "FiraCode" ]; })
       font-awesome
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       (google-fonts.override { fonts = [ "NovaSquare" ];})
     ];
 

@@ -5,7 +5,7 @@
   lzip,
   plzip,
   lzop,
-  lzma,
+  xz,
   zip,
   unzip,
   arj,
@@ -16,7 +16,7 @@
   lha,
   unfree ? false }:
 let
-  wrappedPath = lib.makeBinPath ([lzip plzip lzop lzma zip unzip arj rpm cpio p7zip] ++ lib.optionals unfree [unrar lha]);
+  wrappedPath = lib.makeBinPath ([lzip plzip lzop xz zip unzip arj rpm cpio p7zip] ++ lib.optionals unfree [unrar lha]);
 in
 stdenvNoCC.mkDerivation {
   name = "atool-wrapped";

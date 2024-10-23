@@ -34,8 +34,8 @@ in
         exec "${pcmanfm-qt}/bin/pcmanfm-qt" "$@"
       '';
     in [
-      qt5ct
-      qt6ct
+      libsForQt5.qt5ct
+      kdePackages.qt6ct
       swaybg
       swayidle
       libsForQt5.qtstyleplugin-kvantum
@@ -49,9 +49,9 @@ in
       nwg-look
       nwg-displays
 
-      # very consistent
+      # very consistent (ok it's actually a little better now)
       (catppuccin-papirus-folders.override {accent = "mauve"; flavor = "mocha"; })
-      (pkgs.catppuccin-kvantum.override {accent = "Mauve"; variant = "Mocha"; })
+      (pkgs.catppuccin-kvantum.override {accent = "mauve"; variant = "mocha"; })
       catppuccin-cursors.mochaMauve
 
       arc-theme

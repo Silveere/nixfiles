@@ -21,7 +21,7 @@ let
     };
     packages = {
       cursors = catppuccin-cursors."${toLower flavor}${toCaps accent}";
-      kvantum = catppuccin-kvantum.override { variant = toCaps flavor; accent = toCaps accent; };
+      kvantum = catppuccin-kvantum.override { variant = toLower flavor; accent = toLower accent; };
       icons = catppuccin-papirus-folders.override { flavor = toLower flavor; accent = toLower accent; };
       gtk = catppuccin-gtk.override { variant = toLower flavor; accents = [ (toLower accent) ]; };
     };
