@@ -6,5 +6,6 @@
     ./opengl.nix
     ./sound.nix
     ./binfmt.nix
+    ./gps.nix
   ];
 }
