@@ -37,12 +37,6 @@ in {
 
   gimp-with-plugins = gimp-with-plugins-good;
 
-  yt-dlp = let
-    pkgs-y = (import nixfiles.inputs.nixpkgs-yt-dlp-2024.outPath) { inherit (prev) system;};
-  in if ((builtins.compareVersions "2024.5.27" prev.yt-dlp.version) == 1)
-    then (final.python3Packages.toPythonApplication pkgs-y.python3Packages.yt-dlp)
-    else prev.yt-dlp;
-
   easyeffects = let
     stable = pkgsStable.easyeffects;
     unstable = prev.easyeffects;
