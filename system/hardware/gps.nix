@@ -38,9 +38,9 @@ in
         wantedBy = [ "geoclue.service" "multi-user.target" ];
         serviceConfig = {
           RuntimeDirectory = "gpsd-nmea";
-          ExecStart = pkgs.writeShellScript "gpsd-nmea-bridge" "
-            exec socat -U UNIX-LISTEN:\${RUNTIME_DIRECTORY}/nmea.sock,fork,reuseaddr,mode=777 SYSTEM:'gpspipe -Br | stdbuf -oL tail -n+4'
-            ";
+          ExecStart = pkgs.writeShellScript "gpsd-nmea-bridge" ''
+            exec socat -U UNIX-LISTEN:''${RUNTIME_DIRECTORY}/nmea.sock,fork,reuseaddr,mode=777 SYSTEM:'gpspipe -Br | stdbuf -oL tail -n+4'
+            '';
         };
       };
     services.gpsd.enable = lib.mkIf cfg.gpsdBridge true;
