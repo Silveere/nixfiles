@@ -59,6 +59,7 @@
     profile.workstation.enable = true;
     common.remoteAccess.enable = true;
     hardware.opengl.enable = true;
+    hardware.gps.enable = true;
     packageSets = {
       gaming.enable = true;
       fun.enable = true;
@@ -123,6 +124,9 @@
     pkiBundle = "/etc/secureboot";
     settings.reboot-for-bitlocker = true;
   };
+
+  # GPS data from my phone
+  services.gpsd.devices = lib.mkIf config.nixfiles.hardware.gps.enable [ "tcp://pixel.magpie-moth.ts.net:6000" ];
 
   # systemd power/suspend configuration
   systemd.targets = lib.genAttrs ["suspend" "hybrid-sleep" "suspend-then-hibernate"] (_: {
