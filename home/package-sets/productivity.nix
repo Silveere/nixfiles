@@ -9,6 +9,10 @@ in
       libreoffice-fresh
       obsidian
       anki
+
+      # mapping/GIS
+      qgis
+      josm
     ] ++ [
       pandoc
     ];
