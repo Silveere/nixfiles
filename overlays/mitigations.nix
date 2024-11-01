@@ -51,6 +51,5 @@ in {
   redlib = let
     redlib-new = final.callPackage nixfiles.packages.${prev.system}.redlib.override {};
     inherit (prev) redlib;
-    notOlder = (builtins.compareVersions redlib-new.version redlib.version) >= 0;
-  in if notOlder then redlib-new else redlib;
+  in pickNewer redlib-new redlib;
 }

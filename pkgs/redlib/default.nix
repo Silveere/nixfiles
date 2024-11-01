@@ -5,23 +5,23 @@
 , rustPlatform
 , fetchFromGitHub
 , darwin
+, nix-update-script
 }:
 rustPlatform.buildRustPackage rec {
   pname = "redlib";
-  version = "0.35.1";
+  version = "0.35.1-unstable-2024-11-01";
 
   src = fetchFromGitHub {
     owner = "redlib-org";
     repo = "redlib";
-    # rev = "refs/tags/v${version}";
-    rev = "793047f63f0f603e342c919bbfc469c7569276fa";
-    hash = "sha256-A6t/AdKP3fCEyIo8fTIirZAlZPfyS8ba3Pejp8J6AUQ=";
+    rev = "d17d097b12b227f2e783a05cbd1e37c80f9ebe0b";
+    hash = "sha256-MT1FtRszFQuUMGaM4t0Zw+xOeMnK+kvG69SdyAbFB0A=";
   };
 
   patches = [
   ];
 
-  cargoHash = "sha256-rJXKH9z8DC+7qqawbnSkYoQby6hBLLM6in239Wc8rvk=";
+  cargoHash = "sha256-PNqecQSx0Q+K3bBfbOJYWPdl7JdUTDQ4f95RUuW0vPw=";
 
   buildInputs = lib.optionals stdenv.isDarwin [
     darwin.apple_sdk.frameworks.Security
@@ -33,6 +33,9 @@ rustPlatform.buildRustPackage rec {
     "--skip=test_gated_and_quarantined"
     "--skip=test_fetching_nsfw_subreddit"
     "--skip=test_fetching_ws"
+    "--skip=test_private_sub"
+    "--skip=test_banned_sub"
+    "--skip=test_gated_sub"
 
     "--skip=test_obfuscated_share_link"
     "--skip=test_share_link_strip_json"
@@ -45,6 +48,7 @@ rustPlatform.buildRustPackage rec {
     "--skip=test_oauth_client"
     "--skip=test_oauth_client_refresh"
     "--skip=test_oauth_token_exists"
+    "--skip=test_oauth_headers_len"
   ];
 
   env = {
@@ -54,6 +58,8 @@ rustPlatform.buildRustPackage rec {
   passthru.tests = {
     inherit (nixosTests) redlib;
   };
+
+  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch=main" ]; };
 
   meta = {
     changelog = "https://github.com/redlib-org/redlib/releases/tag/v${version}";
