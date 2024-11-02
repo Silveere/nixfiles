@@ -68,7 +68,14 @@ in
       nvidiaSettings = lib.mkDefault true;
 
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
-      package = lib.mkDefault config.boot.kernelPackages.nvidiaPackages.stable;
+      package = let
+
+        # security vulnerability fix
+        stable = config.boot.kernelPackages.nvidiaPackages.stable;
+        beta = config.boot.kernelPackages.nvidiaPackages.beta;
+
+        version = if (lib.versionOlder stable.version "565.57.01") then beta else stable;
+      in lib.mkDefault version;
     };
   };
 }
