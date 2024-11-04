@@ -160,7 +160,7 @@
   # }}}
 
   # Set your time zone.
-  time.timeZone = vars.mobileTimeZone;
+  # time.timeZone = vars.mobileTimeZone;
 
   services.asusd.enable = true;
 
