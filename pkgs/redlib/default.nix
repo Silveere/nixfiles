@@ -14,8 +14,8 @@ rustPlatform.buildRustPackage rec {
   src = fetchFromGitHub {
     owner = "redlib-org";
     repo = "redlib";
-    rev = "d17d097b12b227f2e783a05cbd1e37c80f9ebe0b";
-    hash = "sha256-MT1FtRszFQuUMGaM4t0Zw+xOeMnK+kvG69SdyAbFB0A=";
+    rev = "f03bdcf472d32d51a1093528071dc329b348379d";
+    hash = "sha256-fbk0m20NpaUCWvH/l9hfmx+VKw4U3pkTkXdAeHL7bHs=";
   };
 
   patches = [
