@@ -41,10 +41,10 @@
     # hardware.nvidia.package = lib.mkForce config.boot.kernelPackages.nvidiaPackages.production;
     hardware.nvidia.open = lib.mkForce false;
 
-    specialisation.plasma.configuration = {
-      system.nixos.tags = [ "Plasma" ];
+    specialisation.hyprland.configuration = {
+      system.nixos.tags = [ "Hyprland" ];
       nixfiles = {
-        session = "plasma";
+        session = "hyprland";
       };
     };
 
@@ -65,7 +65,8 @@
         };
       };
       common.remoteAccess.enable = true;
-      session = lib.mkDefault "hyprland";
+      # session = lib.mkDefault "hyprland";
+      session = lib.mkDefault "plasma";
       hardware.nvidia.modesetting.enable = true;
       packageSets.gaming.enable = true;
     };
