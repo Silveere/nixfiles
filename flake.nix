@@ -85,6 +85,11 @@
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
+      inputs.base16.follows = "base16";
+    };
+
+    base16 = {
+      url = "github:SenchoPens/base16.nix";
     };
 
     nixfiles-assets = {
