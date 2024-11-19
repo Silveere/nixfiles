@@ -22,6 +22,9 @@ rustPlatform.buildRustPackage rec {
   };
 
   patches = [
+    # this is so the commit hash can be embedded so redlib doesn't complain
+    # about the server being outdated unless it's /actually/ outdated
+    ./no-hash.patch
   ];
 
   cargoHash = "sha256-ZmIYTDfdMDkxT1doV5kMMjqIHQ/zhiY/ewd77RqRSMU=";
@@ -63,6 +66,7 @@ rustPlatform.buildRustPackage rec {
 
   env = {
     SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
+    GIT_HASH=src.rev;
   };
 
   passthru.tests = {
