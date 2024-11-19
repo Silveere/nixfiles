@@ -5,26 +5,36 @@
 , rustPlatform
 , fetchFromGitHub
 , darwin
+, pkg-config
+, perl
+, openssl
 , nix-update-script
 }:
 rustPlatform.buildRustPackage rec {
   pname = "redlib";
-  version = "0.35.1-unstable-2024-11-15";
+  version = "0.35.1-unstable-2024-11-19";
 
   src = fetchFromGitHub {
     owner = "redlib-org";
     repo = "redlib";
-    rev = "6c64ebd56b98f5616c2014e2e0567fa37791844c";
-    hash = "sha256-QXcjpIO1y6mi+4E2BC6O16TaLFfpcPcCHumuJBXmcoU=";
+    rev = "18efb8c714ad10e0082059e1d47e0f95686d04a7";
+    hash = "sha256-Kzh0nSGxSqr4c6EvshqHdvqYbqiKCRehf2ngAuj2fmw=";
   };
 
   patches = [
   ];
 
-  cargoHash = "sha256-tb+qTANios+dvNK775gqy0AmB5fuj5BhfYYYegnraEg=";
+  cargoHash = "sha256-ZmIYTDfdMDkxT1doV5kMMjqIHQ/zhiY/ewd77RqRSMU=";
 
   buildInputs = lib.optionals stdenv.isDarwin [
     darwin.apple_sdk.frameworks.Security
+  ] ++ lib.optionals stdenv.isLinux [
+    openssl
+  ];
+
+  nativeBuildInputs = lib.optionals stdenv.isLinux [
+    pkg-config
+    perl
   ];
 
   checkFlags = [
