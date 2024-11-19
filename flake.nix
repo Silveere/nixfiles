@@ -357,7 +357,7 @@
     # (extraS|s)pecialArgs to pass variables
     nixosModules = (import ./modules/nixos) moduleInputs;
     homeManagerModules = (import ./modules/home-manager) moduleInputs;
-    packages = eachSystem (system: let pkgs = import nixpkgs { inherit system; };
+    packages = eachSystem (system: let pkgs = import nixpkgs-unstable { inherit system; };
       in (
         import ./pkgs { inherit pkgs; }) // {
           iso = let
