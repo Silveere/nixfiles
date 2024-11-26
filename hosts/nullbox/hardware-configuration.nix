@@ -53,7 +53,9 @@
       options = [ "subvol=snapshots/@mcserver" ];
     };
 
-  swapDevices = [ ];
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/4b86cbd6-6fc5-47d4-9d44-35eec59cb785"; }
+    ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
