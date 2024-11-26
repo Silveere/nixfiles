@@ -48,6 +48,8 @@ in
       thunderbird
       vesktop
       rustdesk-pkg
+      tor-browser
+      onionshare
     ] ++ [
       irssi
     ];
