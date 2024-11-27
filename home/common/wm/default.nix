@@ -19,8 +19,9 @@ in
     ./keybinds.nix
   ];
   config = lib.mkIf cfg.enable {
-    # Common options for standalone window managers; many of these (or
-    # alternatives thereof) are pulled in by desktop environments.
+    # Common options for standalone window managers. many of these (or
+    # alternatives thereof) would normally be pulled in by desktop
+    # environments; we want to create a similar experience for window managers.
 
     nixfiles.theming.enable = lib.mkDefault true;
     nixfiles.programs.dunst.enable = lib.mkDefault true;
