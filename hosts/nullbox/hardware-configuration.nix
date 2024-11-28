@@ -41,14 +41,26 @@
       fsType = "vfat";
     };
 
-  fileSystems."/srv/mcserver" =
+  fileSystems."/srv/mcserver-old" =
     { device = "/dev/disk/by-uuid/7204ff85-6404-4bd7-ba0d-3fb23a5cf52c";
       fsType = "btrfs";
       options = [ "subvol=@mcserver" ];
     };
 
-  fileSystems."/srv/mcserver/.snapshots" =
+  fileSystems."/srv/mcserver-old/.snapshots" =
     { device = "/dev/disk/by-uuid/7204ff85-6404-4bd7-ba0d-3fb23a5cf52c";
+      fsType = "btrfs";
+      options = [ "subvol=snapshots/@mcserver" ];
+    };
+
+  fileSystems."/srv/mcserver" =
+    { device = "/dev/disk/by-uuid/e36d1ab4-d18b-434e-80b5-0efca0652eb5";
+      fsType = "btrfs";
+      options = [ "subvol=@mcserver" ];
+    };
+
+  fileSystems."/srv/mcserver/.snapshots" =
+    { device = "/dev/disk/by-uuid/e36d1ab4-d18b-434e-80b5-0efca0652eb5";
       fsType = "btrfs";
       options = [ "subvol=snapshots/@mcserver" ];
     };
