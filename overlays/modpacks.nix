@@ -3,8 +3,8 @@ let
   inherit (final) lib;
   inherit (lib) fakeHash;
   notlite = let
-    commit = "7c82e4704528fefc91fde961a78602aeb8ca3599";
-    packHash = "sha256-dLLO+UBg7oA5VMn10+jmzsDndyFFw2CV0QYIFtLiOxI=";
+    commit = "0e42bfbc6189db5848252d7dc7a638103d9d44ee";
+    packHash = "sha256-X9a7htRhJcSRXu4uDvzSjdjCyWg+x7Dqws9pIlQtl6A=";
   in final.fetchPackwizModpack {
       url = "https://gitea.protogen.io/nullbite/notlite/raw/commit/${commit}/pack.toml";
       inherit packHash;
