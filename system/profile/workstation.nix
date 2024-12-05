@@ -34,7 +34,7 @@ in
     services.flatpak.enable = mkDefault true;
 
     fonts.packages = with pkgs; [
-      (nerdfonts.override { fonts = [ "FiraCode" ]; })
+      nerd-fonts.fira-code
       font-awesome
       noto-fonts-cjk-sans
       (google-fonts.override { fonts = [ "NovaSquare" ];})
