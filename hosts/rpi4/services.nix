@@ -78,6 +78,8 @@
             "*.nbt.sh"
             "proot.link"
             "*.proot.link"
+            "nullbite.xyz"
+            "*.nullbite.xyz"
           ];
         };
       };
@@ -300,7 +302,7 @@
           locations."/" = {
             return = "302 https://protogen.io$request_uri";
           };
-          serverAliases = [ "www.nullbite.com" "nullbite.dev" "www.nullbite.dev" "www.protogen.io" ];
+          serverAliases = [ "www.nullbite.com" "nullbite.dev" "www.nullbite.dev" "www.protogen.io" "nullbite.xyz" "www.nullbite.xyz" ];
         };
 
         # show blank page for unknown hosts
