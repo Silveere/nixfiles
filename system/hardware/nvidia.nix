@@ -69,12 +69,8 @@ in
 
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = let
-
-        # security vulnerability fix
         stable = config.boot.kernelPackages.nvidiaPackages.stable;
-        beta = config.boot.kernelPackages.nvidiaPackages.beta;
-
-        version = if (lib.versionOlder stable.version "565.57.01") then beta else stable;
+        version = stable;
       in lib.mkDefault version;
     };
   };
