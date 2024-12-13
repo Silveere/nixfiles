@@ -64,5 +64,12 @@ in
       type = flakeType;
       example = "home-manager";
     };
+
+    ltsKernel = lib.mkOption {
+      description = "Currently tested LTS kernelPackages, manually update after testing.";
+      default = pkgs.linuxPackages_6_6;
+      type = options.boot.kernelPackages.type;
+      readOnly = true;
+    };
   };
 }
