@@ -40,6 +40,8 @@
     profile.server.enable = true;
   };
 
+  hardware.rtl-sdr.enable = true;
+
   # VPN services
   age.secrets.wg0 = {
     file = ../../secrets/wireguard-rpi4.age;
