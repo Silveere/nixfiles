@@ -47,6 +47,7 @@ in
     environment.systemPackages = with pkgs; [
       # this fixes tiny file dialogs for Minecraft
       libsForQt5.kdialog
+      kdePackages.yakuake
     ];
   };
 }
