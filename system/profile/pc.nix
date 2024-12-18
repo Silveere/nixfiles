@@ -24,6 +24,12 @@ in
     # FIXME find somewhere else to put this
     networking.networkmanager.enable = lib.mkDefault true;  # Easiest to use and most distros use this by default.
 
+    # contains icons for bootnext desktop entries (the Windows icon); there's
+    # probably no reason to *not* include this.
+    environment.systemPackages = with pkgs; [
+      nixfiles-assets
+    ];
+
     # enable option sets
     nixfiles = {
       hardware = {

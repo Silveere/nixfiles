@@ -40,6 +40,25 @@ let
     fi
   '';
 
+  desktopWrapper = pkgs.writeShellScript "bootnext-desktop-wrapper" ''
+    if ${pkgs.libsForQt5.kdialog}/bin/kdialog --warningyesno "Are you sure you want to reboot?" ; then
+      ${bootNextScript}/bin/bootnext "$@"
+      reboot
+    fi
+  '';
+
+  bootnextDesktopEntries = pkgs.symlinkJoin {
+    name = "bootnext-desktop-entries";
+      paths = lib.mapAttrsToList (name: value: pkgs.makeDesktopItem {
+        name = "bootnext-reboot-${name}";
+        desktopName = "Reboot into ${value.desktopEntry.name}";
+        comment = "Select the entry defined by the `${name}` configuration in the bootnext script and then reboot.";
+        icon = "${value.desktopEntry.icon}";
+        keywords = [ "bootnext" "reboot" "${name}" "${value.desktopEntry.name}" ];
+        exec = "${desktopWrapper} ${name}";
+      }) (lib.filterAttrs (_: value: value.desktopEntry.enable) cfg.entries);
+  };
+
 in
 {
   options = {
@@ -52,7 +71,7 @@ in
         default = false;
         example = true;
       };
-      enableDesktopEntries = lib.mkEnableOption "generation of bootnext Desktop entries";
+      enableDesktopEntries = lib.mkEnableOption "generation of bootnext Desktop entries" // { default = true; };
       entries = let
         entryModule = {name, config, ... }: {
           options = let
@@ -105,7 +124,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [ bootNextScript ];
+    environment.systemPackages = [ bootNextScript ] ++ lib.optional cfg.enableDesktopEntries bootnextDesktopEntries;
 
     security.sudo.extraRules = lib.mkAfter [
       {

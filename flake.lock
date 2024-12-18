@@ -972,11 +972,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1710743555,
-        "narHash": "sha256-e8iXy4hCLYegNTeyB/GB8hj+gj1wPD+b+XOsEcdfEJY=",
+        "lastModified": 1734507658,
+        "narHash": "sha256-Ooz0UCrq+WYQp6ekYfqeAP2gazprWBvobXaIV38Btks=",
         "owner": "Silveere",
         "repo": "nixfiles-assets",
-        "rev": "4ee66c3036eda78fe0ddada0e289a4f672ac4f57",
+        "rev": "5612da9d6619ca3661abf08055d9b6d76e17d3bf",
         "type": "github"
       },
       "original": {
