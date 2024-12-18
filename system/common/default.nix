@@ -5,5 +5,6 @@
     ./remote.nix
     ./wm.nix
     ./nix.nix
+    ./bootnext.nix
   ];
 }
