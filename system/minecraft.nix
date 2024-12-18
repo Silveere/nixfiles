@@ -20,13 +20,13 @@
 
         modpackFiles = lib.mkOption {
           description = "List of files from modpack to copy into server directory";
-          type = with lib.types; listOf string;
+          type = with lib.types; listOf str;
           default = [ ];
         };
 
         modpackSymlinks = lib.mkOption {
           description = "List of files from modpack to symlink into server directory";
-          type = with lib.types; listOf string;
+          type = with lib.types; listOf str;
           default = [ ];
         };
       };
