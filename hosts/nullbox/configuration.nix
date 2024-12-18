@@ -65,6 +65,19 @@
         };
       };
       common.remoteAccess.enable = true;
+      common.bootnext = {
+        enable = true;
+        entries = {
+          windows = {
+            name = "Windows Boot Manager";
+            efiPartUUID = "6fc437f5-b917-42b2-9d5d-1439a14e105b";
+            desktopEntry = {
+              name = "Windows";
+              icon = "microsoft-windows";
+            };
+          };
+        };
+      };
       # session = lib.mkDefault "hyprland";
       session = lib.mkDefault "plasma";
       hardware.nvidia.modesetting.enable = true;
