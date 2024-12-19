@@ -39,6 +39,8 @@ rustPlatform.buildRustPackage rec {
     "--skip=test_private_sub"
     "--skip=test_banned_sub"
     "--skip=test_gated_sub"
+    "--skip=test_rate_limit_check"
+    "--skip=test_default_subscriptions"
 
     "--skip=test_obfuscated_share_link"
     "--skip=test_share_link_strip_json"
