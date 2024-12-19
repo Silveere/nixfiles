@@ -40,7 +40,17 @@ in
 
     # enable filesystems
     boot.supportedFilesystems = {
+      # not yet; need kernel 6.7. update the lts kernel first.
+      # bcachefs = mkDefault true;
+      cifs = mkDefault true;
+      ext4 = mkDefault true;
+      ecryptfs = mkDefault true;
       exfat = mkDefault true;
+      f2fs = mkDefault true;
+      nfs = mkDefault true;
+      squashfs = mkDefault true;
+      vfat = mkDefault true;
+      xfs = mkDefault true;
     };
 
     # probably unnecessary, this will be enabled by whatever session i use
