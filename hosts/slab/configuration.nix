@@ -58,6 +58,17 @@
   nixfiles = {
     profile.workstation.enable = true;
     common.remoteAccess.enable = true;
+    common.bootnext = {
+      enable = true;
+      entries.windows = {
+        name = "Windows Boot Manager";
+        efiPartUUID = "c8505f55-1f48-47fc-9b3b-3ba16062cafd";
+        desktopEntry = {
+          name = "Windows";
+          icon = "microsoft-windows";
+        };
+      };
+    };
     hardware.opengl.enable = true;
     hardware.gps.enable = true;
     packageSets = {
