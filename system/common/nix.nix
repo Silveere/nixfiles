@@ -70,6 +70,14 @@ in
       # fallback to building locally if binary cache fails (home-manager should be
       # able to handle simple rebuilds offline)
       nix.settings.fallback = lib.mkDefault true;
+
+      # trust all members of wheel. this technically can give you root power,
+      # but if you've compromised a member of wheel, you might as well already
+      # be root; you could easily intercept a sudo call.
+      nix.settings.trusted-users = [
+        "@wheel"
+        "root"
+      ];
     })
   ];
 }
