@@ -51,6 +51,13 @@
 
     hardware.cpu.intel.updateMicrocode = true;
 
+    services.udev.extraRules = ''
+      # motherboard has a faulty USB hub or something; whenever *any* program
+      # tries to enumerate USB devices (which is a lot of programs for some
+      # reason), it hangs for several seconds. this disables the faulty hub.
+      SUBSYSTEMS=="usb", ACTION=="add", KERNEL=="usb2", ATTRS{idVendor}=="1d6b", ATTRS{idProduct}=="0003", ATTRS{serial}=="0000:00:14.0", ATTRS{busnum}=="2", ATTR{authorized}="0"
+    '';
+
     # nixfiles
     nixfiles = {
       profile.workstation.enable = true;
