@@ -77,6 +77,11 @@ in
     in lib.mkIf cfg.presets.regreet.enable {
       enable = lib.mkDefault true;
       package = wrapperPackage;
+      settings = {
+        background.path = cfg.settings.wallpaper;
+        fit = lib.mkDefault "Fill";
+        appearance.greeting_msg = cfg.settings.greeting;
+      };
     };
 
     # self config
