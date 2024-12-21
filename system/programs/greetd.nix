@@ -1,9 +1,9 @@
 { pkgs, config, lib, options, ... }:
 let
   cfg = config.nixfiles.programs.greetd;
-  inherit (lib.types) bool enum nullOr str path listOf;
+  inherit (lib) types optional optionals escapeShellArg escapeShellArgs;
+  inherit (types) bool enum nullOr str path listOf;
   inherit (builtins) isNull;
-  inherit (lib) optional optionals;
   optionalsSet = val: optionals (!(isNull val));
   optionalSet = val: optional (!(isNull val));
   sessions = config.services.displayManager.sessionData.desktops;
@@ -13,6 +13,12 @@ let
   loginwrap=pkgs.writeShellScriptBin "loginwrap" ''
     exec "$SHELL" -lc 'exec "$@"' "login-wrapper" "$@"
   '';
+
+  mkPresetOption = x: lib.mkOption {
+    description = "${x} greetd configuration";
+    type = bool;
+    default = false;
+  };
 in
 {
   config = lib.mkIf cfg.enable {
@@ -57,7 +63,29 @@ in
         ];
       };
     };
-    nixfiles.programs.greetd.presets.${cfg.preset}.enable = true;
+
+    # regreet config (it is configured through an upstream module; the only
+    # greetd-specific config set is default_session, so we can configure it
+    # here instead of above.)
+    programs.regreet = let
+      # lets us use wlr-randr
+      wrapperPackage = pkgs.writeShellScriptBin "regreet-wrapper" ''
+        ${cfg.settings.graphicalInit}
+
+        exec ${escapeShellArg (lib.getExe pkgs.greetd.regreet)} "$@"
+      '';
+    in lib.mkIf cfg.presets.regreet.enable {
+      enable = lib.mkDefault true;
+      package = wrapperPackage;
+    };
+
+    # self config
+    nixfiles.programs.greetd = {
+      presets.${cfg.preset}.enable = true;
+      settings.graphicalInit = lib.optionalString (cfg.settings.randr != null) ''
+        ${lib.getExe pkgs.wlr-randr} ${escapeShellArgs cfg.settings.randr}
+      '';
+    };
   };
 
   options.nixfiles.programs.greetd = {
@@ -66,7 +94,7 @@ in
     preset = lib.mkOption {
       description = "greetd configuration to enable (shorthand for presets.<preset>.enable)";
       type = enum (lib.mapAttrsToList (name: value: name) options.nixfiles.programs.greetd.presets);
-      default = "tuigreet";
+      default = "regreet";
     };
 
     settings = {
@@ -94,6 +122,20 @@ in
         default = null;
         example = [ "Hyprland" ];
       };
+
+      graphicalInit = lib.mkOption {
+        description = "Commands to run upon initialization of a graphical greeter.";
+        type = lib.types.lines;
+        default = "";
+      };
+
+      randr = lib.mkOption {
+        description = "Options to pass to wlr-randr";
+        type = nullOr (listOf str);
+        default = null;
+        example = [ "--output" "HDMI-A-3" "--off" ];
+      };
+
       loginShell = lib.mkOption {
         description = "Wrap in login shell to source .profile/.zshenv/etc. (if configurable).";
         type = bool;
@@ -135,10 +177,8 @@ in
         example = true;
       };
     };
-    presets.tuigreet.enable = lib.mkOption {
-      description = "tuigreet greetd configuration";
-      type = bool;
-      default = false;
-    };
+
+    presets.regreet.enable = mkPresetOption "regreet";
+    presets.tuigreet.enable = mkPresetOption "tuigreet";
   };
 }
