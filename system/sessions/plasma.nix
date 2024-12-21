@@ -15,8 +15,9 @@ in
   };
 
   config = mkIf cfg.enable {
+    nixfiles.programs.greetd.enable = lib.mkDefault true;
+
     services.xserver.enable = true;
-    services.displayManager.sddm.enable = mkDefault true;
     services.desktopManager.plasma6.enable = true;
     services.displayManager.defaultSession = "plasma";
     programs.kdeconnect.enable = mkDefault true;
