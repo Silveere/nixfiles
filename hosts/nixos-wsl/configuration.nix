@@ -1,5 +1,8 @@
 { pkgs, config, lib, vars, ... }:
 {
+  imports = [
+    ./tmpfiles-workaround.nix
+  ];
   config = {
     networking.hostName = "nixos-wsl";
 
