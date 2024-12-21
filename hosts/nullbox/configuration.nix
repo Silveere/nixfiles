@@ -64,11 +64,11 @@
       programs.adb.enable = true;
       workarounds.nvidiaPrimary = true;
       programs.greetd = {
-        preset = "tuigreet";
         settings = {
+          randr = [ "--output" "HDMI-A-3" "--off" ];
           autologin = false;
           autologinUser = "nullbite";
-          autolock = true;
+          autolock = false;
         };
       };
       common.remoteAccess.enable = true;

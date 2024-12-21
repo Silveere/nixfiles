@@ -94,7 +94,8 @@ in {
           "/var/db/sudo/lectured"
 
           # remember login stuff
-          "/var/cache/tuigreet"
+          { directory = "/var/cache/tuigreet"; user = "greeter"; group = "greeter"; }
+          { directory = "/var/cache/regreet"; user = "greeter"; group = "greeter"; }
         ];
 
         files = [
