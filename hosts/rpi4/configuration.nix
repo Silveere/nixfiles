@@ -22,7 +22,7 @@
       "/opt/hassio"
       "/opt/hassio/.snapshots"
     ];
-    fn = (x: { options = [ "compress=zstd commit=300" ];});
+    fn = (x: { options = [ "compress=zstd" "commit=300" "noatime" ];});
   in lib.genAttrs mounts fn;
 
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
