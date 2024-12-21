@@ -82,7 +82,7 @@
       unbound.enable = false;
       greetd = {
         settings = {
-          # autologin = true;
+          autologin = true;
           autologinUser = "nullbite";
         };
       };
