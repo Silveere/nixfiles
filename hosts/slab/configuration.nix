@@ -81,7 +81,6 @@
       adb.enable = true;
       unbound.enable = false;
       greetd = {
-        preset = "tuigreet";
         settings = {
           autologin = true;
           autologinUser = "nullbite";
