@@ -16,6 +16,7 @@ in
 
   config = mkIf cfg.enable {
     nixfiles.programs.greetd.enable = lib.mkDefault true;
+    nixfiles.programs.greetd.settings.command = lib.mkDefault [ "${pkgs.kdePackages.plasma-workspace}/libexec/plasma-dbus-run-session-if-needed" "startplasma-wayland" ];
 
     services.xserver.enable = true;
     services.desktopManager.plasma6.enable = true;
