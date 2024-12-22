@@ -4,7 +4,6 @@ AreTheStraightsOK
 autism
 beatsaber
 Bitwarden
-boykisser
 btd6
 ConservativeRap
 crackheadcraigslist
@@ -20,6 +19,7 @@ femboymemes
 feminineboys
 flatpak
 geometrydash
+gocommitdie
 homeassistant
 ihaveihaveihavereddit
 LinkedInLunatics
@@ -30,7 +30,9 @@ NixOS
 NonBinaryTalk
 okbuddyhetero
 peepeeshart
+pressureroblox
 prismlauncher
+regretevator
 rust
 rustjerk
 selfhosted
