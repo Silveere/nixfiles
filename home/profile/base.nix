@@ -39,6 +39,8 @@ in
     home.shellAliases = {
       v = "nvim";
       icat = "kitten icat";
+      srun = "systemd-run";
+      urun = "systemd-run --user";
     };
     programs.fzf.enable = lib.mkDefault true;
     programs.fzf.enableZshIntegration = lib.mkDefault true;
