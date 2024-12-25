@@ -15,6 +15,7 @@ in
 
   config = lib.mkIf cfg.enable {
     nixfiles.programs.comma.enable = true;
+    nixfiles.programs.neovim.enable = lib.mkDefault true;
     nixfiles.common.nix.enable = true;
 
     home.sessionVariables = lib.mkMerge [
@@ -112,13 +113,6 @@ in
     # some packages defined here may be redundant with packages on a non-NixOS
     # home-manager setup, but it's better to have a consistent environment at
     # the cost of slightly more space
-    programs.neovim = {
-      enable = lib.mkDefault true;
-      vimAlias = lib.mkDefault true;
-      withPython3 = lib.mkDefault true;
-      defaultEditor = lib.mkDefault true;
-    };
-
     home.packages = with pkgs; let
       neofetch-hyfetch-shim = writeShellScriptBin "neofetch" ''
         exec "${pkgs.hyfetch}/bin/neowofetch" "$@"
