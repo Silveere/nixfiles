@@ -13,8 +13,10 @@ in
       enable = lib.mkDefault true;
       openDefaultPorts = lib.mkDefault true;
       user = lib.mkDefault "nullbite";
-      dataDir = lib.mkDefault "/home/nullbite/Documents";
-      configDir = lib.mkDefault "/home/nullbite/.config/syncthing";
+      dataDir = let
+        user = config.services.syncthing.user;
+        dir = config.users.users.${user}.home;
+      in lib.mkDefault dir;
     };
   };
 }
