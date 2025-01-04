@@ -14,16 +14,11 @@ in {
       };
     };
     systemd.services.gallery-dl = {
-      script = ''
-        PATH=${with pkgs; lib.escapeShellArg (lib.makeBinPath [ bash coreutils findutils gallery-dl ])}
-        export PATH
-
+      environment.PATH = with pkgs; makeBinpath [ bash coreutils findutils gallery-dl ];
+      serviceConfig = {
         # none of your fucking business
         # TODO move this into an agenix secret probably
-        exec /srv/gallery-dl.sh
-      '';
-
-      serviceConfig = {
+        ExecStart = "/srv/gallery-dl.sh";
         Type = "oneshot";
         User = "nullbite";
       };
@@ -37,13 +32,10 @@ in {
       };
     };
     systemd.services.gallery-dl-dedup = {
-      script = ''
-        PATH=${with pkgs; lib.escapeShellArg (lib.makeBinPath [ coreutils rmlint ])}
-        export PATH
-
-        exec /srv/gallery-dl-dedup.sh
-      '';
+      environment.PATH = with pkgs; makeBinpath [ bash coreutils rmlint ];
       serviceConfig = {
+        # likewise
+        ExecStart = "/srv/gallery-dl-dedup.sh";
         Type = "oneshot";
         User = "nullbite";
       };
