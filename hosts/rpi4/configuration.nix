@@ -10,6 +10,8 @@
       ./hardware-configuration.nix
       ./services.nix
 
+      ./media-sync.nix
+
       ./backup.nix
     ];
 
