@@ -4,7 +4,6 @@ in {
   config = {
     nixfiles.programs.syncthing.enable = true;
 
-
     systemd.timers.gallery-dl = {
       wantedBy = [ "timers.target" ];
       timerConfig = {
@@ -14,7 +13,7 @@ in {
       };
     };
     systemd.services.gallery-dl = {
-      environment.PATH = with pkgs; lib.makeBinPath [ bash coreutils findutils gallery-dl ];
+      path = with pkgs; [ bash coreutils findutils gallery-dl ];
       serviceConfig = {
         # none of your fucking business
         # TODO move this into an agenix secret probably
@@ -32,7 +31,7 @@ in {
       };
     };
     systemd.services.gallery-dl-dedup = {
-      environment.PATH = with pkgs; lib.makeBinPath [ bash coreutils rmlint ];
+      path = with pkgs ; [ bash coreutils rmlint ];
       serviceConfig = {
         # likewise
         ExecStart = "/srv/gallery-dl-dedup.sh";
