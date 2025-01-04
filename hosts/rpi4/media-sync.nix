@@ -14,7 +14,7 @@ in {
       };
     };
     systemd.services.gallery-dl = {
-      environment.PATH = with pkgs; lib.makeBinpath [ bash coreutils findutils gallery-dl ];
+      environment.PATH = with pkgs; lib.makeBinPath [ bash coreutils findutils gallery-dl ];
       serviceConfig = {
         # none of your fucking business
         # TODO move this into an agenix secret probably
@@ -32,7 +32,7 @@ in {
       };
     };
     systemd.services.gallery-dl-dedup = {
-      environment.PATH = with pkgs; lib.makeBinpath [ bash coreutils rmlint ];
+      environment.PATH = with pkgs; lib.makeBinPath [ bash coreutils rmlint ];
       serviceConfig = {
         # likewise
         ExecStart = "/srv/gallery-dl-dedup.sh";
