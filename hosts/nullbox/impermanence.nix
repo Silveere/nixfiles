@@ -49,6 +49,10 @@ in {
       fsType = "btrfs";
       options = [ "subvol=/nixos/volatile" ];
     };
+
+    # agenix fix
+    fileSystems."/etc/ssh".neededForBoot = true;
+
     environment.persistence = {
       "/persist/nobackup" = {
         hideMounts = true;
