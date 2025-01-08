@@ -38,6 +38,9 @@ in
       };
     };
 
+    # enable sysrq
+    boot.kernel.sysctl."kernel.sysrq" = mkDefault 1;
+
     # enable filesystems
     boot.supportedFilesystems = {
       # not yet; need kernel 6.7. update the lts kernel first.
