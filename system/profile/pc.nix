@@ -14,9 +14,7 @@ in
   config = lib.mkIf cfg.enable {
     nixfiles.profile.base.enable = lib.mkDefault true;
 
-    # disabling this for now; it doesn't work in chroot yet (the only reason i
-    # want it) and it takes forever to compile.
-    # nixfiles.binfmt.enable = lib.mkDefault true;
+    nixfiles.binfmt.enable = lib.mkDefault true;
 
     # networking.hostName = "nixos"; # Define your hostname.
     # Pick only one of the below networking options.
