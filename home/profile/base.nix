@@ -42,6 +42,10 @@ in
       icat = "kitten icat";
       srun = "systemd-run";
       urun = "systemd-run --user";
+
+      # this lets me find commands that i run with comma very frequently so i
+      # can install them
+      comma-frequent = "history | sed 's:^ \+[0-9]\+ \+::' | grep '^,' | cut -d' ' -f2- | sed 's:^\(-[^ ]\+ \?\)\+::g' | grep . | cut -d' ' -f1 | sort | uniq -c | sort -g";
     };
     programs.fzf.enable = lib.mkDefault true;
     programs.fzf.enableZshIntegration = lib.mkDefault true;
