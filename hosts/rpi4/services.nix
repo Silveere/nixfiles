@@ -259,6 +259,9 @@
 
         "anki.protogen.io" = mkReverseProxy config.services.anki-sync-server.port;
 
+        # homepage
+        "home.protogen.io" = mkAuthProxy 8089;
+
         "trackmap.protogen.io" = let
           root = pkgs.modpacks.notlite-ctm-static;
         in {
@@ -317,6 +320,12 @@
 
 
       };
+    };
+
+    # https://gethomepage.dev
+    services.homepage-dashboard = {
+      enable = true;
+      listenPort = 8089;
     };
 
     virtualisation.docker = {
