@@ -54,6 +54,12 @@ in {
     now = 1733871491;
   in hold now 7 stable unstable;
 
+  rmlint = let
+    stable = pkgsStable.rmlint;
+    unstable = prev.rmlint;
+    now = 1736384218;
+  in hold now 7 stable unstable;
+
   redlib = let
     redlib-new = final.callPackage nixfiles.packages.${prev.system}.redlib.override {};
     inherit (prev) redlib;
