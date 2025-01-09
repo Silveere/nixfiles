@@ -98,6 +98,10 @@ in
       grc
       fzf
       pv
+      jq
+      lsof
+      xxd
+      shellcheck
 
       # for icat on all systems
       kitty.kitten
@@ -111,12 +115,26 @@ in
       # pretty
       hyfetch
       neofetch-hyfetch-shim
+      fastfetch
 
       # files
       restic
       rclone
       rmlint
       ncdu
+
+      # compression
+      atool-wrapped
+      lzip
+      plzip
+      lzop
+      xz
+      zip
+      unzip
+      arj
+      rpm
+      cpio
+      p7zip
 
       # other utilities
       tmux
@@ -125,7 +143,7 @@ in
       htop
       zoxide
       asciinema
-
+      mtr
     ];
   };
 }
