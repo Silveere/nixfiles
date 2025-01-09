@@ -5,5 +5,6 @@
     ./nodm.nix
     ./nix.nix
     ./theme.nix
+    ./shell.nix
   ];
 }

@@ -17,6 +17,7 @@ in
     nixfiles.programs.comma.enable = true;
     nixfiles.programs.neovim.enable = lib.mkDefault true;
     nixfiles.common.nix.enable = true;
+    nixfiles.common.shell.enable = true;
 
     home.sessionVariables = lib.mkMerge [
       (lib.mkIf config.programs.neovim.enable {
@@ -33,50 +34,6 @@ in
         in builtins.concatStringsSep ":" terminfo-dirs;
       })
     ];
-
-
-    # TODO move this stuff to a shell.nix or something; this is just a quick
-    # fix so home.sessionVariables works
-    home.shellAliases = {
-      v = "nvim";
-      icat = "kitten icat";
-      srun = "systemd-run";
-      urun = "systemd-run --user";
-
-      # this lets me find commands that i run with comma very frequently so i
-      # can install them
-      comma-frequent = "history | sed 's:^ \+[0-9]\+ \+::' | grep '^,' | cut -d' ' -f2- | sed 's:^\(-[^ ]\+ \?\)\+::g' | grep . | cut -d' ' -f1 | sort | uniq -c | sort -g";
-    };
-    programs.fzf.enable = lib.mkDefault true;
-    programs.fzf.enableZshIntegration = lib.mkDefault true;
-    programs.fzf.enableBashIntegration = lib.mkDefault true;
-
-    programs.bash = {
-      enable = lib.mkDefault true;
-      initExtra = ''
-        export HOME_MANAGER_MANAGED=true;
-        [[ -e ~/dotfiles/shell/.bashrc ]] && . ~/dotfiles/shell/.bashrc ]]
-        unset HOME_MANAGERR_MANAGED
-      '';
-    };
-    programs.zsh = {
-      enable = lib.mkDefault true;
-      initExtra = ''
-        export HOME_MANAGER_MANAGED=true
-        [[ -e ~/dotfiles/shell/.zshrc ]] && . ~/dotfiles/shell/.zshrc ]]
-        unset HOME_MANAGER_MANAGED
-      '';
-      oh-my-zsh = {
-        enable = lib.mkDefault true;
-        theme = "robbyrussell";
-        extraConfig = ''
-          DISABLE_MAGIC_FUNCTIONS="true"
-        '';
-        plugins = [
-          "git"
-        ];
-      };
-    };
 
     programs.btop.enable = lib.mkDefault true;
 
