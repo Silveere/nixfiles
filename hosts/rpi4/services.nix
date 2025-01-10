@@ -323,9 +323,48 @@
     };
 
     # https://gethomepage.dev
-    services.homepage-dashboard = {
+    services.homepage-dashboard = let
+      entry = name: value: { "${name}" = value; };
+      makeBookmark = name: abbr: href: entry name [ { inherit abbr href; } ];
+    in {
       enable = true;
       listenPort = 8089;
+      # bookmarks customCSS customJS docker environmentFile kubernetes services settings widgets
+      settings = {
+        theme = "dark";
+        color = "slate";
+      };
+
+      widgets = [
+        ( entry "resources" {
+          cpu = true;
+          memory = true;
+          disk = "/";
+        })
+        ( entry "search" {
+          provider = "custom";
+          target = "_self";
+          url = "https://searx.protogen.io/search?q=";
+          suggestionUrl = "https://searx.protogen.io/autocompleter?q=";
+          showSearchSuggestions = true;
+        })
+      ];
+
+      services = [
+
+      ];
+
+      bookmarks = [
+        (entry "Developer" [
+          (makeBookmark "GitHub" "GH" "https://github.com")
+        ])
+        (entry "Local" [
+          (makeBookmark "Syncthing" "ST" "http://127.0.0.1:8384")
+        ])
+        (entry "Entertainment" [
+          (makeBookmark "Redlib" "RL" "https://redlib.protogen.io")
+        ])
+      ];
     };
 
     virtualisation.docker = {
