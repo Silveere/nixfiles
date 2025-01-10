@@ -359,7 +359,8 @@
           (makeBookmark "GitHub" "GH" "https://github.com")
         ])
         (entry "Local" [
-          (makeBookmark "Syncthing" "ST" "http://127.0.0.1:8384")
+          (makeBookmark "Syncthing" "ST" "http://localhost:8384")
+          (makeBookmark "Iris" "IR" "http://localhost:6680/iris/")
         ])
         (entry "Entertainment" [
           (makeBookmark "Redlib" "RL" "https://redlib.protogen.io")
