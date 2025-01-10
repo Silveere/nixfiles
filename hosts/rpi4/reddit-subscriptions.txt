@@ -40,7 +40,6 @@ Shark_Park
 steam
 SteamDeck
 talesfromtechsupport
-techsupport
 termux
 theamazingdigitalciru
 Ultrakill
