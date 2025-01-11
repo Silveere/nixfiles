@@ -22,6 +22,7 @@ in
   "authelia-storage.age".publicKeys = [ rpi4 ] ++ all-user;
   "authelia-jwt.age".publicKeys = [ rpi4 ] ++ all-user;
   "authelia-session.age".publicKeys = [ rpi4 ] ++ all-user;
+  "homepage.age".publicKeys = [ rpi4 ] ++ all-user;
 
   "restic-rclone.age".publicKeys = [ rpi4 nullbox slab ] ++ all-user;
   "restic-password.age".publicKeys = [ rpi4 nullbox slab ] ++ all-user;
