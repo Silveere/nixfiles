@@ -1,4 +1,7 @@
 { config, lib, pkgs, ... }:
+let
+  inherit (config.age) secrets;
+in
 {
   imports = [
     ./gitea.nix
@@ -48,6 +51,10 @@
 
     age.secrets.anki = {
       file = ../../secrets/anki-user.age;
+    };
+
+    age.secrets.homepage = {
+      file = ../../secrets/homepage.age;
     };
 
     users.groups.secrets = {};
@@ -325,10 +332,13 @@
     # https://gethomepage.dev
     services.homepage-dashboard = let
       entry = name: value: { "${name}" = value; };
-      makeBookmark = name: abbr: href: entry name [ { inherit abbr href; } ];
+      makeBookmark = name: {...}@attrs: entry name [ attrs ];
+      makeBookmark' = name: icon: abbr: href: makeBookmark name ({ inherit abbr href; } // lib.optionalAttrs (icon != null) { inherit icon; });
     in {
       enable = true;
       listenPort = 8089;
+      environmentFile = secrets.homepage.path;
+
       # bookmarks customCSS customJS docker environmentFile kubernetes services settings widgets
       settings = {
         theme = "dark";
@@ -336,12 +346,12 @@
       };
 
       widgets = [
-        ( entry "resources" {
+        (entry "resources" {
           cpu = true;
           memory = true;
           disk = "/";
         })
-        ( entry "search" {
+        (entry "search" {
           provider = "custom";
           target = "_self";
           url = "https://searx.protogen.io/search?q=";
@@ -350,20 +360,65 @@
         })
       ];
 
-      services = [
+      services = let
+        service = name: subdomain: icon: {...}@attrs: entry name ({
+          href = "https://${subdomain}.protogen.io";
+          inherit icon;
+        } // attrs);
+        basicService = name: subdomain: icon: service name subdomain icon {};
+      in [
+        (entry "unsorted" [
+          (basicService "Firefly III" "firefly" "firefly-iii")
+          (basicService "Gitea" "gitea" "gitea")
+          (basicService "Home Assistant" "hass" "home-assistant")
+          (basicService "Node-RED" "node" "node-red")
+          (basicService "Zigbee2MQTT" "z2m" "zigbee2mqtt")
+          (basicService "Code Server (Home Assistant)" "vsc-hass" "vscode")
+          (basicService "Deemix" "deemix" "deemix")
+          (basicService "Miniflux" "rss" "miniflux")
+          (basicService "mlmym" "blahaj" "lemmy-light")
+          (basicService "Octoprint" "print" "octoprint")
+          (basicService "SearXNG" "searx" "searxng")
+          (entry "Shlink" { href = "https://admin.nbt.sh"; icon = "shlink"; })
+          (basicService "Create Track Map" "trackmap" "")
 
+          ((x: service x x x {
+            widget = {
+            };
+          }) "changedetection")
+
+          (service "Uptime Kuma" "uptime" "uptime-kuma" {
+            widget = {
+              type = "uptimekuma";
+              url = "https://uptime.protogen.io";
+              slug = "all";
+            };
+          })
+          (service "Jellyfin" "room" "jellyfin" {
+            widget = {
+              type = "jellyfin";
+              url = "https://room.protogen.io";
+              key = "{{HOMEPAGE_VAR_JELLYFIN}}";
+              enableBlocks = true;
+              enableNowPlaying = true;
+              enableUser = true;
+            };
+          })
+        ])
       ];
 
       bookmarks = [
+        (entry "etc" [
+        ])
         (entry "Developer" [
-          (makeBookmark "GitHub" "GH" "https://github.com")
+          (makeBookmark' "GitHub" "github" "GH" "https://github.com")
         ])
         (entry "Local" [
-          (makeBookmark "Syncthing" "ST" "http://localhost:8384")
-          (makeBookmark "Iris" "IR" "http://localhost:6680/iris/")
+          (makeBookmark' "Syncthing" "syncthing" "ST" "http://127.0.0.1:8384")
+          (makeBookmark' "Iris" null "IR" "http://localhost:6680/iris/")
         ])
         (entry "Entertainment" [
-          (makeBookmark "Redlib" "RL" "https://redlib.protogen.io")
+          (makeBookmark' "Redlib" "redlib" "RL" "https://redlib.protogen.io")
         ])
       ];
     };
