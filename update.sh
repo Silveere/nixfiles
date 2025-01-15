@@ -23,4 +23,5 @@ cd "$(dirname "$0")"
 
 if [[ -n "${DO_PACKAGES:+x}" ]] ; then
 	nix-update --flake redlib --version=branch=main
+	nix-update --flake cross-seed
 fi

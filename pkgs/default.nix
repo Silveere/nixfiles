@@ -13,4 +13,5 @@ in
   atool = callPackage ./atool-wrapped { };
   nixfiles-assets = callPackage ./nixfiles-assets { };
   redlib = callPackage ./redlib { };
+  cross-seed = callPackage ./cross-seed { };
 }
