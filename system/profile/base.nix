@@ -124,6 +124,9 @@ in
       # Needed for Kvantum themes to be detected
       environment.pathsToLink = [ "/share/Kvantum" ];
 
+      # allow for more interactive authentication
+      security.polkit.enable = lib.mkDefault true;
+
       programs.neovim = {
         enable = lib.mkDefault true;
         defaultEditor = lib.mkDefault true;
