@@ -139,7 +139,7 @@ in
       # other utilities
       tmux
       tmuxp
-      ssh
+      openssh
       autossh
       mosh
       btop
