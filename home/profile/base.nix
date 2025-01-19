@@ -138,6 +138,9 @@ in
 
       # other utilities
       tmux
+      tmuxp
+      ssh
+      autossh
       mosh
       btop
       htop
