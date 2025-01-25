@@ -269,6 +269,8 @@ in
         # homepage
         "home.protogen.io" = mkAuthProxy 8089;
 
+        "lounge.protogen.io" = mkAuthProxy 9000;
+
         "trackmap.protogen.io" = let
           root = pkgs.modpacks.notlite-ctm-static;
         in {
@@ -379,6 +381,7 @@ in
           (basicService "mlmym" "blahaj" "lemmy-light")
           (basicService "Octoprint" "print" "octoprint")
           (basicService "SearXNG" "searx" "searxng")
+          (basicService "TheLounge" "lounge" "thelounge")
           (entry "Shlink" { href = "https://admin.nbt.sh"; icon = "shlink"; })
           (basicService "Create Track Map" "trackmap" "")
 
@@ -408,7 +411,11 @@ in
       ];
 
       bookmarks = [
-        (entry "etc" [
+        (entry "Admin" [
+          (makeBookmark' "Backblaze" "backblaze" "BZ" "https://secure.backblaze.com/user_signin.htm")
+          (makeBookmark' "Cloudflare" "cloudflare" "CF" "https://dash.cloudflare.com")
+          (makeBookmark' "Porkbun" "porkbun" "PB" "https://porkbun.com/account/domainsSpeedy")
+          (makeBookmark' "Namecheap" "namechea" "NC" "https://ap.www.namecheap.com/")
         ])
         (entry "Developer" [
           (makeBookmark' "GitHub" "github" "GH" "https://github.com")
@@ -450,6 +457,10 @@ in
     services.redlib = {
       enable = true;
       port = 8087;
+    };
+
+    services.thelounge = {
+      enable = true;
     };
 
     services.anki-sync-server = {
