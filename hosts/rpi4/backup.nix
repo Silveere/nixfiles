@@ -24,6 +24,7 @@ in
         "/var/lib/gitea"
         "/var/lib/tailscale"
         "/var/lib/private/anki-sync-server"
+        "/var/lib/thelounge"
         "/etc"
       ];
       dynamicFilesFrom = ''
