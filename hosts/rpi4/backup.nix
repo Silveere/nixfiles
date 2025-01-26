@@ -25,6 +25,7 @@ in
         "/var/lib/tailscale"
         "/var/lib/private/anki-sync-server"
         "/var/lib/thelounge"
+        "/var/lib/paperless"
         "/etc"
       ];
       dynamicFilesFrom = ''

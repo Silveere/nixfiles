@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   inherit (config.age) secrets;
+  inherit (builtins) toString;
 in
 {
   imports = [
@@ -55,6 +56,10 @@ in
 
     age.secrets.homepage = {
       file = ../../secrets/homepage.age;
+    };
+
+    age.secrets.paperless-admin = {
+      file = ../../secrets/paperless-admin.age;
     };
 
     users.groups.secrets = {};
@@ -229,6 +234,7 @@ in
         "redlib.protogen.io" = mkAuthProxy 8087;
         "rss.protogen.io" = mkReverseProxy 8082;
         "blahaj.protogen.io" = mkReverseProxy 8086;
+        "paper.protogen.io" = mkReverseProxy config.services.paperless.port;
 
         # octoprint (proxy_addr is 10.10.1.8)
         "print.protogen.io" = lib.mkMerge [ (mkProxy { authelia = true; upstream = "http://10.10.1.8:80"; })
@@ -462,6 +468,33 @@ in
     services.thelounge = {
       enable = true;
     };
+
+    services.redis.servers.paperless.enable = true;
+    services.paperless = {
+      enable = true;
+      # default is "localhost", binding should not rely on DNS (even if
+      # localhost is hard-coded 99.999% of the time)
+      address = "127.0.0.1";
+      passwordFile = secrets.paperless-admin.path;
+      settings = {
+        PAPERLESS_ADMIN_USER = "nullbite";
+        PAPERLESS_REDIS = "unix://${config.services.redis.servers.paperless.unixSocket}";
+        PAPERLESS_URL = "https://paper.protogen.io";
+        PAPERLESS_TIKA_ENABLED = true;
+        PAPERLESS_TIKA_ENDPOINT = "http://localhost:${toString config.services.tika.port}";
+        PAPERLESS_TIKA_GOTENBERG_ENDPOINT =
+          "http://localhost:${toString config.services.gotenberg.port}";
+      };
+    };
+    users.users."${config.services.paperless.user}".extraGroups = let
+      name = config.services.redis.servers.paperless.group;
+    in [ name ];
+
+    services.gotenberg = {
+      enable = true;
+      port = 3002;
+    };
+    services.tika.enable = true;
 
     services.anki-sync-server = {
       enable = true;
