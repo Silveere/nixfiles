@@ -388,6 +388,7 @@ in
           (basicService "Octoprint" "print" "octoprint")
           (basicService "SearXNG" "searx" "searxng")
           (basicService "TheLounge" "lounge" "thelounge")
+          (basicService "Paperless" "paper" "paperless-ngx")
           (entry "Shlink" { href = "https://admin.nbt.sh"; icon = "shlink"; })
           (basicService "Create Track Map" "trackmap" "")
 
