@@ -471,6 +471,7 @@ in
       extraConfig = {
         prefetch = true;
         prefetchStorage = true;
+        prefetchMaxImageSize = 8192;
       };
     };
 
