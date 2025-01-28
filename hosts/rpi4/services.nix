@@ -468,8 +468,10 @@ in
 
     services.thelounge = {
       enable = true;
-      prefetch = true;
-      prefetchStorage = true;
+      extraConfig = {
+        prefetch = true;
+        prefetchStorage = true;
+      };
     };
 
     services.redis.servers.paperless.enable = true;
