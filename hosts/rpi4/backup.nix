@@ -14,6 +14,7 @@ in
         ".snapshots"
         "gdlmirror"
         "gitea-dump-*"
+        "/var/lib/thelounge/storage"
       ];
       paths = [
         "/srv"
