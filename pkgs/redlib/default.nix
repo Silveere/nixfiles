@@ -9,12 +9,12 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "redlib";
-  version = "0.35.1-unstable-2024-12-02";
+  version = "0.35.1-unstable-2025-02-03";
 
   src = fetchFromGitHub {
     owner = "redlib-org";
     repo = "redlib";
-    rev = "d7ec07cd0d713fc308e1004663b0053db8f00a0f";
+    rev = "a732f181430c14b3a292b54fd372e069018ab03c";
     hash = "sha256-bAsSLZWGLMrD21xdQtD5NyNsNSZwLOd/+6ujZpbsyQg=";
   };
 

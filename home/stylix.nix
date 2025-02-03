@@ -7,6 +7,7 @@
         targets.vim.enable = lib.mkDefault false;
         targets.neovim.enable = lib.mkDefault false;
         targets.gtk.enable = lib.mkDefault false;
+        targets.qt.enable = lib.mkDefault false;
         targets.fzf.enable = lib.mkDefault false;
         # the ring is styled light so it's light on light which looks worse than the default theme
         targets.swaylock.enable = lib.mkDefault false;
