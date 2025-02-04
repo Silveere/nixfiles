@@ -84,6 +84,8 @@ in
       nix-tree
       nh
       nix-output-monitor
+      attic
+      nix-fast-build
 
       git
       git-lfs

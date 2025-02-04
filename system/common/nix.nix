@@ -71,6 +71,9 @@ in
       # able to handle simple rebuilds offline)
       nix.settings.fallback = lib.mkDefault true;
 
+      # Allow use of nix binary cache for every derivation
+      nix.settings.always-allow-substitutes = lib.mkDefault true;
+
       # trust all members of wheel. this technically can give you root power,
       # but if you've compromised a member of wheel, you might as well already
       # be root; you could easily intercept a sudo call.
