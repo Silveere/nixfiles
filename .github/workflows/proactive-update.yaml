@@ -22,7 +22,7 @@ jobs:
       # free useless disk space
       - run: 'bash ci/util_free_space_extreme.sh'
       - run: 'nix flake update'
-      - run: 'nix develop .#ci --command nix-fast-build -j1 --no-nom --skip-cache -f .#nixosConfigurations.rpi4.config.system.build.toplevel'
+      - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#nixosConfigurations.rpi4.config.system.build.toplevel'
 
   build_x86:
     runs-on: ubuntu-24.04
@@ -38,6 +38,6 @@ jobs:
       # free useless disk space
       - run: 'bash ci/util_free_space_extreme.sh'
       - run: 'nix flake update'
-      - run: 'nix develop .#ci --command nix-fast-build -j1 --no-nom --skip-cache -f .#nixosConfigurations.nullbox.config.system.build.toplevel'
-      - run: 'nix develop .#ci --command nix-fast-build -j1 --no-nom --skip-cache -f .#nixosConfigurations.slab.config.system.build.toplevel'
-      - run: 'nix develop .#ci --command nix-fast-build -j1 --no-nom --skip-cache -f .#nixosConfigurations.nixos-wsl.config.system.build.toplevel'
+      - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#nixosConfigurations.nullbox.config.system.build.toplevel'
+      - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#nixosConfigurations.slab.config.system.build.toplevel'
+      - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#nixosConfigurations.nixos-wsl.config.system.build.toplevel'
