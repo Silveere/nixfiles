@@ -343,6 +343,12 @@
     devShells = eachSystem (system: let
       pkgs = import nixpkgs-unstable { inherit system; };
     in {
+      ci = pkgs.mkShell {
+        buildInputs = with pkgs; [
+          nix-update
+          nix-fast-build
+        ];
+      };
       default = pkgs.mkShell {
         buildInputs = with pkgs; [
           nix-update
