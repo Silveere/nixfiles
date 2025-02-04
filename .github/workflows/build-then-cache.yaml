@@ -1,0 +1,19 @@
+name: Build and upload to Attic cache
+on:
+  push:
+    branches:
+      - "build-test"
+
+jobs:
+  build_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/flake-checker-action@main
+      - uses: ryanccn/attic-action@v0
+        with:
+          endpoint: ${{ secrets.ATTIC_ENDPOINT }}
+          cache: ${{ secrets.ATTIC_CACHE }}
+          token: ${{ secrets.ATTIC_TOKEN }}
+      - run: 'nix build .#nixosConfigurations.nullbox.config.system.build.toplevel'
