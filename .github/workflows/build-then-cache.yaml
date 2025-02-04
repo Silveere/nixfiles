@@ -17,5 +17,5 @@ jobs:
           cache: ${{ secrets.ATTIC_CACHE }}
           token: ${{ secrets.ATTIC_TOKEN }}
       # free useless disk space
-      - run: 'curl https://raw.githubusercontent.com/apache/arrow/31747f067a6ae29eca2d9bc68748500a8163d83e/ci/scripts/util_free_space.sh | bash'
+      - run: 'bash ci/util_free_space_extreme.sh'
       - run: 'nix build .#nixosConfigurations.nullbox.config.system.build.toplevel'
