@@ -16,6 +16,8 @@ in
         me.enable = lib.mkDefault true;
         # Enable system Nix configuration
         nix.enable = lib.mkDefault true;
+        # busybox low-priority install
+        busybox.enable = lib.mkDefault true;
       };
 
       # locale settings
