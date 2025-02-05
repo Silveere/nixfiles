@@ -1,7 +1,7 @@
 name: Proactively build and cache flake
 on:
   schedule:
-    - cron: "0 3 * * *"
+    - cron: "0 */6 * * *"
   push:
     branches:
       - "force-build"
