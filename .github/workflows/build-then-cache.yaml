@@ -2,11 +2,11 @@ name: Build and upload to Attic cache
 on:
   push:
     branches:
-      - "build-test"
+      - "main"
 
 jobs:
-  build_test:
-    runs-on: ubuntu-latest
+  build_arm:
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
@@ -18,4 +18,22 @@ jobs:
           token: ${{ secrets.ATTIC_TOKEN }}
       # free useless disk space
       - run: 'bash ci/util_free_space_extreme.sh'
-      - run: 'nix build .#nixosConfigurations.nullbox.config.system.build.toplevel'
+      # TODO: figure out how to use flake checks and use those to build it
+      - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#nixosConfigurations.rpi4.config.system.build.toplevel'
+  build_x86-64:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/flake-checker-action@main
+      - uses: ryanccn/attic-action@v0
+        with:
+          endpoint: ${{ secrets.ATTIC_ENDPOINT }}
+          cache: ${{ secrets.ATTIC_CACHE }}
+          token: ${{ secrets.ATTIC_TOKEN }}
+      # free useless disk space
+      - run: 'bash ci/util_free_space_extreme.sh'
+      # TODO: figure out how to use flake checks and use those to build it
+      - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#nixosConfigurations.slab.config.system.build.toplevel'
+      - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#nixosConfigurations.nullbox.config.system.build.toplevel'
+      - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#nixosConfigurations.nixos-wsl.config.system.build.toplevel'
