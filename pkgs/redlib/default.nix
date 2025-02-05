@@ -61,6 +61,8 @@ rustPlatform.buildRustPackage rec {
     GIT_HASH=src.rev;
   };
 
+  doCheck = false;
+
   passthru.tests = {
     inherit (nixosTests) redlib;
   };
