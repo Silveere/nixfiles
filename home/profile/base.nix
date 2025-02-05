@@ -84,7 +84,7 @@ in
       nix-tree
       nh
       nix-output-monitor
-      attic
+      attic-client
       nix-fast-build
 
       git
