@@ -1084,17 +1084,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1734507658,
-        "narHash": "sha256-Ooz0UCrq+WYQp6ekYfqeAP2gazprWBvobXaIV38Btks=",
+        "lastModified": 1738869323,
+        "narHash": "sha256-CaSsa5O0qwzn6Zec1nn8eIC/YH1rs8hKeKp1j10Yqzw=",
         "owner": "Silveere",
         "repo": "nixfiles-assets",
-        "rev": "5612da9d6619ca3661abf08055d9b6d76e17d3bf",
+        "rev": "acaca5e979c2b8a6d4ee5d96600520aaf03069bb",
         "type": "github"
       },
       "original": {
         "owner": "Silveere",
         "repo": "nixfiles-assets",
-        "rev": "5612da9d6619ca3661abf08055d9b6d76e17d3bf",
         "type": "github"
       }
     },

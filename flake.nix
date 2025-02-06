@@ -97,7 +97,6 @@
       type = "github";
       owner = "Silveere";
       repo = "nixfiles-assets";
-      rev = "5612da9d6619ca3661abf08055d9b6d76e17d3bf";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.systems.follows = "systems";
     };
