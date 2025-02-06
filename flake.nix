@@ -2,7 +2,7 @@
   description = "NixOS Configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
                  # ^^^^^^^^^^^^^ this part is optional
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
