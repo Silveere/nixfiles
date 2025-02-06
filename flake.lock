@@ -1114,6 +1114,7 @@
       },
       "original": {
         "owner": "Silveere",
+        "rev": "5612da9d6619ca3661abf08055d9b6d76e17d3bf",
         "repo": "nixfiles-assets",
         "type": "github"
       }
