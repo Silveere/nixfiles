@@ -108,12 +108,6 @@ in
       # for icat on all systems
       kitty.kitten
 
-      # terminfo (just the ones i'm likely to use)
-      kitty.terminfo
-      alacritty.terminfo
-      termite.terminfo
-      tmux.terminfo
-
       # pretty
       hyfetch
       neofetch-hyfetch-shim
@@ -149,6 +143,12 @@ in
       zoxide
       asciinema
       mtr
+    ] ++ builtins.map (x: lib.hiPrio x) [
+      # terminfo (just the ones i'm likely to use)
+      kitty.terminfo
+      alacritty.terminfo
+      termite.terminfo
+      tmux.terminfo
     ];
   };
 }
