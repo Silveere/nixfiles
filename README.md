@@ -1,8 +1,16 @@
 # NullBite's NixOS Config
-This is my personal NixOS config. Right now, it's just a <del>basic</del>
-extremely overengineered flake which imports a (mostly) normal stock NixOS configuration.
+Preface: the current structure of this flake scares me a bit. I have added
+[flake-parts](https://github.com/hercules-ci/flake-parts) to this repository
+and I plan to modularize it in the same way I refactored my actual NixOS and
+Home Manager configurations. This repository used to be *a lot worse* because
+it was my very first Nix project, but I have learned a lot about both Nix and
+programming in general in this span of time.
 
-Now that I have used NixOS for a month, I have learned a fair bit and have made
+## Overview
+This is my personal NixOS config. Right now, it's just a <del>basic</del>
+extremely ~~overengineered~~ messy flake which imports a (mostly) normal stock NixOS configuration.
+
+Now that I have used NixOS for a ~~month~~ year, I have learned a fair bit and have made
 some organizational changes. <del>Currently, the repository is organized as
 such</del> (I am in the process of migrating my config to this format, some
 stuff may not match yet):
@@ -63,13 +71,13 @@ stuff may not match yet):
 
 ## TODO
 
-- Reorganize repo to use a more "standard" module layout.
-	- [github:Misterio77/nix-config](https://github.com/Misterio77/nix-config) might be a good reference for a better module layout.
-- Select entire desktop configuration via a single option and make bootable with specialisation.
-	- Give each desktop a modularized configuration that can be enabled with an option.
-	- figure out nixpkgs.lib.options.mkOption and add a string option that picks a desktop to use.
+- ~~Reorganize repo to use a more "standard" module layout.~~
+	- ~~[github:Misterio77/nix-config](https://github.com/Misterio77/nix-config) might be a good reference for a better module layout.~~
+- ~~Select entire desktop configuration via a single option and make bootable with specialisation.~~
+	- ~~Give each desktop a modularized configuration that can be enabled with an option.~~
+	- ~~figure out nixpkgs.lib.options.mkOption and add a string option that picks a desktop to use.~~
 	- add Plasma, Hyprland, and maybe GNOME if I'm feeling silly (I'd probably never actually use it).
-- make more things configurable as options once I figure out the above, it's probably cleaner than importing modules.
+- ~~make more things configurable as options once I figure out the above, it's probably cleaner than importing modules.~~
 - Reorganize README bullets into headings
 - make system ephemeral/stateless
 	- The following command is able to successfully show any accumulated state on my system: <pre><code>sudo find  / -xdev \( -path /home -o -path /nix -o -path /boot \)  -prune -o \( -name flatpak -o -name boot.bak -o -path /var/log -o -name .cache \) \( -prune -print \) -o \( -type f \) -print</code></pre>
@@ -85,4 +93,4 @@ stuff may not match yet):
 	- coredumps
 	- /root user and /home
 	- /etc/machine-id
-- configure /etc/supergfxd.conf with a oneshot systemd unit on boot bsaed on selected specialisation (should still be modifiable with supergfxctl but should be ephemeral)
+- ~~configure /etc/supergfxd.conf with a oneshot systemd unit on boot bsaed on selected specialisation (should still be modifiable with supergfxctl but should be ephemeral)~~
