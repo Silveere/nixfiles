@@ -1,3 +1,4 @@
+# vim: set foldmethod=marker:
 {
   description = "NixOS Configuration";
 
@@ -109,11 +110,15 @@
     flake-parts,
     ...
   } @ inputs:
-    flake-parts.lib.mkFlake {inherit inputs;} ({
+    flake-parts.lib.mkFlake {inherit inputs;} (
+      {
         inputs,
         self,
+        config,
+        lib,
         ...
       } @ flakeArgs: let
+        # {{{
         inherit (inputs) nixpkgs nixpkgs-unstable;
         inherit (self) outputs;
         # inputs is already defined
@@ -400,163 +405,176 @@
               }
               // builtins.removeAttrs args
               ["system" "nixpkgs" "home-manager" "modules" "username" "homeDirectory" "stateVersion" "entrypoint" "config"]);
+        # }}}
       in {
-        flake = {
-          # for repl debugging via :lf .
-          inherit inputs vars;
+        # flake-parts imports
+        imports = [
+          ./flake
+        ];
 
-          devShells = eachSystem (system: let
-            pkgs = import nixpkgs-unstable {inherit system;};
-          in {
-            ci = pkgs.mkShell {
-              buildInputs = with pkgs; [
-                nix-update
-                nix-fast-build
-              ];
-            };
-            default = pkgs.mkShell {
-              buildInputs = with pkgs; [
-                nix-update
-                inputs.agenix.packages.${system}.default
-              ];
-            };
-          });
+        config = {
+          # flake-parts systems (still uses nix-systems)
+          systems = import inputs.systems;
 
-          # nix flake modules are meant to be portable so we cannot rely on
-          # (extraS|s)pecialArgs to pass variables
-          nixosModules = (import ./modules/nixos) moduleInputs;
-          homeManagerModules = (import ./modules/home-manager) moduleInputs;
-          packages = eachSystem (
-            system: let
+          debug = lib.mkDefault true;
+
+          flake = {
+            # for repl debugging via :lf .
+            inherit inputs vars;
+
+            devShells = eachSystem (system: let
               pkgs = import nixpkgs-unstable {inherit system;};
-            in
-              (
-                import ./pkgs {inherit pkgs;}
-              )
-              // {
-                iso = let
-                  isoSystem = mkISOSystem system;
-                in
-                  isoSystem.config.system.build.isoImage;
-              }
-          );
-          apps = eachSystem (system:
-            import ./pkgs/apps.nix
-            {
-              inherit (self.outputs) packages;
-              inherit system;
+            in {
+              ci = pkgs.mkShell {
+                buildInputs = with pkgs; [
+                  nix-update
+                  nix-fast-build
+                ];
+              };
+              default = pkgs.mkShell {
+                buildInputs = with pkgs; [
+                  nix-update
+                  inputs.agenix.packages.${system}.default
+                ];
+              };
             });
 
-          overlays = import ./overlays self;
-
-          nixosConfigurations = {
-            iso = mkISOSystem "x86_64-linux";
-            slab = mkSystem {
-              nixpkgs = inputs.nixpkgs-unstable;
-              home-manager = inputs.home-manager-unstable;
-              system = "x86_64-linux";
-              hostname = "slab";
-              stateVersion = "23.11";
-            };
-
-            nullbox = mkSystem {
-              nixpkgs = inputs.nixpkgs-unstable;
-              home-manager = inputs.home-manager-unstable;
-              system = "x86_64-linux";
-              hostname = "nullbox";
-              stateVersion = "23.11";
-            };
-
-            nixos-wsl = mkWSLSystem {
-              nixpkgs = inputs.nixpkgs-unstable;
-              home-manager = inputs.home-manager-unstable;
-              system = "x86_64-linux";
-              stateVersion = "23.11";
-              hostname = "nixos-wsl";
-            };
-
-            # for eval testing
-            rpi4-x86_64 = mkSystem {
-              nixpkgs = inputs.nixpkgs-unstable;
-              home-manager = inputs.home-manager-unstable;
-              system = "x86_64-linux";
-              stateVersion = "24.11";
-              hostname = "rpi4";
-              extraModules = [
-                {
-                  nixpkgs.hostPlatform = "x86_64-linux";
+            # nix flake modules are meant to be portable so we cannot rely on
+            # (extraS|s)pecialArgs to pass variables
+            nixosModules = (import ./modules/nixos) moduleInputs;
+            homeManagerModules = (import ./modules/home-manager) moduleInputs;
+            packages = eachSystem (
+              system: let
+                pkgs = import nixpkgs-unstable {inherit system;};
+              in
+                (
+                  import ./pkgs {inherit pkgs;}
+                )
+                // {
+                  iso = let
+                    isoSystem = mkISOSystem system;
+                  in
+                    isoSystem.config.system.build.isoImage;
                 }
-              ];
-            };
+            );
+            apps = eachSystem (system:
+              import ./pkgs/apps.nix
+              {
+                inherit (self.outputs) packages;
+                inherit system;
+              });
 
-            rpi4 = mkSystem {
-              nixpkgs = inputs.nixpkgs-unstable;
-              home-manager = inputs.home-manager-unstable;
-              system = "aarch64-linux";
-              stateVersion = "24.11";
-              hostname = "rpi4";
-            };
-          }; # end nixosConfigurations
+            overlays = import ./overlays self;
 
-          homeConfigurations = {
-            # minimal root config
-            "root@rpi4" = mkHome {
-              system = "aarch64-linux";
-              stateVersion = "23.11";
-              username = "root";
-              homeDirectory = "/root";
-              config = {pkgs, ...}: {
-                programs.bash.enable = true;
-
-                # update nix system-wide since it's installed via root profile
-                home.packages = with pkgs; [btdu nix];
+            nixosConfigurations = {
+              iso = mkISOSystem "x86_64-linux";
+              slab = mkSystem {
+                nixpkgs = inputs.nixpkgs-unstable;
+                home-manager = inputs.home-manager-unstable;
+                system = "x86_64-linux";
+                hostname = "slab";
+                stateVersion = "23.11";
               };
-              nixpkgs = inputs.nixpkgs-unstable;
-              home-manager = inputs.home-manager-unstable;
-            };
 
-            "nullbite@rpi4" = mkHome {
-              system = "aarch64-linux";
-              stateVersion = "23.11";
-              config = {pkgs, ...}: {
-                programs = {
-                  zsh.enable = false;
-                  keychain.enable = false;
+              nullbox = mkSystem {
+                nixpkgs = inputs.nixpkgs-unstable;
+                home-manager = inputs.home-manager-unstable;
+                system = "x86_64-linux";
+                hostname = "nullbox";
+                stateVersion = "23.11";
+              };
+
+              nixos-wsl = mkWSLSystem {
+                nixpkgs = inputs.nixpkgs-unstable;
+                home-manager = inputs.home-manager-unstable;
+                system = "x86_64-linux";
+                stateVersion = "23.11";
+                hostname = "nixos-wsl";
+              };
+
+              # for eval testing
+              rpi4-x86_64 = mkSystem {
+                nixpkgs = inputs.nixpkgs-unstable;
+                home-manager = inputs.home-manager-unstable;
+                system = "x86_64-linux";
+                stateVersion = "24.11";
+                hostname = "rpi4";
+                extraModules = [
+                  {
+                    nixpkgs.hostPlatform = "x86_64-linux";
+                  }
+                ];
+              };
+
+              rpi4 = mkSystem {
+                nixpkgs = inputs.nixpkgs-unstable;
+                home-manager = inputs.home-manager-unstable;
+                system = "aarch64-linux";
+                stateVersion = "24.11";
+                hostname = "rpi4";
+              };
+            }; # end nixosConfigurations
+
+            homeConfigurations = {
+              # minimal root config
+              "root@rpi4" = mkHome {
+                system = "aarch64-linux";
+                stateVersion = "23.11";
+                username = "root";
+                homeDirectory = "/root";
+                config = {pkgs, ...}: {
+                  programs.bash.enable = true;
+
+                  # update nix system-wide since it's installed via root profile
+                  home.packages = with pkgs; [btdu nix];
                 };
-                home.packages = with pkgs; [btdu];
+                nixpkgs = inputs.nixpkgs-unstable;
+                home-manager = inputs.home-manager-unstable;
               };
-              nixpkgs = inputs.nixpkgs-unstable;
-              home-manager = inputs.home-manager-unstable;
-            };
-            "deck" = mkHome {
-              system = "x86_64-linux";
-              stateVersion = "23.11";
-              username = "deck";
-              modules = [./users/deck/home.nix];
-              nixpkgs = inputs.nixpkgs-unstable;
-              home-manager = inputs.home-manager-unstable;
-            };
-            "testuser" = mkHome {
-              username = "testuser";
-              system = "x86_64-linux";
-              modules = [./users/testuser/home.nix];
-              stateVersion = "23.11";
-              nixpkgs = inputs.nixpkgs-unstable;
-              home-manager = inputs.home-manager-unstable;
-            };
-            "nix-on-droid" = mkHome {
-              username = "nix-on-droid";
-              homeDirectory = "/data/data/com.termux.nix/files/home";
-              modules = [./users/nix-on-droid/home.nix];
-              system = "aarch64-linux";
-              stateVersion = "23.11";
-              nixpkgs = inputs.nixpkgs-unstable;
-              home-manager = inputs.home-manager-unstable;
+
+              "nullbite@rpi4" = mkHome {
+                system = "aarch64-linux";
+                stateVersion = "23.11";
+                config = {pkgs, ...}: {
+                  programs = {
+                    zsh.enable = false;
+                    keychain.enable = false;
+                  };
+                  home.packages = with pkgs; [btdu];
+                };
+                nixpkgs = inputs.nixpkgs-unstable;
+                home-manager = inputs.home-manager-unstable;
+              };
+              "deck" = mkHome {
+                system = "x86_64-linux";
+                stateVersion = "23.11";
+                username = "deck";
+                modules = [./users/deck/home.nix];
+                nixpkgs = inputs.nixpkgs-unstable;
+                home-manager = inputs.home-manager-unstable;
+              };
+              "testuser" = mkHome {
+                username = "testuser";
+                system = "x86_64-linux";
+                modules = [./users/testuser/home.nix];
+                stateVersion = "23.11";
+                nixpkgs = inputs.nixpkgs-unstable;
+                home-manager = inputs.home-manager-unstable;
+              };
+              "nix-on-droid" = mkHome {
+                username = "nix-on-droid";
+                homeDirectory = "/data/data/com.termux.nix/files/home";
+                modules = [./users/nix-on-droid/home.nix];
+                system = "aarch64-linux";
+                stateVersion = "23.11";
+                nixpkgs = inputs.nixpkgs-unstable;
+                home-manager = inputs.home-manager-unstable;
+              };
             };
           };
         };
-        systems = (import inputs.systems);
-      }); # end outputs
+      }
+    ); # end outputs
 }
 # end flake
 
