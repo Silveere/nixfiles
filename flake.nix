@@ -4,7 +4,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
-                 # ^^^^^^^^^^^^^ this part is optional
+    #              ^^^^^^^^^^^^^ this part is optional
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     nixpkgs-nix-du.url = "github:NixOS/nixpkgs/c933cf4698e5189b35dd83bf4d7a81aef16d464a";
@@ -435,6 +435,7 @@
               };
               default = pkgs.mkShell {
                 buildInputs = with pkgs; [
+                  alejandra
                   nix-update
                   inputs.agenix.packages.${system}.default
                 ];
