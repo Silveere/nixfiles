@@ -242,9 +242,15 @@
                 };
               };
 
-            # TODO rewrite this so it follows the same wrapper pattern as mkHome
-            # This function produces a nixosSystem which imports configuration.nix and
-            # a Home Manager home.nix for the given user from ./hosts/${hostname}/
+            # TODO rewrite this so it follows the same wrapper pattern as
+            # mkHome This function produces a nixosSystem which imports
+            # configuration.nix and a Home Manager home.nix for the given user
+            # from ./hosts/${hostname}/
+            # 
+            # nevermind i am migrating everything to flake-parts, i'm glad i
+            # never got around to this. i think the module system takes care of
+            # whatever the fuck godforsaken use-case i had for rewriting this
+            # (more ergonomic and/or default arguments or something).
             mkSystemN = let
               _username = username;
               _overlays = overlays;

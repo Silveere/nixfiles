@@ -1,4 +1,8 @@
 { pkgs, config, lib, options, nixpkgs, home-manager, inputs, utils, ... }@args:
+# ^ all these args are yucky and non-portable, replace them with a module
+# called from the scope of the flake that brings relevant
+# inputs/outputs/overlays/etc into scope. this might even make nixfiles
+# portable (it still shouldn't be imported by other flakes probably)
 let
   cfg = config.nixfiles;
   flakeType = cfg.lib.types.flake;
