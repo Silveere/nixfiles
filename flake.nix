@@ -122,7 +122,7 @@
         imports = [
           ./flake
           ./lib/nixfiles/module.nix
-          # ./pkgs/module.nix
+          ./pkgs/module.nix
         ];
 
         config = {
@@ -447,18 +447,12 @@
             nixosModules = (import ./modules/nixos) moduleInputs;
             homeManagerModules = (import ./modules/home-manager) moduleInputs;
             packages = eachSystem (
-              system: let
-                pkgs = import nixpkgs-unstable {inherit system;};
-              in
-                (
-                  import ./pkgs {inherit pkgs;}
-                )
-                // {
-                  iso = let
-                    isoSystem = mkISOSystem system;
-                  in
-                    isoSystem.config.system.build.isoImage;
-                }
+              system: {
+                iso = let
+                  isoSystem = mkISOSystem system;
+                in
+                  isoSystem.config.system.build.isoImage;
+              }
             );
             apps = eachSystem (system:
               import ./pkgs/apps.nix
