@@ -8,4 +8,8 @@ in {
     readOnly = true;
     default = nixfiles-lib;
   };
+
+  config._module.args = {
+    inherit nixfiles-lib;
+  };
 }
