@@ -37,3 +37,6 @@ jobs:
       - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#nixosConfigurations.slab.config.system.build.toplevel'
       - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#nixosConfigurations.nullbox.config.system.build.toplevel'
       - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#nixosConfigurations.nixos-wsl.config.system.build.toplevel'
+
+      # packages
+      - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#redlib'
