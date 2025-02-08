@@ -121,6 +121,8 @@
         # flake-parts imports
         imports = [
           ./flake
+          ./lib/nixfiles/module.nix
+          # ./pkgs/module.nix
         ];
 
         config = {
