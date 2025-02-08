@@ -32,7 +32,7 @@ jobs:
           endpoint: ${{ secrets.ATTIC_ENDPOINT }}
           cache: ${{ secrets.ATTIC_CACHE }}
           token: ${{ secrets.ATTIC_TOKEN }}
-      - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#redlib'
+      - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#packages.x86_64-linux.redlib'
 
   build_x86-64:
     runs-on: ubuntu-24.04
