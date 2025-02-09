@@ -37,27 +37,10 @@ in {
 
   gimp-with-plugins = gimp-with-plugins-good;
 
-  easyeffects = let
-    stable = pkgsStable.easyeffects;
-    unstable = prev.easyeffects;
-  in if updateTime < 1726148749 then stable else unstable;
-
-  compsize = let
-    stable = pkgsStable.compsize;
-    unstable = prev.compsize;
-    now = 1724786296;
-  in hold now 7 stable unstable;
-
-  qgis = let
-    stable = pkgsStable.qgis;
-    unstable = prev.qgis;
-    now = 1733871491;
-  in hold now 7 stable unstable;
-
-  rmlint = let
-    stable = pkgsStable.rmlint;
-    unstable = prev.rmlint;
-    now = 1736384218;
+  nwg-displays = let
+    stable = pkgsStable.nwg-displays;
+    unstable = prev.nwg-displays;
+    now = 1739114541;
   in hold now 7 stable unstable;
 
   redlib = let
