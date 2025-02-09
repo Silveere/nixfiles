@@ -26,6 +26,7 @@ LinkedInLunatics
 linux
 linux_gaming
 losercity
+MINDWAVEgame
 NixOS
 NonBinaryTalk
 okbuddyhetero
