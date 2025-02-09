@@ -10,6 +10,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@v16
+        with:
+          extra-conf: |
+            keep-going = true
+            fallback = true
       - uses: DeterminateSystems/flake-checker-action@v9
       - uses: ryanccn/attic-action@v0
         with:
@@ -19,26 +23,34 @@ jobs:
       # free useless disk space
       - run: 'bash ci/util_free_space_extreme.sh'
       # TODO: figure out how to use flake checks and use those to build it
-      - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#nixosConfigurations.rpi4.config.system.build.toplevel'
+      - run: 'nix develop .#ci --command bash ci/run_builds.sh'
 
   build_x86-64_packages:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@v16
+        with:
+          extra-conf: |
+            keep-going = true
+            fallback = true
       - uses: DeterminateSystems/flake-checker-action@v9
       - uses: ryanccn/attic-action@v0
         with:
           endpoint: ${{ secrets.ATTIC_ENDPOINT }}
           cache: ${{ secrets.ATTIC_CACHE }}
           token: ${{ secrets.ATTIC_TOKEN }}
-      - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#packages.x86_64-linux.redlib'
+      - run: 'nix develop .#ci --command bash ci/run_builds.sh packages'
 
   build_x86-64:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@v16
+        with:
+          extra-conf: |
+            keep-going = true
+            fallback = true
       - uses: DeterminateSystems/flake-checker-action@v9
       - uses: ryanccn/attic-action@v0
         with:
@@ -48,6 +60,4 @@ jobs:
       # free useless disk space
       - run: 'bash ci/util_free_space_extreme.sh'
       # TODO: figure out how to use flake checks and use those to build it
-      - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#nixosConfigurations.slab.config.system.build.toplevel'
-      - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#nixosConfigurations.nullbox.config.system.build.toplevel'
-      - run: 'nix develop .#ci --command nix-fast-build --eval-workers 1 --no-nom --skip-cache -f .#nixosConfigurations.nixos-wsl.config.system.build.toplevel'
+      - run: 'nix develop .#ci --command bash ci/run_builds.sh config'
