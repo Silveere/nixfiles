@@ -3,6 +3,7 @@
   description = "NixOS Configuration";
 
   inputs = {
+    # {{{
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     #              ^^^^^^^^^^^^^ this part is optional
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -103,7 +104,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.systems.follows = "systems";
     };
-  };
+  }; # }}}
 
   outputs = {
     self,
@@ -130,13 +131,69 @@
           # flake-parts systems (still uses nix-systems)
           systems = import inputs.systems;
 
+          # expose vars to nix repl
           debug = lib.mkDefault true;
+
+          nixfiles = {
+            vars = {
+              ### Configuration
+              # My username
+              username = "nullbite";
+              # My current timezone for any mobile devices (i.e., my laptop)
+              mobileTimeZone = "America/New_York";
+            };
+
+            common.overlays = let
+              nix-minecraft-patched-overlay = let
+                normal = inputs.nix-minecraft-upstream.overlays.default;
+                quilt = inputs.nix-minecraft.overlays.default;
+              in
+                lib.composeExtensions
+                normal
+                (final: prev: let
+                  x = quilt final prev;
+                in {
+                  inherit (x) quiltServers quilt-server;
+                  minecraftServers = prev.minecraftServers // x.quiltServers;
+                });
+
+              packagesOverlay = final: prev: let
+                packages = import ./pkgs {inherit (prev) pkgs;};
+              in {
+                inherit (packages) mopidy-autoplay google-fonts;
+                atool-wrapped = packages.atool;
+              };
+            in [
+              packagesOverlay
+              # various temporary fixes that automatically revert
+              self.overlays.mitigations
+
+              # auto backports from nixpkgs unstable
+              self.overlays.backports
+
+              # modpacks (keeps modpack version in sync between hosts so i can reverse
+              # proxy create track map because it's broken)
+              self.overlays.modpacks
+
+              inputs.hyprwm-contrib.overlays.default
+              inputs.rust-overlay.overlays.default
+              inputs.nixfiles-assets.overlays.default
+              nix-minecraft-patched-overlay
+            ];
+
+            systems.testsys = {
+              system = "x86_64-linux";
+              enable = false;
+            };
+          };
 
           flake = let
             # {{{
             inherit (nixfiles-lib.flake-legacy) mkSystem mkWSLSystem mkISOSystem mkHome;
             inherit (inputs) nixpkgs nixpkgs-unstable;
             inherit (self) outputs;
+            inherit (config.nixfiles.vars) username mobileTimeZone;
+
             # inputs is already defined
             lib = nixpkgs.lib;
             systems = ["x86_64-linux" "aarch64-linux"];
@@ -178,18 +235,7 @@
               nix-minecraft-patched-overlay
             ];
 
-            ### Configuration
-            # My username
-            username = "nullbite";
-            # My current timezone for any mobile devices (i.e., my laptop)
-            mobileTimeZone = "Europe/Amsterdam";
-
-            # Variables to be passed to NixOS modules in the vars attrset
-            vars = {
-              inherit username mobileTimeZone self;
-            };
-
-            # funciton to generate packages for each system
+            # function to generate packages for each system
             eachSystem = lib.genAttrs (import inputs.systems);
 
             # values to be passed to nixosModules and homeManagerModules wrappers
@@ -197,9 +243,6 @@
             };
             # }}}
           in {
-            # for repl debugging via :lf .
-            inherit inputs vars;
-
             devShells = eachSystem (system: let
               pkgs = import nixpkgs-unstable {inherit system;};
             in {
