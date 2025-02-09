@@ -25,3 +25,7 @@ in
   // lib.optionalAttrs (attrs ? pkgs) {
     minecraft = (import ./minecraft.nix) attrs';
   }
+  # modules that rely on `self` (flake)
+  // lib.optionalAttrs (attrs ? self) {
+    flake-legacy = (import ./flake-legacy.nix) attrs';
+  }

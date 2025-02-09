@@ -1,6 +1,6 @@
-{lib, ...}: let
+{lib, self, ...}: let
   inherit (lib) types;
-  nixfiles-lib = (import ./.) {inherit lib;};
+  nixfiles-lib = (import ./.) {inherit lib self;};
 in {
   options.nixfiles.lib = lib.mkOption {
     description = "nixfiles library";
