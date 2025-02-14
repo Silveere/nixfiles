@@ -43,9 +43,9 @@ in {
     now = 1739114541;
   in hold now 7 stable unstable;
 
-  gotenberg = let
-    stable = pkgsStable.gotenberg;
-    unstable = prev.gotenberg;
+  libreoffice = let
+    stable = pkgsStable.libreoffice;
+    unstable = prev.libreoffice;
     now = 1739558971;
   in hold now 7 stable unstable;
 
