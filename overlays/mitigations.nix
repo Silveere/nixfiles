@@ -43,6 +43,12 @@ in {
     now = 1739114541;
   in hold now 7 stable unstable;
 
+  gotenberg = let
+    stable = pkgsStable.gotenberg;
+    unstable = prev.gotenberg;
+    now = 1739558971;
+  in hold now 7 stable unstable;
+
   redlib = let
     redlib-new = final.callPackage nixfiles.packages.${prev.system}.redlib.override {};
     inherit (prev) redlib;
