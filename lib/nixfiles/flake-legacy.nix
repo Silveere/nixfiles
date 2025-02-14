@@ -44,21 +44,21 @@ in rec {
         ${username} = [module];
         root = [rootModule];
       },
-      stateVersion,
+      stateVersion ? null,
     }: {
       config,
       lib,
       pkgs,
       ...
     }: let
-      mapUserModules = lib.attrsets.mapAttrs (user: modules: {...}: {
+      mapUserModules = lib.attrsets.mapAttrs (user: modules: {lib, ...}: {
         imports =
           [
             (self + "/home")
           ]
           ++ modules;
         config = {
-          home = {inherit stateVersion;};
+          home = lib.mkIf (!(builtins.isNull stateVersion)) {inherit stateVersion;};
         };
       });
       users = mapUserModules userModules;

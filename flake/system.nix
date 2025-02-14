@@ -17,9 +17,9 @@
     mapAttrs
     ;
 
-  inherit (builtins) attrNames;
+  inherit (builtins) attrNames isNull;
 
-  inherit (nixfiles-lib.flake-legacy) mkSystem mkHome mkWSLSystem mkISOSystem;
+  inherit (nixfiles-lib.flake-legacy) mkSystem mkHome mkWSLSystem mkISOSystem homeManagerInit;
   inherit (nixfiles-lib.types) mkCheckedType;
 
   mkConfigurationOption = systemType:
@@ -70,7 +70,7 @@ in {
           };
 
           modules = mkOption {
-            description = "NixOS modules";
+            description = "Extra NixOS configuration modules.";
             type = with types; listOf deferredModule;
             default = [];
           };
@@ -85,10 +85,16 @@ in {
             default = name;
           };
 
-          configPath = mkOption {
-            description = "Path to main system configuration module.";
+          configRoot = mkOption {
+            description = "Path to directory containing system and home configuration modules.";
             type = lib.types.path;
-            default = self + "/hosts/${config.name}/configuration.nix";
+            default = self + "/hosts/${config.name}";
+          };
+
+          configuration = mkOption {
+            description = "Path/module of main NixOS configuration.";
+            type = with types; nullOr deferredModule;
+            default = config.configRoot + "/configuration.nix";
           };
 
           home-manager = {
@@ -107,14 +113,14 @@ in {
               default = inputs.home-manager-unstable;
             };
 
-            configPath = mkOption {
-              description = "Path to main home configuration module.";
-              type = lib.types.path;
-              default = self + "/hosts/${config.name}/home.nix";
+            configuration = mkOption {
+              description = "Path/module of main home-manager configuration.";
+              type = with types; nullOr deferredModule;
+              default = config.configRoot + "/home.nix";
             };
 
             modules = mkOption {
-              description = "home-manager modules";
+              description = "Extra home-manager modules";
               type = with types; listOf deferredModule;
             };
           };
@@ -162,15 +168,53 @@ in {
               wsl.enable = true;
               wsl.defaultUser = outerConfig.nixfiles.vars.username;
             };
+
+            homeManagerModule = let
+              homeManagerModuleInner = homeManagerInit {
+                inherit (config) nixpkgs system;
+                inherit (outerConfig.nixfiles.vars) username;
+                home-manager = config.home-manager.input;
+                module =
+                  if (isNull config.home-manager.configuration)
+                  then {}
+                  else config.home-manager.configuration;
+              };
+            in
+              {
+                config,
+                pkgs,
+                lib,
+                ...
+              }: let
+                inheritStateVersionModule = {lib, ...}: {
+                  config = {
+                    home.stateVersion = lib.mkDefault config.system.stateVersion;
+                  };
+                };
+              in {
+                imports = [
+                  # TODO placeholder using old function
+                  homeManagerModuleInner
+                ];
+
+                # previously, home-manager inherited stateVersion from nixos in
+                # a really hacky way that depended on the wrapper function.
+                # this should preserve that behavior in a much safer way by
+                # directly setting it in a module. ideally, it should probably
+                # be set manually, but I want to maintain backwards
+                # compatibility for now
+                options.home-manager.users = lib.mkOption {
+                  type = with lib.types; attrsOf (submodule inheritStateVersionModule);
+                };
+              };
           in
             [
               nixfilesModule
               defaultsModule
-              # TODO
-              # import /hosts/ path
-              # home manager init
             ]
-            ++ lib.optionals config.wsl wslModule;
+            ++ lib.optional (!(isNull config.configuration)) config.configuration
+            ++ lib.optional config.home-manager.enable homeManagerModule
+            ++ lib.optional config.wsl wslModule;
           extraConfig = {
             inherit (config) system modules;
             # TODO get rid of specialArgs and pass things as a module
