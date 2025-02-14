@@ -181,10 +181,27 @@
               nix-minecraft-patched-overlay
             ];
 
-            systems.testsys = {
-              system = "x86_64-linux";
-              enable = false;
-            };
+            systems = {
+              slab.system = "x86_64-linux";
+              nullbox.system = "x86_64-linux";
+              rpi4.system = "aarch64-linux";
+
+              nixos-wsl = {
+                system = "x86_64-linux";
+                wsl = true;
+              };
+
+              # for eval testing
+              rpi4-x86_64 = {
+                system = "x86_64-linux";
+                name = "rpi4";
+                modules = [
+                  {
+                    nixpkgs.hostPlatform = "x86_64-linux";
+                  }
+                ];
+              };
+            }; # end systems
           };
 
           flake = let
@@ -284,51 +301,6 @@
 
             nixosConfigurations = {
               iso = mkISOSystem "x86_64-linux";
-              slab = mkSystem {
-                nixpkgs = inputs.nixpkgs-unstable;
-                home-manager = inputs.home-manager-unstable;
-                system = "x86_64-linux";
-                hostname = "slab";
-                stateVersion = "23.11";
-              };
-
-              nullbox = mkSystem {
-                nixpkgs = inputs.nixpkgs-unstable;
-                home-manager = inputs.home-manager-unstable;
-                system = "x86_64-linux";
-                hostname = "nullbox";
-                stateVersion = "23.11";
-              };
-
-              nixos-wsl = mkWSLSystem {
-                nixpkgs = inputs.nixpkgs-unstable;
-                home-manager = inputs.home-manager-unstable;
-                system = "x86_64-linux";
-                stateVersion = "23.11";
-                hostname = "nixos-wsl";
-              };
-
-              # for eval testing
-              rpi4-x86_64 = mkSystem {
-                nixpkgs = inputs.nixpkgs-unstable;
-                home-manager = inputs.home-manager-unstable;
-                system = "x86_64-linux";
-                stateVersion = "24.11";
-                hostname = "rpi4";
-                extraModules = [
-                  {
-                    nixpkgs.hostPlatform = "x86_64-linux";
-                  }
-                ];
-              };
-
-              rpi4 = mkSystem {
-                nixpkgs = inputs.nixpkgs-unstable;
-                home-manager = inputs.home-manager-unstable;
-                system = "aarch64-linux";
-                stateVersion = "24.11";
-                hostname = "rpi4";
-              };
             }; # end nixosConfigurations
 
             homeConfigurations = {
