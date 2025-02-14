@@ -100,6 +100,7 @@ in {
           # remember login stuff
           { directory = "/var/cache/tuigreet"; user = "greeter"; group = "greeter"; }
           { directory = "/var/cache/regreet"; user = "greeter"; group = "greeter"; }
+          { directory = "/var/lib/regreet"; user = "greeter"; group = "greeter"; }
         ];
 
         files = [

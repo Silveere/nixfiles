@@ -84,6 +84,21 @@ in
       };
     };
 
+    systemd.tmpfiles.settings."10-regreet" =
+      let
+        defaultConfig = {
+          user = "greeter";
+          group = config.users.users.${config.services.greetd.settings.default_session.user}.group;
+          mode = "0755";
+        };
+      in lib.mkIf config.programs.regreet.enable
+      {
+        "/var/log/regreet".d = defaultConfig;
+        "/var/cache/regreet".d = defaultConfig;
+        "/var/lib/regreet".d = defaultConfig;
+      };
+
+
     # self config
     nixfiles.programs.greetd = {
       presets.${cfg.preset}.enable = true;
