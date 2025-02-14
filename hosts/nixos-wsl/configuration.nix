@@ -47,5 +47,8 @@
       device = "/";
       options = [ "bind" ];
     };
+
+    # standard disclaimer don't change this for any reason whatsoever
+    system.stateVersion = "23.11";
   };
 }
