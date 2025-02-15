@@ -35,6 +35,25 @@ in
       })
     ];
 
+    programs.git = {
+      enable = lib.mkDefault true;
+      maintenance.enable = lib.mkDefault true;
+    };
+
+    # this allows `git config --global` commands to work by ensuring the
+    # presense of ~/.gitconfig. git will read from both files, and `git config`
+    # will not write to ~/.gitconfig when the managed config exists unless
+    # ~/.gitconfig also exists
+    home.activation.git-create-gitconfig = lib.mkIf config.programs.git.enable
+      (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        _nixfiles_git_create_gitconfig () {
+          if ! [[ -a "$HOME/.gitconfig" ]] ; then
+            touch "$HOME/.gitconfig"
+          fi
+        }
+        run _nixfiles_git_create_gitconfig
+      '');
+
     programs.btop.enable = lib.mkDefault true;
 
     programs.ranger = let
