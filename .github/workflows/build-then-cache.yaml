@@ -18,7 +18,7 @@ jobs:
       - uses: ryanccn/attic-action@v0
         with:
           endpoint: ${{ secrets.ATTIC_ENDPOINT }}
-          cache: ${{ secrets.ATTIC_CACHE }}
+          cache: ${{ vars.ATTIC_CACHE }}
           token: ${{ secrets.ATTIC_TOKEN }}
       # free useless disk space
       - run: 'bash ci/util_free_space_extreme.sh'
@@ -38,7 +38,7 @@ jobs:
       - uses: ryanccn/attic-action@v0
         with:
           endpoint: ${{ secrets.ATTIC_ENDPOINT }}
-          cache: ${{ secrets.ATTIC_CACHE }}
+          cache: ${{ vars.ATTIC_CACHE }}
           token: ${{ secrets.ATTIC_TOKEN }}
       - run: 'nix develop .#ci --command bash ci/run_builds.sh packages'
 
@@ -55,7 +55,7 @@ jobs:
       - uses: ryanccn/attic-action@v0
         with:
           endpoint: ${{ secrets.ATTIC_ENDPOINT }}
-          cache: ${{ secrets.ATTIC_CACHE }}
+          cache: ${{ vars.ATTIC_CACHE }}
           token: ${{ secrets.ATTIC_TOKEN }}
       # free useless disk space
       - run: 'bash ci/util_free_space_extreme.sh'
