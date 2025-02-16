@@ -38,6 +38,9 @@ in
     programs.git = {
       enable = lib.mkDefault true;
       maintenance.enable = lib.mkDefault true;
+      # default value is stateVersion dependent, doesn't evaluate after 25.05
+      # even if signing isn't configured for some reason
+      signing.format = lib.mkDefault "openpgp";
     };
 
     # this allows `git config --global` commands to work by ensuring the
