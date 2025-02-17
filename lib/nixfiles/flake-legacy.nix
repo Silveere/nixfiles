@@ -68,8 +68,8 @@ in rec {
       ];
 
       home-manager = {
-        useGlobalPkgs = true;
-        useUserPackages = true;
+        useGlobalPkgs = lib.mkDefault false;
+        useUserPackages = lib.mkDefault true;
         backupFileExtension = "hm.bak";
         inherit users;
         extraSpecialArgs = {

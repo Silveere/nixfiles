@@ -186,9 +186,25 @@ in {
                 lib,
                 ...
               }: let
-                inheritStateVersionModule = {lib, ...}: {
+                perUserDefaultsModule = {lib, ...}: {
                   config = {
+                    # previously, home-manager inherited stateVersion from
+                    # nixos in a really hacky way that depended on the wrapper
+                    # function. this should preserve that behavior in a much
+                    # safer way by directly setting it in a module. ideally, it
+                    # should probably be set manually, but I want to maintain
+                    # backwards compatibility for now.
                     home.stateVersion = lib.mkDefault config.system.stateVersion;
+
+                    # pass the system nixpkgs config as defaults for the
+                    # home-manager nixpkgs config. useGlobalPkgs prevents
+                    # setting overlays at the home level; this allows for doing
+                    # that while inheriting the system overlays.
+                    nixpkgs = {
+                      config = mapAttrs (n: v: lib.mkDefault v) config.nixpkgs.config;
+                      # mkOrder 900 is after mkBefore but before default order
+                      overlays = lib.mkOrder 900 config.nixpkgs.overlays;
+                    };
                   };
                 };
               in {
@@ -197,14 +213,8 @@ in {
                   homeManagerModuleInner
                 ];
 
-                # previously, home-manager inherited stateVersion from nixos in
-                # a really hacky way that depended on the wrapper function.
-                # this should preserve that behavior in a much safer way by
-                # directly setting it in a module. ideally, it should probably
-                # be set manually, but I want to maintain backwards
-                # compatibility for now
                 options.home-manager.users = lib.mkOption {
-                  type = with lib.types; attrsOf (submodule inheritStateVersionModule);
+                  type = with lib.types; attrsOf (submodule perUserDefaultsModule);
                 };
               };
           in
