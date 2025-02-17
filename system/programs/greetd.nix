@@ -85,7 +85,10 @@ in
     };
 
     security.pam.services.greetd = {
-      kwallet.enable = lib.mkIf config.services.desktopManager.plasma6.enable true;
+      kwallet = lib.mkIf config.services.desktopManager.plasma6.enable {
+        enable = true;
+        forceRun = true;
+      };
     };
 
     systemd.tmpfiles.settings."10-regreet" =
