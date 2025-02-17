@@ -84,6 +84,10 @@ in
       };
     };
 
+    security.pam.services.greetd = {
+      kwallet.enable = lib.mkIf config.services.desktopManager.plasma6.enable true;
+    };
+
     systemd.tmpfiles.settings."10-regreet" =
       let
         defaultConfig = {
