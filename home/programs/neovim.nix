@@ -15,6 +15,7 @@ in
         rust-analyzer
         vscode-langservers-extracted
         pyright
+        gcc
       ];
     };
   };
