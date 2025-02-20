@@ -15,6 +15,12 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
+    # this is nice so one-off impure scripts can interact with attributes in
+    # this flake
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
