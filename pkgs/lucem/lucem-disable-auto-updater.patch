@@ -1,0 +1,13 @@
+diff --git a/src/config.nim b/src/config.nim
+index 64e4370..92aee9a 100644
+--- a/src/config.nim
++++ b/src/config.nim
+@@ -32,7 +32,7 @@ type
+ 
+   LucemConfig* = object
+     discord_rpc*: bool = false
+-    auto_updater*: bool = true
++    auto_updater*: bool = false
+     notify_server_region*: bool = true
+     loading_screen*: bool = true
+     polling_delay*: uint = 100

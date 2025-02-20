@@ -4,6 +4,7 @@
   config = {
     perSystem = { system, inputs', self', pkgs, ...}: {
       packages = {
+        lucem = pkgs.callPackage ./lucem { };
       };
     };
   };

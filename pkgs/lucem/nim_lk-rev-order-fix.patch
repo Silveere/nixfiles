@@ -1,0 +1,90 @@
+diff --git a/src/nim_lk.nim b/src/nim_lk.nim
+index 2b8b0bc..68d8b64 100644
+--- a/src/nim_lk.nim
++++ b/src/nim_lk.nim
+@@ -4,7 +4,7 @@
+ # https://cyclonedx.org/docs/1.6/json/
+ 
+ import
+-  std/[algorithm, deques, httpclient, json, options, os, osproc, parseutils, parseopt, streams, strutils, tables, uri],
++  std/[algorithm, deques, httpclient, json, options, os, osproc, parseutils, parseopt, streams, strutils, tables, uri, re],
+   pkg/nimblepkg/options,
+   pkg/nimblepkg/packageinfo,
+   pkg/nimblepkg/packageinfotypes,
+@@ -89,6 +89,13 @@ proc startProcess(cmd: string; cmdArgs: varargs[string]): Process =
+ type GitPair = object
+   `ref`, `rev`: string
+ 
++proc cleanVersion(version: string): string =
++  let pattern = re"^v?(\d+\.\d+\.\d+.*)$"  # Captures valid semantic versions
++  var matches: array[1, string]
++  if version.find(pattern, matches) >= 0:
++    return matches[0]
++  return version
++
+ proc gitLsRemote(url: string; tagsArg = false): seq[GitPair] =
+   var line, rev, refer: string
+   var process =
+@@ -104,12 +111,15 @@ proc gitLsRemote(url: string; tagsArg = false): seq[GitPair] =
+     const
+       refsTags = "refs/tags/"
+       headsTags = "refs/heads/"
++      headRef = "HEAD"
+     if refer.startsWith(refsTags):
+       refer.removePrefix(refsTags)
+       result.add GitPair(`ref`: refer, `rev`: rev)
+     elif refer.startsWith(headsTags):
+       refer.removePrefix(headsTags)
+       result.add GitPair(`ref`: refer, `rev`: rev)
++    elif refer == headRef:
++      result.add GitPair(`ref`: refer, `rev`: rev)
+   stderr.write(process.errorStream.readAll)
+   close(process)
+   if tagsArg and result.len == 0:
+@@ -120,22 +130,40 @@ proc matchRev(url: string; wanted: VersionRange): GitPair =
+     let special = $wanted.spe
+     if special[0] == '#':
+       result.rev = special[1..special.high]
++      return # early return
+     else:
+       quit("unhandled version " & url & " " & $wanted)
+   else:
+     let withTags = wanted.kind != verAny
+     let pairs = gitLsRemote(url, withTags)
+     var resultVersion: Version
++    var latestTag: GitPair
++
+     for pair in pairs:
+       try:
+-        var tagVer = pair.`ref`.newVersion
+-        if tagVer.withinRange(wanted) and resultVersion < tagVer:
++        var tagVer = cleanVersion(pair.`ref`).newVersion
++        if (tagVer.withinRange(wanted) or not withTags) and resultVersion < tagVer:
+           resultVersion = tagVer
+-          result = pair
++          latestTag = pair
+       except ParseVersionError: discard
+-    if result.rev == "" and pairs.len > 0:
+-      result = pairs[pairs.high]
+-    doAssert result.rev != "", url
++
++    if latestTag.rev != "":
++      result = latestTag
++      return # early return
++
++    let headPairs = gitLsRemote(url, false)
++    var headPair: GitPair
++
++    for pair in headPairs:
++      if pair.`ref` == "HEAD":
++        headPair = pair
++
++    if headPair.rev != "":
++      result = headPair
++      return # early return
++
++
++  doAssert false, "No matching revision found for " & url
+ 
+ proc collectMetadata(data: JsonNode) =
+   let storePath = data{"path"}.getStr
