@@ -1,27 +1,35 @@
-{ config, osConfig ? { }, lib, pkgs, ... }:
-let
+{
+  config,
+  osConfig ? {},
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.nixfiles.packageSets.gaming;
   default = osConfig.nixfiles.packageSets.gaming.enable or false;
-in
-{
+in {
   config = lib.mkIf cfg.enable {
     nixpkgs.overlays = let
-    in lib.mkAfter [ ];
+    in
+      lib.mkAfter [];
 
     nixfiles.common.wm.autostart = [
       "steam -silent"
     ];
 
-    home.packages = with pkgs; [
-      ludusavi
-      rclone # needed to sync ludusavi
-      protontricks
-    ] ++ lib.optionals cfg.enableLaunchers [
-      steam
-      prismlauncher
-      heroic
-      legendary-gl
-    ];
+    home.packages = with pkgs;
+      [
+        ludusavi
+        rclone # needed to sync ludusavi
+        protontricks
+      ]
+      ++ lib.optionals cfg.enableLaunchers [
+        steam
+        prismlauncher
+        heroic
+        legendary-gl
+        lucem
+      ];
   };
   options.nixfiles.packageSets.gaming = {
     enable = lib.mkOption {

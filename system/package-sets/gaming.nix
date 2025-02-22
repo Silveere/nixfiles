@@ -1,8 +1,12 @@
-{ config, lib, pkgs, inputs, ...}:
-let
-  cfg = config.nixfiles.packageSets.gaming;
-in
 {
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: let
+  cfg = config.nixfiles.packageSets.gaming;
+in {
   # oopsies this is for home-manager
   # programs.mangohud.enable = lib.mkDefault true;
 
@@ -10,25 +14,25 @@ in
     enable = lib.mkEnableOption "gaming package set";
   };
   config = lib.mkIf cfg.enable {
-
     nixpkgs.overlays = let
-      steamGamescopeFix = (final: prev: {
+      steamGamescopeFix = final: prev: {
         steam = prev.steam.override {
-          extraPkgs = pkgs: with pkgs; [
-            xorg.libXcursor
-            xorg.libXi
-            xorg.libXinerama
-            xorg.libXScrnSaver
-            libpng
-            libpulseaudio
-            libvorbis
-            stdenv.cc.cc.lib
-            libkrb5
-            keyutils
-          ];
+          extraPkgs = pkgs:
+            with pkgs; [
+              xorg.libXcursor
+              xorg.libXi
+              xorg.libXinerama
+              xorg.libXScrnSaver
+              libpng
+              libpulseaudio
+              libvorbis
+              stdenv.cc.cc.lib
+              libkrb5
+              keyutils
+            ];
         };
-      });
-    in [ steamGamescopeFix ];
+      };
+    in [steamGamescopeFix];
 
     programs.steam = {
       enable = lib.mkDefault true;
@@ -60,6 +64,7 @@ in
       heroic
       protonup-ng
       protonup-qt
+      lucem
     ];
   };
 }
