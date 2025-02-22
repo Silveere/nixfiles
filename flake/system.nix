@@ -201,7 +201,7 @@ in {
                     # setting overlays at the home level; this allows for doing
                     # that while inheriting the system overlays.
                     nixpkgs = {
-                      config = mapAttrs (n: v: lib.mkDefault v) config.nixpkgs.config;
+                      config = lib.mapAttrs (n: v: lib.mkDefault v) config.nixpkgs.config;
                       # mkOrder 900 is after mkBefore but before default order
                       overlays = lib.mkOrder 900 config.nixpkgs.overlays;
                     };
