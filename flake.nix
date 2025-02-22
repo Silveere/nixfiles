@@ -170,7 +170,9 @@
                 atool-wrapped = packages.atool;
               };
             in [
+              # TODO delete this, transfer all packages to new-packages overlay
               packagesOverlay
+              self.overlays.new-packages
               # various temporary fixes that automatically revert
               self.overlays.mitigations
 
