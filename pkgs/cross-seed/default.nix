@@ -2,13 +2,13 @@
 
 buildNpmPackage rec {
   pname = "cross-seed";
-  version = "6.10.1";
+  version = "6.11.0";
   src = fetchFromGitHub {
     owner = "cross-seed";
     repo = "cross-seed";
     rev = "v${version}";
-    hash = "sha256-Y8gxjJ5baj6MdxeOTP+y1zCBUus7MR1Idb1TUCIcuh4=";
+    hash = "sha256-+bIRLoiY9+23GUuKxPpKK23cb4Dng5nwxh3SUzMAtXA=";
   };
 
-  npmDepsHash = "sha256-XaHGzCksa9s3abhc1l577gDEKi+O/P2iE/EN7C1qaKk=";
+  npmDepsHash = "sha256-gNsD6+4+PIcygL/QCznecd5bVnLyorVJfHM/+cLG4og=";
 }
