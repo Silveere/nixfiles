@@ -69,9 +69,8 @@ in
 
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = let
-        stable = config.boot.kernelPackages.nvidiaPackages.stable;
-        version = stable;
-      in lib.mkDefault version;
+        inherit (config.boot.kernelPackages.nvidiaPackages) production stable latest beta;
+      in lib.mkDefault beta;
     };
   };
 }
