@@ -37,6 +37,7 @@ in
       ];
       paths = [
         "/srv/mcserver/@restic"
+        "/persist/backup"
       ];
       dynamicFilesFrom = ''
         echo
