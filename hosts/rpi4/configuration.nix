@@ -35,8 +35,7 @@
     configurationLimit = 5;
   };
 
-  # temporary while i am away from server
-  boot.kernelPackages = pkgs.linuxPackages_6_6;
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
 
   nixfiles = {
     profile.server.enable = true;
