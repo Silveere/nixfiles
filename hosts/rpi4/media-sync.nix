@@ -1,11 +1,15 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
 in {
   config = {
     nixfiles.programs.syncthing.enable = true;
 
     systemd.timers.gallery-dl = {
-      wantedBy = [ "timers.target" ];
+      wantedBy = ["timers.target"];
       timerConfig = {
         OnBootSec = "5m";
         OnUnitActiveSec = "13";
@@ -13,7 +17,7 @@ in {
       };
     };
     systemd.services.gallery-dl = {
-      path = with pkgs; [ bash coreutils findutils gallery-dl ];
+      path = with pkgs; [bash coreutils findutils gallery-dl];
       serviceConfig = {
         # none of your fucking business
         # TODO move this into an agenix secret probably
@@ -24,14 +28,14 @@ in {
     };
 
     systemd.timers.gallery-dl-dedup = {
-      wantedBy = [ "timers.target" ];
+      wantedBy = ["timers.target"];
       timerConfig = {
         OnCalendar = "03:00";
         RandomizedDelaySec = "3h";
       };
     };
     systemd.services.gallery-dl-dedup = {
-      path = with pkgs ; [ bash coreutils rmlint ];
+      path = with pkgs; [bash coreutils rmlint];
       serviceConfig = {
         # likewise
         ExecStart = "/srv/gallery-dl-dedup.sh";

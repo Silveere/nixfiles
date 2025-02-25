@@ -1,8 +1,12 @@
-{ lib, pkgs, config, osConfig ? { }, ... }:
-let
-  cfg = config.nixfiles.profile.base;
-in
 {
+  lib,
+  pkgs,
+  config,
+  osConfig ? {},
+  ...
+}: let
+  cfg = config.nixfiles.profile.base;
+in {
   # imports = [
   #   ./comma.nix
   # ];
@@ -31,7 +35,8 @@ in
             "${config.home.profileDirectory}/share/terminfo"
             "/usr/share/terminfo"
           ];
-        in builtins.concatStringsSep ":" terminfo-dirs;
+        in
+          builtins.concatStringsSep ":" terminfo-dirs;
       })
     ];
 
@@ -47,8 +52,9 @@ in
     # presense of ~/.gitconfig. git will read from both files, and `git config`
     # will not write to ~/.gitconfig when the managed config exists unless
     # ~/.gitconfig also exists
-    home.activation.git-create-gitconfig = lib.mkIf config.programs.git.enable
-      (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    home.activation.git-create-gitconfig =
+      lib.mkIf config.programs.git.enable
+      (lib.hm.dag.entryAfter ["writeBoundary"] ''
         _nixfiles_git_create_gitconfig () {
           if ! [[ -a "$HOME/.gitconfig" ]] ; then
             touch "$HOME/.gitconfig"
@@ -64,16 +70,18 @@ in
       # defaultTerminal =
       #   if config.programs.kitty.enable then "kitty"
       #     else null;
-
     in {
       enable = lib.mkDefault true;
-      settings = lib.mkMerge [{
-        use_preview_script = lib.mkDefault true;
-        preview_files = lib.mkDefault true;
-      } (lib.mkIf (!(isNull defaultTerminal)) {
-        preview_images = lib.mkDefault true;
-        preview_images_method = lib.mkDefault defaultTerminal;
-      })];
+      settings = lib.mkMerge [
+        {
+          use_preview_script = lib.mkDefault true;
+          preview_files = lib.mkDefault true;
+        }
+        (lib.mkIf (!(isNull defaultTerminal)) {
+          preview_images = lib.mkDefault true;
+          preview_images_method = lib.mkDefault defaultTerminal;
+        })
+      ];
     };
 
     programs.keychain = {
@@ -83,7 +91,8 @@ in
       extraFlags = [
         "--quiet"
         "--systemd"
-        "--inherit" "any-once"
+        "--inherit"
+        "any-once"
         "--noask"
       ];
     };
@@ -100,77 +109,79 @@ in
       neofetch-hyfetch-shim = writeShellScriptBin "neofetch" ''
         exec "${pkgs.hyfetch}/bin/neowofetch" "$@"
       '';
-    in [
-      # nix stuff
-      nvd
-      nix-tree
-      nh
-      nix-output-monitor
-      attic-client
-      nix-fast-build
+    in
+      [
+        # nix stuff
+        nvd
+        nix-tree
+        nh
+        nix-output-monitor
+        attic-client
+        nix-fast-build
 
-      git
-      git-lfs
-      stow
-      curl
+        git
+        git-lfs
+        stow
+        curl
 
-      # shell
-      ripgrep
-      fd
-      bat
-      moreutils
-      grc
-      fzf
-      pv
-      jq
-      lsof
-      xxd
-      shellcheck
+        # shell
+        ripgrep
+        fd
+        bat
+        moreutils
+        grc
+        fzf
+        pv
+        jq
+        lsof
+        xxd
+        shellcheck
 
-      # for icat on all systems
-      kitty.kitten
+        # for icat on all systems
+        kitty.kitten
 
-      # pretty
-      hyfetch
-      neofetch-hyfetch-shim
-      fastfetch
+        # pretty
+        hyfetch
+        neofetch-hyfetch-shim
+        fastfetch
 
-      # files
-      restic
-      rclone
-      rmlint
-      ncdu
+        # files
+        restic
+        rclone
+        rmlint
+        ncdu
 
-      # compression
-      atool-wrapped
-      lzip
-      plzip
-      lzop
-      xz
-      zip
-      unzip
-      arj
-      rpm
-      cpio
-      p7zip
+        # compression
+        atool-wrapped
+        lzip
+        plzip
+        lzop
+        xz
+        zip
+        unzip
+        arj
+        rpm
+        cpio
+        p7zip
 
-      # other utilities
-      tmux
-      tmuxp
-      openssh
-      autossh
-      mosh
-      btop
-      htop
-      zoxide
-      asciinema
-      mtr
-    ] ++ builtins.map (x: lib.hiPrio x) [
-      # terminfo (just the ones i'm likely to use)
-      kitty.terminfo
-      alacritty.terminfo
-      termite.terminfo
-      tmux.terminfo
-    ];
+        # other utilities
+        tmux
+        tmuxp
+        openssh
+        autossh
+        mosh
+        btop
+        htop
+        zoxide
+        asciinema
+        mtr
+      ]
+      ++ builtins.map (x: lib.hiPrio x) [
+        # terminfo (just the ones i'm likely to use)
+        kitty.terminfo
+        alacritty.terminfo
+        termite.terminfo
+        tmux.terminfo
+      ];
   };
 }

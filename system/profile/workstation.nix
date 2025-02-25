@@ -1,17 +1,21 @@
-{ pkgs, config, lib, ... }:
-let
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}: let
   cfg = config.nixfiles.profile.workstation;
   inherit (lib) mkDefault;
-in
-{
-  options.nixfiles.profile.workstation.enable = lib.mkEnableOption "workstation (featureful PC) profile" //
-  {
-    description = ''
-      Whether to enable the workstation (featureful PC) profile. This profile
-      enables the base PC profile, as well as installs and configures various
-      other programs for a more complete computing experience.
-    '';
-  };
+in {
+  options.nixfiles.profile.workstation.enable =
+    lib.mkEnableOption "workstation (featureful PC) profile"
+    // {
+      description = ''
+        Whether to enable the workstation (featureful PC) profile. This profile
+        enables the base PC profile, as well as installs and configures various
+        other programs for a more complete computing experience.
+      '';
+    };
   config = lib.mkIf cfg.enable {
     nixfiles.profile.pc.enable = lib.mkDefault true;
     nixfiles.packageSets.multimedia.enable = lib.mkDefault true;
@@ -37,7 +41,7 @@ in
       nerd-fonts.fira-code
       font-awesome
       noto-fonts-cjk-sans
-      (google-fonts.override { fonts = [ "NovaSquare" ];})
+      (google-fonts.override {fonts = ["NovaSquare"];})
     ];
 
     # TODO this should be defined in home-manager or not at all probably

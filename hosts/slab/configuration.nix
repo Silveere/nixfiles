@@ -1,20 +1,22 @@
-# vim: set ts=2 sw=2 et foldmethod=marker: 
+# vim: set ts=2 sw=2 et foldmethod=marker:
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-{ config, lib, pkgs, vars, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+  config,
+  lib,
+  pkgs,
+  vars,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
 
-      ../../system # nixfiles modules
-      ./nvidia-optimus.nix
-      ./supergfxd.nix
-    ];
-
+    ../../system # nixfiles modules
+    ./nvidia-optimus.nix
+    ./supergfxd.nix
+  ];
 
   config = {
     # nix.settings.experimental-features = ["nix-command" "flakes" ];
@@ -26,18 +28,24 @@
           device = "/dev/disk/by-uuid/028A49020517BEA9";
         };
         "/.btrfsroot" = {
-          options = [ "subvol=/" ];
+          options = ["subvol=/"];
         };
       }
 
       # Lanzaboote workaround (nix-community/lanzaboote#173)
       (lib.mkIf config.boot.lanzaboote.enable {
-        "/efi/EFI/Linux" = { device = "/boot/EFI/Linux"; options = [ "bind" ]; };
-        "/efi/EFI/nixos" = { device = "/boot/EFI/nixos"; options = [ "bind" ]; };
+        "/efi/EFI/Linux" = {
+          device = "/boot/EFI/Linux";
+          options = ["bind"];
+        };
+        "/efi/EFI/nixos" = {
+          device = "/boot/EFI/nixos";
+          options = ["bind"];
+        };
       })
 
-      (lib.genAttrs [ "/.btrfsroot" "/" "/home" "/nix" ] ( fs: {
-        options = [ "compress=zstd" ];
+      (lib.genAttrs ["/.btrfsroot" "/" "/home" "/nix"] (fs: {
+        options = ["compress=zstd"];
       }))
     ];
 
@@ -51,7 +59,7 @@
     # };
 
     specialisation.hyprland.configuration = {
-      system.nixos.tags = [ "Hyprland" ];
+      system.nixos.tags = ["Hyprland"];
       nixfiles.session = "hyprland";
     };
 
@@ -91,21 +99,20 @@
       };
     };
 
-
     networking.hostName = "slab";
 
     boot.initrd.systemd.enable = true;
 
     boot.plymouth.enable = true;
 
-    boot.kernelParams = [ "quiet" ];
+    boot.kernelParams = ["quiet"];
     # annoying ACPI bug
     boot.consoleLogLevel = 2;
 
     # cryptsetup
     boot.initrd.luks.devices = {
       lvmroot = {
-        device="/dev/disk/by-uuid/2872c0f0-e544-45f0-9b6c-ea022af7805a";
+        device = "/dev/disk/by-uuid/2872c0f0-e544-45f0-9b6c-ea022af7805a";
         allowDiscards = true;
         fallbackToPassword = lib.mkIf (!config.boot.initrd.systemd.enable) true;
         preLVM = true;
@@ -138,7 +145,7 @@
     };
 
     # GPS data from my phone
-    services.gpsd.devices = lib.mkIf config.nixfiles.hardware.gps.enable [ "tcp://pixel.magpie-moth.ts.net:6000" ];
+    services.gpsd.devices = lib.mkIf config.nixfiles.hardware.gps.enable ["tcp://pixel.magpie-moth.ts.net:6000"];
 
     # systemd power/suspend configuration
     systemd.targets = lib.genAttrs ["suspend" "hybrid-sleep" "suspend-then-hibernate"] (_: {
@@ -163,7 +170,6 @@
     # boot.loader.systemd-boot.enable = true;
     # boot.loader.efi.canTouchEfiVariables = true;
     # see custom-hardware-configuration.nix
-
 
     # networking.hostName = "nixos"; # Define your hostname.
     # Pick only one of the below networking options.
@@ -195,10 +201,8 @@
     # services.xserver.displayManager.sddm.enable = true;
     # services.xserver.desktopManager.plasma5.enable = true;
 
-
     # Enable flatpak
     # services.flatpak.enable = true;
-    
 
     # Configure keymap in X11
     # services.xserver.xkb.layout = "us";
@@ -218,7 +222,6 @@
     #   pulse.enable = true;
     #   jack.enable = true;
     # };
-    
 
     # Enable touchpad support (enabled default in most desktopManager).
     # services.xserver.libinput.enable = true;
@@ -243,7 +246,6 @@
     #   initialPassword = "changeme";
     #   shell = pkgs.zsh;
     # };
-
 
     # shell config
     # programs.zsh.enable = true;
@@ -296,7 +298,7 @@
     # }}}
 
     # Open ports in the firewall.
-    networking.firewall.allowedTCPPorts = [ 22 ];
+    networking.firewall.allowedTCPPorts = [22];
     # networking.firewall.allowedUDPPorts = [ ... ];
     # Or disable the firewall altogether.
     # networking.firewall.enable = false;
@@ -313,7 +315,5 @@
     # Before changing this value read the documentation for this option
     # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
     system.stateVersion = "23.11"; # Did you read the comment?
-
   };
 }
-

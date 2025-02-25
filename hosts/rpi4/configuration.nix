@@ -1,19 +1,21 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-{ config, lib, pkgs, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./services.nix
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./services.nix
 
-      ./media-sync.nix
+    ./media-sync.nix
 
-      ./backup.nix
-    ];
+    ./backup.nix
+  ];
 
   fileSystems = let
     mounts = [
@@ -24,8 +26,9 @@
       "/opt/hassio"
       "/opt/hassio/.snapshots"
     ];
-    fn = (x: { options = [ "compress=zstd" "commit=300" "noatime" ];});
-  in lib.genAttrs mounts fn;
+    fn = x: {options = ["compress=zstd" "commit=300" "noatime"];};
+  in
+    lib.genAttrs mounts fn;
 
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
   boot.loader.grub.enable = false;
@@ -64,7 +67,7 @@
     "wg0"
     "tailscale0"
   ];
-  networking.firewall.allowedUDPPorts = [ 51820 ];
+  networking.firewall.allowedUDPPorts = [51820];
 
   services.openssh = {
     enable = true;
@@ -94,9 +97,6 @@
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
-
-  
-
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
@@ -124,11 +124,11 @@
   #     tree
   #   ];
   # };
-    users.users.nullbite = {
-        isNormalUser = true;
-        extraGroups = [ "wheel" ];
-        uid = 1000;
-    };
+  users.users.nullbite = {
+    isNormalUser = true;
+    extraGroups = ["wheel"];
+    uid = 1000;
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -182,6 +182,4 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.11"; # Did you read the comment?
-
 }
-

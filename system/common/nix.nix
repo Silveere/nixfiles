@@ -1,8 +1,14 @@
-{ pkgs, lib, config, options, inputs, nixpkgs, ... }:
-let
-  cfg = config.nixfiles.common.nix;
-in
 {
+  pkgs,
+  lib,
+  config,
+  options,
+  inputs,
+  nixpkgs,
+  ...
+}: let
+  cfg = config.nixfiles.common.nix;
+in {
   options.nixfiles.common.nix = {
     enable = lib.mkEnableOption "common Nix configuration";
     registerNixpkgs = lib.mkOption {
@@ -11,7 +17,8 @@ in
       example = "true";
       description = "Whether to register the Nixpkgs revision used by Nixfiles to the system's flake registry and make it tye system's <nixpkgs> channel";
     };
-    /* # TODO
+    /*
+       # TODO
     register = lib.mkOption {
       type = lib.types.bool;
       default = cfg.enable;
@@ -22,8 +29,7 @@ in
   };
 
   config = lib.mkMerge [
-    ( lib.mkIf cfg.registerNixpkgs {
-
+    (lib.mkIf cfg.registerNixpkgs {
       # this makes modern nix tools use the system's version of nixpkgs
       nix.registry = {
         # this keeps nixfiles-assets in the store so i can save some GitHub LFS
@@ -58,10 +64,9 @@ in
       # compatibility becasue once `, vkcube` couldn't find the correct opengl
       # driver or something (also it reduces the download size of temporary shell
       # closures)
-      nix.nixPath = [ "nixpkgs=${nixpkgs}" ] ++ options.nix.nixPath.default;
+      nix.nixPath = ["nixpkgs=${nixpkgs}"] ++ options.nix.nixPath.default;
     })
-    ( lib.mkIf cfg.enable {
-
+    (lib.mkIf cfg.enable {
       # direnv is a tool to automatically load shell environments upon entering
       # a directory. nix-direnv has an extensionn to keep nix shells in the
       # system's gcroots so shells can be used after a gc without rebuilding.

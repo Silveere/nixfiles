@@ -1,8 +1,11 @@
-{ pkgs, lib, config, ... }:
-let
-  cfg = config.nixfiles.programs.unbound;
-in
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}: let
+  cfg = config.nixfiles.programs.unbound;
+in {
   options.nixfiles.programs.unbound = {
     enable = lib.mkEnableOption "unbound DNS server configuration";
   };

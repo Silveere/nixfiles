@@ -1,5 +1,9 @@
-{ lib, pkgs, config, ... }:
-let
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}: let
   cfg = config.nixfiles.testing.mutability;
   file = pkgs.writeTextFile {
     name = "test";
@@ -7,8 +11,7 @@ let
       meow!
     '';
   };
-in
-{
+in {
   options.nixfiles.testing.mutability = {
     enable = lib.mkEnableOption "mutability test";
   };

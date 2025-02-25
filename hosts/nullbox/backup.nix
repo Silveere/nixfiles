@@ -1,20 +1,22 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   inherit (lib) escapeShellArg;
   secret = name: config.age.secrets."${name}".path;
   fs = config.fileSystems."/srv/mcserver";
-in
-{
+in {
   config = {
-    age.secrets.restic-rclone.file   = ../../secrets/restic-rclone.age;
+    age.secrets.restic-rclone.file = ../../secrets/restic-rclone.age;
     age.secrets.restic-password.file = ../../secrets/restic-password.age;
 
     systemd.services.restic-backups-system = {
-      path = with pkgs; [ btrfs-progs ];
+      path = with pkgs; [btrfs-progs];
     };
 
     services.restic.backups.system = {
-
       # create an atomic backup
       backupPrepareCommand = ''
         set -Eeuxo pipefail
@@ -47,7 +49,6 @@ in
         "--tag=auto"
         "--group-by=host,tag"
       ];
-
     };
   };
 }

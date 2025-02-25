@@ -1,9 +1,11 @@
-{ nixpkgs ? <nixpkgs>, pkgs ? (import nixpkgs) { } }:
-let
+{
+  nixpkgs ? <nixpkgs>,
+  pkgs ? (import nixpkgs) {},
+}: let
   inherit (pkgs) callPackage fetchFromSourcehut fetchFromGitHub lib;
   inherit (lib) escapeShellArg;
 
-  lucem = pkgs.callPackage ./. { };
+  lucem = pkgs.callPackage ./. {};
 
   nim_lk_patched = pkgs.nim_lk.overrideAttrs (final: prev: {
     src = pkgs.fetchFromSourcehut {
@@ -16,7 +18,6 @@ let
       ./nim_lk-rev-order-fix.patch
     ];
   });
-
 in
   pkgs.stdenvNoCC.mkDerivation {
     name = "lucem-lock.json";

@@ -1,7 +1,12 @@
 # Home Manager default nixfiles entrypoint. This serves as an alternative to
 # default.nix, which sets up some more appropriate options for home-manager
-{ inputs, pkgs, config, lib, ... }:
 {
+  inputs,
+  pkgs,
+  config,
+  lib,
+  ...
+}: {
   imports = [
     ./.
     inputs.stylix.homeManagerModules.stylix

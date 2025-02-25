@@ -1,50 +1,50 @@
-# vim: set ts=2 sw=2 et: 
+# vim: set ts=2 sw=2 et:
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
-
-{ config, lib, pkgs, inputs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    # Encryption
+    ./luks.nix
+    ./mcserver.nix
 
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      # Encryption
-      ./luks.nix
-      ./mcserver.nix
+    ./impermanence.nix
 
-      ./impermanence.nix
-
-      ./backup.nix
-    ];
+    ./backup.nix
+  ];
 
   config = {
-
     fileSystems = lib.mkMerge [
       {
         "/ntfs" = {
           fsType = "ntfs-3g";
           device = "/dev/disk/by-uuid/6AC23F0FC23EDF4F";
-          options = [ "auto_cache" "nofail" ];
+          options = ["auto_cache" "nofail"];
         };
         "/.btrfsroot" = {
-          options = [ "subvol=/" ];
+          options = ["subvol=/"];
         };
       }
 
-      (lib.genAttrs [ "/.btrfsroot" "/" "/home" "/nix" ] ( fs: {
-        options = [ "compress=zstd" ];
+      (lib.genAttrs ["/.btrfsroot" "/" "/home" "/nix"] (fs: {
+        options = ["compress=zstd"];
       }))
     ];
 
     specialisation.hyprland.configuration = {
-      system.nixos.tags = [ "Hyprland" ];
+      system.nixos.tags = ["Hyprland"];
       nixfiles = {
         session = "hyprland";
       };
     };
-
 
     hardware.cpu.intel.updateMicrocode = true;
 
@@ -62,7 +62,7 @@
       workarounds.nvidiaPrimary = true;
       programs.greetd = {
         settings = {
-          randr = [ "--output" "HDMI-A-3" "--off" ];
+          randr = ["--output" "HDMI-A-3" "--off"];
           autologin = false;
           autologinUser = "nullbite";
           autolock = false;
@@ -118,7 +118,6 @@
     # boot.loader.efi.canTouchEfiVariables = true;
     # see custom-hardware-configuration.nix
 
-
     # networking.hostName = "nixos"; # Define your hostname.
     networking.hostName = "nullbox";
     # Pick only one of the below networking options.
@@ -126,8 +125,7 @@
     # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
     # Set your time zone.
-     time.timeZone = "America/New_York";
-
+    time.timeZone = "America/New_York";
 
     # Copy the NixOS configuration file and link it from the resulting system
     # (/run/current-system/configuration.nix). This is useful in case you
@@ -142,6 +140,4 @@
     # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
     system.stateVersion = "23.11"; # Did you read the comment?
   };
-
 }
-

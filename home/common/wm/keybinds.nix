@@ -1,12 +1,16 @@
-{ pkgs, config, lib, outputs, ... }:
-let
+{
+  pkgs,
+  config,
+  lib,
+  outputs,
+  ...
+}: let
   df = lib.mkDefault;
-  mkxf = with lib; mapAttrs' (name: value: nameValuePair ("XF86" + name) (value));
+  mkxf = with lib; mapAttrs' (name: value: nameValuePair ("XF86" + name) value);
 
   # not rewriting this rn
   keysetting = "${outputs.packages.${pkgs.system}.wm-helpers}/bin/keysetting";
-in
-{
+in {
   options.nixfiles.common.wm = {
     keybinds = lib.mkOption {
       description = ''

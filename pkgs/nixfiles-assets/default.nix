@@ -1,5 +1,8 @@
-{ lib, stdenvNoCC, fetchFromGitea }:
-let
+{
+  lib,
+  stdenvNoCC,
+  fetchFromGitea,
+}: let
   src = fetchFromGitea {
     domain = "gitea.protogen.io";
     owner = "nullbite";
@@ -10,16 +13,16 @@ let
     fetchLFS = true;
   };
 in
-stdenvNoCC.mkDerivation {
-  pname = "nixfiles-assets";
-  version = src.rev;
-  inherit src;
-  phases = [ "installPhase" ];
-  installPhase = ''
-    cd $src
-    pwd
-    ls
-    mkdir -p $out/share/
-    cp -a wallpapers $out/share/
-  '';
-}
+  stdenvNoCC.mkDerivation {
+    pname = "nixfiles-assets";
+    version = src.rev;
+    inherit src;
+    phases = ["installPhase"];
+    installPhase = ''
+      cd $src
+      pwd
+      ls
+      mkdir -p $out/share/
+      cp -a wallpapers $out/share/
+    '';
+  }

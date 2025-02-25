@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, cacert
-, nixosTests
-, rustPlatform
-, fetchFromGitHub
-, darwin
-, nix-update-script
+{
+  lib,
+  stdenv,
+  cacert,
+  nixosTests,
+  rustPlatform,
+  fetchFromGitHub,
+  darwin,
+  nix-update-script,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "redlib";
@@ -58,7 +59,7 @@ rustPlatform.buildRustPackage rec {
 
   env = {
     SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
-    GIT_HASH=src.rev;
+    GIT_HASH = src.rev;
   };
 
   doCheck = false;
@@ -67,7 +68,7 @@ rustPlatform.buildRustPackage rec {
     inherit (nixosTests) redlib;
   };
 
-  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch=main" ]; };
+  passthru.updateScript = nix-update-script {extraArgs = ["--version=branch=main"];};
 
   meta = {
     changelog = "https://github.com/redlib-org/redlib/releases/tag/v${version}";
@@ -75,6 +76,6 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/redlib-org/redlib";
     license = lib.licenses.agpl3Only;
     mainProgram = "redlib";
-    maintainers = with lib.maintainers; [ soispha ];
+    maintainers = with lib.maintainers; [soispha];
   };
 }

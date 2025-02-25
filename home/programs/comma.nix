@@ -1,8 +1,12 @@
-{ lib, pkgs, config, inputs, ... } @args:
-let
-  cfg = config.nixfiles.programs.comma;
-in
 {
+  lib,
+  pkgs,
+  config,
+  inputs,
+  ...
+} @ args: let
+  cfg = config.nixfiles.programs.comma;
+in {
   imports = [
     inputs.nix-index-database.hmModules.nix-index
   ];
@@ -13,8 +17,9 @@ in
 
   config = {
     programs.nix-index.symlinkToCacheHome = lib.mkDefault cfg.enable;
-    home.packages = with pkgs; lib.optionals cfg.enable [
-      comma
-    ];
+    home.packages = with pkgs;
+      lib.optionals cfg.enable [
+        comma
+      ];
   };
 }

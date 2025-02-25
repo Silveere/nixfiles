@@ -1,6 +1,11 @@
-{ pkgs, lib, config, inputs, ... }@args:
 {
-  imports = [ ];
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+} @ args: {
+  imports = [];
   config = {
     stylix = lib.mkMerge [
       {

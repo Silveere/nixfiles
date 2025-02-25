@@ -1,11 +1,14 @@
-{ config, lib, pkgs, ...}:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   sleep = "${pkgs.coreutils}/bin/sleep";
   systemctl = "${pkgs.systemd}/bin/systemctl";
   inherit (lib) mkIf mkEnableOption mkForce mkDefault;
   cfg = config.nixfiles.sessions.plasma;
-in
-{
+in {
   # imports = [
   #   ./desktop-common.nix
   # ];
@@ -16,7 +19,7 @@ in
 
   config = mkIf cfg.enable {
     nixfiles.programs.greetd.enable = lib.mkDefault true;
-    nixfiles.programs.greetd.settings.command = lib.mkDefault [ "${pkgs.kdePackages.plasma-workspace}/libexec/plasma-dbus-run-session-if-needed" "startplasma-wayland" ];
+    nixfiles.programs.greetd.settings.command = lib.mkDefault ["${pkgs.kdePackages.plasma-workspace}/libexec/plasma-dbus-run-session-if-needed" "startplasma-wayland"];
 
     services.xserver.enable = true;
     services.desktopManager.plasma6.enable = true;
@@ -31,9 +34,9 @@ in
       services.restart-xdg-desktop-portal-kde = {
         enable = true;
         description = "hack to fix xdg-desktop-portal on kde";
-        wantedBy = [ "graphical-session.target" ];
-        after = [ "plasma-core.target" "xdg-desktop-portal.service" ];
-        requisite = [ "plasma-core.target" ];
+        wantedBy = ["graphical-session.target"];
+        after = ["plasma-core.target" "xdg-desktop-portal.service"];
+        requisite = ["plasma-core.target"];
 
         serviceConfig = {
           ExecStart = [

@@ -1,9 +1,13 @@
-{ pkgs, lib, config, options, ...}:
-let
+{
+  pkgs,
+  lib,
+  config,
+  options,
+  ...
+}: let
   inherit (lib) mkDefault mkIf mkEnableOption;
   cfg = config.nixfiles.common.wm;
-in
-{
+in {
   config = mkIf cfg.enable {
     # Common options for standalone window managers; many of these (or
     # alternatives thereof) are pulled in by desktop environments.

@@ -1,5 +1,10 @@
-{ pkgs, config, lib, vars, ... }:
 {
+  pkgs,
+  config,
+  lib,
+  vars,
+  ...
+}: {
   config = {
     networking.hostName = "nixos-wsl";
 
@@ -26,7 +31,7 @@
           RemainAfterExit = true;
         };
         description = "WSL startup workaround";
-        wantedBy = [ "default.target" ];
+        wantedBy = ["default.target"];
       };
     };
 
@@ -42,10 +47,9 @@
       noto-fonts-cjk-sans
     ];
 
-
     fileSystems."/mnt/wsl/instances/NixOS" = {
       device = "/";
-      options = [ "bind" ];
+      options = ["bind"];
     };
 
     # standard disclaimer don't change this for any reason whatsoever

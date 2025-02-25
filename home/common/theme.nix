@@ -1,35 +1,51 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.nixfiles.theming;
   mkDefaultStylix = lib.mkOverride 999;
 
-  toCaps = s: with lib.strings; with builtins;
-    (toUpper (substring 0 1 s)) + toLower (substring 1 ((stringLength s)-1) s);
+  toCaps = s:
+    with lib.strings;
+    with builtins;
+      (toUpper (substring 0 1 s)) + toLower (substring 1 ((stringLength s) - 1) s);
   inherit (lib.strings) toUpper toLower;
 
-  mkCtp = flavor: accent: with pkgs; {
-    names = {
-      cursors = "catppuccin-${toLower flavor}-${toLower accent}-cursors";
-      icons = "Papirus-Dark";
-      gtk = let
-        base = "Catppuccin-${toCaps flavor}-Standard-${toCaps accent}-Dark";
-      in {
-        normal = "${base}";
-        hdpi = "${base}-hdpi";
-        xhdpi = "${base}-xhdpi";
+  mkCtp = flavor: accent:
+    with pkgs; {
+      names = {
+        cursors = "catppuccin-${toLower flavor}-${toLower accent}-cursors";
+        icons = "Papirus-Dark";
+        gtk = let
+          base = "Catppuccin-${toCaps flavor}-Standard-${toCaps accent}-Dark";
+        in {
+          normal = "${base}";
+          hdpi = "${base}-hdpi";
+          xhdpi = "${base}-xhdpi";
+        };
+      };
+      packages = {
+        cursors = catppuccin-cursors."${toLower flavor}${toCaps accent}";
+        kvantum = catppuccin-kvantum.override {
+          variant = toLower flavor;
+          accent = toLower accent;
+        };
+        icons = catppuccin-papirus-folders.override {
+          flavor = toLower flavor;
+          accent = toLower accent;
+        };
+        gtk = catppuccin-gtk.override {
+          variant = toLower flavor;
+          accents = [(toLower accent)];
+        };
       };
     };
-    packages = {
-      cursors = catppuccin-cursors."${toLower flavor}${toCaps accent}";
-      kvantum = catppuccin-kvantum.override { variant = toLower flavor; accent = toLower accent; };
-      icons = catppuccin-papirus-folders.override { flavor = toLower flavor; accent = toLower accent; };
-      gtk = catppuccin-gtk.override { variant = toLower flavor; accents = [ (toLower accent) ]; };
-    };
-  };
 
   ctp = with cfg.catppuccin; mkCtp flavor accent;
 in {
-  options.nixfiles.theming = { 
+  options.nixfiles.theming = {
     enable = lib.mkEnableOption "nixfiles theming options";
 
     catppuccin = {
@@ -54,9 +70,11 @@ in {
   config = lib.mkIf cfg.enable {
     fonts.fontconfig.enable = lib.mkDefault true;
 
-    home.packages = with pkgs; [
-      ubuntu_font_family
-    ] ++ lib.mapAttrsToList (k: v: v) ctp.packages;
+    home.packages = with pkgs;
+      [
+        ubuntu_font_family
+      ]
+      ++ lib.mapAttrsToList (k: v: v) ctp.packages;
 
     gtk = {
       enable = true;

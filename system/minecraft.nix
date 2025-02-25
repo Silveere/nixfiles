@@ -1,10 +1,19 @@
-{ config, lib, pkgs, inputs, ... }:
 {
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     inputs.nix-minecraft.nixosModules.minecraft-servers
   ];
   options.services.minecraft-servers.servers = let
-    serverModule = { name, config, ... }: {
+    serverModule = {
+      name,
+      config,
+      ...
+    }: {
       options = {
         useRecommendedDefaults = lib.mkOption {
           type = lib.types.bool;
@@ -21,13 +30,13 @@
         modpackFiles = lib.mkOption {
           description = "List of files from modpack to copy into server directory";
           type = with lib.types; listOf str;
-          default = [ ];
+          default = [];
         };
 
         modpackSymlinks = lib.mkOption {
           description = "List of files from modpack to symlink into server directory";
           type = with lib.types; listOf str;
-          default = [ ];
+          default = [];
         };
       };
 
@@ -37,8 +46,8 @@
           jvmOpts = "-Dlog4j2.formatMsgNoLookups=true";
 
           whitelist = lib.mkDefault {
-            NullBite     = "e24e8e0e-7540-4126-b737-90043155bcd4";
-            Silveere     = "468554f1-27cd-4ea1-9308-3dd14a9b1a12";
+            NullBite = "e24e8e0e-7540-4126-b737-90043155bcd4";
+            Silveere = "468554f1-27cd-4ea1-9308-3dd14a9b1a12";
             YzumThreeEye = "3dad78e8-6979-404f-820e-952ce20964a0";
           };
 
@@ -75,18 +84,26 @@
             inherit (config) modpack;
 
             mcVersion = modpack.manifest.versions.minecraft;
-            fixedVersion = lib.replaceStrings [ "." ] [ "_" ] mcVersion;
+            fixedVersion = lib.replaceStrings ["."] ["_"] mcVersion;
             quiltVersion = modpack.manifest.versions.quilt or null;
             fabricVersion = modpack.manifest.versions.fabric or null;
-            loader = if (!(builtins.isNull quiltVersion)) then "quilt" else "fabric";
-            loaderVersion = if loader == "quilt" then quiltVersion else fabricVersion;
+            loader =
+              if (!(builtins.isNull quiltVersion))
+              then "quilt"
+              else "fabric";
+            loaderVersion =
+              if loader == "quilt"
+              then quiltVersion
+              else fabricVersion;
 
-            serverPackage = pkgs.minecraftServers."${loader}-${fixedVersion}".override { inherit loaderVersion; };
-          in lib.mkDefault serverPackage;
+            serverPackage = pkgs.minecraftServers."${loader}-${fixedVersion}".override {inherit loaderVersion;};
+          in
+            lib.mkDefault serverPackage;
         })
       ];
     };
-  in lib.mkOption {
-    type = with lib.types; attrsOf (submodule serverModule);
-  };
+  in
+    lib.mkOption {
+      type = with lib.types; attrsOf (submodule serverModule);
+    };
 }

@@ -1,10 +1,13 @@
-{ config, lib, pkgs, ... }:
-let
-  secret = name: config.age.secrets."${name}".path;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  secret = name: config.age.secrets."${name}".path;
+in {
   config = {
-    age.secrets.restic-rclone.file   = ../../secrets/restic-rclone.age;
+    age.secrets.restic-rclone.file = ../../secrets/restic-rclone.age;
     age.secrets.restic-password.file = ../../secrets/restic-password.age;
     services.restic.backups.system = {
       rcloneConfigFile = secret "restic-rclone";
@@ -38,7 +41,6 @@ in
         "--tag=auto"
         "--group-by=host,tag"
       ];
-
     };
   };
 }

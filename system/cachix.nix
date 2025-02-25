@@ -1,8 +1,11 @@
-{ pkgs, lib, config, ... }:
-let
-  cfg = config.nixfiles.cachix;
-in
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}: let
+  cfg = config.nixfiles.cachix;
+in {
   options.nixfiles.cachix.enable = lib.mkOption {
     description = "Whether to enable the Cachix derivation cache";
     type = lib.types.bool;

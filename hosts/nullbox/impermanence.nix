@@ -1,11 +1,16 @@
-{ pkgs, config, lib, ... }:
-let
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}: let
   inherit (lib) escapeShellArg;
   # (wip) more configurable than old one, will be used by volatile btrfs module
-  mkBtrfsInit = { volatileRoot ? "/volatile",
-                      oldRoots ? "/old_roots",
-                      volume }:
-  ''
+  mkBtrfsInit = {
+    volatileRoot ? "/volatile",
+    oldRoots ? "/old_roots",
+    volume,
+  }: ''
     mkdir -p /btrfs_tmp
     mount ${escapeShellArg volume} /btrfs_tmp -o subvol=/
 
@@ -34,7 +39,7 @@ in {
       neededForBoot = true;
       device = root_vol;
       fsType = "btrfs";
-      options = [ "subvol=/nixos/@persist" ];
+      options = ["subvol=/nixos/@persist"];
     };
 
     # TODO volatile btrfs module
@@ -47,7 +52,7 @@ in {
     fileSystems."/" = lib.mkForce {
       device = root_vol;
       fsType = "btrfs";
-      options = [ "subvol=/nixos/volatile" ];
+      options = ["subvol=/nixos/volatile"];
     };
 
     # agenix fix
@@ -74,15 +79,24 @@ in {
           # probably NEVER be excluded removed.
           "/var/lib/nixos/"
           # password files for user.user.<name>.hashedPasswordFile
-          { directory = "/etc/passfile"; mode = "0700"; }
+          {
+            directory = "/etc/passfile";
+            mode = "0700";
+          }
 
           # persistent non-declarative config
           "/etc/nixos"
           "/etc/ssh"
-          { directory = "/etc/wireguard"; mode = "0700"; }
+          {
+            directory = "/etc/wireguard";
+            mode = "0700";
+          }
 
           # let's keep the root home dir as well
-          { directory = "/root"; mode = "0700"; }
+          {
+            directory = "/root";
+            mode = "0700";
+          }
 
           # system state
           "/etc/NetworkManager/system-connections"
@@ -93,14 +107,29 @@ in {
           "/var/lib/power-profiles-daemon"
           "/var/lib/systemd/rfkill"
           "/var/lib/systemd/timesync"
-          { directory = "/var/lib/tailscale"; mode = "0700"; }
+          {
+            directory = "/var/lib/tailscale";
+            mode = "0700";
+          }
           "/var/lib/unbound"
           "/var/db/sudo/lectured"
 
           # remember login stuff
-          { directory = "/var/cache/tuigreet"; user = "greeter"; group = "greeter"; }
-          { directory = "/var/cache/regreet"; user = "greeter"; group = "greeter"; }
-          { directory = "/var/lib/regreet"; user = "greeter"; group = "greeter"; }
+          {
+            directory = "/var/cache/tuigreet";
+            user = "greeter";
+            group = "greeter";
+          }
+          {
+            directory = "/var/cache/regreet";
+            user = "greeter";
+            group = "greeter";
+          }
+          {
+            directory = "/var/lib/regreet";
+            user = "greeter";
+            group = "greeter";
+          }
         ];
 
         files = [

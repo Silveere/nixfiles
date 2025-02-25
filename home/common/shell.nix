@@ -1,5 +1,9 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   inherit (lib) mkOption mkEnableOption mkIf mkDefault;
   cfg = config.nixfiles.common.shell;
 
@@ -8,12 +12,13 @@ let
       history | sed 's:^ \+[0-9]\+ \+::' | grep '^,' | cut -d' ' -f2- | sed 's:^\(-[^ ]\+ \?\)\+::g' | grep . | cut -d' ' -f1 | sort | uniq -c | sort -g
     }
   '';
-in
-{
+in {
   options.nixfiles.common.shell = {
-    enable = lib.mkEnableOption "" // {
-      description = "Whether to enable the nixfiles shell configuration.";
-    };
+    enable =
+      lib.mkEnableOption ""
+      // {
+        description = "Whether to enable the nixfiles shell configuration.";
+      };
   };
 
   config = mkIf cfg.enable {
@@ -43,11 +48,13 @@ in
     };
     programs.zsh = {
       enable = mkDefault true;
-      initExtra = ''
-        export HOME_MANAGER_MANAGED=true
-        [[ -e ~/dotfiles/shell/.zshrc ]] && . ~/dotfiles/shell/.zshrc ]]
-        unset HOME_MANAGER_MANAGED
-      '' + common_functions "zsh";
+      initExtra =
+        ''
+          export HOME_MANAGER_MANAGED=true
+          [[ -e ~/dotfiles/shell/.zshrc ]] && . ~/dotfiles/shell/.zshrc ]]
+          unset HOME_MANAGER_MANAGED
+        ''
+        + common_functions "zsh";
       oh-my-zsh = {
         enable = mkDefault true;
         theme = "robbyrussell";
@@ -59,6 +66,5 @@ in
         ];
       };
     };
-
   };
 }

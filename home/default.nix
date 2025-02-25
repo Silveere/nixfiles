@@ -1,10 +1,18 @@
-{ pkgs, config, lib, options, osConfig ? { }, nixpkgs, home-manager, inputs, ... }@args:
-let
+{
+  pkgs,
+  config,
+  lib,
+  options,
+  osConfig ? {},
+  nixpkgs,
+  home-manager,
+  inputs,
+  ...
+} @ args: let
   isStandalone = osConfig ? home-manager;
   cfg = config.nixfiles;
   flakeType = cfg.lib.types.flake;
-in
-{
+in {
   imports = [
     ./common
     ./package-sets
@@ -25,7 +33,7 @@ in
 
     lib = lib.mkOption {
       description = "nixfiles library";
-      default = (import ../lib/nixfiles) { inherit pkgs; };
+      default = (import ../lib/nixfiles) {inherit pkgs;};
       readOnly = true;
     };
 
@@ -53,13 +61,13 @@ in
     meta.graphical = lib.mkOption {
       description = "Whether to enable graphical home-manager applications";
       type = lib.types.bool;
-      default = (osConfig ? services && osConfig.services.xserver.enable);
+      default = osConfig ? services && osConfig.services.xserver.enable;
       example = true;
     };
     meta.wayland = lib.mkOption {
       description = "Whether to prefer wayland packages and configuration";
       type = lib.types.bool;
-      default = (lib.hasAttrByPath [ "nixfiles" "meta" "wayland" ] osConfig) && osConfig.nixfiles.meta.wayland;
+      default = (lib.hasAttrByPath ["nixfiles" "meta" "wayland"] osConfig) && osConfig.nixfiles.meta.wayland;
       example = true;
     };
 

@@ -1,8 +1,11 @@
-{ config, lib, pkgs, ... }:
-let
-  cfg = config.nixfiles.hardware.gps;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.nixfiles.hardware.gps;
+in {
   options = {
     nixfiles.hardware.gps = {
       enable = lib.mkEnableOption "GPS configuration";
@@ -28,21 +31,21 @@ in
 
     # this could probably be a systemd socket but i don't know how to make those
     systemd.services.gpsd-nmea-bridge = lib.mkIf cfg.gpsdBridge {
-        path = with pkgs; [
-          gpsd
-          coreutils
-          socat
-        ];
-        description = "gpsd to Geoclue2 GPS data bridge";
-        before = [ "geoclue.service" ];
-        wantedBy = [ "geoclue.service" "multi-user.target" ];
-        serviceConfig = {
-          RuntimeDirectory = "gpsd-nmea";
-          ExecStart = pkgs.writeShellScript "gpsd-nmea-bridge" ''
-            exec socat -U UNIX-LISTEN:''${RUNTIME_DIRECTORY}/nmea.sock,fork,reuseaddr,mode=777 SYSTEM:'gpspipe -Br | stdbuf -oL tail -n+4'
-            '';
-        };
+      path = with pkgs; [
+        gpsd
+        coreutils
+        socat
+      ];
+      description = "gpsd to Geoclue2 GPS data bridge";
+      before = ["geoclue.service"];
+      wantedBy = ["geoclue.service" "multi-user.target"];
+      serviceConfig = {
+        RuntimeDirectory = "gpsd-nmea";
+        ExecStart = pkgs.writeShellScript "gpsd-nmea-bridge" ''
+          exec socat -U UNIX-LISTEN:''${RUNTIME_DIRECTORY}/nmea.sock,fork,reuseaddr,mode=777 SYSTEM:'gpspipe -Br | stdbuf -oL tail -n+4'
+        '';
       };
+    };
     services.gpsd.enable = lib.mkIf cfg.gpsdBridge true;
   };
 }

@@ -1,17 +1,22 @@
-{ pkgs, lib, config, osConfig ? {}, options, ...}:
-let
+{
+  pkgs,
+  lib,
+  config,
+  osConfig ? {},
+  options,
+  ...
+}: let
   cfg = config.nixfiles.common.wm;
   inherit (lib) mkDefault;
   mkOverrideEach = pri: lib.mapAttrs (_:v: lib.mkOverride pri v);
-in
-{
+in {
   options.nixfiles.common.wm = {
     enable = lib.mkEnableOption "common window manager config";
     autostart = lib.mkOption {
       description = "List of window manager agnostic commnads to run at window manager startup";
       type = lib.types.listOf lib.types.str;
-      default = [ ];
-      example = [ "steam -silent" ];
+      default = [];
+      example = ["steam -silent"];
     };
   };
 
@@ -51,8 +56,14 @@ in
       nwg-displays
 
       # very consistent (ok it's actually a little better now)
-      (catppuccin-papirus-folders.override {accent = "mauve"; flavor = "mocha"; })
-      (pkgs.catppuccin-kvantum.override {accent = "mauve"; variant = "mocha"; })
+      (catppuccin-papirus-folders.override {
+        accent = "mauve";
+        flavor = "mocha";
+      })
+      (pkgs.catppuccin-kvantum.override {
+        accent = "mauve";
+        variant = "mocha";
+      })
       catppuccin-cursors.mochaMauve
 
       arc-theme
@@ -73,19 +84,19 @@ in
       };
     };
 
-
     # File associations
     xdg.mimeApps = {
       enable = true;
       defaultApplications = let
-        defaultBrowser = [ "firefox.desktop" ];
-      in mkOverrideEach 50 {
-        "x-scheme-handler/https" = defaultBrowser;
-        "x-scheme-handler/http" = defaultBrowser;
-        "text/html" = defaultBrowser;
-        "application/xhtml+xml" = defaultBrowser;
-        "application/pdf" = defaultBrowser;
-      };
+        defaultBrowser = ["firefox.desktop"];
+      in
+        mkOverrideEach 50 {
+          "x-scheme-handler/https" = defaultBrowser;
+          "x-scheme-handler/http" = defaultBrowser;
+          "text/html" = defaultBrowser;
+          "application/xhtml+xml" = defaultBrowser;
+          "application/pdf" = defaultBrowser;
+        };
     };
     # this makes xdg.mimeApps overwrite mimeapps.list if it has been touched by something else
     xdg.configFile."mimeapps.list" = {

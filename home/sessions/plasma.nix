@@ -1,9 +1,13 @@
-{ pkgs, config, lib, osConfig ? {}, ... }:
-let
+{
+  pkgs,
+  config,
+  lib,
+  osConfig ? {},
+  ...
+}: let
   inherit (lib) mkOption mkEnableOption;
   cfg = config.nixfiles.sessions.plasma;
-in
-{
+in {
   options.nixfiles.sessions.plasma = {
     enable = lib.mkOption {
       description = "Whether to enable the Plasma session home configuration.";
@@ -13,12 +17,12 @@ in
     };
   };
   config = lib.mkIf cfg.enable {
-
     # TODO make this a generic implementation
     home.packages = let
-      startupScript = pkgs.writeShellScript "autostart-script"
+      startupScript =
+        pkgs.writeShellScript "autostart-script"
         (lib.concatStringsSep "\n"
-        (builtins.map (x: "sh -c ${lib.escapeShellArg x} &") config.nixfiles.common.wm.autostart));
+          (builtins.map (x: "sh -c ${lib.escapeShellArg x} &") config.nixfiles.common.wm.autostart));
 
       name = "home-manager-autostart";
       desktopFilePkg = pkgs.makeDesktopItem {
@@ -30,6 +34,6 @@ in
         mkdir -p $out/etc/xdg/autostart
         ln -s "${desktopFilePkg}/share/applications/${name}.desktop" "$out/etc/xdg/autostart/"
       '';
-    in [ autostartPkg ];
+    in [autostartPkg];
   };
 }

@@ -1,9 +1,12 @@
-{ config, lib, pkgs, ...}:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.nixfiles.programs.syncthing;
-in
-{
+in {
   options.nixfiles.programs.syncthing = {
     enable = mkEnableOption "Syncthing configuration";
   };
@@ -16,7 +19,8 @@ in
       dataDir = let
         user = config.services.syncthing.user;
         dir = config.users.users.${user}.home;
-      in lib.mkDefault dir;
+      in
+        lib.mkDefault dir;
     };
   };
 }

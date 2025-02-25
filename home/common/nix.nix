@@ -1,5 +1,12 @@
-{ pkgs, lib, config, osConfig ? { }, options, nixpkgs, ... }:
-let
+{
+  pkgs,
+  lib,
+  config,
+  osConfig ? {},
+  options,
+  nixpkgs,
+  ...
+}: let
   cfg = config.nixfiles.common.nix;
   standalone = !(osConfig ? home-manager);
 in {

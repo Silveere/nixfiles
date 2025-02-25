@@ -1,8 +1,12 @@
-{ pkgs, lib, config, osConfig ? {}, ... }:
-let
-  cfg = config.nixfiles.packageSets.dev;
-in
 {
+  pkgs,
+  lib,
+  config,
+  osConfig ? {},
+  ...
+}: let
+  cfg = config.nixfiles.packageSets.dev;
+in {
   options.nixfiles.packageSets.dev = {
     enable = lib.mkEnableOption "development package set";
   };

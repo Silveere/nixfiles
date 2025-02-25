@@ -1,8 +1,11 @@
-{ config, lib, pkgs, ...}:
-let
-  cfg = config.nixfiles.common.me;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.nixfiles.common.me;
+in {
   options.nixfiles.common.me = {
     enable = lib.mkEnableOption "my user account";
   };
@@ -12,7 +15,7 @@ in
       uid = 1000;
       group = "nullbite";
       isNormalUser = true;
-      extraGroups = [ "wheel" ] ++ lib.optional config.nixfiles.packageSets.fun.enable "input";
+      extraGroups = ["wheel"] ++ lib.optional config.nixfiles.packageSets.fun.enable "input";
       packages = with pkgs; [
         keychain
       ];

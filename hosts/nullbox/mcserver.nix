@@ -1,18 +1,21 @@
-{ pkgs, lib, config, ... }:
-let
-  cfg = config.services.minecraft-servers;
-in
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}: let
+  cfg = config.services.minecraft-servers;
+in {
   config = {
     fileSystems = {
-      "/srv/mcserver".options = [ "compress=zstd" "nofail" ];
-      "/srv/mcserver/.snapshots".options = [ "compress=zstd" "nofail" ];
+      "/srv/mcserver".options = ["compress=zstd" "nofail"];
+      "/srv/mcserver/.snapshots".options = ["compress=zstd" "nofail"];
     };
-    networking.firewall.trustedInterfaces = [ "wg0" ];
+    networking.firewall.trustedInterfaces = ["wg0"];
 
     users = {
       users = {
-        nullbite.extraGroups = [ "minecraft" ];
+        nullbite.extraGroups = ["minecraft"];
       };
     };
 
@@ -45,18 +48,19 @@ in
         nulllite-staging = let
           commit = "b8c639a";
           packHash = "sha256-HTDVIkcBf0DyLbSCuU08/HnEQuesi3cmXXhB4y4lyko=";
-        in pkgs.fetchPackwizModpack {
-          url = "https://gitea.protogen.io/nullbite/nulllite/raw/commit/${commit}/pack.toml";
-          inherit packHash;
-        };
+        in
+          pkgs.fetchPackwizModpack {
+            url = "https://gitea.protogen.io/nullbite/nulllite/raw/commit/${commit}/pack.toml";
+            inherit packHash;
+          };
       in {
         nulllite-staging = {
           useRecommendedDefaults = true;
           enable = true;
           autoStart = false;
           modpack = nulllite-staging;
-          modpackSymlinks = [ "mods" ];
-          modpackFiles = [ "config/" ];
+          modpackSymlinks = ["mods"];
+          modpackFiles = ["config/"];
           serverProperties.server-port = 25574;
           serverProperties.motd = "staging server";
         };
@@ -65,8 +69,8 @@ in
           enable = true;
           autoStart = true;
           modpack = pkgs.modpacks.notlite;
-          modpackSymlinks = [ "config/yosbr" "config/quilt-loader-overrides.json" "mods" ];
-          modpackFiles = [ "kubejs/" ];
+          modpackSymlinks = ["config/yosbr" "config/quilt-loader-overrides.json" "mods"];
+          modpackFiles = ["kubejs/"];
           serverProperties = {
             motd = "owo what's this (nix notlite edition)";
             server-port = 25567;
@@ -76,11 +80,10 @@ in
             level-seed = "8555431723250870652";
             level-type = "bclib:normal";
           };
-
         };
         minecraft-nixtest = let
           self = cfg.servers.minecraft-nixtest;
-          package = pkgs.quiltServers.quilt-1_20_1.override { loaderVersion = "0.21.0"; };
+          package = pkgs.quiltServers.quilt-1_20_1.override {loaderVersion = "0.21.0";};
         in {
           useRecommendedDefaults = true;
           enable = false;
@@ -92,8 +95,8 @@ in
             NullBite = "e24e8e0e-7540-4126-b737-90043155bcd4";
             Silveere = "468554f1-27cd-4ea1-9308-3dd14a9b1a12";
           };
-          modpackSymlinks = [ "mods" ];
-          modpackFiles = [ "config/" "kubejs/" ];
+          modpackSymlinks = ["mods"];
+          modpackFiles = ["config/" "kubejs/"];
           serverProperties = rec {
             motd = "owo what's this (nix edition)";
             server-port = 25568;

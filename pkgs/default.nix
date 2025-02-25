@@ -1,17 +1,15 @@
-{ pkgs, ... }:
-let
+{pkgs, ...}: let
   inherit (pkgs) callPackage callPackages;
 
   mopidyPackages = callPackages ./mopidy {
     python = pkgs.python3;
   };
-in
-{
-  inherit (mopidyPackages) mopidy-autoplay ;
-  google-fonts = callPackage ./google-fonts { };
-  wm-helpers = callPackage ./wm-helpers { };
-  atool = callPackage ./atool-wrapped { };
-  nixfiles-assets = callPackage ./nixfiles-assets { };
-  redlib = callPackage ./redlib { };
-  cross-seed = callPackage ./cross-seed { };
+in {
+  inherit (mopidyPackages) mopidy-autoplay;
+  google-fonts = callPackage ./google-fonts {};
+  wm-helpers = callPackage ./wm-helpers {};
+  atool = callPackage ./atool-wrapped {};
+  nixfiles-assets = callPackage ./nixfiles-assets {};
+  redlib = callPackage ./redlib {};
+  cross-seed = callPackage ./cross-seed {};
 }

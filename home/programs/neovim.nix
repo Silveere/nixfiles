@@ -1,8 +1,11 @@
-{ config, lib, pkgs, ... }:
-let
-  cfg = config.nixfiles.programs.neovim;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.nixfiles.programs.neovim;
+in {
   options.nixfiles.programs.neovim.enable = lib.mkEnableOption "the Neovim configuration";
   config = lib.mkIf cfg.enable {
     programs.neovim = {

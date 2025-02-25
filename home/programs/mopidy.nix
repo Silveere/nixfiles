@@ -1,8 +1,13 @@
-{ lib, pkgs, config, outputs, osConfig ? {}, ... }:
-let
-  cfg = config.nixfiles.programs.mopidy;
-in
 {
+  lib,
+  pkgs,
+  config,
+  outputs,
+  osConfig ? {},
+  ...
+}: let
+  cfg = config.nixfiles.programs.mopidy;
+in {
   options.nixfiles.programs.mopidy = {
     enable = lib.mkEnableOption "mopidy configuration";
   };
@@ -38,7 +43,7 @@ in
       ];
     };
     home.packages = with pkgs; [
-      (ncmpcpp.override { visualizerSupport = true; })
+      (ncmpcpp.override {visualizerSupport = true;})
     ];
   };
 }

@@ -1,8 +1,11 @@
-{ config, lib, pkgs, ... }:
-let
-  cfg = config.services.gitea;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.services.gitea;
+in {
   config = {
     services.gitea = {
       enable = true;
@@ -32,19 +35,37 @@ in
           DEFAULT_THEME = "catppuccin-mocha-pink";
           THEMES = let
             ctpAttrs = {
-              flavor = [ "latte" "frappe" "macchiato" "mocha" ];
-              accent = [ "rosewater" "flamingo" "pink" "mauve"
-                "red" "maroon" "peach" "yellow" "green" "teal"
-                "sky" "sapphire" "blue" ];
+              flavor = ["latte" "frappe" "macchiato" "mocha"];
+              accent = [
+                "rosewater"
+                "flamingo"
+                "pink"
+                "mauve"
+                "red"
+                "maroon"
+                "peach"
+                "yellow"
+                "green"
+                "teal"
+                "sky"
+                "sapphire"
+                "blue"
+              ];
             };
-            ctpThemes = lib.mapCartesianProduct
-              ( { flavor, accent }: "catppuccin-${flavor}-${accent}" )
+            ctpThemes =
+              lib.mapCartesianProduct
+              ({
+                flavor,
+                accent,
+              }: "catppuccin-${flavor}-${accent}")
               ctpAttrs;
-          in lib.concatStringsSep "," ([
-            "gitea"
-            "arc-green"
-            "auto"
-          ] ++ ctpThemes);
+          in
+            lib.concatStringsSep "," ([
+                "gitea"
+                "arc-green"
+                "auto"
+              ]
+              ++ ctpThemes);
         };
       };
     };

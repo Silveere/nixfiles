@@ -1,5 +1,9 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.nixfiles.programs.dunst;
   mkd = lib.mkDefault;
 in {

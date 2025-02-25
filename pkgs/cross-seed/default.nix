@@ -1,5 +1,8 @@
-{ lib, buildNpmPackage, fetchFromGitHub }:
-
+{
+  lib,
+  buildNpmPackage,
+  fetchFromGitHub,
+}:
 buildNpmPackage rec {
   pname = "cross-seed";
   version = "6.11.0";

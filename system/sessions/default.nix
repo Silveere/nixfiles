@@ -1,12 +1,15 @@
-{ config, lib, options, ... }:
-let
+{
+  config,
+  lib,
+  options,
+  ...
+}: let
   inherit (lib) types;
   cfg = config.nixfiles.session;
-in
-{
+in {
   imports = [
-  ./hyprland.nix
-  ./plasma.nix
+    ./hyprland.nix
+    ./plasma.nix
   ];
 
   options.nixfiles.session = lib.mkOption {

@@ -1,4 +1,14 @@
-{ pkgs, config, lib, options, nixpkgs, home-manager, inputs, utils, ... }@args:
+{
+  pkgs,
+  config,
+  lib,
+  options,
+  nixpkgs,
+  home-manager,
+  inputs,
+  utils,
+  ...
+} @ args:
 # ^ all these args are yucky and non-portable, replace them with a module
 # called from the scope of the flake that brings relevant
 # inputs/outputs/overlays/etc into scope. this might even make nixfiles
@@ -6,8 +16,7 @@
 let
   cfg = config.nixfiles;
   flakeType = cfg.lib.types.flake;
-in
-{
+in {
   imports = [
     ./common
     ./hardware
@@ -50,7 +59,7 @@ in
 
     lib = lib.mkOption {
       description = "nixfiles library";
-      default = (import ../lib/nixfiles) { inherit pkgs; };
+      default = (import ../lib/nixfiles) {inherit pkgs;};
       readOnly = true;
       type = lib.types.attrs;
     };

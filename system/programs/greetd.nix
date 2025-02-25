@@ -1,5 +1,10 @@
-{ pkgs, config, lib, options, ... }:
-let
+{
+  pkgs,
+  config,
+  lib,
+  options,
+  ...
+}: let
   cfg = config.nixfiles.programs.greetd;
   inherit (lib) types optional optionals escapeShellArg escapeShellArgs;
   inherit (types) bool enum nullOr str path listOf;
@@ -10,17 +15,17 @@ let
   xsessions = "${sessions}/share/xsessions";
   wayland-sessions = "${sessions}/share/wayland-sessions";
 
-  loginwrap=pkgs.writeShellScriptBin "loginwrap" ''
+  loginwrap = pkgs.writeShellScriptBin "loginwrap" ''
     exec "$SHELL" -lc 'exec "$@"' "login-wrapper" "$@"
   '';
 
-  mkPresetOption = x: lib.mkOption {
-    description = "${x} greetd configuration";
-    type = bool;
-    default = false;
-  };
-in
-{
+  mkPresetOption = x:
+    lib.mkOption {
+      description = "${x} greetd configuration";
+      type = bool;
+      default = false;
+    };
+in {
   config = lib.mkIf cfg.enable {
     assertions = lib.optionals cfg.settings.autologin [
       {
@@ -33,7 +38,7 @@ in
       }
     ];
 
-    environment.systemPackages = [ loginwrap ];
+    environment.systemPackages = [loginwrap];
     services.greetd = {
       enable = true;
       settings = {
@@ -43,23 +48,28 @@ in
         };
 
         default_session = lib.mkMerge [
-
           # tuigreet configuration
           (lib.mkIf cfg.presets.tuigreet.enable {
             command = let
               st = cfg.settings;
-              args = [ "${pkgs.greetd.tuigreet}/bin/tuigreet" "--asterisks" "--remember" "--remember-session"
-              "--sessions" "${xsessions}:${wayland-sessions}"
-              ]
-                ++ optionalsSet st.greeting [ "--greeting" st.greeting ]
-                ++ optional st.time "--time" 
-                ++ optionalsSet st.command [ "--cmd" st.finalCommand ]
+              args =
+                [
+                  "${pkgs.greetd.tuigreet}/bin/tuigreet"
+                  "--asterisks"
+                  "--remember"
+                  "--remember-session"
+                  "--sessions"
+                  "${xsessions}:${wayland-sessions}"
+                ]
+                ++ optionalsSet st.greeting ["--greeting" st.greeting]
+                ++ optional st.time "--time"
+                ++ optionalsSet st.command ["--cmd" st.finalCommand]
                 # i think tuigreet might be outdated on nix. disable this because it's not a valid option
                 # ++ optionalsSet st.loginShell [ "--session-wrapper" "loginwrap" ]
                 ;
-            in lib.escapeShellArgs args;
+            in
+              lib.escapeShellArgs args;
           })
-
         ];
       };
     };
@@ -74,15 +84,16 @@ in
 
         exec ${escapeShellArg (lib.getExe pkgs.greetd.regreet)} "$@"
       '';
-    in lib.mkIf cfg.presets.regreet.enable {
-      enable = lib.mkDefault true;
-      package = wrapperPackage;
-      settings = {
-        background.path = cfg.settings.wallpaper;
-        fit = lib.mkDefault "Fill";
-        appearance.greeting_msg = cfg.settings.greeting;
+    in
+      lib.mkIf cfg.presets.regreet.enable {
+        enable = lib.mkDefault true;
+        package = wrapperPackage;
+        settings = {
+          background.path = cfg.settings.wallpaper;
+          fit = lib.mkDefault "Fill";
+          appearance.greeting_msg = cfg.settings.greeting;
+        };
       };
-    };
 
     security.pam.services.greetd = {
       kwallet = lib.mkIf config.services.desktopManager.plasma6.enable {
@@ -91,20 +102,19 @@ in
       };
     };
 
-    systemd.tmpfiles.settings."10-regreet" =
-      let
-        defaultConfig = {
-          user = "greeter";
-          group = config.users.users.${config.services.greetd.settings.default_session.user}.group;
-          mode = "0755";
-        };
-      in lib.mkIf config.programs.regreet.enable
+    systemd.tmpfiles.settings."10-regreet" = let
+      defaultConfig = {
+        user = "greeter";
+        group = config.users.users.${config.services.greetd.settings.default_session.user}.group;
+        mode = "0755";
+      };
+    in
+      lib.mkIf config.programs.regreet.enable
       {
         "/var/log/regreet".d = defaultConfig;
         "/var/cache/regreet".d = defaultConfig;
         "/var/lib/regreet".d = defaultConfig;
       };
-
 
     # self config
     nixfiles.programs.greetd = {
@@ -137,17 +147,27 @@ in
         default = let
           st = cfg.settings;
           prevcmd = st.command;
-          command-login-wrapped = [ "loginwrap" ] ++ prevcmd;
-          cmd = if (builtins.isNull prevcmd) then null else
-            (if st.loginShell then command-login-wrapped else prevcmd);
-        in if builtins.isNull cmd then null else lib.escapeShellArgs cmd;
+          command-login-wrapped = ["loginwrap"] ++ prevcmd;
+          cmd =
+            if (builtins.isNull prevcmd)
+            then null
+            else
+              (
+                if st.loginShell
+                then command-login-wrapped
+                else prevcmd
+              );
+        in
+          if builtins.isNull cmd
+          then null
+          else lib.escapeShellArgs cmd;
         readOnly = true;
       };
       command = lib.mkOption {
         description = "Command to run following successful authentication";
         type = nullOr (listOf str);
         default = null;
-        example = [ "Hyprland" ];
+        example = ["Hyprland"];
       };
 
       graphicalInit = lib.mkOption {
@@ -160,7 +180,7 @@ in
         description = "Options to pass to wlr-randr";
         type = nullOr (listOf str);
         default = null;
-        example = [ "--output" "HDMI-A-3" "--off" ];
+        example = ["--output" "HDMI-A-3" "--off"];
       };
 
       loginShell = lib.mkOption {

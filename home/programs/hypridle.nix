@@ -1,21 +1,25 @@
-{ pkgs, config, lib, ... }:
-let
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}: let
   cfg = config.nixfiles.services.hypridle;
   inherit (lib.types) str int;
-in
-{
+in {
   options.nixfiles.services.hypridle = {
     enable = lib.mkEnableOption "the hypridle configuration";
     timeouts = let
-      mkTimeout = timeout: desc: lib.mkOption {
-        description = "${desc}";
-        type = int;
-        default = timeout;
-      };
+      mkTimeout = timeout: desc:
+        lib.mkOption {
+          description = "${desc}";
+          type = int;
+          default = timeout;
+        };
     in {
-      dpms = mkTimeout (300) "DPMS timeout";
-      lock = mkTimeout (360) "Lock timeout";
-      locked-dpms = mkTimeout (10) "DPMS timeout while locked";
+      dpms = mkTimeout 300 "DPMS timeout";
+      lock = mkTimeout 360 "Lock timeout";
+      locked-dpms = mkTimeout 10 "DPMS timeout while locked";
     };
     commands = {
       dpms-off = lib.mkOption {
@@ -57,7 +61,6 @@ in
             lock-dpms = pkgs.writeShellScript "lock-dpms" ''
               ${pkgs.procps}/bin/pgrep -x swaylock > /dev/null && "${dpms-wrapped}"
             '';
-
           in [
             {
               timeout = cfg.timeouts.dpms;

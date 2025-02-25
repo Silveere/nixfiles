@@ -1,5 +1,10 @@
-{ pkgs, lib, config, options, ... }@args:
-let
+{
+  pkgs,
+  lib,
+  config,
+  options,
+  ...
+} @ args: let
   gfx = {
     Integrated = {
       supergfxd = pkgs.writeText "supergfxd-integrated" ''
@@ -69,7 +74,8 @@ let
   isKeyInAttrset = let
     getKeys = attrset: lib.mapAttrsToList (name: _: name) attrset;
     isInList = key: list: lib.any (x: x == key) list;
-  in key: attrset: isInList key (getKeys attrset);
+  in
+    key: attrset: isInList key (getKeys attrset);
 
   inherit (lib) mkIf mkOption types;
 in {
@@ -83,7 +89,7 @@ in {
   };
 
   config = {
-    environment.etc = mkIf (!(builtins.isNull cfg.profile))  {
+    environment.etc = mkIf (!(builtins.isNull cfg.profile)) {
       # TODO actually configure the system settings here
       "supergfxd.conf" = {
         source = gfx.${cfg.profile}.supergfxd;

@@ -1,5 +1,12 @@
-{ lib, pkgs, config, osConfig ? {}, outputs, inputs, ... }@args:
-let
+{
+  lib,
+  pkgs,
+  config,
+  osConfig ? {},
+  outputs,
+  inputs,
+  ...
+} @ args: let
   cfg = config.nixfiles.sessions.hyprland;
   mkd = lib.mkDefault;
   hyprland-pkg = config.wayland.windowManager.hyprland.finalPackage;
@@ -24,12 +31,14 @@ let
   lock-cmd = "${swaylock}";
 
   mkKittyHdrop = name: command: let
-    class = if builtins.isNull (builtins.match "[[:alnum:]_]+" name) then throw "mkKittyHdrop: window name should be an alphanumeric string" else "kitty-${name}";
+    class =
+      if builtins.isNull (builtins.match "[[:alnum:]_]+" name)
+      then throw "mkKittyHdrop: window name should be an alphanumeric string"
+      else "kitty-${name}";
     wrappedCommand = pkgs.writeShellScript "hdrop-${name}" ''
       exec bash -c ${lib.escapeShellArg command}
     '';
   in "hdrop -f -c ${class} 'kitty --class=${class} ${wrappedCommand}'";
-
 
   # lock-cmd = let
   #   cmd = pkgs.writeShellScript "lock-script" ''
@@ -48,7 +57,7 @@ let
       resume 'hyprctl dispatch dpms on'
   '';
 
-  hypr-dispatcher-package = pkgs.callPackage ./dispatcher { hyprland = hyprland-pkg; };
+  hypr-dispatcher-package = pkgs.callPackage ./dispatcher {hyprland = hyprland-pkg;};
   hypr-dispatcher = "${hypr-dispatcher-package}/bin/hypr-dispatcher";
 
   wallpaper-package = "${pkgs.nixfiles-assets}";
@@ -56,7 +65,8 @@ let
   wallpaper-cmd = "${swaybg} -i ${wallpaper-package}/share/wallpapers/${wallpaper}";
 
   # https://github.com/flatpak/xdg-desktop-portal-gtk/issues/440#issuecomment-1900520919
-  xdpg-workaround = pkgs.writeShellScript "xdg-desktop-portal-gtk-workaround"
+  xdpg-workaround =
+    pkgs.writeShellScript "xdg-desktop-portal-gtk-workaround"
     ''
       ${pkgs.coreutils}/bin/sleep 3
       ${pkgs.systemd}/bin/systemctl --user import-environment PATH
@@ -65,19 +75,20 @@ let
 
   bar-cmd = "${pkgs.waybar}/bin/waybar";
   # Hyprland workspace configuration
-  mainWorkspaces = builtins.genList (x: x+1) (9 ++ [0]);
+  mainWorkspaces = builtins.genList (x: x + 1) (9 ++ [0]);
   workspaceName = key: let
     inherit (builtins) hasAttr;
     keyNames = {
       "0" = "10";
     };
   in
-    if hasAttr key keyNames then keyNames."${key}" else key;
+    if hasAttr key keyNames
+    then keyNames."${key}"
+    else key;
 
   inherit (outputs.packages.${pkgs.system}) wm-helpers;
   keysetting = "${wm-helpers}/bin/keysetting";
-in
-{
+in {
   # FIXME this is temporary just to get it working, need to make wm-common an
   # option first
   # imports = [
@@ -88,7 +99,10 @@ in
     enable = lib.mkOption {
       description = "Whether to enable hyprland.";
       type = lib.types.bool;
-      default = if (builtins.hasAttr "home-manager" osConfig) then osConfig.nixfiles.sessions.hyprland.enable else false;
+      default =
+        if (builtins.hasAttr "home-manager" osConfig)
+        then osConfig.nixfiles.sessions.hyprland.enable
+        else false;
       example = true;
     };
 
@@ -133,7 +147,6 @@ in
       enable = true;
       package = lib.mkIf (osConfig ? programs) (lib.mkDefault osConfig.programs.hyprland.package);
       settings = {
-
         # enable debug logging
         debug.disable_logs = mkd false;
 
@@ -150,15 +163,17 @@ in
 
         exec-once = let
           wrapScope = cmd: "systemd-run --user --scope -- ${cmd}";
-        in (lib.optional cfg.autolock lock-cmd) ++ (map wrapScope config.nixfiles.common.wm.autostart) ++
-        [
-          wallpaper-cmd
-          notifydaemon
-          polkit-agent
-          idle-cmd
-          xdpg-workaround
-          bar-cmd
-        ];
+        in
+          (lib.optional cfg.autolock lock-cmd)
+          ++ (map wrapScope config.nixfiles.common.wm.autostart)
+          ++ [
+            wallpaper-cmd
+            notifydaemon
+            polkit-agent
+            idle-cmd
+            xdpg-workaround
+            bar-cmd
+          ];
 
         # Source a file (multi-file configs)
         # source = ~/.config/hypr/myColors.conf
@@ -166,14 +181,13 @@ in
         # Some default env vars.
         # env = mkd "XCURSOR_SIZE,24";
 
-
         # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
         input = {
           kb_layout = mkd "us";
-          # kb_variant = 
-          # kb_model = 
-          # kb_options = 
-          # kb_rules = 
+          # kb_variant =
+          # kb_model =
+          # kb_options =
+          # kb_rules =
           kb_options = [
             "compose:ralt"
           ];
@@ -240,18 +254,18 @@ in
         };
 
         master = {
-            # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-            # new_is_master = mkd "true";
+          # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
+          # new_is_master = mkd "true";
         };
 
         gestures = {
-            # See https://wiki.hyprland.org/Configuring/Variables/ for more
-            workspace_swipe = mkd "false";
+          # See https://wiki.hyprland.org/Configuring/Variables/ for more
+          workspace_swipe = mkd "false";
         };
 
         misc = {
-            # See https://wiki.hyprland.org/Configuring/Variables/ for more
-            force_default_wallpaper = mkd 0; # Set to 0 to disable the anime mascot wallpapers
+          # See https://wiki.hyprland.org/Configuring/Variables/ for more
+          force_default_wallpaper = mkd 0; # Set to 0 to disable the anime mascot wallpapers
         };
 
         "$mod" = mkd "SUPER";
@@ -263,95 +277,98 @@ in
         # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
 
         # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
-        bind = [
-          "$mod, Q, exec, ${terminal}"
-          "$mod, Return, exec, ${terminal}"
-          "$mod, C, killactive, "
-          "$mod, M, exit, "
-          "$mod, E, exec, ${files}"
-          "$mod, V, togglefloating, "
-          # run rofi in scope to help oomd not kill everything
-          "$mod, R, exec, systemd-run --user --scope -- ${rofi} -show drun"
-          "$mod, P, pseudo," # dwindle"
-          "$mod, O, togglesplit," # dwindle"
+        bind =
+          [
+            "$mod, Q, exec, ${terminal}"
+            "$mod, Return, exec, ${terminal}"
+            "$mod, C, killactive, "
+            "$mod, M, exit, "
+            "$mod, E, exec, ${files}"
+            "$mod, V, togglefloating, "
+            # run rofi in scope to help oomd not kill everything
+            "$mod, R, exec, systemd-run --user --scope -- ${rofi} -show drun"
+            "$mod, P, pseudo," # dwindle"
+            "$mod, O, togglesplit," # dwindle"
 
-          "$mod, f, fullscreen"
-          "$mod SHIFT, f, fullscreenstate, -1 2"
-          "$mod CTRL, f, fullscreen, 1"
+            "$mod, f, fullscreen"
+            "$mod SHIFT, f, fullscreenstate, -1 2"
+            "$mod CTRL, f, fullscreen, 1"
 
-          # Move focus with mod + arrow keys
-          "$mod, left, movefocus, l"
-          "$mod, right, movefocus, r"
-          "$mod, up, movefocus, u"
-          "$mod, down, movefocus, d"
+            # Move focus with mod + arrow keys
+            "$mod, left, movefocus, l"
+            "$mod, right, movefocus, r"
+            "$mod, up, movefocus, u"
+            "$mod, down, movefocus, d"
 
-          "$mod, h, movefocus, l"
-          "$mod, j, movefocus, d"
-          "$mod, k, movefocus, u"
-          "$mod, l, movefocus, r"
+            "$mod, h, movefocus, l"
+            "$mod, j, movefocus, d"
+            "$mod, k, movefocus, u"
+            "$mod, l, movefocus, r"
 
-          "$mod SHIFT, h, swapwindow, l"
-          "$mod SHIFT, j, swapwindow, d"
-          "$mod SHIFT, k, swapwindow, u"
-          "$mod SHIFT, l, swapwindow, r"
+            "$mod SHIFT, h, swapwindow, l"
+            "$mod SHIFT, j, swapwindow, d"
+            "$mod SHIFT, k, swapwindow, u"
+            "$mod SHIFT, l, swapwindow, r"
 
-          # Switch workspaces with mod + [0-9]
-          "$mod, 1, workspace, 1"
-          "$mod, 2, workspace, 2"
-          "$mod, 3, workspace, 3"
-          "$mod, 4, workspace, 4"
-          "$mod, 5, workspace, 5"
-          "$mod, 6, workspace, 6"
-          "$mod, 7, workspace, 7"
-          "$mod, 8, workspace, 8"
-          "$mod, 9, workspace, 9"
-          "$mod, 0, workspace, 10"
-        #] ++ map () [] ++ TODO reconfigure these with workspace helper function
-        #[
-          # Move active window to a workspace with mod + SHIFT + [0-9]
-          "$mod SHIFT, 1, movetoworkspace, 1"
-          "$mod SHIFT, 2, movetoworkspace, 2"
-          "$mod SHIFT, 3, movetoworkspace, 3"
-          "$mod SHIFT, 4, movetoworkspace, 4"
-          "$mod SHIFT, 5, movetoworkspace, 5"
-          "$mod SHIFT, 6, movetoworkspace, 6"
-          "$mod SHIFT, 7, movetoworkspace, 7"
-          "$mod SHIFT, 8, movetoworkspace, 8"
-          "$mod SHIFT, 9, movetoworkspace, 9"
-          "$mod SHIFT, 0, movetoworkspace, 10"
+            # Switch workspaces with mod + [0-9]
+            "$mod, 1, workspace, 1"
+            "$mod, 2, workspace, 2"
+            "$mod, 3, workspace, 3"
+            "$mod, 4, workspace, 4"
+            "$mod, 5, workspace, 5"
+            "$mod, 6, workspace, 6"
+            "$mod, 7, workspace, 7"
+            "$mod, 8, workspace, 8"
+            "$mod, 9, workspace, 9"
+            "$mod, 0, workspace, 10"
+            #] ++ map () [] ++ TODO reconfigure these with workspace helper function
+            #[
+            # Move active window to a workspace with mod + SHIFT + [0-9]
+            "$mod SHIFT, 1, movetoworkspace, 1"
+            "$mod SHIFT, 2, movetoworkspace, 2"
+            "$mod SHIFT, 3, movetoworkspace, 3"
+            "$mod SHIFT, 4, movetoworkspace, 4"
+            "$mod SHIFT, 5, movetoworkspace, 5"
+            "$mod SHIFT, 6, movetoworkspace, 6"
+            "$mod SHIFT, 7, movetoworkspace, 7"
+            "$mod SHIFT, 8, movetoworkspace, 8"
+            "$mod SHIFT, 9, movetoworkspace, 9"
+            "$mod SHIFT, 0, movetoworkspace, 10"
 
-          # TODO find a different keybind for this because damn you muscle memory
-          # # Example special workspace (scratchpad)
-          # "$mod, S, togglespecialworkspace, magic"
-          # "$mod SHIFT, S, movetoworkspace, special:magic"
-          "$mod SHIFT, S, exec, ${grimblast} copy area"
-          "$mod CONTROL SHIFT, S, exec, ${grimblast} copy output"
-          ",Print, exec, ${grimblast} copy output"
+            # TODO find a different keybind for this because damn you muscle memory
+            # # Example special workspace (scratchpad)
+            # "$mod, S, togglespecialworkspace, magic"
+            # "$mod SHIFT, S, movetoworkspace, special:magic"
+            "$mod SHIFT, S, exec, ${grimblast} copy area"
+            "$mod CONTROL SHIFT, S, exec, ${grimblast} copy output"
+            ",Print, exec, ${grimblast} copy output"
 
-          # lock screen
-          "$mod SHIFT, x, exec, ${lock-cmd}"
+            # lock screen
+            "$mod SHIFT, x, exec, ${lock-cmd}"
 
-          # volume mixer
-          "$mod CTRL, v, exec, ${mkKittyHdrop "pulsemixer" "pulsemixer"}"
+            # volume mixer
+            "$mod CTRL, v, exec, ${mkKittyHdrop "pulsemixer" "pulsemixer"}"
 
-          # Scroll through existing workspaces with mod + scroll
-          "$mod, mouse_down, workspace, e+1"
-          "$mod, mouse_up, workspace, e-1"
+            # Scroll through existing workspaces with mod + scroll
+            "$mod, mouse_down, workspace, e+1"
+            "$mod, mouse_up, workspace, e-1"
 
-          # show this file (help)
-          # ("$mod, slash, exec, ${terminal} -e ${pkgs.neovim}/bin/nvim '+set nomodifiable' '+noremap q :q<CR>'  "
-          # + lib.escapeShellArg (args.vars.self.outPath + "/home/sessions/hyprland/default.nix"))
+            # show this file (help)
+            # ("$mod, slash, exec, ${terminal} -e ${pkgs.neovim}/bin/nvim '+set nomodifiable' '+noremap q :q<CR>'  "
+            # + lib.escapeShellArg (args.vars.self.outPath + "/home/sessions/hyprland/default.nix"))
 
-          # edit this file
-          ("$mod SHIFT, slash, exec, ${terminal} -e ${pkgs.neovim}/bin/nvim "
-          + lib.escapeShellArg (config.nixfiles.path + "/home/sessions/hyprland/default.nix"))
-        ] ++ lib.optional config.nixfiles.programs.mopidy.enable
+            # edit this file
+            ("$mod SHIFT, slash, exec, ${terminal} -e ${pkgs.neovim}/bin/nvim "
+              + lib.escapeShellArg (config.nixfiles.path + "/home/sessions/hyprland/default.nix"))
+          ]
+          ++ lib.optional config.nixfiles.programs.mopidy.enable
           "$mod CTRL, n, exec, ${mkKittyHdrop "ncmpcpp" "ncmpcpp"}";
 
         # repeat, ignore mods
-        bindei = lib.mapAttrsToList (keysym: command: ",${keysym}, exec, ${command}") config.nixfiles.common.wm.finalKeybinds
-        ++ [
-        ];
+        bindei =
+          lib.mapAttrsToList (keysym: command: ",${keysym}, exec, ${command}") config.nixfiles.common.wm.finalKeybinds
+          ++ [
+          ];
 
         bindm = [
           # Move/resize windows with mod + LMB/RMB and dragging

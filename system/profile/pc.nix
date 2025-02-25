@@ -1,16 +1,21 @@
-{ pkgs, config, lib, ... }:
-let
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}: let
   cfg = config.nixfiles.profile.pc;
   inherit (lib) mkDefault;
-in
-{
-  options.nixfiles.profile.pc.enable = lib.mkEnableOption "minimal PC profile" // {
-    description = ''
-      Whether to enable the minimal PC profile. This profile configures basic
-      system configuration for physical PCs, such as enabling sound and
-      Bluetooth support.
-    '';
-  };
+in {
+  options.nixfiles.profile.pc.enable =
+    lib.mkEnableOption "minimal PC profile"
+    // {
+      description = ''
+        Whether to enable the minimal PC profile. This profile configures basic
+        system configuration for physical PCs, such as enabling sound and
+        Bluetooth support.
+      '';
+    };
   config = lib.mkIf cfg.enable {
     nixfiles.profile.base.enable = lib.mkDefault true;
 
@@ -20,7 +25,7 @@ in
     # Pick only one of the below networking options.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     # FIXME find somewhere else to put this
-    networking.networkmanager.enable = lib.mkDefault true;  # Easiest to use and most distros use this by default.
+    networking.networkmanager.enable = lib.mkDefault true; # Easiest to use and most distros use this by default.
 
     # contains icons for bootnext desktop entries (the Windows icon); there's
     # probably no reason to *not* include this.

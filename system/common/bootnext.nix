@@ -1,11 +1,16 @@
-{ config, lib, pkgs, options, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  options,
+  ...
+}: let
   inherit (lib) types escapeShellArg;
   cfg = config.nixfiles.common.bootnext;
   bootNextScriptMain = pkgs.writeShellScript "bootnext-wrapped" ''
     set -Eeuxo pipefail
 
-    PATH=${lib.escapeShellArg (with pkgs; lib.makeBinPath [ gnugrep coreutils efibootmgr ])}
+    PATH=${lib.escapeShellArg (with pkgs; lib.makeBinPath [gnugrep coreutils efibootmgr])}
     export PATH
 
     function do_bootnext() {
@@ -19,9 +24,10 @@ let
 
     case "$1" in
     ${lib.concatStringsSep "\n" (
-      lib.mapAttrsToList (name: value:
-        "  ${escapeShellArg name}) do_bootnext ${escapeShellArg value.efiPartUUID} ${escapeShellArg value.name} ;;"
-      ) cfg.entries
+      lib.mapAttrsToList (
+        name: value: "  ${escapeShellArg name}) do_bootnext ${escapeShellArg value.efiPartUUID} ${escapeShellArg value.name} ;;"
+      )
+      cfg.entries
     )}
       *) echo "Boot entry \"$1\" not configured."; exit 1;;
     esac
@@ -49,18 +55,17 @@ let
 
   bootnextDesktopEntries = pkgs.symlinkJoin {
     name = "bootnext-desktop-entries";
-      paths = lib.mapAttrsToList (name: value: pkgs.makeDesktopItem {
+    paths = lib.mapAttrsToList (name: value:
+      pkgs.makeDesktopItem {
         name = "bootnext-reboot-${name}";
         desktopName = "Reboot into ${value.desktopEntry.name}";
         comment = "Select the entry defined by the `${name}` configuration in the bootnext script and then reboot.";
         icon = "${value.desktopEntry.icon}";
-        keywords = [ "bootnext" "reboot" "${name}" "${value.desktopEntry.name}" ];
+        keywords = ["bootnext" "reboot" "${name}" "${value.desktopEntry.name}"];
         exec = "${desktopWrapper} ${name}";
       }) (lib.filterAttrs (_: value: value.desktopEntry.enable) cfg.entries);
   };
-
-in
-{
+in {
   options = {
     nixfiles.common.bootnext = {
       enable = lib.mkOption {
@@ -71,19 +76,25 @@ in
         default = false;
         example = true;
       };
-      enableDesktopEntries = lib.mkEnableOption "generation of bootnext Desktop entries" // { default = true; };
+      enableDesktopEntries = lib.mkEnableOption "generation of bootnext Desktop entries" // {default = true;};
       entries = let
-        entryModule = {name, config, ... }: {
+        entryModule = {
+          name,
+          config,
+          ...
+        }: {
           options = let
-            uuidType = with types; lib.mkOptionType {
-              name = "uuid";
-              description = "UUID";
-              descriptionClass = "noun";
-              check = let
-                uuidRegex = "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$";
-              in x: str.check x && (builtins.match uuidRegex x) != null;
-              inherit (str) merge;
-            };
+            uuidType = with types;
+              lib.mkOptionType {
+                name = "uuid";
+                description = "UUID";
+                descriptionClass = "noun";
+                check = let
+                  uuidRegex = "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$";
+                in
+                  x: str.check x && (builtins.match uuidRegex x) != null;
+                inherit (str) merge;
+              };
           in {
             efiPartUUID = lib.mkOption {
               description = "UUID of EFI partition containing boot entry";
@@ -116,22 +127,26 @@ in
             };
           };
         };
-      in lib.mkOption {
-        description = "bootnext entry";
-        type = with types; attrsOf (submodule entryModule);
-      };
+      in
+        lib.mkOption {
+          description = "bootnext entry";
+          type = with types; attrsOf (submodule entryModule);
+        };
     };
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [ bootNextScript ] ++ lib.optional cfg.enableDesktopEntries bootnextDesktopEntries;
+    environment.systemPackages = [bootNextScript] ++ lib.optional cfg.enableDesktopEntries bootnextDesktopEntries;
 
     security.sudo.extraRules = lib.mkAfter [
       {
         commands = [
-          { command = "${bootNextScriptMain}"; options = [ "NOPASSWD" ]; }
+          {
+            command = "${bootNextScriptMain}";
+            options = ["NOPASSWD"];
+          }
         ];
-        groups = [ "wheel" ];
+        groups = ["wheel"];
       }
     ];
   };

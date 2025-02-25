@@ -1,5 +1,4 @@
-{...}:
-{
+{...}: {
   imports = [
     ./me.nix
     ./remote.nix

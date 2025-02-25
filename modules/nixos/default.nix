@@ -1,3 +1,2 @@
-{...}@moduleInputs:
-{
+{...} @ moduleInputs: {
 }

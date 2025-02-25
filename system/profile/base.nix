@@ -1,16 +1,21 @@
-{ config, lib, pkgs, options, inputs, outputs, ...}@args:
-let
-  cfg = config.nixfiles.profile.base;
-in
 {
+  config,
+  lib,
+  pkgs,
+  options,
+  inputs,
+  outputs,
+  ...
+} @ args: let
+  cfg = config.nixfiles.profile.base;
+in {
   options.nixfiles.profile.base = {
     enable = lib.mkEnableOption "base config";
   };
-               # TODO was gonna add something but i forgor and now i'm too lazy
-               # to delete this
+  # TODO was gonna add something but i forgor and now i'm too lazy
+  # to delete this
   config = lib.mkMerge [
     (lib.mkIf cfg.enable {
-
       nixfiles.common = {
         # Enable my account
         me.enable = lib.mkDefault true;
@@ -30,7 +35,7 @@ in
       };
 
       # Enable flakes
-      nix.settings.experimental-features = ["nix-command" "flakes" ];
+      nix.settings.experimental-features = ["nix-command" "flakes"];
 
       # Allow unfree packages
       nixpkgs.config.allowUnfree = true;
@@ -124,7 +129,7 @@ in
       ];
 
       # Needed for Kvantum themes to be detected
-      environment.pathsToLink = [ "/share/Kvantum" ];
+      environment.pathsToLink = ["/share/Kvantum"];
 
       # allow for more interactive authentication
       security.polkit.enable = lib.mkDefault true;

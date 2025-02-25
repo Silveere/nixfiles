@@ -12,9 +12,10 @@ in {
     ./modpacks.nix
   ];
   config.flake.overlays = {
-    default = with cfg; composeManyExtensions [
-      backports
-      mitigations
-    ];
+    default = with cfg;
+      composeManyExtensions [
+        backports
+        mitigations
+      ];
   };
 }

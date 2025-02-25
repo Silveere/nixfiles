@@ -1,12 +1,16 @@
-{ lib, pkgs, config, inputs, ... }:
-let
+{
+  lib,
+  pkgs,
+  config,
+  inputs,
+  ...
+}: let
   cfg = config.nixfiles.sessions.hyprland;
   flake-package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   flake-portal = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
 
-  nvidiaEnabled = (lib.elem "nvidia" config.services.xserver.videoDrivers);
-in
-{
+  nvidiaEnabled = lib.elem "nvidia" config.services.xserver.videoDrivers;
+in {
   # imports = [
   #   ./desktop-common.nix
   #   # FIXME make this into an option
@@ -36,7 +40,7 @@ in
     nixfiles.programs.greetd = {
       enable = true;
       settings = {
-        command = [ "${config.programs.hyprland.package}/bin/Hyprland" ];
+        command = ["${config.programs.hyprland.package}/bin/Hyprland"];
       };
     };
 
@@ -56,10 +60,11 @@ in
       hyprlandMesa = hyprland-pkgs.mesa.drivers;
       hyprlandMesa32 = hyprland-pkgs.pkgsi686Linux.mesa.drivers;
       useHyprlandMesa = cfg.useFlake && (config.nixfiles.nixpkgs == inputs.nixpkgs);
-    in lib.mkIf useHyprlandMesa {
-      package = hyprlandMesa;
-      package32 = hyprlandMesa32;
-    };
+    in
+      lib.mkIf useHyprlandMesa {
+        package = hyprlandMesa;
+        package32 = hyprlandMesa32;
+      };
 
     environment.variables = lib.mkMerge [
       {

@@ -1,7 +1,12 @@
-{ pkgs, lib, config, osConfig ? {}, ... }:
 {
+  pkgs,
+  lib,
+  config,
+  osConfig ? {},
+  ...
+}: {
   config = {
-    nixfiles = { 
+    nixfiles = {
       profile.base.enable = true;
       packageSets.dev.enable = true;
       packageSets.multimedia.enable = true;

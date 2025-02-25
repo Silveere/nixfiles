@@ -1,6 +1,11 @@
-{ pkgs, config, lib, inputs, ... }@args:
 {
-  imports = [ inputs.stylix.nixosModules.stylix ];
+  pkgs,
+  config,
+  lib,
+  inputs,
+  ...
+} @ args: {
+  imports = [inputs.stylix.nixosModules.stylix];
 
   config = {
     # stylix defaults (this is an external module so i don't mind setting sane defaults right here).
