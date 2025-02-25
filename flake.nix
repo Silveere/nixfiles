@@ -15,6 +15,8 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+
     # this is nice so one-off impure scripts can interact with attributes in
     # this flake
     flake-compat = {
@@ -132,6 +134,7 @@
           ./lib/nixfiles/module.nix
           ./pkgs/module.nix
           ./overlays
+          inputs.treefmt-nix.flakeModule
         ];
 
         config = {
