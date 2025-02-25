@@ -26,6 +26,15 @@ in
       alsa.support32Bit = mkDefault config.services.pipewire.alsa.enable;
       pulse.enable = mkDefault true;
       jack.enable = mkDefault true;
+      extraConfig.pipewire = {
+        # this should fix the extreme audio crackling in WINE
+        # note: this increases audio latency to 960/48000 (20ms)
+        "10-clock-config" = {
+          "context.properties" = {
+            "default.clock.min-quantum" = 960;
+          };
+        };
+      };
     };
 
     environment.systemPackages = with pkgs; [
