@@ -144,6 +144,18 @@
           # expose vars to nix repl
           debug = lib.mkDefault true;
 
+          perSystem = {
+            config,
+            pkgs,
+            ...
+          }: {
+            treefmt = {
+              programs = {
+                alejandra.enable = true;
+              };
+            };
+          };
+
           nixfiles = {
             vars = {
               ### Configuration
