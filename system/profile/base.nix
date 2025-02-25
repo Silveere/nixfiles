@@ -49,6 +49,10 @@ in {
         ];
       };
 
+      # this is a FUSE filesystem which mirrors the calling process's PATH to
+      # /usr/bin and /bin
+      services.envfs.enable = lib.mkDefault true;
+
       # List packages installed in system profile. To search, run:
       # $ nix search wget
       environment.systemPackages = with pkgs; let
