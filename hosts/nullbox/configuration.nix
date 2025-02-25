@@ -38,9 +38,6 @@
       }))
     ];
 
-    # hardware.nvidia.package = lib.mkForce config.boot.kernelPackages.nvidiaPackages.production;
-    hardware.nvidia.open = lib.mkForce false;
-
     specialisation.hyprland.configuration = {
       system.nixos.tags = [ "Hyprland" ];
       nixfiles = {
