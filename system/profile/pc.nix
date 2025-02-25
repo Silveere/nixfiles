@@ -48,7 +48,8 @@ in
       ecryptfs = mkDefault true;
       exfat = mkDefault true;
       f2fs = mkDefault true;
-      nfs = mkDefault true;
+      # nfs causes a startup delay
+      # nfs = mkDefault true;
       squashfs = mkDefault true;
       vfat = mkDefault true;
       xfs = mkDefault true;
