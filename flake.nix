@@ -131,6 +131,7 @@
           ./flake
           ./lib/nixfiles/module.nix
           ./pkgs/module.nix
+          ./overlays
         ];
 
         config = {
@@ -221,44 +222,6 @@
 
             # inputs is already defined
             lib = nixpkgs.lib;
-            systems = ["x86_64-linux" "aarch64-linux"];
-
-            overlays = let
-              nix-minecraft-patched-overlay = let
-                normal = inputs.nix-minecraft-upstream.overlays.default;
-                quilt = inputs.nix-minecraft.overlays.default;
-              in
-                lib.composeExtensions
-                normal
-                (final: prev: let
-                  x = quilt final prev;
-                in {
-                  inherit (x) quiltServers quilt-server;
-                  minecraftServers = prev.minecraftServers // x.quiltServers;
-                });
-            in [
-              (final: prev: let
-                packages = import ./pkgs {inherit (prev) pkgs;};
-              in {
-                inherit (packages) mopidy-autoplay google-fonts;
-                atool-wrapped = packages.atool;
-              })
-
-              # various temporary fixes that automatically revert
-              self.overlays.mitigations
-
-              # auto backports from nixpkgs unstable
-              self.overlays.backports
-
-              # modpacks (keeps modpack version in sync between hosts so i can reverse
-              # proxy create track map because it's broken)
-              self.overlays.modpacks
-
-              inputs.hyprwm-contrib.overlays.default
-              inputs.rust-overlay.overlays.default
-              inputs.nixfiles-assets.overlays.default
-              nix-minecraft-patched-overlay
-            ];
 
             # function to generate packages for each system
             eachSystem = lib.genAttrs (import inputs.systems);
@@ -304,8 +267,6 @@
                 inherit (self.outputs) packages;
                 inherit system;
               });
-
-            overlays = import ./overlays self;
 
             nixosConfigurations = {
               iso = mkISOSystem "x86_64-linux";
