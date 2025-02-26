@@ -2,9 +2,10 @@
   lib,
   pkgs,
   config,
-  inputs,
+  flakeArgs,
   ...
 }: let
+  inherit (flakeArgs) inputs;
   cfg = config.nixfiles.sessions.hyprland;
   flake-package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   flake-portal = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;

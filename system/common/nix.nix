@@ -3,10 +3,11 @@
   lib,
   config,
   options,
-  inputs,
+  flakeArgs,
   nixpkgs,
   ...
 }: let
+  inherit (flakeArgs) inputs;
   cfg = config.nixfiles.common.nix;
 in {
   options.nixfiles.common.nix = {

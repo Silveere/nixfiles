@@ -1,11 +1,10 @@
 {
   pkgs,
   config,
-  lib,
-  inputs,
-  nixpkgs,
+  flakeArgs,
   ...
 }: let
+  inherit (flakeArgs) inputs;
   p5 = config.services.xserver.desktopManager.plasma5.enable;
   p6 = config.services.desktopManager.plasma6.enable;
 

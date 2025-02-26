@@ -6,7 +6,7 @@
   inputs,
   self,
   ...
-}: let
+} @ flakeArgs: let
   cfg = config.nixfiles.systems;
   inherit
     (lib)
@@ -227,14 +227,22 @@ in {
             ++ lib.optional config.wsl wslModule;
           extraConfig = {
             inherit (config) system modules;
-            # TODO get rid of specialArgs and pass things as a module
-            specialArgs = let
-              inherit (self) outputs;
-            in {
-              inherit inputs outputs;
-              inherit (outerConfig.nixfiles) vars;
+            specialArgs = {
+              # TODO this is temporary, i prefer to not use specialArgs because
+              # it can't be exported. these are still better than my clunky
+              # "vars" arg that i would arbitrarily add things to.
+              #
+              # we need to merge all of the module args like this because the
+              # module evaluator only calls each module with the args it asks
+              # for, but we explicitly want *all* args to be made available.
+              flakeArgs = outerConfig._module.args // outerConfig._module.specialArgs // flakeArgs;
+
+              # still unsure of what the best way to deal with this is. i can
+              # probably pass this submodule's args for a fairly clean way to
+              # pass it, but i'd want to refactor it because config.nixpkgs and
+              # config.home-manager.input are named inconsistently
               inherit (config) nixpkgs;
-              inherit (config.home-manager) input;
+              home-manager = config.home-manager.input;
             };
           };
           result = config.nixpkgs.lib.nixosSystem config.extraConfig;

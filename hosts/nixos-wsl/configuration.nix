@@ -2,9 +2,11 @@
   pkgs,
   config,
   lib,
-  vars,
+  flakeConfig,
   ...
-}: {
+}: let
+  inherit (flakeConfig.nixfiles) vars;
+in {
   config = {
     networking.hostName = "nixos-wsl";
 

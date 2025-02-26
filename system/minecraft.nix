@@ -2,9 +2,11 @@
   config,
   lib,
   pkgs,
-  inputs,
+  flakeArgs,
   ...
-}: {
+}: let
+  inherit (flakeArgs) inputs;
+in {
   imports = [
     inputs.nix-minecraft.nixosModules.minecraft-servers
   ];

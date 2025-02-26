@@ -3,9 +3,9 @@
   config,
   lib,
   options,
+  flakeArgs,
   nixpkgs,
   home-manager,
-  inputs,
   utils,
   ...
 } @ args:
@@ -14,8 +14,15 @@
 # inputs/outputs/overlays/etc into scope. this might even make nixfiles
 # portable (it still shouldn't be imported by other flakes probably)
 let
+  inherit (flakeArgs) inputs;
+
   cfg = config.nixfiles;
   flakeType = cfg.lib.types.flake;
+  mkReadOnlyOption = {...} @ args:
+    lib.mkOption ({
+        readOnly = true;
+      }
+      // args);
 in {
   imports = [
     ./common
@@ -35,19 +42,21 @@ in {
     inputs.lanzaboote.nixosModules.lanzaboote
     ./stylix.nix # imports inputs.stylix
   ];
-  config = {};
+  config = {
+    _module.args.flakeConfig = flakeArgs.config;
+  };
+  options.debug = {
+    args = mkReadOnlyOption {
+      description = "all module args";
+      default = config._module.args // config._module.specialArgs // args;
+    };
+  };
   options.nixfiles = {
     meta.wayland = lib.mkOption {
       description = "Whether to prefer wayland applications and configuration";
       default = false;
       example = true;
       type = lib.types.bool;
-    };
-
-    utils = lib.mkOption {
-      description = "nixpkgs `utils` argument passthrough";
-      default = utils;
-      readOnly = true;
     };
 
     workarounds.nvidiaPrimary = lib.mkOption {

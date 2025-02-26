@@ -2,9 +2,6 @@
   config,
   lib,
   pkgs,
-  options,
-  inputs,
-  outputs,
   ...
 } @ args: let
   cfg = config.nixfiles.profile.base;

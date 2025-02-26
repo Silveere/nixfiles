@@ -2,9 +2,11 @@
   pkgs,
   config,
   lib,
-  inputs,
+  flakeArgs,
   ...
-} @ args: {
+} @ args: let
+  inherit (flakeArgs) inputs;
+in {
   imports = [inputs.stylix.nixosModules.stylix];
 
   config = {

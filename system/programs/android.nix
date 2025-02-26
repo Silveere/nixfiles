@@ -2,10 +2,10 @@
   config,
   lib,
   pkgs,
-  outputs,
-  vars,
+  flakeConfig,
   ...
 } @ args: let
+  inherit (flakeConfig.nixfiles) vars;
   cfg = config.nixfiles.programs.adb;
 in {
   options.nixfiles.programs.adb = {

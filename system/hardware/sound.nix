@@ -2,11 +2,12 @@
   config,
   lib,
   pkgs,
-  inputs,
+  flakeArgs,
   ...
 }: let
-  cfg = config.nixfiles.hardware.sound;
+  inherit (flakeArgs) inputs;
   inherit (lib) optionals mkEnableOption mkIf mkDefault;
+  cfg = config.nixfiles.hardware.sound;
 in {
   # Enable sound.
   # sound.enable = true;
