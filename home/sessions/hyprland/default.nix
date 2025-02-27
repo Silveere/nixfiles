@@ -19,7 +19,7 @@
   rofi = "${pkgs.rofi-wayland}/bin/rofi";
   notifydaemon = "${pkgs.dunst}/bin/dunst";
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
-  polkit-agent = "${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
+  polkit-agent = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
   grimblast = "${inputs.hyprwm-contrib.packages.${pkgs.system}.grimblast}/bin/grimblast";
   swayidle = "${pkgs.swayidle}/bin/swayidle";
   swaylock = "${config.programs.swaylock.package}/bin/swaylock";
@@ -126,7 +126,7 @@ in {
     nixfiles.common.wm.enable = true;
     home.packages = with pkgs; [
       kitty
-      dolphin
+      kdePackages.dolphin
       rofi-wayland
       wev
       dunst

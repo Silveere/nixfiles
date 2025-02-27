@@ -86,13 +86,12 @@ in {
     environment.systemPackages = with pkgs; [
       kitty
       dunst
-      polkit-kde-agent
+      kdePackages.polkit-kde-agent-1
       eww
       hyprpaper
       rofi
       hyprpicker
       udiskie
-      polkit-kde-agent
     ];
   };
 }

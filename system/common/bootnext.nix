@@ -47,7 +47,7 @@
   '';
 
   desktopWrapper = pkgs.writeShellScript "bootnext-desktop-wrapper" ''
-    if ${pkgs.libsForQt5.kdialog}/bin/kdialog --warningyesno "Are you sure you want to reboot?" ; then
+    if ${pkgs.kdePackages.kdialog}/bin/kdialog --warningyesno "Are you sure you want to reboot?" ; then
       ${bootNextScript}/bin/bootnext "$@"
       reboot
     fi
