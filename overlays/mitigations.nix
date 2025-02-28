@@ -12,7 +12,7 @@
     pkgsStable = import nixfiles.inputs.nixpkgs.outPath {inherit (prev) system;};
     updateTime = nixfiles.inputs.nixpkgs-unstable.lastModified;
 
-    inherit (final) lib callPackage fetchFromGitHub;
+    inherit (final) callPackage fetchFromGitHub;
     inherit
       (lib)
       recurseIntoAttrs
@@ -55,35 +55,71 @@
       prev.gimp-with-plugins.override {inherit plugins;};
     # this also causes an infinite recursion and i have no idea why
     # in nixfiles.inputs.nixpkgs.lib.filterAttrs (k: v: v != null) {
-  in {
-    nix-du = let
-      old = prev.nix-du;
-      new = (pkgsFromInput "nixpkgs-nix-du").nix-du;
-    in
-      pickNewer old new;
+  in
+    {
+      nix-du = let
+        old = prev.nix-du;
+        new = (pkgsFromInput "nixpkgs-nix-du").nix-du;
+      in
+        pickNewer old new;
 
-    gimp-with-plugins = gimp-with-plugins-good;
+      gimp-with-plugins = gimp-with-plugins-good;
 
-    nwg-displays = let
-      stable = pkgsStable.nwg-displays;
-      unstable = prev.nwg-displays;
-      now = 1739114541;
-    in
-      hold now 7 stable unstable;
+      nwg-displays = let
+        stable = pkgsStable.nwg-displays;
+        unstable = prev.nwg-displays;
+        now = 1739114541;
+      in
+        hold now 7 stable unstable;
 
-    libreoffice = let
-      stable = pkgsStable.libreoffice;
-      unstable = prev.libreoffice;
-      now = 1739558971;
-    in
-      hold now 7 stable unstable;
+      libreoffice = let
+        stable = pkgsStable.libreoffice;
+        unstable = prev.libreoffice;
+        now = 1739558971;
+      in
+        hold now 7 stable unstable;
 
-    redlib = let
-      redlib-new = final.callPackage nixfiles.packages.${prev.system}.redlib.override {};
-      inherit (prev) redlib;
-    in
-      pickNewer redlib-new redlib;
-  };
+      redlib = let
+        redlib-new = final.callPackage nixfiles.packages.${prev.system}.redlib.override {};
+        inherit (prev) redlib;
+      in
+        pickNewer redlib-new redlib;
+    }
+    // (
+      lib.genAttrs [
+        "mopidyPackages"
+        "mopidy"
+        "mopidy-bandcamp"
+        "mopidy-iris"
+        "mopidy-jellyfin"
+        "mopidy-local"
+        "mopidy-moped"
+        "mopidy-mopify"
+        "mopidy-mpd"
+        "mopidy-mpris"
+        "mopidy-muse"
+        "mopidy-musicbox-webclient"
+        "mopidy-notify"
+        "mopidy-podcast"
+        "mopidy-scrobbler"
+        "mopidy-somafm"
+        "mopidy-soundcloud"
+        "mopidy-spotify"
+        "mopidy-subidy"
+        "mopidy-tidal"
+        "mopidy-tunein"
+        "mopidy-youtube"
+        "mopidy-ytmusic"
+      ] (name: let
+        pkgs-mopidy = (import inputs.nixpkgs-mopidy) {inherit (prev) system;};
+        unstable = prev."${name}";
+        stable = pkgs-mopidy."${name}";
+        now = 1740786429;
+      in
+        # pin for at least 90 days because who knows when this will be fixed
+        # https://github.com/mopidy/mopidy/issues/2183
+        hold now 90 stable unstable)
+    );
 in {
   config.flake.overlays.mitigations = overlay;
 }

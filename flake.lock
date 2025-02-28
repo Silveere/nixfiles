@@ -1179,6 +1179,22 @@
         "url": "https://github.com/NixOS/nixpkgs/archive/072a6db25e947df2f31aab9eccd0ab75d5b2da11.tar.gz"
       }
     },
+    "nixpkgs-mopidy": {
+      "locked": {
+        "lastModified": 1734856068,
+        "narHash": "sha256-Q+CB1ajsJg4Z9HGHTBAGY1q18KpnnkmF/eCTLUY6FQ0=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "93ff48c9be84a76319dac293733df09bbbe3f25c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "93ff48c9be84a76319dac293733df09bbbe3f25c",
+        "type": "github"
+      }
+    },
     "nixpkgs-nix-du": {
       "locked": {
         "lastModified": 1722785290,
@@ -1335,6 +1351,7 @@
         "nix-wsl": "nix-wsl",
         "nixfiles-assets": "nixfiles-assets",
         "nixpkgs": "nixpkgs_2",
+        "nixpkgs-mopidy": "nixpkgs-mopidy",
         "nixpkgs-nix-du": "nixpkgs-nix-du",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "rust-overlay": "rust-overlay_2",
