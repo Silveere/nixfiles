@@ -151,12 +151,39 @@
           perSystem = {
             config,
             pkgs,
+            self',
             ...
           }: {
             treefmt = {
               programs = {
                 alejandra.enable = true;
               };
+            };
+
+            devShells = {
+              ci = pkgs.mkShell {
+                buildInputs = with pkgs; [
+                  nix-update
+                  nix-fast-build
+                ];
+              };
+              default = let
+                formatter =
+                  pkgs.runCommandNoCC "flake-formatter" {
+                    formatter = lib.getExe self'.formatter;
+                  } ''
+                    mkdir -p $out/bin
+                    ln -s "$formatter" "$out/bin/formatter"
+                  '';
+              in
+                pkgs.mkShell {
+                  buildInputs = with pkgs; [
+                    alejandra
+                    nix-update
+                    formatter
+                    inputs.agenix.packages.${system}.default
+                  ];
+                };
             };
           };
 
@@ -250,24 +277,6 @@
             };
             # }}}
           in {
-            devShells = eachSystem (system: let
-              pkgs = import nixpkgs-unstable {inherit system;};
-            in {
-              ci = pkgs.mkShell {
-                buildInputs = with pkgs; [
-                  nix-update
-                  nix-fast-build
-                ];
-              };
-              default = pkgs.mkShell {
-                buildInputs = with pkgs; [
-                  alejandra
-                  nix-update
-                  inputs.agenix.packages.${system}.default
-                ];
-              };
-            });
-
             # nix flake modules are meant to be portable so we cannot rely on
             # (extraS|s)pecialArgs to pass variables
             nixosModules = (import ./modules/nixos) moduleInputs;
