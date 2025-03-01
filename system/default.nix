@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  nixfiles-lib,
   options,
   flakeArgs,
   nixpkgs,
@@ -15,14 +16,10 @@
 # portable (it still shouldn't be imported by other flakes probably)
 let
   inherit (flakeArgs) inputs;
+  inherit (nixfiles-lib.options) mkReadOnlyOption;
 
   cfg = config.nixfiles;
   flakeType = cfg.lib.types.flake;
-  mkReadOnlyOption = {...} @ args:
-    lib.mkOption ({
-        readOnly = true;
-      }
-      // args);
 in {
   imports = [
     ./common
@@ -43,15 +40,19 @@ in {
     ./stylix.nix # imports inputs.stylix
   ];
   config = {
-    _module.args.flakeConfig = flakeArgs.config;
-  };
-  options.debug = {
-    args = mkReadOnlyOption {
-      description = "all module args";
-      default = config._module.args // config._module.specialArgs // args;
+    _module.args = {
+      flakeConfig = flakeArgs.config;
+      nixfiles-lib = config.nixfiles.lib;
     };
   };
   options.nixfiles = {
+    debug = {
+      args = mkReadOnlyOption {
+        description = "all module args";
+        default = config._module.args // config._module.specialArgs // args;
+      };
+    };
+
     meta.wayland = lib.mkOption {
       description = "Whether to prefer wayland applications and configuration";
       default = false;

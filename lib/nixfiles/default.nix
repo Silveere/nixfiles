@@ -20,6 +20,7 @@
 in
   {
     types = (import ./types.nix) attrs';
+    options = (import ./options.nix) attrs';
   }
   # only if an actual `pkgs` was passed
   // lib.optionalAttrs (attrs ? pkgs) {

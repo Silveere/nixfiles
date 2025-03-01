@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  nixfiles-lib,
   options,
   osConfig ? {},
   nixpkgs,
@@ -23,12 +24,15 @@ in {
     # modules
     ./stylix.nix # imports inputs.stylix
   ];
-  config = {};
+  config = {
+    _module.args = {
+      nixfiles-lib = config.nixfiles.lib;
+    };
+  };
   options.nixfiles = {
-    options = lib.mkOption {
-      description = "home-manager options attrset for repl";
-      default = options;
-      readOnly = true;
+    debug.args = nixfiles-lib.options.mkReadOnlyOption {
+      description = "Debug options for repl";
+      default = config._module.args // config._module.specialArgs // args;
     };
 
     lib = lib.mkOption {
