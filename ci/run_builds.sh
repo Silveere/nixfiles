@@ -30,7 +30,6 @@ build_systems () {
 			.\#nospec.nullbox.config.system.build.toplevel \
 			.\#nixosConfigurations.slab.config.specialisation.{hyprland,nvidia}.configuration.system.build.toplevel \
 			.\#nospec.slab.config.system.build.toplevel \
-			.\#nixosConfigurations.slab.config.system.build.toplevel \
 			.\#nixosConfigurations.nixos-wsl.config.system.build.toplevel \
 			;;
 
