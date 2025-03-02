@@ -300,6 +300,16 @@
               iso = mkISOSystem "x86_64-linux";
             }; # end nixosConfigurations
 
+            nospec = lib.mapAttrs (n: v:
+              v.extendModules {
+                modules = [
+                  (
+                    {lib, ...}: {specialisation = lib.mkForce {};}
+                  )
+                ];
+              })
+            config.flake.nixosConfigurations;
+
             homeConfigurations = {
               # minimal root config
               "root@rpi4" = mkHome {
