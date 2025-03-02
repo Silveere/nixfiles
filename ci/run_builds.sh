@@ -15,7 +15,9 @@ system="$(nix eval --impure --raw --expr 'builtins.currentSystem')"
 
 run_builds () {
 	for i in "$@" ; do
-		nix-fast-build --eval-workers 1 --no-nom --skip-cache --attic-cache main -f "$i"
+		# nix-fast-build --eval-workers 1 --no-nom --skip-cache --attic-cache main -f "$i"
+		# sure let's waste bandwidth becuase nix-fast-build uses an ungodly amount of memory for some reason
+		nix build --no-link "$i"
 	done
 }
 
