@@ -150,6 +150,7 @@
 
           perSystem = {
             config,
+            system,
             pkgs,
             self',
             ...
@@ -159,6 +160,46 @@
                 alejandra.enable = true;
               };
             };
+
+            legacyPackages.specialisedNixosConfigurations = let
+              attrs = lib.pipe self.nixosConfigurations [
+                (lib.filterAttrs (n: v: !(builtins.elem n ["iso" "rpi4-x86_64"])))
+                (lib.filterAttrs (n: v: v.pkgs.system or "" == system))
+                (lib.mapAttrs' (configName: v: let
+                  nospec =
+                    (v.extendModules {
+                      modules = [
+                        ({lib, ...}: {
+                          # this should NEVER be overridden, hence mkOrder 5
+                          config.specialisation = lib.mkOrder 5 {};
+                        })
+                      ];
+                    })
+                    .config;
+                  configs =
+                    (
+                      lib.mapAttrs'
+                      (n: v: lib.nameValuePair "specialisation-${n}" v.configuration)
+                      v.config.specialisation
+                    )
+                    // {inherit nospec;};
+                in
+                  lib.nameValuePair configName configs))
+                (
+                  lib.concatMapAttrs (
+                    configName: v:
+                      (
+                        lib.mapAttrs' (
+                          specName: v: lib.nameValuePair "${configName}--${specName}" v
+                        )
+                      )
+                      v
+                  )
+                )
+                (lib.mapAttrs (_: v: v.system.build.toplevel))
+              ];
+            in
+              attrs;
 
             devShells = {
               ci = pkgs.mkShell {
