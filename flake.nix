@@ -170,8 +170,7 @@
                     (v.extendModules {
                       modules = [
                         ({lib, ...}: {
-                          # this should NEVER be overridden, hence mkOrder 5
-                          config.specialisation = lib.mkOrder 5 {};
+                          config.specialisation = lib.mkForce {};
                         })
                       ];
                     })
