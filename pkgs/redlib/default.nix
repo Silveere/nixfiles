@@ -10,13 +10,13 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "redlib";
-  version = "0.35.1-unstable-2025-02-18";
+  version = "0.35.1-unstable-2025-03-01";
 
   src = fetchFromGitHub {
     owner = "redlib-org";
     repo = "redlib";
-    rev = "efcf2fc24c455acdf2ddc4adc8d20606883aa118";
-    hash = "sha256-tcazjCxioVg13BexUnuybWKG/zaXo4xBAvb7BSvpShI=";
+    rev = "357e7c2e096c1aa3bb871e42860dfd3be62e0bfb";
+    hash = "sha256-KX76kq3AX+GI8wIulGixgS5cENlNUcrKaes1dZwRhxI=";
   };
 
   patches = [
@@ -25,7 +25,7 @@ rustPlatform.buildRustPackage rec {
     ./no-hash.patch
   ];
 
-  cargoHash = "sha256-aQmMKXBEymvz44hwDyB7z8M4mQR0hcOHJnZ7rlJsuIw=";
+  cargoHash = "sha256-5cwF+pntkAwtTwerYrJOfL4NRcL8Sb7lLZiajNcvSZY=";
 
   buildInputs = lib.optionals stdenv.isDarwin [
     darwin.apple_sdk.frameworks.Security
