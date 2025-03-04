@@ -47,14 +47,14 @@ build_systems () {
 	# system should be set in `nix develop` but just in case
 	local system
 	system="${system:-$(nix eval --impure --raw --expr 'builtins.currentSystem')}"
-	nix eval --json .#legacyPackages."${system}".specialisedNixosConfigurations --apply 'builtins.attrNames' \
-		| jq -c '.[]' \
-		| while read -r line ; do
-			local build
-			build="$(printf '%s' "$line" | jq -r)"
-			run_builds ".#legacyPackages.${system}.specialisedNixosConfigurations.${build}"
-		done
-	# run_builds ".#legacyPackages.${system}.specialisedNixosConfigurations"
+	#nix eval --json .#legacyPackages."${system}".specialisedNixosConfigurations --apply 'builtins.attrNames' \
+	#	| jq -c '.[]' \
+	#	| while read -r line ; do
+	#		local build
+	#		build="$(printf '%s' "$line" | jq -r)"
+	#		run_builds ".#legacyPackages.${system}.specialisedNixosConfigurations.${build}"
+	#	done
+	run_builds ".#legacyPackages.${system}.specialisedNixosConfigurations"
 
 }
 
