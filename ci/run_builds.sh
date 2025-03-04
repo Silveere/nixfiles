@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2317
+# ^ SC2317 (Command appears to be unreachable.)
 
 set -Exo pipefail
 
@@ -21,7 +23,7 @@ run_builds () {
 	done
 }
 
-build_systems () {
+_build_systems () {
 	case "$system" in
 		# TODO this is messy and hard-coded, make an attribute set for
 		# each system containing the specializations as well as the nospec ver
@@ -37,6 +39,23 @@ build_systems () {
 			.\#nixosConfigurations.rpi4.config.system.build.toplevel \
 			;;
 	esac
+}
+
+
+
+build_systems () {
+	# system should be set in `nix develop` but just in case
+	local system
+	system="${system:-$(nix eval --impure --raw --expr 'builtins.currentSystem')}"
+	nix eval --json .#legacyPackages."${system}".specialisedNixosConfigurations --apply 'builtins.attrNames' \
+		| jq -c '.[]' \
+		| while read -r line ; do
+			local build
+			build="$(printf '%s' "$line" | jq -r)"
+			run_builds ".#legacyPackages.${system}.specialisedNixosConfigurations.${build}"
+		done
+	# run_builds ".#legacyPackages.${system}.specialisedNixosConfigurations"
+
 }
 
 build_packages () {

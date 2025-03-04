@@ -204,6 +204,7 @@
             devShells = {
               ci = pkgs.mkShell {
                 buildInputs = with pkgs; [
+                  jq
                   nix-update
                   nix-fast-build
                 ];
