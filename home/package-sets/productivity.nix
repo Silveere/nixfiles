@@ -13,6 +13,7 @@ in {
         libreoffice-fresh
         obsidian
         anki
+        zen-browser-bin
 
         # mapping/GIS
         qgis
