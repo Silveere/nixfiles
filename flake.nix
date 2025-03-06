@@ -85,6 +85,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -257,6 +262,26 @@
                 inherit (packages) mopidy-autoplay google-fonts;
                 atool-wrapped = packages.atool;
               };
+
+              zen-browser-overlay = final: prev:
+              let
+                inherit (final) system callPackage;
+
+                input = inputs.zen-browser;
+                packages = input.packages.${system};
+                sources = builtins.fromJSON (builtins.readFile (input + "/sources.json"));
+
+                warnExists = name: value: let
+                  pass = if prev ? ${name} then builtins.warn "zen-browser-overlay: Package `${name}` already exists. This overlay is no longer needed and should be removed." value else value;
+                in pass;
+              in
+              {
+                zen-browser-bin = callPackage packages.zen-browser.override { };
+                zen-browser-unwrapped = warnExists "zen-browser-unwrapped" (callPackage packages.zen-browser-unwrapped.override {
+                  inherit (sources.${system}) hash url;
+                  inherit (sources) version;
+                });
+              };
             in [
               # TODO delete this, transfer all packages to new-packages overlay
               packagesOverlay
@@ -275,6 +300,7 @@
               inputs.rust-overlay.overlays.default
               inputs.nixfiles-assets.overlays.default
               nix-minecraft-patched-overlay
+              zen-browser-overlay
             ];
 
             systems = {
