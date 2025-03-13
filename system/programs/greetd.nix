@@ -79,11 +79,13 @@ in {
     # here instead of above.)
     programs.regreet = let
       # lets us use wlr-randr
-      wrapperPackage = pkgs.writeShellScriptBin "regreet-wrapper" ''
-        ${cfg.settings.graphicalInit}
+      wrapperPackage =
+        {inherit (pkgs.greetd.regreet) version;}
+        // (pkgs.writeShellScriptBin "regreet-wrapper" ''
+          ${cfg.settings.graphicalInit}
 
-        exec ${escapeShellArg (lib.getExe pkgs.greetd.regreet)} "$@"
-      '';
+          exec ${escapeShellArg (lib.getExe pkgs.greetd.regreet)} "$@"
+        '');
     in
       lib.mkIf cfg.presets.regreet.enable {
         enable = lib.mkDefault true;
