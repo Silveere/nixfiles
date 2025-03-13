@@ -263,8 +263,7 @@
                 atool-wrapped = packages.atool;
               };
 
-              zen-browser-overlay = final: prev:
-              let
+              zen-browser-overlay = final: prev: let
                 inherit (final) system callPackage;
 
                 input = inputs.zen-browser;
@@ -272,11 +271,14 @@
                 sources = builtins.fromJSON (builtins.readFile (input + "/sources.json"));
 
                 warnExists = name: value: let
-                  pass = if prev ? ${name} then builtins.warn "zen-browser-overlay: Package `${name}` already exists. This overlay is no longer needed and should be removed." value else value;
-                in pass;
-              in
-              {
-                zen-browser-bin = callPackage packages.zen-browser.override { };
+                  pass =
+                    if prev ? ${name}
+                    then builtins.warn "zen-browser-overlay: Package `${name}` already exists. This overlay is no longer needed and should be removed." value
+                    else value;
+                in
+                  pass;
+              in {
+                zen-browser-bin = callPackage packages.zen-browser.override {};
                 zen-browser-unwrapped = warnExists "zen-browser-unwrapped" (callPackage packages.zen-browser-unwrapped.override {
                   inherit (sources.${system}) hash url;
                   inherit (sources) version;
