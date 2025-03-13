@@ -9,7 +9,10 @@
   # not high priority, this still works well for this overlay.
   nixfiles = self;
   overlay = final: prev: let
-    pkgsStable = import nixfiles.inputs.nixpkgs.outPath {inherit (prev) system;};
+    pkgsStable = import nixfiles.inputs.nixpkgs.outPath {
+      inherit (prev) system;
+      config.allowUnfree = true;
+    };
     updateTime = nixfiles.inputs.nixpkgs-unstable.lastModified;
 
     inherit (final) callPackage fetchFromGitHub;
@@ -84,6 +87,13 @@
         inherit (prev) redlib;
       in
         pickNewer redlib-new redlib;
+
+      rustdesk-flutter = let
+        stable = pkgsStable.rustdesk-flutter;
+        unstable = prev.rustdesk-flutter;
+        now = 1741899501;
+      in
+        hold now 7 stable unstable;
     }
     // (
       lib.genAttrs [

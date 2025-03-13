@@ -7,10 +7,6 @@
   ...
 }: let
   cfg = config.nixfiles.packageSets.communication;
-  rustdesk-pkg =
-    if (lib.strings.hasInfix "23.11" lib.version)
-    then inputs.nixpkgs-unstable.legacyPackages.${pkgs.system}.rustdesk-flutter
-    else pkgs.rustdesk-flutter;
 
   vesktop-ozone-cmd = let
     extraFlags = lib.optionalString config.nixfiles.workarounds.nvidiaPrimary " --disable-gpu";
@@ -52,7 +48,7 @@ in {
         signal-desktop
         thunderbird
         vesktop
-        rustdesk-pkg
+        rustdesk-flutter
         tor-browser
         onionshare
       ]
