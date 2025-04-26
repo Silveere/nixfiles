@@ -23,7 +23,7 @@
 
     # TODO mkif stylix.enable; danth/stylix#216
     home.pointerCursor = lib.mkIf (config.nixfiles.theming.enable && !config.stylix.enable) {size = 32;};
-    stylix.cursor = {size = 32;};
+    stylix.cursor = lib.mkIf config.stylix.enable {size = 32;};
 
     nixfiles.theming.catppuccin.themeDPI = "hdpi";
 
