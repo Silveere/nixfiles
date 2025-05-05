@@ -15,6 +15,9 @@ in {
         anki
         zen-browser-bin
 
+        # uhh idk where else to put this
+        qflipper
+
         # mapping/GIS
         qgis
         josm

@@ -15,7 +15,7 @@ in {
       uid = 1000;
       group = "nullbite";
       isNormalUser = true;
-      extraGroups = ["wheel"] ++ lib.optional config.nixfiles.packageSets.fun.enable "input";
+      extraGroups = [ "wheel" "dialout" ] ++ lib.optional config.nixfiles.packageSets.fun.enable "input";
       packages = with pkgs; [
         keychain
       ];

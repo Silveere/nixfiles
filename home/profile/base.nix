@@ -175,6 +175,10 @@ in {
         zoxide
         asciinema
         mtr
+
+        screen
+        minicom
+        picocom
       ]
       ++ builtins.map (x: lib.hiPrio x) [
         # terminfo (just the ones i'm likely to use)
