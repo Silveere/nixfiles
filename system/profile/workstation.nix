@@ -44,6 +44,8 @@ in {
       (google-fonts.override {fonts = ["NovaSquare"];})
     ];
 
+    hardware.flipperzero.enable = true;
+
     # TODO this should be defined in home-manager or not at all probably
     # FIXME also my name is hardcoded
     users.users.nullbite = {
