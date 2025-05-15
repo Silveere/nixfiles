@@ -36,6 +36,7 @@ in {
       ++ [
         yt-dlp
         gallery-dl
+        tidal-dl
         imagemagick
         pngquant
         ffmpeg
