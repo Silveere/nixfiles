@@ -42,6 +42,7 @@ in {
       font-awesome
       noto-fonts-cjk-sans
       (google-fonts.override {fonts = ["NovaSquare"];})
+      twitter-color-emoji
     ];
 
     hardware.flipperzero.enable = true;
