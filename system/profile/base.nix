@@ -164,6 +164,12 @@ in {
 
       systemd.targets.network-online.wantedBy = lib.mkForce [];
 
+      # fix missing emoji
+      # see:
+      # https://github.com/NixOS/nixpkgs/issues/396793
+
+      fonts.fontconfig.useEmbeddedBitmaps = lib.mkDefault true;
+
       # enable systemd OOM management
       systemd.oomd = {
         enable = lib.mkDefault true;
