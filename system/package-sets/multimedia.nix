@@ -27,9 +27,15 @@ in {
         pngquant
         gifski
         ffmpeg
+        config.boot.kernelPackages.v4l2loopback.bin
       ];
 
     # needed for NVENC to work in OBS Studio and FFmpeg
     boot.kernelModules = optional nvidiaEnabled "nvidia_uvm";
+
+    # V4L2 loopback for OBS webcam
+    boot.extraModulePackages = with config.boot.kernelPackages; [
+      v4l2loopback
+    ];
   };
 }
