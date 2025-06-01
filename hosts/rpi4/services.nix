@@ -256,7 +256,7 @@ in {
             {
               locations = {
                 "/.within.website/" = {
-                  proxyPass = "unix:/run/anubis/anubis-gitea.sock";
+                  proxyPass = "http://unix:/run/anubis/anubis-gitea.sock";
                   extraConfig = ''
                     proxy_pass_request_body off;
                     proxy_set_header content-length "";
