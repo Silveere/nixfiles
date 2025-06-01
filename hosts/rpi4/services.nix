@@ -111,6 +111,7 @@ in {
 
     services.anubis = {
       defaultOptions = {
+        group = config.services.nginx.group;
         botPolicy = {
           status_codes.DENY = 401;
         };
@@ -255,7 +256,7 @@ in {
             {
               locations = {
                 "/.within.website/" = {
-                  proxyPass = "http://127.0.0.1:8923";
+                  proxyPass = "unix:/run/anubis/anubis-gitea.sock";
                   extraConfig = ''
                     proxy_pass_request_body off;
                     proxy_set_header content-length "";
