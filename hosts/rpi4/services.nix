@@ -118,6 +118,9 @@ in {
         settings = {
           REDIRECT_DOMAINS = "gitea.protogen.io";
           TARGET=" ";
+          # did they forget to actually set this variable to a file i am
+          # genuinely going insane
+          POLICY_FNAME = pkgs.writers.writeJSON "anubis_policy.json" config.services.anubis.instances.gitea.botPolicy;
         };
         botPolicy = {
           status_codes.DENY = 401;
