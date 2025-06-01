@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }: let
   inherit (config.age) secrets;
@@ -108,6 +109,21 @@ in {
       8123
     ];
 
+    services.anubis = {
+      defaultOptions = {
+        botPolicy = {
+          status_codes.DENY = 401;
+        };
+      };
+
+      instances.gitea = {
+        settings = {
+          REDIRECT_DOMAINS = "gitea.protogen.io";
+          TARGET=" ";
+        };
+      };
+    };
+
     users.groups.authelia-shared = {};
     services.authelia.instances =
       lib.mapAttrs (inst: opts: {
@@ -165,6 +181,7 @@ in {
 
     services.nginx = {
       enable = true;
+      enableReload = true;
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
       recommendedOptimisation = true;
@@ -233,7 +250,37 @@ in {
           "firefly.protogen.io" = mkReverseProxy 8083;
           "firefly-import.protogen.io" = mkAuthProxy 8084;
 
-          "gitea.protogen.io" = mkReverseProxy 3000;
+          "gitea.protogen.io" = lib.mkMerge [
+            (mkReverseProxy 3000)
+            {
+              locations = {
+                "/.within.website/" = {
+                  proxyPass = "http://127.0.0.1:8923";
+                  extraConfig = ''
+                    proxy_pass_request_body off;
+                    proxy_set_header content-length "";
+                    auth_request off;
+                  '';
+                };
+                "@redirectToAnubis" = {
+                  return = "307 /.within.website/?redir=$request_uri";
+                  extraConfig = ''
+                    auth_request off;
+                  '';
+                };
+                "/" = {
+                  extraConfig = ''
+                    auth_request /.within.website/x/cmd/anubis/api/check;
+                    error_page 401 = @redirectToAnubis;
+                  '';
+                };
+                "/robots.txt" = {
+                  root = "${inputs.ai-robots-txt}";
+                };
+              };
+
+            }
+          ];
 
           # home assistant
           "hass.protogen.io" = mkReverseProxy 8123;
