@@ -112,15 +112,15 @@ in {
     services.anubis = {
       defaultOptions = {
         group = config.services.nginx.group;
-        botPolicy = {
-          status_codes.DENY = 401;
-        };
       };
 
       instances.gitea = {
         settings = {
           REDIRECT_DOMAINS = "gitea.protogen.io";
           TARGET=" ";
+        };
+        botPolicy = {
+          status_codes.DENY = 401;
         };
       };
     };
