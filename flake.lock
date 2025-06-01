@@ -23,6 +23,22 @@
         "type": "github"
       }
     },
+    "ai-robots-txt": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1748732596,
+        "narHash": "sha256-7Fnlx60V/lAhJ9PeqCx8u8s3vKo8+kEc+ielCScNg7s=",
+        "owner": "ai-robots-txt",
+        "repo": "ai.robots.txt",
+        "rev": "814df6b9a054993186ad8a9b2e2915caca789df3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ai-robots-txt",
+        "repo": "ai.robots.txt",
+        "type": "github"
+      }
+    },
     "aquamarine": {
       "inputs": {
         "hyprutils": [
@@ -1319,6 +1335,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "ai-robots-txt": "ai-robots-txt",
         "base16": "base16",
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts",
