@@ -122,8 +122,12 @@ in {
           # genuinely going insane
           POLICY_FNAME = pkgs.writers.writeJSON "anubis_policy.json" config.services.anubis.instances.gitea.botPolicy;
         };
-        botPolicy = {
-          status_codes.DENY = 401;
+        botPolicy = let
+          upstreamPolicy = lib.importJSON "${config.services.anubis.package.src}/data/botPolicies.json";
+        in upstreamPolicy // {
+          status_codes = upstreamPolicy.status_codes // {
+            DENY = 401;
+          };
         };
       };
     };
