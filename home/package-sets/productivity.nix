@@ -17,6 +17,8 @@ in {
 
         # uhh idk where else to put this
         qflipper
+        trezor-suite
+        trezord
 
         # mapping/GIS
         qgis

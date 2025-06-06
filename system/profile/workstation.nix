@@ -47,6 +47,12 @@ in {
 
     hardware.flipperzero.enable = true;
 
+    services.trezord.enable = true;
+
+    services.udev.packages = [
+      pkgs.trezor-udev-rules
+    ];
+
     # TODO this should be defined in home-manager or not at all probably
     # FIXME also my name is hardcoded
     users.users.nullbite = {
