@@ -21,8 +21,9 @@ in {
     home.packages = let
       startupScript =
         pkgs.writeShellScript "autostart-script"
+        # this is really ugly. i should have done systemd units from the start, but i don't feel like rewriting this right now.
         (lib.concatStringsSep "\n"
-          (builtins.map (x: "sh -c ${lib.escapeShellArg x} &") config.nixfiles.common.wm.autostart));
+          (builtins.map (x: "systemd-run --user -- ${lib.escapeShellArg x} &") config.nixfiles.common.wm.autostart));
 
       name = "home-manager-autostart";
       desktopFilePkg = pkgs.makeDesktopItem {
