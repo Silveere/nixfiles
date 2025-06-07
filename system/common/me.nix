@@ -15,7 +15,9 @@ in {
       uid = 1000;
       group = "nullbite";
       isNormalUser = true;
-      extraGroups = [ "wheel" "dialout" ] ++ lib.optional config.nixfiles.packageSets.fun.enable "input";
+      extraGroups = [ "wheel" "dialout" ]
+        ++ lib.optional config.nixfiles.packageSets.fun.enable "input"
+        ++ lib.optional config.virtualisation.podman.enable "podman";
       packages = with pkgs; [
         keychain
       ];

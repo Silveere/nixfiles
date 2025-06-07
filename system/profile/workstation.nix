@@ -29,6 +29,7 @@ in {
       arc-theme
       wl-clipboard
       xclip
+      distrobox
     ];
 
     # this solves some inconsistent behavior with xdg-open
@@ -36,6 +37,15 @@ in {
 
     # Enable flatpak
     services.flatpak.enable = mkDefault true;
+
+    virtualisation = {
+      containers.enable = mkDefault true;
+      podman = {
+        enable = mkDefault true;
+        dockerCompat = mkDefault true;
+        defaultNetwork.settings.dns_enabled = mkDefault true;
+      };
+    };
 
     fonts.packages = with pkgs; [
       nerd-fonts.fira-code
