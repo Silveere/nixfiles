@@ -27,6 +27,7 @@ in {
       icat = "kitten icat";
       srun = "systemd-run";
       urun = "systemd-run --user";
+      grc = "grc --colour=on";
 
       # this lets me find commands that i run with comma very frequently so i
       # can install them
