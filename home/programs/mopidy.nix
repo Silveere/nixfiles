@@ -39,7 +39,7 @@ in {
         mopidy-soundcloud
         mopidy-scrobbler
         # outputs.packages.${pkgs.system}.mopidy-autoplay
-        mopidy-autoplay
+        # mopidy-autoplay
       ];
     };
     home.packages = with pkgs; [
