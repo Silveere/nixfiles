@@ -14,7 +14,7 @@ in {
   config.flake.overlays = {
     default = with cfg;
       composeManyExtensions [
-        backports
+        # backports
         mitigations
       ];
   };
