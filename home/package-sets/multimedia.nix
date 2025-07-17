@@ -23,7 +23,7 @@ in {
     home.packages = with pkgs;
       optionals config.nixfiles.meta.graphical [
         mpv
-        gimp
+        gimp3
         krita
         inkscape
         obs-studio
@@ -57,7 +57,7 @@ in {
       # general files
       (with pkgs; mkOverrideEach 150 (config.lib.xdg.mimeAssociations [nomacs mpv]))
       # rest of the files
-      (with pkgs; mkOverrideEach 200 (config.lib.xdg.mimeAssociations [inkscape gimp audacity]))
+      (with pkgs; mkOverrideEach 200 (config.lib.xdg.mimeAssociations [inkscape gimp3 audacity]))
     ];
   };
 }

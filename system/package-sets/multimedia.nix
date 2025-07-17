@@ -15,7 +15,7 @@ in {
     environment.systemPackages = with pkgs;
       optionals config.services.xserver.enable [
         mpv
-        gimp
+        gimp3
         krita
         inkscape
         obs-studio
