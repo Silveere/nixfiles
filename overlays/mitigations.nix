@@ -95,6 +95,12 @@
       in
         pickNewer redlib-new redlib;
 
+      pcmanfm = let
+        stable = pkgsStable.pcmanfm;
+        unstable = prev.pcmanfm;
+        now = 1752774627;
+      in hold now 21 stable unstable;
+
       rustdesk-flutter = let
         stable = pkgsStable.rustdesk-flutter;
         unstable = prev.rustdesk-flutter;
