@@ -82,6 +82,12 @@
       in
         hold now 7 stable unstable;
 
+      ocrmypdf = let
+        stable = pkgsStable.ocrmypdf;
+        unstable = prev.ocrmypdf;
+        now = 1752991047;
+      in hold now 31 stable unstable;
+
       gotenberg = let
         stable = pkgsStable.gotenberg;
         unstable = prev.gotenberg;
