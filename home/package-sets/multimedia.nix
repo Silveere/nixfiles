@@ -41,6 +41,7 @@ in {
         pngquant
         ffmpeg
         gifski
+        beets
       ];
 
     xdg.mimeApps.defaultApplications = lib.mkMerge [
