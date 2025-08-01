@@ -31,6 +31,7 @@ in {
         audacity
         picard
         spicetify-cli
+        feishin
         (kodi.withPackages (_: [])) # this is required to get python libs
       ]
       ++ [
