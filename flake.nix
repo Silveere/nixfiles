@@ -10,7 +10,6 @@
 
     nixpkgs-nix-du.url = "github:NixOS/nixpkgs/c933cf4698e5189b35dd83bf4d7a81aef16d464a";
     nixpkgs-mopidy.url = "github:NixOS/nixpkgs/93ff48c9be84a76319dac293733df09bbbe3f25c";
-    nixpkgs-paperless.url = "github:NixOS/nixpkgs/bdc995d3e97cec29eacc8fbe87e66edfea26b861";
 
     # this seems to be a popular way to declare systems
     systems.url = "github:nix-systems/default";

@@ -82,11 +82,11 @@
       in
         hold now 7 stable unstable;
 
-      paperless-ngx = let
-        stable = pkgsStable.paperless-ngx;
-        unstable = prev.paperless-ngx;
+      ocrmypdf = let
+        stable = pkgsStable.ocrmypdf;
+        unstable = prev.ocrmypdf;
         now = 1752991047;
-      in hold now 20 stable unstable;
+      in hold now 31 stable unstable;
 
       gotenberg = let
         stable = pkgsStable.gotenberg;

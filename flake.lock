@@ -1208,22 +1208,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-paperless": {
-      "locked": {
-        "lastModified": 1748281391,
-        "narHash": "sha256-fTll03tzUcgBrrMvD6O06TittBG2Ae6m3iW7aunxwPY=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "bdc995d3e97cec29eacc8fbe87e66edfea26b861",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "bdc995d3e97cec29eacc8fbe87e66edfea26b861",
-        "type": "github"
-      }
-    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1730741070,
@@ -1370,7 +1354,6 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-mopidy": "nixpkgs-mopidy",
         "nixpkgs-nix-du": "nixpkgs-nix-du",
-        "nixpkgs-paperless": "nixpkgs-paperless",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "rust-overlay": "rust-overlay_2",
         "stylix": "stylix",
