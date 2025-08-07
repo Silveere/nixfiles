@@ -300,6 +300,8 @@ in {
           "room.protogen.io" = mkReverseProxy 8096;
           "deemix.protogen.io" = mkAuthProxy 6595;
 
+          "navi.protogen.io" = mkReverseProxy 4533;
+
           # libreddit auth 8087
           "libreddit.protogen.io" = {
             locations."/".return = "302 https://redlib.protogen.io$request_uri";
