@@ -105,7 +105,12 @@
 
     boot.plymouth.enable = true;
 
-    boot.kernelParams = ["quiet"];
+    boot.kernelParams = [
+      "quiet"
+      "zswap.enabled=1"
+      "zswap.compressor=zstd"
+      "zswap.shrinker_enabled=1"
+    ];
     # annoying ACPI bug
     boot.consoleLogLevel = 2;
 
