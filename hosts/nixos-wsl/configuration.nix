@@ -26,7 +26,10 @@
       workaround-reisolate = {
         serviceConfig = {
           ExecStartPre = "${pkgs.coreutils}/bin/sleep 10";
-          ExecStart = "${pkgs.systemd}/bin/systemctl isolate --no-block default.target";
+          ExecStart = [
+            "${pkgs.systemd}/bin/systemctl isolate --no-block default.target"
+            "${pkgs.systemd}/bin/systemctl restart --no-block user@1000"
+          ];
           Type = "oneshot";
           RemainAfterExit = true;
         };
