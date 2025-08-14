@@ -132,11 +132,16 @@ in {
         grc
         fzf
         pv
-        jq
-        yq
         lsof
         xxd
         shellcheck
+        ## text processing (json etc)
+        jq
+        yq # jq for yaml/toml/xml
+        jo # easy json shorthand
+        jc # convert command outputs to json
+        jless # less for json
+        gron # forty seven (greppable json)
 
         # for icat on all systems
         kitty.kitten
