@@ -133,6 +133,7 @@ in {
         fzf
         pv
         jq
+        yq
         lsof
         xxd
         shellcheck
@@ -175,6 +176,7 @@ in {
         zoxide
         asciinema
         mtr
+        qrencode
 
         screen
         minicom
