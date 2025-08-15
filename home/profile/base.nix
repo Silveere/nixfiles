@@ -123,6 +123,7 @@ in {
         git-lfs
         stow
         curl
+        httpie
 
         # shell
         ripgrep
