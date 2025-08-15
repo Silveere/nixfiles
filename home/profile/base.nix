@@ -143,6 +143,7 @@ in {
         jc # convert command outputs to json
         jless # less for json
         gron # forty seven (greppable json)
+        fq # jq like binary parser ?
 
         # for icat on all systems
         kitty.kitten
