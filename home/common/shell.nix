@@ -49,7 +49,7 @@ in {
     };
     programs.zsh = {
       enable = mkDefault true;
-      initExtra =
+      initContent =
         ''
           export HOME_MANAGER_MANAGED=true
           [[ -e ~/dotfiles/shell/.zshrc ]] && . ~/dotfiles/shell/.zshrc ]]
