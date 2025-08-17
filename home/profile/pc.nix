@@ -6,7 +6,7 @@
   ...
 }: let
   cfg = config.nixfiles.profile.pc;
-  default = osConfig ? nixfiles && osConfig.nixfiles.profile.pc.enable;
+  default = (osConfig ? nixfiles && osConfig.nixfiles.profile.pc.enable) && config.nixfiles.useOsConfig;
 in {
   options.nixfiles.profile.pc.enable = lib.mkOption {
     description = "Whether to enable the personal computer profile";

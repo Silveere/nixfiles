@@ -99,10 +99,7 @@ in {
     enable = lib.mkOption {
       description = "Whether to enable hyprland.";
       type = lib.types.bool;
-      default =
-        if (builtins.hasAttr "home-manager" osConfig)
-        then osConfig.nixfiles.sessions.hyprland.enable
-        else false;
+      default = (osConfig.nixfiles.sessions.hyprland.enable or false) && config.nixfiles.useOsConfig;
       example = true;
     };
 

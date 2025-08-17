@@ -6,7 +6,7 @@
   ...
 }: let
   cfg = config.nixfiles.packageSets.gaming;
-  default = osConfig.nixfiles.packageSets.gaming.enable or false;
+  default = (osConfig.nixfiles.packageSets.gaming.enable or false) && config.nixfiles.useOsConfig;
 in {
   config = lib.mkIf cfg.enable {
     nixpkgs.overlays = let

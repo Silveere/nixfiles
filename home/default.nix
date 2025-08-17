@@ -51,6 +51,16 @@ in {
       example = "inputs.home-manager";
     };
 
+    useOsConfig = lib.mkOption {
+      description = ''
+        Whether to enable home options, such as package sets,
+        based on the system configuration.
+      '';
+      type = lib.types.bool;
+      default = false;
+      example = true;
+    };
+
     meta.standalone = lib.mkOption {
       default = isStandalone;
       description = "Whether or not the home-manager installation is standalone (standalone installations don't have access to osConfig).";

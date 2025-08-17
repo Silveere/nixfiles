@@ -7,7 +7,7 @@
 }: let
   cfg = config.nixfiles.packageSets.multimedia;
   inherit (lib) optionals mkEnableOption mkIf;
-  default = osConfig ? nixfiles && osConfig.nixfiles.packageSets.multimedia.enable;
+  default = (osConfig ? nixfiles) && osConfig.nixfiles.packageSets.multimedia.enable && config.nixfiles.useOsConfig;
   mkOverrideEach = pri: lib.mapAttrs (_:v: lib.mkOverride pri v);
 in {
   options.nixfiles.packageSets.multimedia = {

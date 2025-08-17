@@ -12,7 +12,7 @@ in {
     enable = lib.mkOption {
       description = "Whether to enable the Plasma session home configuration.";
       type = with lib.types; bool;
-      default = osConfig.nixfiles.sessions.plasma.enable or false;
+      default = (osConfig.nixfiles.sessions.plasma.enable or false) && config.nixfiles.useOsConfig;
       example = true;
     };
   };
