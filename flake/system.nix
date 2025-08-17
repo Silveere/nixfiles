@@ -186,7 +186,8 @@ in {
                 lib,
                 ...
               }: let
-                perUserDefaultsModule = {lib, ...}: {
+                osConfig = config;
+                perUserDefaultsModule = {lib, config, ...}: {
                   config = {
                     # previously, home-manager inherited stateVersion from
                     # nixos in a really hacky way that depended on the wrapper
@@ -194,16 +195,20 @@ in {
                     # safer way by directly setting it in a module. ideally, it
                     # should probably be set manually, but I want to maintain
                     # backwards compatibility for now.
-                    home.stateVersion = lib.mkDefault config.system.stateVersion;
+                    home.stateVersion = lib.mkDefault osConfig.system.stateVersion;
+
+                    # only inherit configs from system for myself
+                    nixfiles.useOsConfig =
+                      config.home.username == outerConfig.nixfiles.vars.username;
 
                     # pass the system nixpkgs config as defaults for the
                     # home-manager nixpkgs config. useGlobalPkgs prevents
                     # setting overlays at the home level; this allows for doing
                     # that while inheriting the system overlays.
                     nixpkgs = {
-                      config = lib.mapAttrs (n: v: lib.mkDefault v) config.nixpkgs.config;
+                      config = lib.mapAttrs (n: v: lib.mkDefault v) osConfig.nixpkgs.config;
                       # mkOrder 900 is after mkBefore but before default order
-                      overlays = lib.mkOrder 900 config.nixpkgs.overlays;
+                      overlays = lib.mkOrder 900 osConfig.nixpkgs.overlays;
                     };
                   };
                 };
