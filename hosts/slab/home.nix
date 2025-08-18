@@ -28,7 +28,7 @@
     nixfiles.theming.catppuccin.themeDPI = "hdpi";
 
     wayland.windowManager.hyprland.settings = {
-      monitor = ",preferred,auto,1.25";
+      monitor = ",preferred,auto,1.6";
     };
   };
 }

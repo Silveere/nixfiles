@@ -221,10 +221,13 @@ in {
             passes = mkd 1;
           };
 
-          drop_shadow = mkd true;
-          shadow_range = mkd 4;
-          shadow_render_power = mkd 3;
-          "col.shadow" = mkd "rgba(1a1a1aee)";
+          shadow = {
+            color = mkd "rgba(1a1a1aee)";
+            enabled = mkd true;
+            range = mkd 4;
+            render_power = mkd 3;
+          };
+
         };
 
         animations = {
