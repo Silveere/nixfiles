@@ -23,6 +23,7 @@ in {
               xorg.libXi
               xorg.libXinerama
               xorg.libXScrnSaver
+              SDL2
               libpng
               libpulseaudio
               libvorbis
