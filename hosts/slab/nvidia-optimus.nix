@@ -3,11 +3,18 @@
   lib,
   pkgs,
   ...
-}: {
-  services.supergfxd.enable = true;
-  specialisation = {
-    nvidia.configuration = {
-      system.nixos.tags = ["NVIDIA"];
+}: 
+let
+  cfg = config.nixfiles.local.nvidia;
+in
+{
+  options.nixfiles.local.nvidia = {
+    enable = lib.mkEnableOption "nvidia config (local)";
+  };
+  config = lib.mkMerge [
+  (lib.mkIf cfg.enable {
+      # specialisation
+      # system.nixos.tags = ["NVIDIA"];
 
       nixfiles.supergfxd.profile = "Hybrid";
 
@@ -44,6 +51,14 @@
           nvidiaBusId = "PCI:01:00:0";
         };
       };
-    };
-  };
+    })
+    {
+      services.supergfxd.enable = true;
+      # specialisation = {
+      #   nvidia.configuration = {
+
+      #   };
+      # };
+    }
+  ];
 }
