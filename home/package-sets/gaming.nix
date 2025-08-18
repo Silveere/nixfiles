@@ -17,6 +17,11 @@ in {
       "steam -silent"
     ];
 
+    # gamescope fix
+    xdg.configFile."gamescope/scripts/10-esync-disable.lua" = {
+      source = ./gamescope-esync-disable.lua;
+    };
+
     home.packages = with pkgs;
       [
         ludusavi
