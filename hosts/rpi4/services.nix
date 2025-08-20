@@ -349,6 +349,8 @@ in {
               };
             };
 
+          "searx-br.protogen.io" = mkReverseProxy 8456;
+
           # URL shortener
           "nbt.sh" = mkProxy {
             port = 8090;
@@ -542,6 +544,41 @@ in {
 
     # needed for mDNS in Home Assistant
     networking.firewall.allowedUDPPorts = [5353];
+
+    systemd.services.banger = {
+      path = [ (pkgs.python312.withPackages (p: with p; [ gunicorn flask ])) ];
+      serviceConfig = {
+        # can't be bothered to package this rn
+        ExecStart = "gunicorn --chdir /opt/banger/ -b 127.0.0.1:8456 banger:APP";
+        DynamicUser = true;
+      };
+      environment = {
+        BANGS_JSON = pkgs.writeText "bangs.json" (builtins.toJSON {
+          searx_base = "https://searx.protogen.io";
+          opensearch = {
+            description = "UwUsearch is a metasearch engine for gay faggots :3";
+            long_name = "UwUsearch metasearch (bang redirector)";
+            short_name = "UwUsearch (br)";
+          };
+          bangs = {
+            deltarune = "https://deltarune.wiki/wiki/Special:Search?search=";
+            # i'm just freaky like that
+            e6 = "https://e621.net/posts?tags=";
+            e621 = "https://e621.net/posts?tags=";
+            e926 = "https://e926.net/posts?tags=";
+            man = "https://man.archlinux.org/search?q=%s&go=Go";
+            mcwiki = "https://minecraft.wiki/?search=";
+            ultrakill = "https://ultrakill.wiki.gg/wiki/Special:Search?search=";
+            # i will kill myself if i have to manually type this shit one more time
+            xr = "https://searx.protogen.io/search?q=!go+site:reddit.com+%s";
+
+            noogle = "https://noogle.dev/q?term=";
+            mynixos = "https://mynixos.com/search?q=";
+            nixpkgs = "https://search.nixos.org/packages?channel=unstable&query=";
+          };
+        });
+      };
+    };
 
     systemd.services.redlib.environment = {
       REDLIB_DEFAULT_SUBSCRIPTIONS = lib.pipe ./reddit-subscriptions.txt [
