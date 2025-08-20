@@ -546,12 +546,14 @@ in {
     networking.firewall.allowedUDPPorts = [5353];
 
     systemd.services.banger = {
-      path = [ (pkgs.python312.withPackages (p: with p; [ gunicorn flask ])) ];
       serviceConfig = {
-        # can't be bothered to package this rn
-        ExecStart = "gunicorn --chdir /opt/banger/ -b 127.0.0.1:8456 banger:APP";
+        ExecStart = let
+          python-env = pkgs.python313.withPackages (p: with p; [ gunicorn flask ]);
+          # can't be bothered to package this rn
+        in "${python-env}/bin/gunicorn --chdir /opt/banger/ -b 127.0.0.1:8456 banger:APP";
         DynamicUser = true;
       };
+      wantedBy = [ "multi-user.target" ];
       environment = {
         BANGS_JSON = pkgs.writeText "bangs.json" (builtins.toJSON {
           searx_base = "https://searx.protogen.io";
