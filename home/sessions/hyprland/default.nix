@@ -52,9 +52,18 @@
   # idle-cmd = "${swayidle} -w timeout 300 '${hyprctl} dispatch dpms off' resume '${hyprctl} dispatch dpms on'";
   # idle-cmd = "${hypridle}";
   # idle-cmd = "${pkgs.coreutils}/bin/true";
+  dpms-on-checked-wait = pkgs.writeShellScript "dpms-on" ''
+    do_on () {
+      hyprctl -j monitors | jq -e 'map(select(.dpmsStatus | not)) | length > 0 | not' > /dev/null || {
+        sleep .1
+        hyprctl dispatch dpms on
+      }
+    }
+    do_on
+  '';
   idle-cmd = pkgs.writeShellScript "idle-dpms-lock" ''
-    ${swayidle} timeout 10 'pgrep -x swaylock > /dev/null && hyprctl dispatch dpms off' \
-      resume 'hyprctl dispatch dpms on'
+    exec ${lib.escapeShellArg swayidle} timeout 10 'pgrep -x swaylock > /dev/null && hyprctl dispatch dpms off' \
+      resume ${lib.escapeShellArg dpms-on-checked-wait}
   '';
 
   hypr-dispatcher-package = pkgs.callPackage ./dispatcher {hyprland = hyprland-pkg;};
@@ -243,6 +252,7 @@ in {
             "border, 1, 10, default"
             "borderangle, 1, 8, default"
             "fade, 1, 7, default"
+            "fadeDpms, 0"
             "workspaces, 1, 6, default"
           ];
         };
