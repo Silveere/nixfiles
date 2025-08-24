@@ -42,6 +42,17 @@ in {
           };
           flake = inputs.nixfiles-assets;
         };
+        nixpkgs-local = {
+          exact = true;
+          from = {
+            id = "nixpkgs-local";
+            type = "indirect";
+          };
+          to = {
+            type = "path";
+            path = "${nixpkgs.outPath}";
+          };
+        };
         nixpkgs = {
           exact = true;
           from = {

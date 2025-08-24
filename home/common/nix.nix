@@ -38,6 +38,17 @@ in {
 
       home.sessionVariables.NIX_PATH = "nixpkgs=${nixpkgs}\${NIX_PATH:+:\${NIX_PATH}}";
       nix.registry = {
+        nixpkgs-local = {
+          exact = true;
+          from = {
+            id = "nixpkgs-local";
+            type = "indirect";
+          };
+          to = {
+            type = "path";
+            path = "${nixpkgs.outPath}";
+          };
+        };
         nixpkgs = {
           exact = true;
           from = {
