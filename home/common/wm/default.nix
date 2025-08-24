@@ -88,7 +88,7 @@ in {
     xdg.mimeApps = {
       enable = true;
       defaultApplications = let
-        defaultBrowser = ["firefox.desktop"];
+        defaultBrowser = ["zen.desktop"];
       in
         mkOverrideEach 50 {
           "x-scheme-handler/https" = defaultBrowser;
