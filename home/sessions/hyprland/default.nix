@@ -149,6 +149,21 @@ in {
       package = lib.mkDefault pkgs.rofi-wayland;
     };
 
+    xdg.portal = {
+      enable = lib.mkDefault true;
+      extraPortals = [
+        pkgs.xdg-desktop-portal-gtk
+        pkgs.kdePackages.xdg-desktop-portal-kde
+      ];
+
+      config = {
+        hyprland = {
+          default = [ "hyprland" "gtk" ];
+          "org.freedesktop.impl.portal.FileChooser" = "kde";
+        };
+      };
+    };
+
     wayland.windowManager.hyprland = {
       enable = true;
       package = lib.mkIf (osConfig ? programs) (lib.mkDefault osConfig.programs.hyprland.package);
