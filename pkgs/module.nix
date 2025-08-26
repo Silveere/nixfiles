@@ -14,6 +14,8 @@
     }: {
       packages = {
         lucem = pkgs.callPackage ./lucem {};
+        magiskboot = pkgs.callPackage ./magiskboot {};
+        ksud = pkgs.callPackage ./ksud {};
       };
     };
 
@@ -26,6 +28,8 @@
       in
         addPackages [
           "lucem"
+          "magiskboot"
+          "ksud"
         ];
     };
   };

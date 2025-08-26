@@ -17,6 +17,9 @@ in {
     users.users.${vars.username}.extraGroups = ["adbusers"];
     environment.systemPackages = [
       pkgs.scrcpy
+      # from overlay
+      pkgs.magiskboot
+      pkgs.ksud
     ];
   };
 }
