@@ -188,6 +188,10 @@ in {
         screen
         minicom
         picocom
+
+        # man pages
+        man-pages
+        linux-manual
       ]
       ++ builtins.map (x: lib.hiPrio x) [
         # terminfo (just the ones i'm likely to use)
