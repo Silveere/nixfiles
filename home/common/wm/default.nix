@@ -104,6 +104,11 @@ in {
     };
 
     services = {
+      kdeconnect = {
+        enable = mkDefault true;
+        indicator = mkDefault true;
+      };
+
       playerctld.enable = mkDefault true;
 
       udiskie = {
