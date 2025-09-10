@@ -318,6 +318,12 @@ in {
             (mkProxy {
               authelia = true;
               upstream = "http://10.10.1.8:80";
+              # yeah this looks amazing
+              extraConfig = {
+                extraConfig = ''
+                  client_max_body_size 0;
+                '';
+              };
             })
             {
               locations."/webcam" = {
