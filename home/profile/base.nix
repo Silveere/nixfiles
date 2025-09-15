@@ -192,6 +192,8 @@ in {
         # man pages
         man-pages
         linux-manual
+        linux-doc
+
       ]
       ++ builtins.map (x: lib.hiPrio x) [
         # terminfo (just the ones i'm likely to use)
