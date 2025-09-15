@@ -109,6 +109,19 @@ in {
       neofetch-hyfetch-shim = writeShellScriptBin "neofetch" ''
         exec "${pkgs.hyfetch}/bin/neowofetch" "$@"
       '';
+
+      flocate = let
+        # fzf and nix-locate are the only things that would reasonably not
+        # exist on a local system. nix-locate is fine to be left as-is because
+        # i use a prebuilt db so i already know it is installed
+        #
+        fzf = lib.escapeShellArg (lib.getExe' pkgs.fzf "fzf");
+      in writeShellScriptBin "flocate" ''
+        nix-locate "$@" | stdbuf -oL grep -v '^(' \
+          | ${fzf} \
+          | cut -d' ' -f1 \
+          | xargs bash -c 'exec nix build --no-link --print-out-paths nixpkgs${lib.optionalString (config.nix.registry ? nixpkgs-local) "-local"}#"$1"' -
+      '';
     in
       [
         # nix stuff
@@ -193,6 +206,9 @@ in {
         man-pages
         linux-manual
         linux-doc
+
+        # custom
+        flocate
 
       ]
       ++ builtins.map (x: lib.hiPrio x) [
