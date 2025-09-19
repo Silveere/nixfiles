@@ -607,6 +607,7 @@ in {
     services.redlib = {
       enable = true;
       port = 8087;
+      package = pkgs.redlib-git;
     };
 
     services.thelounge = {
