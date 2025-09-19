@@ -216,6 +216,7 @@
                   jq
                   nix-update
                   nix-fast-build
+                  nvfetcher
                 ];
               };
               default = let
@@ -232,6 +233,7 @@
                     alejandra
                     nix-update
                     formatter
+                    nvfetcher
                     inputs.agenix.packages.${system}.default
                   ];
                 };

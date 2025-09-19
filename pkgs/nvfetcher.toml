@@ -3,3 +3,7 @@ src.git = "https://github.com/redlib-org/redlib"
 fetch.github = "redlib-org/redlib"
 cargo_locks = [ "Cargo.lock" ]
 # extract = [ "Cargo.lock" ]
+
+[cross-seed]
+src.git = "https://github.com/cross-seed/cross-seed"
+fetch.github = "cross-seed/cross-seed"
