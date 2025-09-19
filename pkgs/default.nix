@@ -10,7 +10,6 @@ in {
   wm-helpers = callPackage ./wm-helpers {};
   atool = callPackage ./atool-wrapped {};
   nixfiles-assets = callPackage ./nixfiles-assets {};
-  redlib = callPackage ./redlib {};
   cross-seed = callPackage ./cross-seed {};
   magiskboot = callPackage ./magiskboot {};
   ksud = callPackage ./ksud {};

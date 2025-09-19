@@ -21,13 +21,15 @@
         lucem = callPackage ./lucem {};
         magiskboot = callPackage ./magiskboot {};
         ksud = callPackage ./ksud {};
-        redlib = callPackage ./redlib {};
         redlib-git = callPackage ./redlib/override.nix {};
       };
     };
 
     flake = {
       overlays.new-packages = final: prev: let
+        # redlib would probably cause an infinite recursion this needs to be
+        # prev (or have some separate workaround for redlib if other packages
+        # need to depend on each other)
         inherit (final) callPackage;
         currentSystem = config.perSystem "${prev.system}";
         flakePackages = currentSystem.packages;
@@ -37,6 +39,7 @@
           "lucem"
           "magiskboot"
           "ksud"
+          "redlib-git"
         ];
     };
   };

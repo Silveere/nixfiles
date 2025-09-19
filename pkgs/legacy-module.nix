@@ -40,7 +40,6 @@ in {
           wm-helpers = ./wm-helpers;
           atool = ./atool-wrapped;
           nixfiles-assets = ./nixfiles-assets;
-          redlib = ./redlib;
           cross-seed = ./cross-seed;
         })
         // {
