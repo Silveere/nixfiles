@@ -1,0 +1,5 @@
+[redlib]
+src.git = "https://github.com/redlib-org/redlib"
+fetch.github = "redlib-org/redlib"
+cargo_locks = [ "Cargo.lock" ]
+# extract = [ "Cargo.lock" ]

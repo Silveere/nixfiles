@@ -11,11 +11,18 @@
       self',
       pkgs,
       ...
-    }: {
+    }: let
+      sources = pkgs.callPackages ./_sources/generated.nix {};
+      callPackage = pkgs.newScope {
+        inherit sources;
+      };
+    in {
       packages = {
-        lucem = pkgs.callPackage ./lucem {};
-        magiskboot = pkgs.callPackage ./magiskboot {};
-        ksud = pkgs.callPackage ./ksud {};
+        lucem = callPackage ./lucem {};
+        magiskboot = callPackage ./magiskboot {};
+        ksud = callPackage ./ksud {};
+        redlib = callPackage ./redlib {};
+        redlib-git = callPackage ./redlib/override.nix {};
       };
     };
 

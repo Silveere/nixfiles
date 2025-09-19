@@ -1,0 +1,28 @@
+{
+    "redlib": {
+        "cargoLocks": {
+            "Cargo.lock": [
+                "./redlib-a989d19ca92713878e9a20dead4252f266dc4936/Cargo.lock",
+                {}
+            ]
+        },
+        "date": "2025-09-09",
+        "extract": null,
+        "name": "redlib",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "redlib-org",
+            "repo": "redlib",
+            "rev": "a989d19ca92713878e9a20dead4252f266dc4936",
+            "sha256": "sha256-YJZVkCi8JQ1U47s52iOSyyf32S3b35pEqw4YTW8FHVY=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "a989d19ca92713878e9a20dead4252f266dc4936"
+    }
+}
