@@ -59,7 +59,7 @@ build_systems () {
 }
 
 build_packages () {
-	run_builds .\#packages."${system}".redlib
+	run_builds .\#packages."${system}".redlib-git
 }
 
 
