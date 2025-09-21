@@ -81,5 +81,7 @@
 in
   pkgs.symlinkJoin {
     name = "wm-helpers";
-    paths = keysetting;
+    paths = [
+      keysetting
+    ];
   }
