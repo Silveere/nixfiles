@@ -16,7 +16,7 @@
   # commands
   terminal = "${pkgs.kitty}/bin/kitty";
   files = "pcmanfm"; # this should be installed in path
-  rofi = "${pkgs.rofi-wayland}/bin/rofi";
+  rofi-cmd = "${pkgs.rofi}/bin/rofi";
   notifydaemon = "${pkgs.dunst}/bin/dunst";
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   polkit-agent = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
@@ -133,7 +133,7 @@ in {
     home.packages = with pkgs; [
       kitty
       kdePackages.dolphin
-      rofi-wayland
+      rofi
       wev
       dunst
       pkgs.brightnessctl
@@ -146,7 +146,7 @@ in {
 
     programs.rofi = {
       enable = lib.mkDefault true;
-      package = lib.mkDefault pkgs.rofi-wayland;
+      package = lib.mkDefault pkgs.rofi;
     };
 
     xdg.portal = {
@@ -311,7 +311,7 @@ in {
             "$mod, E, exec, ${files}"
             "$mod, V, togglefloating, "
             # run rofi in scope to help oomd not kill everything
-            "$mod, R, exec, systemd-run --user --scope -- ${rofi} -show drun"
+            "$mod, R, exec, systemd-run --user --scope -- ${rofi-cmd} -show drun"
             "$mod, P, pseudo," # dwindle"
             "$mod, O, togglesplit," # dwindle"
 
