@@ -103,7 +103,7 @@
         hold now 90 stable unstable;
 
       redlib = let
-        redlib-new = final.callPackage nixfiles.packages.${prev.system}.redlib.override {};
+        redlib-new = final.redlib-git;
         inherit (prev) redlib;
       in
         pickNewer redlib-new redlib;
