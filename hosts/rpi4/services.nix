@@ -120,10 +120,16 @@ in {
           TARGET=" ";
           # did they forget to actually set this variable to a file i am
           # genuinely going insane
-          POLICY_FNAME = pkgs.writers.writeJSON "anubis_policy.json" config.services.anubis.instances.gitea.botPolicy;
+          POLICY_FNAME = pkgs.writers.writeJSON "anubis_policy.json"
+            config.services.anubis.instances.gitea.botPolicy;
         };
         botPolicy = let
-          upstreamPolicy = lib.importJSON "${config.services.anubis.package.src}/data/botPolicies.json";
+          policyYAMLPath = "${config.services.anubis.package.src}/data/botPolicies.yaml";
+          # now we have to do an IFD to convert this to JSON because there is no importYAML
+          policyJSON = pkgs.runCommand "anubisPolicyJSON" {} ''
+            ${lib.escapeShellArg (lib.getExe' pkgs.yq "yq")} < ${lib.escapeShellArg policyYAMLPath} . > "$out"
+          '';
+          upstreamPolicy = lib.importJSON policyJSON;
         in upstreamPolicy // {
           status_codes = upstreamPolicy.status_codes // {
             DENY = 401;
