@@ -102,11 +102,11 @@
       in
         hold now 90 stable unstable;
 
-      redlib = let
-        redlib-new = final.redlib-git;
-        inherit (prev) redlib;
-      in
-        pickNewer redlib-new redlib;
+      # redlib = let
+      #   redlib-new = final.redlib-git;
+      #   inherit (prev) redlib;
+      # in
+      #   pickNewer redlib-new redlib;
 
       gamescope = let
         fixed = gamescope-git;
