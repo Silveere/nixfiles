@@ -13,9 +13,7 @@
       ...
     }: let
       sources = pkgs.callPackages ./_sources/generated.nix {};
-      callPackage = pkgs.newScope {
-        inherit sources;
-      };
+      inherit (pkgs) callPackage;
     in {
       packages = {
         lucem = callPackage ./lucem {};

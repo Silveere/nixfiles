@@ -1,10 +1,13 @@
 {
   lib,
   redlib,
-  sources,
+  callPackage,
   rustPlatform,
   ...
 }:
+let
+  sources = callPackage ../_sources/generated.nix { };
+in
 redlib.overrideAttrs (prev: rec {
   inherit (sources.redlib) src pname version;
   cargoDeps = rustPlatform.importCargoLock sources.redlib.cargoLock."Cargo.lock";
