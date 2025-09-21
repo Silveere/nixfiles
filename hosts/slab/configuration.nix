@@ -165,9 +165,9 @@
       disk=shutdown
     '';
 
-    services.logind = {
-      lidSwitch = "lock";
-      suspendKey = "hibernate";
+    services.logind.settings.Login = {
+      HandleLidSwitch = "lock";
+      HandleSuspendKey = "hibernate";
     };
 
     services.xserver.videoDrivers = ["amdgpu"];
