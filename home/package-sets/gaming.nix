@@ -27,6 +27,7 @@ in {
         ludusavi
         rclone # needed to sync ludusavi
         protontricks
+        steamtinkerlaunch
       ]
       ++ lib.optionals cfg.enableLaunchers [
         steam

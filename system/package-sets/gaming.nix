@@ -66,6 +66,7 @@ in {
       protonup-ng
       protonup-qt
       lucem
+      steamtinkerlaunch
     ];
   };
 }
