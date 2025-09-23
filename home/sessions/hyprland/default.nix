@@ -1,3 +1,6 @@
+# cool command to test config much faster (only on my laptop):
+# nix build nixfiles\#nixosConfigurations.slab.config.specialisation.hyprland.configuration.home-manager.users.nullbite.xdg.configFile.'"hypr/hyprland.conf".source' --out-link ~/.config/hypr/hyprland.conf && hyprctl reload
+
 {
   lib,
   pkgs,
@@ -283,10 +286,9 @@ in {
           # new_is_master = mkd "true";
         };
 
-        gestures = {
-          # See https://wiki.hyprland.org/Configuring/Variables/ for more
-          workspace_swipe = mkd "false";
-        };
+        gesture = [
+          "3, horizontal, workspace"
+        ];
 
         misc = {
           # See https://wiki.hyprland.org/Configuring/Variables/ for more
