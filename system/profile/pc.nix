@@ -39,10 +39,15 @@ in {
         bluetooth.enable = mkDefault true;
         sound.enable = mkDefault true;
       };
+      kernel.zswap.enable = mkDefault true;
     };
 
-    # enable sysrq
-    boot.kernel.sysctl."kernel.sysrq" = mkDefault 1;
+    boot.kernel.sysctl = {
+      # enable sysrq
+      "kernel.sysrq" = mkDefault 1;
+      # more responsive for desktop use
+      "vm.swappiness" = mkDefault 10;
+    };
 
     # enable filesystems
     boot.supportedFilesystems = {
