@@ -68,6 +68,8 @@
     nixfiles = {
       local.nvidia.enable = true;
 
+      kernel.zswap.enable = true;
+
       profile.workstation.enable = true;
       common.remoteAccess.enable = true;
       common.bootnext = {
@@ -109,9 +111,6 @@
 
     boot.kernelParams = [
       "quiet"
-      "zswap.enabled=1"
-      "zswap.compressor=zstd"
-      "zswap.shrinker_enabled=1"
     ];
     # annoying ACPI bug
     boot.consoleLogLevel = 2;

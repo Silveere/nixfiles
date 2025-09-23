@@ -6,5 +6,6 @@
     ./nix.nix
     ./bootnext.nix
     ./busybox.nix
+    ./kernel.nix
   ];
 }

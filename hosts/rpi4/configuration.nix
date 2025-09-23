@@ -40,8 +40,13 @@
 
   boot.kernelPackages = pkgs.linuxPackages_6_12;
 
+  boot.kernel.sysctl = {
+    "vm.swappinesss" = 10;
+  };
+
   nixfiles = {
     profile.server.enable = true;
+    kernel.zswap.enable = true;
   };
 
   hardware.rtl-sdr.enable = true;
