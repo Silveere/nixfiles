@@ -20,6 +20,7 @@
         magiskboot = callPackage ./magiskboot {};
         ksud = callPackage ./ksud {};
         redlib-git = callPackage ./redlib/override.nix {};
+        gamescope-git = callPackage ./gamescope {};
       };
     };
 
@@ -38,6 +39,7 @@
           "magiskboot"
           "ksud"
           "redlib-git"
+          "gamescope-git"
         ];
     };
   };

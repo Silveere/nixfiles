@@ -7,3 +7,8 @@ cargo_locks = [ "Cargo.lock" ]
 [cross-seed]
 src.git = "https://github.com/cross-seed/cross-seed"
 fetch.github = "cross-seed/cross-seed"
+
+[gamescope]
+src.git = "https://github.com/ValveSoftware/gamescope"
+fetch.github = "ValveSoftware/gamescope"
+git.fetchSubmodules = true

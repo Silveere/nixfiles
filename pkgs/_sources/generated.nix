@@ -13,6 +13,18 @@
     };
     date = "2025-09-15";
   };
+  gamescope = {
+    pname = "gamescope";
+    version = "6bda0eec5cfc6111907e2a69e329a0b409ec4c6d";
+    src = fetchFromGitHub {
+      owner = "ValveSoftware";
+      repo = "gamescope";
+      rev = "6bda0eec5cfc6111907e2a69e329a0b409ec4c6d";
+      fetchSubmodules = true;
+      sha256 = "sha256-ZNCubmdsF6kQtVFURbsrxaxQI5yadM/mfQrNdIvGzjo=";
+    };
+    date = "2025-09-16";
+  };
   redlib = {
     pname = "redlib";
     version = "a989d19ca92713878e9a20dead4252f266dc4936";

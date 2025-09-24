@@ -20,6 +20,27 @@
         },
         "version": "aa2f089fb008b3cd4eb8210445f46b6eda59152c"
     },
+    "gamescope": {
+        "cargoLocks": null,
+        "date": "2025-09-16",
+        "extract": null,
+        "name": "gamescope",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": true,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "ValveSoftware",
+            "repo": "gamescope",
+            "rev": "6bda0eec5cfc6111907e2a69e329a0b409ec4c6d",
+            "sha256": "sha256-ZNCubmdsF6kQtVFURbsrxaxQI5yadM/mfQrNdIvGzjo=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "6bda0eec5cfc6111907e2a69e329a0b409ec4c6d"
+    },
     "redlib": {
         "cargoLocks": {
             "Cargo.lock": [
