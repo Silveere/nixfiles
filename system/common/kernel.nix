@@ -16,8 +16,10 @@ in {
   };
 
   config = {
-    boot.extraModprobeConfig = lib.mkIf cfg.zswap.enable ''
-      options zswap enabled=1 compressor=zstd shrinker_enabled=1
-    '';
+    boot.kernelParams = lib.optionals cfg.zswap.enable [
+      "zswap.enabled=1"
+      "zswap.compressor=zstd"
+      "zswap.shrinker_enabled=1"
+    ];
   };
 }
