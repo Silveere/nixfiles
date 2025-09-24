@@ -8,7 +8,7 @@ let
   sources = callPackage ../_sources/generated.nix { };
 in
 gamescope.overrideAttrs (prev: rec {
-  inherit (sources.redlib) src pname version;
+  inherit (sources.gamescope) src pname version;
 
   # inherit (sources.redlib) src pname version;
   # cargoDeps = rustPlatform.importCargoLock sources.redlib.cargoLock."Cargo.lock";
