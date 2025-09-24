@@ -58,17 +58,17 @@
       prev.gimp-with-plugins.override {inherit plugins;};
     # this also causes an infinite recursion and i have no idea why
     # in nixfiles.inputs.nixpkgs.lib.filterAttrs (k: v: v != null) {
-    gamescope-git =
-      prev.gamescope.overrideAttrs (_:
-      {
-        src = prev.fetchFromGitHub {
-          owner = "ValveSoftware";
-          repo = "gamescope";
-          rev = "1faf7acd90f960b8e6c816bfea15f699b70527f9";
-          hash = "sha256-/JMk1ZzcVDdgvTYC+HQL09CiFDmQYWcu6/uDNgYDfdM=";
-          fetchSubmodules = true;
-        };
-      });
+    # gamescope-git =
+    #   prev.gamescope.overrideAttrs (_:
+    #   {
+    #     src = prev.fetchFromGitHub {
+    #       owner = "ValveSoftware";
+    #       repo = "gamescope";
+    #       rev = "1faf7acd90f960b8e6c816bfea15f699b70527f9";
+    #       hash = "sha256-/JMk1ZzcVDdgvTYC+HQL09CiFDmQYWcu6/uDNgYDfdM=";
+    #       fetchSubmodules = true;
+    #     };
+    #   });
 
   in
 
@@ -108,11 +108,11 @@
       # in
       #   pickNewer redlib-new redlib;
 
-      gamescope = let
-        fixed = gamescope-git;
-        broken = prev.gamescope;
-        now = 1755470213;
-      in hold now 30 fixed broken;
+      # gamescope = let
+      #   fixed = gamescope-git;
+      #   broken = prev.gamescope;
+      #   now = 1755470213;
+      # in hold now 30 fixed broken;
 
       pcmanfm = let
         stable = pkgsStable.pcmanfm;
