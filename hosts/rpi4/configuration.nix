@@ -41,7 +41,7 @@
   boot.kernelPackages = pkgs.linuxPackages_6_12;
 
   boot.kernel.sysctl = {
-    "vm.swappinesss" = 10;
+    "vm.swappiness" = 10;
   };
 
   nixfiles = {
