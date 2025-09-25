@@ -86,7 +86,6 @@ in {
     environment.systemPackages = with pkgs; [
       kitty
       dunst
-      kdePackages.polkit-kde-agent-1
       eww
       hyprpaper
       rofi

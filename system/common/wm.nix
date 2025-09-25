@@ -20,7 +20,26 @@ in {
       nm-applet.enable = mkDefault config.networking.networkmanager.enable;
     };
     security.pam.services.swaylock = {};
+
+    # this is the proper way to enable things like this where the package may
+    # come with a systemd unit but it also probably doesn't warrant its own
+    # service option.
+    # systemd.packages is very convenient if you just want to enable something
+    # with its default config.
+    systemd.packages = with pkgs; [
+      hyprpolkitagent
+    ];
+
+    services.dbus.packages = with pkgs; [
+      hyprpolkitagent
+    ];
+
+    systemd.user.units."hyprpolkitagent.service".wantedBy = [
+      "graphical-session.target"
+    ];
+
   };
+
   options = {
     nixfiles.common.wm.enable = mkEnableOption "common window manager configuration";
   };

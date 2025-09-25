@@ -22,7 +22,6 @@
   rofi-cmd = "${pkgs.rofi}/bin/rofi";
   notifydaemon = "${pkgs.dunst}/bin/dunst";
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
-  polkit-agent = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
   grimblast = "${inputs.hyprwm-contrib.packages.${pkgs.system}.grimblast}/bin/grimblast";
   swayidle = "${pkgs.swayidle}/bin/swayidle";
   swaylock = "${config.programs.swaylock.package}/bin/swaylock";
@@ -193,7 +192,6 @@ in {
           ++ [
             wallpaper-cmd
             notifydaemon
-            polkit-agent
             idle-cmd
             xdpg-workaround
             bar-cmd
