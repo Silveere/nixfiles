@@ -161,7 +161,7 @@
 
     # might make hibernate better idk
     systemd.sleep.extraConfig = ''
-      disk=shutdown
+      HibernateMode=shutdown
     '';
 
     services.logind.settings.Login = {
