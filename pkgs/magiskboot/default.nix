@@ -3,7 +3,7 @@
   stdenv,
   fetchurl,
   unzip,
-  system
+  system,
 }: let
   systems = {
     "i686-linux" = "x86";
@@ -25,7 +25,7 @@ in
 
     nativeBuildInputs = [unzip];
 
-    phases = [ "installPhase" ];
+    phases = ["installPhase"];
 
     installPhase = ''
       unzip -p "${finalAttrs.src}" "lib/${arch}/libmagiskboot.so" > libmagiskboot.so

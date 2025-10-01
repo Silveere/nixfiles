@@ -15,7 +15,6 @@ in {
     example = true;
   };
   config = lib.mkIf cfg.enable {
-
     home.packages = with pkgs; [
       kitty
     ];

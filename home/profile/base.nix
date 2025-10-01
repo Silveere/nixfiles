@@ -116,12 +116,13 @@ in {
         # i use a prebuilt db so i already know it is installed
         #
         fzf = lib.escapeShellArg (lib.getExe' pkgs.fzf "fzf");
-      in writeShellScriptBin "flocate" ''
-        nix-locate "$@" | stdbuf -oL grep -v '^(' \
-          | ${fzf} \
-          | cut -d' ' -f1 \
-          | xargs bash -c 'exec nix build --no-link --print-out-paths nixpkgs${lib.optionalString (config.nix.registry ? nixpkgs-local) "-local"}#"$1"' -
-      '';
+      in
+        writeShellScriptBin "flocate" ''
+          nix-locate "$@" | stdbuf -oL grep -v '^(' \
+            | ${fzf} \
+            | cut -d' ' -f1 \
+            | xargs bash -c 'exec nix build --no-link --print-out-paths nixpkgs${lib.optionalString (config.nix.registry ? nixpkgs-local) "-local"}#"$1"' -
+        '';
     in
       [
         # nix stuff
@@ -210,7 +211,6 @@ in {
 
         # custom
         flocate
-
       ]
       ++ builtins.map (x: lib.hiPrio x) [
         # terminfo (just the ones i'm likely to use)

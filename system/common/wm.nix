@@ -37,7 +37,6 @@ in {
     systemd.user.units."hyprpolkitagent.service".wantedBy = [
       "graphical-session.target"
     ];
-
   };
 
   options = {

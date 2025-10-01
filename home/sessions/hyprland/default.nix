@@ -1,6 +1,5 @@
 # cool command to test config much faster (only on my laptop):
 # nix build nixfiles\#nixosConfigurations.slab.config.specialisation.hyprland.configuration.home-manager.users.nullbite.xdg.configFile.'"hypr/hyprland.conf".source' --out-link ~/.config/hypr/hyprland.conf && hyprctl reload
-
 {
   lib,
   pkgs,
@@ -160,7 +159,7 @@ in {
 
       config = {
         hyprland = {
-          default = [ "hyprland" "gtk" ];
+          default = ["hyprland" "gtk"];
           "org.freedesktop.impl.portal.FileChooser" = "kde";
         };
       };
@@ -252,7 +251,6 @@ in {
             range = mkd 4;
             render_power = mkd 3;
           };
-
         };
 
         animations = {

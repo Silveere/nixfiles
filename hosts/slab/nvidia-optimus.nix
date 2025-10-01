@@ -3,16 +3,14 @@
   lib,
   pkgs,
   ...
-}: 
-let
+}: let
   cfg = config.nixfiles.local.nvidia;
-in
-{
+in {
   options.nixfiles.local.nvidia = {
     enable = lib.mkEnableOption "nvidia config (local)";
   };
   config = lib.mkMerge [
-  (lib.mkIf cfg.enable {
+    (lib.mkIf cfg.enable {
       # specialisation
       # system.nixos.tags = ["NVIDIA"];
 

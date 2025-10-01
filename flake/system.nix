@@ -187,7 +187,11 @@ in {
                 ...
               }: let
                 osConfig = config;
-                perUserDefaultsModule = {lib, config, ...}: {
+                perUserDefaultsModule = {
+                  lib,
+                  config,
+                  ...
+                }: {
                   config = {
                     # previously, home-manager inherited stateVersion from
                     # nixos in a really hacky way that depended on the wrapper

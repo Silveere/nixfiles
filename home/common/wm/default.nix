@@ -8,7 +8,7 @@
 }: let
   cfg = config.nixfiles.common.wm;
   inherit (lib) mkDefault;
-  mkOverrideEach = pri: lib.mapAttrs (_:v: lib.mkOverride pri v);
+  mkOverrideEach = pri: lib.mapAttrs (_: v: lib.mkOverride pri v);
 in {
   options.nixfiles.common.wm = {
     enable = lib.mkEnableOption "common window manager config";

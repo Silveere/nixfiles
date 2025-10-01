@@ -3,10 +3,10 @@
   stdenv,
   fetchurl,
   unzip,
-  system
+  system,
 }: let
-  lock=builtins.fromJSON (builtins.readFile ./lock.json);
-  release=lock.${system};
+  lock = builtins.fromJSON (builtins.readFile ./lock.json);
+  release = lock.${system};
 in
   stdenv.mkDerivation (finalAttrs: {
     pname = "ksud";
@@ -16,7 +16,7 @@ in
       inherit (release) url hash;
     };
 
-    phases = [ "installPhase" ];
+    phases = ["installPhase"];
 
     installPhase = ''
       install -Dm555 $src "$out/bin/ksud"

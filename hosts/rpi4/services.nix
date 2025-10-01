@@ -117,10 +117,11 @@ in {
       instances.gitea = {
         settings = {
           REDIRECT_DOMAINS = "gitea.protogen.io";
-          TARGET=" ";
+          TARGET = " ";
           # did they forget to actually set this variable to a file i am
           # genuinely going insane
-          POLICY_FNAME = pkgs.writers.writeJSON "anubis_policy.json"
+          POLICY_FNAME =
+            pkgs.writers.writeJSON "anubis_policy.json"
             config.services.anubis.instances.gitea.botPolicy;
         };
         botPolicy = let
@@ -130,11 +131,15 @@ in {
             ${lib.escapeShellArg (lib.getExe' pkgs.yq "yq")} < ${lib.escapeShellArg policyYAMLPath} . > "$out"
           '';
           upstreamPolicy = lib.importJSON policyJSON;
-        in upstreamPolicy // {
-          status_codes = upstreamPolicy.status_codes // {
-            DENY = 401;
+        in
+          upstreamPolicy
+          // {
+            status_codes =
+              upstreamPolicy.status_codes
+              // {
+                DENY = 401;
+              };
           };
-        };
       };
     };
 
@@ -292,7 +297,6 @@ in {
                   root = "${inputs.ai-robots-txt}";
                 };
               };
-
             }
           ];
 
@@ -560,12 +564,12 @@ in {
     systemd.services.banger = {
       serviceConfig = {
         ExecStart = let
-          python-env = pkgs.python313.withPackages (p: with p; [ gunicorn flask ]);
+          python-env = pkgs.python313.withPackages (p: with p; [gunicorn flask]);
           # can't be bothered to package this rn
         in "${python-env}/bin/gunicorn --chdir /opt/banger/ -b 127.0.0.1:8456 banger:APP";
         DynamicUser = true;
       };
-      wantedBy = [ "multi-user.target" ];
+      wantedBy = ["multi-user.target"];
       environment = {
         BANGS_JSON = pkgs.writeText "bangs.json" (builtins.toJSON {
           searx_base = "https://searx.protogen.io";
