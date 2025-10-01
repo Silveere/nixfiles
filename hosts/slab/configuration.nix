@@ -85,6 +85,7 @@
       };
       hardware.opengl.enable = true;
       hardware.gps.enable = true;
+      hardware.laptop.enable = true;
       packageSets = {
         gaming.enable = true;
         fun.enable = true;
