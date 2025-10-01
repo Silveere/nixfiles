@@ -6,5 +6,6 @@
     ./sound.nix
     ./binfmt.nix
     ./gps.nix
+    ./laptop.nix
   ];
 }
