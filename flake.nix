@@ -317,6 +317,7 @@
               nullbox.system = "x86_64-linux";
               rpi4.system = "aarch64-linux";
 
+              nixos-px1.system = "x86_64-linux";
               nixos-wsl = {
                 system = "x86_64-linux";
                 wsl = true;
