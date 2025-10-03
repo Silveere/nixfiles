@@ -25,6 +25,12 @@ in {
           };
         };
       };
+
+      # lorri enhances direnv with a background daemon
+      # (so i don't have to WAIT A YEAR FOR MY DEVSHELL)
+      services.lorri = {
+        enable = lib.mkDefault true;
+      };
     }
 
     (lib.mkIf standalone {
