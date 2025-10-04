@@ -16,9 +16,11 @@ in
       environmentFile = secrets.atticd.path;
       settings = {
         allowed-hosts = [
-          "attic.protogen.io"
-          "attic2.protogen.io" # temporary for migration/testing
+          "attic2.protogen.io"
         ];
+        api-endpoint = "https://attic2.protogen.io/";
+        compression.type = "zstd";
+        garbage-collection.interval = "12 hours";
       };
     };
     systemd.services.atticd.unitConfig = {
