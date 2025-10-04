@@ -33,7 +33,7 @@
     fsType = "ext4";
   };
 
-  fileSystems."/var/lib/atticd" = {
+  fileSystems."/var/lib/private/atticd" = {
     device = "/.mounts/0/atticd";
     fsType = "none";
     options = ["bind"];

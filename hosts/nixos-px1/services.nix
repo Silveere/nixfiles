@@ -23,9 +23,5 @@ in
         garbage-collection.interval = "12 hours";
       };
     };
-    systemd.services.atticd.unitConfig = {
-      Requires = [ "var-lib-atticd.mount" ];
-      After = [ "var-lib-atticd.mount" ];
-    };
   };
 }
