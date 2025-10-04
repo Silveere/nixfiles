@@ -28,8 +28,18 @@
     options = ["fmask=0022" "dmask=0022"];
   };
 
-  swapDevices = [];
+  fileSystems."/.mounts/0" = {
+    device = "/dev/disk/by-uuid/dbc03bd0-5dee-4c09-b00e-b6f2f8a60791";
+    fsType = "ext4";
+  };
 
+  fileSystems."/var/lib/atticd" = {
+    device = "/.mounts/0/atticd";
+    fsType = "none";
+    options = ["bind"];
+  };
+
+  swapDevices = [];
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
