@@ -32,5 +32,5 @@ in {
 
   "anki-user.age".publicKeys = [rpi4] ++ all-user;
 
-  "atticd.age".publicKeys = [ px1 agenix ];
+  "atticd.age".publicKeys = [px1 agenix];
 }

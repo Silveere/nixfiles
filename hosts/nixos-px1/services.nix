@@ -1,8 +1,11 @@
-{ config, lib, pkgs, ... }:
-let
-  inherit (config.age) secrets;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  inherit (config.age) secrets;
+in {
   config = {
     age.secrets = {
       atticd = {
@@ -25,10 +28,10 @@ in
       };
     };
 
-    users.groups.atticd-secret = { };
+    users.groups.atticd-secret = {};
 
     systemd.services.atticd = {
-      after = [ "postgresql.target" ];
+      after = ["postgresql.target"];
       serviceConfig = {
         SupplementaryGroups = "atticd-secret";
       };
@@ -37,7 +40,7 @@ in
     services.postgresql = {
       enable = lib.mkDefault true;
 
-      ensureDatabases = [ "atticd" ];
+      ensureDatabases = ["atticd"];
       ensureUsers = [
         {
           name = config.services.atticd.user;
