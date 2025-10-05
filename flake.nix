@@ -11,6 +11,8 @@
     nixpkgs-nix-du.url = "github:NixOS/nixpkgs/c933cf4698e5189b35dd83bf4d7a81aef16d464a";
     nixpkgs-mopidy.url = "github:NixOS/nixpkgs/93ff48c9be84a76319dac293733df09bbbe3f25c";
 
+    nixpkgs-forgejo.url = "github:NixOS/nixpkgs/02032da4af073d0f6110540c8677f16d4be0117f";
+
     # this seems to be a popular way to declare systems
     systems.url = "github:nix-systems/default";
 

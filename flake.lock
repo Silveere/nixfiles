@@ -1161,6 +1161,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-forgejo": {
+      "locked": {
+        "lastModified": 1741037377,
+        "narHash": "sha256-SvtvVKHaUX4Owb+PasySwZsoc5VUeTf1px34BByiOxw=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "02032da4af073d0f6110540c8677f16d4be0117f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "02032da4af073d0f6110540c8677f16d4be0117f",
+        "type": "github"
+      }
+    },
     "nixpkgs-lib": {
       "locked": {
         "lastModified": 1754788789,
@@ -1352,6 +1368,7 @@
         "nix-wsl": "nix-wsl",
         "nixfiles-assets": "nixfiles-assets",
         "nixpkgs": "nixpkgs_2",
+        "nixpkgs-forgejo": "nixpkgs-forgejo",
         "nixpkgs-mopidy": "nixpkgs-mopidy",
         "nixpkgs-nix-du": "nixpkgs-nix-du",
         "nixpkgs-unstable": "nixpkgs-unstable",

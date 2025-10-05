@@ -131,6 +131,8 @@
       now = 1741899501;
     in
       hold now 7 stable unstable;
+
+    forgejo-migrate = (import inputs.nixpkgs-forgejo.outPath { inherit (prev) system; }).forgejo;
   };
   # // (
   #   lib.genAttrs [

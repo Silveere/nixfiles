@@ -10,6 +10,7 @@
 in {
   imports = [
     ./gitea.nix
+    ./forgejo.nix
     ./authelia.nix
   ];
   config = {
