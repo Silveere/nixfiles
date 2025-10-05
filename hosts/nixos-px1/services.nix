@@ -15,6 +15,7 @@ in
       enable = true;
       environmentFile = secrets.atticd.path;
       settings = {
+        database.url = "postgres://atticd?host=/run/postgresql";
         allowed-hosts = [
           "attic2.protogen.io"
         ];
@@ -22,6 +23,22 @@ in
         compression.type = "zstd";
         garbage-collection.interval = "12 hours";
       };
+    };
+
+    systemd.services.attic.after = [
+      "postgresql.target"
+    ];
+
+    services.postgresql = {
+      enable = lib.mkDefault true;
+
+      ensureDatabases = [ "atticd" ];
+      ensureUsers = [
+        {
+          name = config.services.atticd.user;
+          ensureDBOwnership = true;
+        }
+      ];
     };
   };
 }
