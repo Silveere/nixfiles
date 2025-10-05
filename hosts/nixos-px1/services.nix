@@ -25,6 +25,8 @@ in
       };
     };
 
+    users.groups.atticd = { };
+
     systemd.services.attic.after = [
       "postgresql.target"
     ];
