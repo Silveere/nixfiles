@@ -99,6 +99,13 @@
     in
       hold now 90 stable unstable;
 
+    beets = let
+      stable = pkgsStable.beets;
+      unstable = prev.beets;
+      now = 1759635362;
+    in
+      hold now 15 stable unstable;
+
     # redlib = let
     #   redlib-new = final.redlib-git;
     #   inherit (prev) redlib;
