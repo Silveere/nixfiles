@@ -22,7 +22,7 @@ in {
           ROOT_URL = "https://forgejo.protogen.io/";
           LANDING_PAGE = "explore";
           OFFLINE_MODE = false;
-          HTTP_PORT = 3001;
+          HTTP_PORT = 3003;
         };
 
         service.DISABLE_REGISTRATION = true;

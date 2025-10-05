@@ -270,6 +270,7 @@ in {
           "firefly.protogen.io" = mkReverseProxy 8083;
           "firefly-import.protogen.io" = mkAuthProxy 8084;
 
+          "forgejo.protogen.io" = mkReverseProxy 3003;
           "gitea.protogen.io" = lib.mkMerge [
             (mkReverseProxy 3000)
             {

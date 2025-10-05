@@ -132,7 +132,7 @@
     in
       hold now 7 stable unstable;
 
-    forgejo-migrate = (import inputs.nixpkgs-forgejo.outPath { inherit (prev) system; }).forgejo;
+    forgejo-migrate = (import inputs.nixpkgs-forgejo.outPath {inherit (prev) system;}).forgejo;
   };
   # // (
   #   lib.genAttrs [
