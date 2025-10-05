@@ -7,7 +7,7 @@ in
     age.secrets = {
       atticd = {
         file = ../../secrets/atticd.age;
-        group = "atticd";
+        group = "atticd-secret";
       };
     };
 
@@ -25,11 +25,14 @@ in
       };
     };
 
-    users.groups.atticd = { };
+    users.groups.atticd-secret = { };
 
-    systemd.services.attic.after = [
-      "postgresql.target"
-    ];
+    systemd.services.atticd = {
+      after = [ "postgresql.target" ];
+      serviceConfig = {
+        SupplementaryGroups = "atticd-secret";
+      };
+    };
 
     services.postgresql = {
       enable = lib.mkDefault true;
