@@ -229,8 +229,20 @@
                     mkdir -p $out/bin
                     ln -s "$formatter" "$out/bin/formatter"
                   '';
+
+                  inputPaths = lib.mapAttrsToList (_: v: v.outPath) inputs;
               in
                 pkgs.mkShell {
+                  # no-op which (theoreticlly) forces all of the flake inputs
+                  # to be build inputs so i can have all of them as a gcroot
+                  # locally automatically by lorri. it normally only pins the
+                  # shell as opposed to all of the inputs like nix-direnv,
+                  # which makes cerain things annoying. i like having all of
+                  # the inputs cached.
+                  shellHook = ''
+                    : ${lib.escapeShellArg (lib.concatStringsSep ":" inputPaths)}
+                  '';
+
                   buildInputs = with pkgs; [
                     alejandra
                     nix-update
