@@ -232,6 +232,16 @@
                   '';
 
                   inputPaths = lib.mapAttrsToList (_: v: v.outPath) inputs;
+                  inputPathLinks = let
+                    linkCommands = lib.pipe inputPaths [
+                      (map (x: "ln -s ${lib.escapeShellArg x} $out/"))
+                      (lib.concatStringsSep "\n")
+                    ];
+                  in pkgs.runCommand "links" { } ''
+                    mkdir -p $out
+                    ${linkCommands}
+                  '';
+
               in
                 pkgs.mkShell {
                   # no-op which (theoreticlly) forces all of the flake inputs
@@ -249,6 +259,7 @@
                     nix-update
                     formatter
                     nvfetcher
+                    # inputPathLinks
                     inputs.agenix.packages.${system}.default
                   ];
                 };
