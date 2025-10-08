@@ -67,6 +67,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # no inputs.nixpkgs.follows so i can use cachix
     # https://github.com/hyprwm/Hyprland/releases
     # hyprland.url = "git+https://github.com/hyprwm/Hyprland?rev=v0.4.1&submodules=1";
     hyprland = {
@@ -74,18 +75,16 @@
       url = "https://github.com/hyprwm/Hyprland";
       submodules = true;
       # ref = "refs/tags/v0.44.1";
-      # i don't even use the cachix
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     hyprwm-contrib = {
       url = "github:hyprwm/contrib";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     hypridle = {
       url = "github:hyprwm/hypridle";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     zen-browser = {
