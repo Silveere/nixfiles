@@ -18,6 +18,9 @@ in {
       };
     };
 
+    users.groups.secrets = {};
+    users.users.acme.extraGroups = ["secrets"];
+
     security.acme = {
       acceptTerms = true;
       maxConcurrentRenewals = 1;
@@ -46,7 +49,6 @@ in {
     ];
 
     users.users.nginx.extraGroups = ["acme"];
-
 
     services.nginx = {
       enable = true;
