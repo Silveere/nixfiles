@@ -43,6 +43,22 @@ in {
       # declare functions at start of bashrc
       bashrcExtra = common_functions "bash";
       initExtra = ''
+        _bashrc_tmux_auto_exit () {
+          local timeout
+          local start
+          local end
+          timeout=60
+          start="$(date +%s)"
+          [[ -z "''${TMUX:+x}" ]] && tmux new-session || return 0
+          end="$(date +%s)"
+
+          if [[ "$(( "$end" - "$start" ))" -gt "$timeout" ]]
+          then
+            exit 0
+          fi
+        }
+        _bashrc_tmux_auto_exit
+
         export HOME_MANAGER_MANAGED=true;
         [[ -e ~/dotfiles/shell/.bashrc ]] && . ~/dotfiles/shell/.bashrc ]]
         unset HOME_MANAGERR_MANAGED
@@ -52,6 +68,22 @@ in {
       enable = mkDefault true;
       initContent =
         ''
+          _zshrc_tmux_auto_exit () {
+            local timeout
+            local start
+            local end
+            timeout=60
+            start="$(date +%s)"
+            [[ -z "''${TMUX:+x}" ]] && tmux new-session || return 0
+            end="$(date +%s)"
+
+            if [[ "$(( "$end" - "$start" ))" -gt "$timeout" ]]
+            then
+              exit 0
+            fi
+          }
+          _zshrc_tmux_auto_exit
+
           export HOME_MANAGER_MANAGED=true
           [[ -e ~/dotfiles/shell/.zshrc ]] && . ~/dotfiles/shell/.zshrc ]]
           unset HOME_MANAGER_MANAGED
