@@ -133,6 +133,13 @@
       hold now 7 stable unstable;
 
     forgejo-migrate = (import inputs.nixpkgs-forgejo.outPath {inherit (prev) system;}).forgejo;
+
+    kodi = let
+      stable = pkgsStable.kodi;
+      unstable = prev.kodi;
+      now = 1760162132;
+    in
+      hold now 7 stable unstable;
   };
   # // (
   #   lib.genAttrs [
