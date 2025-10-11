@@ -12,6 +12,20 @@
     __nixfiles_alias_comma_frequent_commands () {
       history | sed 's:^ \+[0-9]\+ \+::' | grep '^,' | cut -d' ' -f2- | sed 's:^\(-[^ ]\+ \?\)\+::g' | grep . | cut -d' ' -f1 | sort | uniq -c | sort -g
     }
+    __nixfiles_tmux_auto_exit () {
+      local timeout
+      local start
+      local end
+      timeout=${lib.escapeShellArg (builtins.toString tmux_timeout)}
+      start="$(date +%s)"
+      [[ -z "''${TMUX:+x}" ]] && tmux new-session || return 0
+      end="$(date +%s)"
+
+      if [[ "$(( "$end" - "$start" ))" -gt "$timeout" ]]
+      then
+        exit 0
+      fi
+    }
   '';
 in {
   options.nixfiles.common.shell = {
@@ -45,21 +59,7 @@ in {
       bashrcExtra = common_functions "bash";
       initExtra =
         lib.optionalString config.programs.tmux.enable ''
-          _bashrc_tmux_auto_exit () {
-            local timeout
-            local start
-            local end
-            timeout=${lib.escapeShellArg (builtins.toString tmux_timeout)}
-            start="$(date +%s)"
-            [[ -z "''${TMUX:+x}" ]] && tmux new-session || return 0
-            end="$(date +%s)"
-
-            if [[ "$(( "$end" - "$start" ))" -gt "$timeout" ]]
-            then
-              exit 0
-            fi
-          }
-          _bashrc_tmux_auto_exit
+          __nixfiles_tmux_auto_exit
 
         ''
         + ''
@@ -71,32 +71,19 @@ in {
     };
     programs.zsh = {
       enable = mkDefault true;
-      initContent =
-        lib.optionalString config.programs.tmux.enable ''
-          _zshrc_tmux_auto_exit () {
-            local timeout
-            local start
-            local end
-            timeout=${lib.escapeShellArg (builtins.toString tmux_timeout)}
-            start="$(date +%s)"
-            [[ -z "''${TMUX:+x}" ]] && tmux new-session || return 0
-            end="$(date +%s)"
+      initContent = (
+        common_functions "zsh"
+        + (lib.optionalString config.programs.tmux.enable ''
+          __nixfiles_tmux_auto_exit
 
-            if [[ "$(( "$end" - "$start" ))" -gt "$timeout" ]]
-            then
-              exit 0
-            fi
-          }
-          _zshrc_tmux_auto_exit
-
-        ''
+        '')
         + ''
           export HOME_MANAGER_MANAGED=true
           [[ -e ~/dotfiles/shell/.zshrc ]] && . ~/dotfiles/shell/.zshrc ]]
           unset HOME_MANAGER_MANAGED
 
         ''
-        + common_functions "zsh";
+      );
       oh-my-zsh = {
         enable = mkDefault true;
         theme = "robbyrussell";
