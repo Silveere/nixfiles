@@ -140,6 +140,13 @@
       now = 1760162132;
     in
       hold now 7 stable unstable;
+
+    bucklespring-libinput = let
+      stable = pkgsStable.bucklespring-libinput;
+      unstable = prev.bucklespring-libinput;
+      now = 1760162132;
+    in
+      hold now 7 stable unstable;
   };
   # // (
   #   lib.genAttrs [
