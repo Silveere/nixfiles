@@ -18,7 +18,7 @@
       local end
       timeout=${lib.escapeShellArg (builtins.toString tmux_timeout)}
       start="$(date +%s)"
-      [[ -z "''${TMUX:+x}" ]] && tmux new-session || return 0
+      [[ -z "''${TMUX:+x}" ]] && command -v tmux > /dev/null 2>&1 && tmux new-session || return 0
       end="$(date +%s)"
 
       if [[ "$(( "$end" - "$start" ))" -gt "$timeout" ]]
@@ -58,7 +58,8 @@ in {
       # declare functions at start of bashrc
       bashrcExtra = common_functions "bash";
       initExtra =
-        lib.optionalString config.programs.tmux.enable ''
+        # config.programs.tmux.enable
+        lib.optionalString true ''
           __nixfiles_tmux_auto_exit
 
         ''
@@ -73,7 +74,8 @@ in {
       enable = mkDefault true;
       initContent = (
         common_functions "zsh"
-        + (lib.optionalString config.programs.tmux.enable ''
+        # config.programs.tmux.enable
+        + (lib.optionalString true ''
           __nixfiles_tmux_auto_exit
 
         '')
