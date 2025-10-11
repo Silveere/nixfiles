@@ -28,6 +28,7 @@ in {
       srun = "systemd-run";
       urun = "systemd-run --user";
       grc = "grc --colour=on";
+      vn = "cd ~/nixfiles; nvim";
 
       # this lets me find commands that i run with comma very frequently so i
       # can install them
