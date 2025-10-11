@@ -48,6 +48,8 @@ in {
       # this lets me find commands that i run with comma very frequently so i
       # can install them
       comma-frequent = "__nixfiles_alias_comma_frequent_commands";
+
+      ta = "tmux attach";
     };
     programs.fzf.enable = mkDefault true;
     programs.fzf.enableZshIntegration = mkDefault true;
