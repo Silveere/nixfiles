@@ -6,7 +6,7 @@
 }: let
   inherit (lib) mkOption mkEnableOption mkIf mkDefault;
   cfg = config.nixfiles.common.shell;
-  tmux_timeout=15;
+  tmux_timeout = 15;
 
   common_functions = shell: ''
     __nixfiles_alias_comma_frequent_commands () {
@@ -43,32 +43,36 @@ in {
       enable = mkDefault true;
       # declare functions at start of bashrc
       bashrcExtra = common_functions "bash";
-      initExtra = ''
-        _bashrc_tmux_auto_exit () {
-          local timeout
-          local start
-          local end
-          timeout=${lib.escapeShellArg (builtins.toString tmux_timeout)}
-          start="$(date +%s)"
-          [[ -z "''${TMUX:+x}" ]] && tmux new-session || return 0
-          end="$(date +%s)"
+      initExtra =
+        lib.optionalString config.programs.tmux.enable ''
+          _bashrc_tmux_auto_exit () {
+            local timeout
+            local start
+            local end
+            timeout=${lib.escapeShellArg (builtins.toString tmux_timeout)}
+            start="$(date +%s)"
+            [[ -z "''${TMUX:+x}" ]] && tmux new-session || return 0
+            end="$(date +%s)"
 
-          if [[ "$(( "$end" - "$start" ))" -gt "$timeout" ]]
-          then
-            exit 0
-          fi
-        }
-        _bashrc_tmux_auto_exit
+            if [[ "$(( "$end" - "$start" ))" -gt "$timeout" ]]
+            then
+              exit 0
+            fi
+          }
+          _bashrc_tmux_auto_exit
 
-        export HOME_MANAGER_MANAGED=true;
-        [[ -e ~/dotfiles/shell/.bashrc ]] && . ~/dotfiles/shell/.bashrc ]]
-        unset HOME_MANAGERR_MANAGED
-      '';
+        ''
+        + ''
+          export HOME_MANAGER_MANAGED=true;
+          [[ -e ~/dotfiles/shell/.bashrc ]] && . ~/dotfiles/shell/.bashrc ]]
+          unset HOME_MANAGERR_MANAGED
+
+        '';
     };
     programs.zsh = {
       enable = mkDefault true;
       initContent =
-        ''
+        lib.optionalString config.programs.tmux.enable ''
           _zshrc_tmux_auto_exit () {
             local timeout
             local start
@@ -85,9 +89,12 @@ in {
           }
           _zshrc_tmux_auto_exit
 
+        ''
+        + ''
           export HOME_MANAGER_MANAGED=true
           [[ -e ~/dotfiles/shell/.zshrc ]] && . ~/dotfiles/shell/.zshrc ]]
           unset HOME_MANAGER_MANAGED
+
         ''
         + common_functions "zsh";
       oh-my-zsh = {
