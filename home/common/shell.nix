@@ -6,6 +6,7 @@
 }: let
   inherit (lib) mkOption mkEnableOption mkIf mkDefault;
   cfg = config.nixfiles.common.shell;
+  tmux_timeout=15;
 
   common_functions = shell: ''
     __nixfiles_alias_comma_frequent_commands () {
@@ -47,7 +48,7 @@ in {
           local timeout
           local start
           local end
-          timeout=60
+          timeout=${lib.escapeShellArg (builtins.toString tmux_timeout)}
           start="$(date +%s)"
           [[ -z "''${TMUX:+x}" ]] && tmux new-session || return 0
           end="$(date +%s)"
@@ -72,7 +73,7 @@ in {
             local timeout
             local start
             local end
-            timeout=60
+            timeout=${lib.escapeShellArg (builtins.toString tmux_timeout)}
             start="$(date +%s)"
             [[ -z "''${TMUX:+x}" ]] && tmux new-session || return 0
             end="$(date +%s)"
