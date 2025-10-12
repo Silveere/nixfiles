@@ -23,6 +23,9 @@
 
       if [[ "$(( "$end" - "$start" ))" -gt "$timeout" ]]
       then
+        echo exiting in 5 seconds. press ^C to cancel...
+        trap : INT
+        sleep 5 || { trap - INT; echo exit cancelled. ; return 0; }
         exit 0
       fi
     }
