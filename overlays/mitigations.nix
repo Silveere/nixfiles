@@ -147,6 +147,12 @@
       now = 1760162132;
     in
       hold now 7 stable unstable;
+
+    krita = let
+      stable = pkgsStable.krita;
+      unstable = prev.krita;
+      now = 1760377443;
+    in hold now 7 stable unstable;
   };
   # // (
   #   lib.genAttrs [
