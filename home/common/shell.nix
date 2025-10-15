@@ -54,9 +54,9 @@ in {
 
       ta = "tmux attach";
     };
+
     programs.fzf.enable = mkDefault true;
-    programs.fzf.enableZshIntegration = mkDefault true;
-    programs.fzf.enableBashIntegration = mkDefault true;
+    programs.zoxide.enable = mkDefault true;
 
     programs.bash = {
       enable = mkDefault true;
