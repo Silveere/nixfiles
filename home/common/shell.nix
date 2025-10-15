@@ -18,7 +18,9 @@
       local end
       timeout=${lib.escapeShellArg (builtins.toString tmux_timeout)}
       start="$(date +%s)"
-      [[ -z "''${TMUX:+x}" ]] && command -v tmux > /dev/null 2>&1 && tmux new-session || return 0
+      [[ -z "''${TMUX:+x}" ]] && command -v tmux > /dev/null 2>&1 && {
+          tmux attach-session || tmux new-session;
+        } || return 0
       end="$(date +%s)"
 
       if [[ "$(( "$end" - "$start" ))" -gt "$timeout" ]]
