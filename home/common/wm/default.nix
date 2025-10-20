@@ -115,6 +115,9 @@ in {
         enable = mkDefault true;
         automount = mkDefault false;
       };
+
+      blueman-applet.enable = mkDefault true;
+      copyq.enable = mkDefault true;
     };
   };
 }
