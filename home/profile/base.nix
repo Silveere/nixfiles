@@ -199,6 +199,7 @@ in {
         asciinema
         mtr
         qrencode
+        zbar
 
         screen
         minicom
