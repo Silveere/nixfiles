@@ -48,7 +48,8 @@ in {
 
       playerctl
 
-      pcmanfm
+      pcmanfm-qt
+      pcmanfm-qt-shim
       ffmpegthumbnailer
 
       wlr-randr
