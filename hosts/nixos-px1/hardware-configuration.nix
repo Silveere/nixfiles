@@ -39,6 +39,12 @@
     options = ["bind"];
   };
 
+  fileSystems."/.mounts/1" = {
+    device = "/dev/disk/by-uuid/d4d0b2a0-a3e3-42bd-a0d6-7188466893d4";
+    fsType = "btrfs";
+    options = [ "subvol=/" ];
+  };
+
   swapDevices = [];
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
