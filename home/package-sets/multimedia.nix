@@ -20,9 +20,15 @@ in {
   };
 
   config = mkIf cfg.enable {
+    programs.mpv = {
+      enable = lib.mkDefault true;
+      scripts = with pkgs.mpvScripts; [
+        videoclip
+      ];
+    };
+
     home.packages = with pkgs;
       optionals config.nixfiles.meta.graphical [
-        mpv
         gimp3
         krita
         inkscape
