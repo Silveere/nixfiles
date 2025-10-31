@@ -16,6 +16,7 @@
     ../../system # nixfiles modules
     ./nvidia-optimus.nix
     ./supergfxd.nix
+    ./copyparty.nix
   ];
 
   config = {

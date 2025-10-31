@@ -28,6 +28,8 @@ in {
   "homepage.age".publicKeys = [rpi4] ++ all-user;
   "paperless-admin.age".publicKeys = [rpi4] ++ all-user;
 
+  "rclone-crypt.age".publicKeys = [slab px1 agenix];
+
   "restic-rclone.age".publicKeys = [rpi4 nullbox slab px1] ++ all-user;
   "restic-password.age".publicKeys = [rpi4 nullbox slab px1] ++ all-user;
 
