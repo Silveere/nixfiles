@@ -4,30 +4,36 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkOption mkEnableOption mkIf mkDefault;
+  inherit (lib) mkOption mkEnableOption mkIf mkDefault optionalString;
   cfg = config.nixfiles.common.shell;
   tmux_timeout = 15;
+
+  tmuxAutoExit = false;
 
   common_functions = shell: ''
     __nixfiles_alias_comma_frequent_commands () {
       history | sed 's:^ \+[0-9]\+ \+::' | grep '^,' | cut -d' ' -f2- | sed 's:^\(-[^ ]\+ \?\)\+::g' | grep . | cut -d' ' -f1 | sort | uniq -c | sort -g
     }
     __nixfiles_tmux_auto_exit () {
-      local timeout
-      local start
-      local end
-      timeout=${lib.escapeShellArg (builtins.toString tmux_timeout)}
-      start="$(date +%s)"
+      ${optionalString tmuxAutoExit ''
+        local timeout
+        local start
+        local end
+        timeout=${lib.escapeShellArg (builtins.toString tmux_timeout)}
+        start="$(date +%s)"
+      ''}
       [[ -z "''${TMUX:+x}" ]] && command -v tmux > /dev/null 2>&1 && tmux new-session || return 0
-      end="$(date +%s)"
+      ${optionalString tmuxAutoExit ''
+        end="$(date +%s)"
 
-      if [[ "$(( "$end" - "$start" ))" -gt "$timeout" ]]
-      then
-        echo exiting in 5 seconds. press ^C to cancel...
-        trap : INT
-        sleep 5 || { trap - INT; echo exit cancelled. ; return 0; }
-        exit 0
-      fi
+        if [[ "$(( "$end" - "$start" ))" -gt "$timeout" ]]
+        then
+          echo exiting in 5 seconds. press ^C to cancel...
+          trap : INT
+          sleep 5 || { trap - INT; echo exit cancelled. ; return 0; }
+          exit 0
+        fi
+      ''}
     }
   '';
 in {
