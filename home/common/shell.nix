@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkOption mkEnableOption mkIf mkDefault optionalString;
+  inherit (lib) mkOption mkEnableOption mkIf mkDefault optionalString mkOrder;
   cfg = config.nixfiles.common.shell;
   tmux_timeout = 15;
 
@@ -83,20 +83,20 @@ in {
     };
     programs.zsh = {
       enable = mkDefault true;
-      initContent = (
-        common_functions "zsh"
+      initContent = lib.mkMerge [
+        (mkOrder 450 (common_functions "zsh"))
         # config.programs.tmux.enable
-        + (lib.optionalString true ''
+        (lib.mkIf true (mkOrder 500 ''
           __nixfiles_tmux_auto_exit
 
-        '')
-        + ''
+        ''))
+        ''
           export HOME_MANAGER_MANAGED=true
           [[ -e ~/dotfiles/shell/.zshrc ]] && . ~/dotfiles/shell/.zshrc ]]
           unset HOME_MANAGER_MANAGED
 
         ''
-      );
+      ];
       oh-my-zsh = {
         enable = mkDefault true;
         theme = "robbyrussell";
