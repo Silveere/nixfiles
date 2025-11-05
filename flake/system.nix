@@ -143,7 +143,8 @@ in {
           home-manager.input = lib.mkIf (config.nixpkgs == inputs.nixpkgs) (lib.mkDefault inputs.home-manager);
 
           modules = let
-            nixfilesModule = self + "/system";
+            # dendritic nixfiles init >:3
+            nixfilesModule = outerConfig.flake.modules.nixos.nixfiles;
             defaultsModule = {...}: {
               # Values for every single system that would not conceivably need
               # to be made modular
@@ -231,12 +232,16 @@ in {
               nixfilesModule
               defaultsModule
             ]
+            # dendritic should simplify this too because this is essentially a
+            # wrapper for `imports` and i should not define separate configs
+            # for this
             ++ lib.optional (!(isNull config.configuration)) config.configuration
             ++ lib.optional config.home-manager.enable homeManagerModule
             ++ lib.optional config.wsl wslModule;
           extraConfig = {
             inherit (config) system modules;
             # TODO get rid of specialArgs and pass things as a module
+            # or just use dendritic :3
             specialArgs = let
               inherit (self) outputs;
             in {

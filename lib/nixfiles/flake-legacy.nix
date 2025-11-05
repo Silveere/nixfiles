@@ -139,7 +139,7 @@ in rec {
         modules =
           [
             # dendritic init >:3
-            moduleAttrs.config.flake.modules.nixos
+            moduleAttrs.config.flake.modules.nixos.nixfiles
             ({
                 pkgs,
                 config,
