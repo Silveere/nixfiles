@@ -10,6 +10,11 @@
   # on the current context, and just return relevant libraries based on that
   # input.
   #
+  # ^ nevermind guess who just discovered dendritic flakes !!!!!! :3
+  #   ideally the best way to get rid of all of this will be to create a
+  #   `nixfiles.lib` flake option that any file in /dendritic/lib can dump
+  #   their functions into
+  #
   # create empty `pkgs` with lib only `lib` attr as fallback
   pkgs = attrs.pkgs or {inherit (attrs) lib;};
   # inherit lib from whatever `pkgs` happens to be

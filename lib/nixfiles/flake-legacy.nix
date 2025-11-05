@@ -54,7 +54,8 @@ in rec {
       mapUserModules = lib.attrsets.mapAttrs (user: modules: {lib, ...}: {
         imports =
           [
-            (self + "/home")
+            # dendritic init >:3
+            moduleAttrs.config.flake.modules.homeManager.nixfiles
           ]
           ++ modules;
         config = {
@@ -137,7 +138,8 @@ in rec {
         inherit system;
         modules =
           [
-            (self + "/system")
+            # dendritic init >:3
+            moduleAttrs.config.flake.modules.nixos
             ({
                 pkgs,
                 config,

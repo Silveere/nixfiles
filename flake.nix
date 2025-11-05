@@ -18,6 +18,8 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
+    import-tree.url = "github:vic/import-tree";
+
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -150,7 +152,10 @@
           ./lib/nixfiles/module.nix
           ./pkgs/module.nix
           ./overlays
+          # dendritic init >:3
+          (inputs.import-tree ./dendritic)
           inputs.treefmt-nix.flakeModule
+          inputs.flake-parts.flakeModules.modules
         ];
 
         config = {
