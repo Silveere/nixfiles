@@ -1,4 +1,4 @@
-{ self }:
+{ self, ... }:
 let
   nixos = { ... }: {
     imports = [
