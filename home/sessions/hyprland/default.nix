@@ -190,7 +190,6 @@ in {
           ++ (map wrapScope config.nixfiles.common.wm.autostart)
           ++ [
             wallpaper-cmd
-            notifydaemon
             idle-cmd
             xdpg-workaround
             bar-cmd
