@@ -48,6 +48,22 @@ in {
       signing.format = lib.mkDefault "openpgp";
     };
 
+    # git maintenance: don't spam endpoints, ignore failure
+    systemd.user.services."git-maintenance@".Service = lib.mkIf config.programs.git.maintenance.enable {
+      SuccessExitStatus = [
+        "1" # i do not care if it fails
+      ];
+      Environment = let
+        ssh_wrapper = pkgs.writeShellScript "ssh-wrapper" ''
+          echo "ssh wrapper called with:" "$@" >&2
+          set -x
+          exec ${pkgs.openssh}/bin/ssh -v -o BatchMode=yes -o ConnectTimeout=5 -o PreferredAuthentications=publickey "$@"
+        '';
+      in [
+          "GIT_SSH=${ssh_wrapper}"
+        ];
+    };
+
     # this allows `git config --global` commands to work by ensuring the
     # presense of ~/.gitconfig. git will read from both files, and `git config`
     # will not write to ~/.gitconfig when the managed config exists unless
