@@ -124,7 +124,6 @@ in {
       ];
       extraFlags = [
         "--quiet"
-        "--quick" # faster algorithm that avoids lockfiles
         "--noask" # do not block the terminal or i will become very angry
         "--ignore-missing"
         "--ssh-allow-forwarded"
