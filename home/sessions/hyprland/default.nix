@@ -19,7 +19,7 @@
   terminal = "${pkgs.kitty}/bin/kitty";
   files = "pcmanfm"; # this should be installed in path
   rofi-cmd = "${pkgs.rofi}/bin/rofi";
-  notifydaemon = "${pkgs.dunst}/bin/dunst";
+  dunstctl = "${pkgs.dunst}/bin/dunstctl";
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   grimblast = "${inputs.hyprwm-contrib.packages.${pkgs.system}.grimblast}/bin/grimblast";
   swayidle = "${pkgs.swayidle}/bin/swayidle";
@@ -136,7 +136,6 @@ in {
       kdePackages.dolphin
       rofi
       wev
-      dunst
       pkgs.brightnessctl
       hypr-dispatcher-package
       config.programs.swaylock.package
@@ -382,6 +381,11 @@ in {
             # edit this file
             ("$mod SHIFT, slash, exec, ${terminal} -e ${pkgs.neovim}/bin/nvim "
               + lib.escapeShellArg (config.nixfiles.path + "/home/sessions/hyprland/default.nix"))
+          ]
+          ++ lib.optionals config.services.dunst.enable [
+            "$mod, grave, exec, ${dunstctl} close"
+            "$mod SHIFT, grave, exec, ${dunstctl} history-pop"
+            "$mod, z, exec, ${dunstctl} context"
           ]
           ++ lib.optional config.nixfiles.programs.mopidy.enable
           "$mod CTRL, n, exec, ${mkKittyHdrop "ncmpcpp" "ncmpcpp"}";
