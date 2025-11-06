@@ -88,12 +88,18 @@ in {
       enable = lib.mkDefault true;
       enableBashIntegration = lib.mkDefault true;
       enableZshIntegration = lib.mkDefault true;
+      keys = lib.mkDefault [
+        "id_rsa"
+        "id_ed25519"
+      ];
       extraFlags = [
         "--quiet"
-        "--systemd"
-        "--inherit"
-        "any-once"
-        "--noask"
+        "--quick" # faster algorithm that avoids lockfiles
+        "--noask" # do not block the terminal or i will become very angry
+        "--ignore-missing"
+        "--ssh-allow-forwarded"
+        "--systemd" # populate systemd vars
+        # keychain --quiet --quick --noask --ignore-missing --ssh-allow-forwarded --debug id_rsa id_ed25519
       ];
     };
 
