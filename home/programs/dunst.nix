@@ -6,6 +6,11 @@
 }: let
   cfg = config.nixfiles.programs.dunst;
   mkd = lib.mkDefault;
+
+  dmenuCondition = config.programs.rofi.enable;
+  dmenu = if config.programs.rofi.enable then
+    "${lib.getExe' config.programs.rofi.package "rofi"} -dmenu"
+    else null;
 in {
   options.nixfiles.programs.dunst = {
     enable = lib.mkOption {
@@ -25,6 +30,7 @@ in {
           monitor = mkd 1;
           markup = mkd "full";
           show_age_threshold = mkd "60";
+          dmenu = lib.mkIf dmenuCondition (mkd "${dmenu} -p dunst");
 
           # appearance
           follow = mkd "none";
