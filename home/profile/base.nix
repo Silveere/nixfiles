@@ -17,6 +17,15 @@ in {
     enable = lib.mkEnableOption "base profile";
   };
 
+  options.programs.git.maintenance.requiredKeys = lib.mkOption {
+    description = ''
+      List of SSH keys which should be loaded into an agent before attempting
+      to prefetch SSH repositories.
+    '';
+    type = with lib.types; listOf str;
+    default = [ ];
+  };
+
   config = lib.mkIf cfg.enable {
     nixfiles.programs.comma.enable = true;
     nixfiles.programs.neovim.enable = lib.mkDefault true;
@@ -55,9 +64,14 @@ in {
       ];
       Environment = let
         ssh_wrapper = pkgs.writeShellScript "ssh-wrapper" ''
-          echo "ssh wrapper called with:" "$@" >&2
-          set -x
-          exec ${pkgs.openssh}/bin/ssh -v -o BatchMode=yes -o ConnectTimeout=5 -o PreferredAuthentications=publickey "$@"
+          # echo "ssh wrapper called with:" "$@" >&2
+          set -Eeuo pipefail
+
+          ${builtins.concatStringsSep "\n" (builtins.map
+            (key: "${pkgs.openssh}/bin/ssh-add -l | grep -F ${lib.escapeShellArg key} >&2 || exit 1")
+            config.programs.git.maintenance.requiredKeys)}
+
+          exec ${pkgs.openssh}/bin/ssh -S none -o BatchMode=yes -o ConnectTimeout=5 -o PreferredAuthentications=publickey "$@"
         '';
       in [
           "GIT_SSH=${ssh_wrapper}"

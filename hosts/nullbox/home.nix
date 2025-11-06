@@ -12,6 +12,10 @@
 
     home.stateVersion = "23.11";
 
+    programs.git.maintenance.requiredKeys = [
+      "SHA256:wzTCUtmSNNCm57yhDEv5mkKtHCqjFfjL2su7DfET3B8"
+    ];
+
     wayland.windowManager.hyprland.settings = {
       monitor = [
         "HDMI-A-3,disable"

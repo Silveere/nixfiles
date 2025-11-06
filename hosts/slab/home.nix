@@ -27,6 +27,10 @@
 
     nixfiles.theming.catppuccin.themeDPI = "hdpi";
 
+    programs.git.maintenance.requiredKeys = [
+      "SHA256:0pGLuHNjhYaRsdZbVNNp3npmeChouUDWGt2/kvfVsfI"
+    ];
+
     wayland.windowManager.hyprland.settings = {
       monitor = ",preferred,auto,1.333333";
     };
