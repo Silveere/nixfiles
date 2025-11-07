@@ -72,7 +72,7 @@ in {
 
     home.packages = with pkgs;
       [
-        ubuntu_font_family
+        ubuntu-classic
       ]
       ++ lib.mapAttrsToList (k: v: v) ctp.packages;
 
@@ -80,7 +80,7 @@ in {
       enable = true;
       font = lib.mkIf (!(config.stylix.enable)) (lib.mkDefault {
         name = "Ubuntu";
-        package = pkgs.ubuntu_font_family;
+        package = pkgs.ubuntu-classic;
         size = lib.mkDefault 12;
       });
 
@@ -107,10 +107,10 @@ in {
       };
 
       fonts = let
-        ubuntu = pkgs.ubuntu_font_family;
+        ubuntu = pkgs.ubuntu-classic;
       in {
         # packages = with pkgs; [
-        #   ubuntu_font_family
+        #   ubuntu-classic
         #   noto-fonts-emoji-blob-bin
         # ];
         emoji = {
