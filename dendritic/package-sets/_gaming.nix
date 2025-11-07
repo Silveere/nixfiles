@@ -61,7 +61,7 @@
         mangohud
         goverlay
         prismlauncher
-        glxinfo
+        mesa-demos
         vulkan-tools
         legendary-gl
         heroic

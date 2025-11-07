@@ -10,7 +10,7 @@ in {
   config = lib.mkIf cfg.enable {
     environment.systemPackages = let
       offload-enabled = config.hardware.nvidia.prime.offload.enableOffloadCmd;
-      glxinfo = lib.getExe' pkgs.glxinfo "glxinfo";
+      glxinfo = "${pkgs.mesa-demos}/bin/glxinfo";
       auto-offload = pkgs.writeShellScriptBin "auto-offload" (
         (
           if offload-enabled

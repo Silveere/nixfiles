@@ -16,7 +16,7 @@ in {
         zen-browser-bin
 
         # uhh idk where else to put this
-        qflipper
+        qFlipper
         trezor-suite
         trezord
 
