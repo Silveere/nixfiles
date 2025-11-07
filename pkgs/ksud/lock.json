@@ -1,12 +1,12 @@
 {
   "x86_64-linux": {
-    "url": "https://github.com/tiann/KernelSU/releases/download/v1.0.5/ksud-x86_64-unknown-linux-musl",
-    "hash": "sha256-3cne0GBqlOMGEVWkugIszwXWUGuNDDNRrOvkOc5sYic=",
-    "version": "v1.0.5"
+    "url": "https://github.com/tiann/KernelSU/releases/download/v2.0.0/ksud-x86_64-unknown-linux-musl",
+    "hash": "sha256-qjtYctduVnqc2TQo4CGlveEkNR2y8QDwpHowYKT+Y0Y=",
+    "version": "v2.0.0"
   },
   "aarch64-linux": {
-    "url": "https://github.com/tiann/KernelSU/releases/download/v1.0.5/ksud-aarch64-unknown-linux-musl",
-    "hash": "sha256-egvFjSxaUzuHo8XPFaNHiGwrou4bUGH+06GtDI3erLE=",
-    "version": "v1.0.5"
+    "url": "https://github.com/tiann/KernelSU/releases/download/v2.0.0/ksud-aarch64-unknown-linux-musl",
+    "hash": "sha256-Om2mwgeVMKg2eXGpiB0zoJCCWDRJiSAMdWOEBpv6Znk=",
+    "version": "v2.0.0"
   }
 }
