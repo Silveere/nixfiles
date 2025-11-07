@@ -90,7 +90,7 @@
     };
 
     zen-browser = {
-      url = "github:youwen5/zen-browser-flake";
+      url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
@@ -181,7 +181,7 @@
             legacyPackages.specialisedNixosConfigurations = let
               attrs = lib.pipe self.nixosConfigurations [
                 (lib.filterAttrs (n: v: !(builtins.elem n ["iso" "rpi4-x86_64"])))
-                (lib.filterAttrs (n: v: v.pkgs.system or "" == system))
+                (lib.filterAttrs (n: v: v.pkgs.stdenv.hostPlatform.system or "" == system))
                 (lib.mapAttrs' (configName: v: let
                   nospec =
                     (v.extendModules {
@@ -301,25 +301,13 @@
               };
 
               zen-browser-overlay = final: prev: let
-                inherit (final) system callPackage;
+                inherit (final.stdenv.hostPlatform) system;
+                inherit (final) callPackage;
 
                 input = inputs.zen-browser;
                 packages = input.packages.${system};
-                sources = builtins.fromJSON (builtins.readFile (input + "/sources.json"));
-
-                warnExists = name: value: let
-                  pass =
-                    if prev ? ${name}
-                    then builtins.warn "zen-browser-overlay: Package `${name}` already exists. This overlay is no longer needed and should be removed." value
-                    else value;
-                in
-                  pass;
               in {
-                zen-browser-bin = callPackage packages.zen-browser.override {};
-                zen-browser-unwrapped = warnExists "zen-browser-unwrapped" (callPackage packages.zen-browser-unwrapped.override {
-                  inherit (sources.${system}) hash url;
-                  inherit (sources) version;
-                });
+                zen-browser-bin = packages.twilight;
               };
             in [
               # TODO delete this, transfer all packages to new-packages overlay
