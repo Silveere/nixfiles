@@ -89,7 +89,7 @@ in {
     xdg.mimeApps = {
       enable = true;
       defaultApplications = let
-        defaultBrowser = ["zen.desktop"];
+        defaultBrowser = ["zen-twilight.desktop"];
       in
         mkOverrideEach 50 {
           "x-scheme-handler/https" = defaultBrowser;
