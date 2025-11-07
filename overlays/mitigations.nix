@@ -10,7 +10,7 @@
   nixfiles = self;
   overlay = final: prev: let
     pkgsStable = import nixfiles.inputs.nixpkgs.outPath {
-      inherit (prev) system;
+      inherit (prev.stdenv.hostPlatform) system;
       config.allowUnfree = true;
     };
     updateTime = nixfiles.inputs.nixpkgs-unstable.lastModified;
@@ -24,7 +24,7 @@
       versionAtLeast
       ;
 
-    pkgsFromFlake = flake: (import flake.outPath) {inherit (prev) system;};
+    pkgsFromFlake = flake: (import flake.outPath) {inherit (prev.stdenv.hostPlatform) system;};
     pkgsFromInput = name: pkgsFromFlake nixfiles.inputs.${name};
     pickFixed = ours: theirs:
       if versionAtLeast ours.version theirs.version
@@ -132,7 +132,7 @@
     in
       hold now 7 stable unstable;
 
-    forgejo-migrate = (import inputs.nixpkgs-forgejo.outPath {inherit (prev) system;}).forgejo;
+    forgejo-migrate = (import inputs.nixpkgs-forgejo.outPath {inherit (prev.stdenv.hostPlatform) system;}).forgejo;
 
     kodi = let
       stable = pkgsStable.kodi;

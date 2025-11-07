@@ -11,7 +11,7 @@
   overlay = final: prev: let
     pkgs-unstable = import nixfiles.inputs.nixpkgs-unstable {
       config.allowUnfree = true;
-      inherit (final) system;
+      inherit (final.stdenv.hostPlatform) system;
     };
     inherit (final) callPackage kdePackages lib;
 

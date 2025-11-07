@@ -30,7 +30,7 @@
         # prev (or have some separate workaround for redlib if other packages
         # need to depend on each other)
         inherit (final) callPackage;
-        currentSystem = config.perSystem "${prev.system}";
+        currentSystem = config.perSystem "${prev.stdenv.hostPlatform.system}";
         flakePackages = currentSystem.packages;
         addPackages = packages: lib.genAttrs packages (package: callPackage flakePackages.${package}.override {});
       in

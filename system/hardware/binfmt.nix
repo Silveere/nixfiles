@@ -20,7 +20,7 @@
       then systems."${system}"
       else []
   );
-  emulatedSystems = configForSystem "${pkgs.system}";
+  emulatedSystems = configForSystem "${pkgs.stdenv.hostPlatform.system}";
   cfg = config.nixfiles.binfmt;
 in {
   options.nixfiles.binfmt = {
