@@ -1,4 +1,4 @@
-{ self, ... }:
+{ self, config, ... }:
 let
   nixos = { ... }: {
     imports = [
@@ -10,11 +10,19 @@ let
       (self.outPath + "/home")
     ];
   };
+
+  homeManagerStandalone = { ... }: {
+    imports = [
+      (self.outPath + "/home/standalone.nix")
+      config.flake.modules.homeManager.nixfiles
+    ];
+  };
 in
 {
   config = {
     flake.modules = {
       homeManager.nixfiles = homeManager;
+      homeManager.nixfiles-standalone = homeManagerStandalone;
       nixos.nixfiles = nixos;
     };
   };

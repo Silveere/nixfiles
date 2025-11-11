@@ -4,6 +4,7 @@
   moduleAttrs,
   ...
 }: let
+  flakeModules = moduleAttrs.config.flake.modules;
   inherit (moduleAttrs.config.nixfiles.common) overlays;
 
   ### Configuration
@@ -55,7 +56,7 @@ in rec {
         imports =
           [
             # dendritic init >:3
-            moduleAttrs.config.flake.modules.homeManager.nixfiles
+            flakeModules.homeManager.nixfiles
           ]
           ++ modules;
         config = {
@@ -139,7 +140,7 @@ in rec {
         modules =
           [
             # dendritic init >:3
-            moduleAttrs.config.flake.modules.nixos.nixfiles
+            flakeModules.nixos.nixfiles
             ({
                 pkgs,
                 config,
@@ -220,7 +221,8 @@ in rec {
       nixpkgs ? _nixpkgs,
       username ? _username,
       homeDirectory ? "/home/${username}",
-      entrypoint ? (self + "/home/standalone.nix"),
+      # dendritic init >:3
+      entrypoint ? (flakeModules.homeManager.nixfiles-standalone),
       modules ? [],
       stateVersion ? null,
       config ? {},
