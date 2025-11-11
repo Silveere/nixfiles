@@ -144,9 +144,9 @@
     bucklespring-libinput = let
       stable = pkgsStable.bucklespring-libinput;
       unstable = prev.bucklespring-libinput;
-      now = 1760162132;
+      now = 1762905155;
     in
-      hold now 7 stable unstable;
+      hold now 30 stable unstable;
 
     krita = let
       stable = pkgsStable.krita;
