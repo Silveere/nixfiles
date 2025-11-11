@@ -153,6 +153,12 @@
       unstable = prev.krita;
       now = 1760377443;
     in hold now 7 stable unstable;
+
+    feishin = let
+      stable = pkgsStable.feishin;
+      unstable = prev.feishin;
+      now = 1762897691;
+    in hold now 14 stable unstable;
   };
   # // (
   #   lib.genAttrs [
