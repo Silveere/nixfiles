@@ -39,7 +39,7 @@
       seconds = days * 24 * 60 * 60;
       endTimestamp = now + seconds;
     in
-      if now < endTimestamp
+      if updateTime < endTimestamp
       then ours
       else theirs;
 
