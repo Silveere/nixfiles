@@ -26,7 +26,7 @@
         ''
       )
     ];
-    programs.keychain.enable = false;
+    # programs.keychain.enable = false;
     nixfiles.packageSets.gaming.enable = true;
     nixfiles.packageSets.gaming.enableLaunchers = false;
   };
