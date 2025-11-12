@@ -141,6 +141,13 @@
     in
       hold now 7 stable unstable;
 
+    tmuxp = let
+      stable = pkgsStable.tmuxp;
+      unstable = prev.tmuxp;
+      now = 1762905155;
+    in
+      hold now 7 stable unstable;
+
     bucklespring-libinput = let
       stable = pkgsStable.bucklespring-libinput;
       unstable = prev.bucklespring-libinput;
