@@ -49,6 +49,14 @@ in {
       })
     ];
 
+    programs.ssh = {
+      enable = lib.mkDefault true;
+      enableDefaultConfig = lib.mkDefault false;
+    };
+
+    # i just want to install ssh via the option so mitigations.nix can fix it
+    home.file.".ssh/config".enable = lib.mkDefault false;
+
     programs.git = {
       enable = lib.mkDefault true;
       maintenance.enable = lib.mkDefault true;
@@ -225,7 +233,6 @@ in {
         # other utilities
         tmux
         tmuxp
-        openssh
         autossh
         mosh
         btop
