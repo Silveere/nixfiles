@@ -117,6 +117,37 @@ in {
     # i like shells
     programs.fish = {
       enable = mkDefault true;
+      shellAbbrs = {
+        nhos = {
+          regex = "^nh([oh][stbB])$";
+          function = "__fish_abbr_nhos";
+        };
+      };
+      functions = {
+        __fish_abbr_nhos = ''
+          set -f nh_cat
+          set -f nh_opt
+          echo $argv[1] | string match -grm1 '^nh(?<nh_cat>.)(?<nh_opt>.)$' > /dev/null
+          printf "nh "
+          switch $nh_cat
+              case o
+                  printf "os "
+              case h
+                  printf "home "
+          end
+
+          switch $nh_opt
+              case s
+                  printf "switch"
+              case t
+                  printf "test"
+              case b
+                  printf "boot"
+              case B
+                  printf "build"
+          end
+        '';
+      };
     };
 
     programs.nushell = {
