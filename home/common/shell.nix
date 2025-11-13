@@ -87,7 +87,10 @@ in {
       ta = "tmux attach";
     };
 
-    programs.fzf.enable = mkDefault true;
+    programs.fzf = {
+      enable = mkDefault true;
+      enableFishIntegration = mkDefault false;
+    };
     programs.zoxide.enable = mkDefault true;
 
     programs.bash = {
