@@ -57,6 +57,11 @@ in {
           later.
         '';
       };
+      tmux = lib.mkEnableOption "" // {
+        description = ''
+          Whether to automatically start a `tmux` session at shell startup.
+        '';
+      };
   };
 
   config = mkIf cfg.enable {
@@ -84,7 +89,7 @@ in {
       bashrcExtra = common_functions "bash";
       initExtra =
         # config.programs.tmux.enable
-        lib.optionalString true ''
+        lib.optionalString cfg.tmux ''
           __nixfiles_tmux_auto_exit
 
         ''
