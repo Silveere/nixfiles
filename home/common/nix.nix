@@ -31,9 +31,7 @@ in {
       services.lorri = {
         enable = lib.mkDefault true;
       };
-    }
 
-    (lib.mkIf standalone {
       # direnv is a tool to automatically load shell environments upon entering
       # a directory. nix-direnv has an extensionn to keep nix shells in the
       # system's gcroots so shells can be used after a gc without rebuilding.
@@ -41,7 +39,9 @@ in {
         enable = lib.mkDefault true;
         nix-direnv.enable = lib.mkDefault true;
       };
+    }
 
+    (lib.mkIf standalone {
       home.sessionVariables.NIX_PATH = "nixpkgs=${nixpkgs}\${NIX_PATH:+:\${NIX_PATH}}";
       nix.registry = {
         nixpkgs-local = {
