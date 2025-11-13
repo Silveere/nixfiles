@@ -25,10 +25,7 @@ cd "$(dirname "$0")"
 if [[ -n "${DO_PACKAGES:+x}" ]] ; then
 	# nix-update --flake redlib --version=branch=main
 	# nix-update --flake cross-seed
-	(
-		# cross-seed is broken for now; need to manually write
-		# something to call prefetch-npm-deps
-		cd pkgs
-		nvfetcher
-	)
+	# cross-seed is broken for now; need to manually write
+	# something to call prefetch-npm-deps
+	nvfetcher
 fi
