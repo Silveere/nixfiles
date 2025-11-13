@@ -211,6 +211,7 @@ in {
         jless # less for json
         gron # forty seven (greppable json)
         fq # jq like binary parser ?
+        jqp # INTERACTIVE JQ !?!? !?
 
         # for icat on all systems
         kitty.kitten
