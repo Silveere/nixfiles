@@ -12,3 +12,7 @@ fetch.github = "cross-seed/cross-seed"
 src.git = "https://github.com/ValveSoftware/gamescope"
 fetch.github = "ValveSoftware/gamescope"
 git.fetchSubmodules = true
+
+[catppuccin-fish]
+src.git = "https://github.com/catppuccin/fish"
+fetch.github = "catppuccin/fish"

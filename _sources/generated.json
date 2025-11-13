@@ -1,4 +1,25 @@
 {
+    "catppuccin-fish": {
+        "cargoLocks": null,
+        "date": "2025-03-01",
+        "extract": null,
+        "name": "catppuccin-fish",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "catppuccin",
+            "repo": "fish",
+            "rev": "6a85af2ff722ad0f9fbc8424ea0a5c454661dfed",
+            "sha256": "sha256-Oc0emnIUI4LV7QJLs4B2/FQtCFewRFVp7EDv8GawFsA=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "6a85af2ff722ad0f9fbc8424ea0a5c454661dfed"
+    },
     "cross-seed": {
         "cargoLocks": null,
         "date": "2025-09-26",
