@@ -249,7 +249,8 @@ in {
 
         # man pages
         man-pages
-        linux-manual
+        # this + fish manpage cache thing takes way too long
+        # linux-manual
         linux-doc
 
         # custom

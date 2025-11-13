@@ -14,6 +14,13 @@
     __nixfiles_alias_comma_frequent_commands () {
       history | sed 's:^ \+[0-9]\+ \+::' | grep '^,' | cut -d' ' -f2- | sed 's:^\(-[^ ]\+ \?\)\+::g' | grep . | cut -d' ' -f1 | sort | uniq -c | sort -g
     }
+
+    ${lib.optionalString cfg.replace ''
+      __nixfiles_replace_shell () {
+        [[ -z "''${NF_NO_EXEC:+x}" ]] && exec -a -fish fish
+      }
+    ''}
+
     __nixfiles_tmux_auto_exit () {
       ${optionalString tmuxAutoExit ''
         local timeout
@@ -42,6 +49,13 @@ in {
       lib.mkEnableOption ""
       // {
         description = "Whether to enable the nixfiles shell configuration.";
+      };
+      replace = lib.mkEnableOption "" // {
+        description = ''
+          Whether to replace the interactive bash session with a different
+          shell. Currently, this replaces it with `fish`, this may change
+          later.
+        '';
       };
   };
 
@@ -74,6 +88,9 @@ in {
           __nixfiles_tmux_auto_exit
 
         ''
+        + lib.optionalString cfg.replace ''
+          __nixfiles_replace_shell
+        ''
         + ''
           export HOME_MANAGER_MANAGED=true;
           [[ -e ~/dotfiles/shell/.bashrc ]] && . ~/dotfiles/shell/.bashrc ]]
@@ -81,6 +98,22 @@ in {
 
         '';
     };
+
+    # i like shells
+    programs.fish = {
+      enable = mkDefault true;
+      shellAliases = {
+        bash = "env NF_NO_FISH=1 bash";
+      };
+    };
+
+    programs.nushell = {
+      enable = mkDefault true;
+      shellAliases = {
+        vn = lib.mkForce "false";
+      };
+    };
+
     programs.zsh = {
       enable = mkDefault true;
       initContent = lib.mkMerge [
