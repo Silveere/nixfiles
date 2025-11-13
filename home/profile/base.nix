@@ -6,6 +6,7 @@
   ...
 }: let
   cfg = config.nixfiles.profile.base;
+  inherit (lib) mkDefault;
 in {
   # imports = [
   #   ./comma.nix
@@ -30,7 +31,15 @@ in {
     nixfiles.programs.comma.enable = true;
     nixfiles.programs.neovim.enable = lib.mkDefault true;
     nixfiles.common.nix.enable = true;
-    nixfiles.common.shell.enable = true;
+    nixfiles.common.shell = {
+      enable = true;
+
+      # the shell module doesn't enable these by default because they are very
+      # invasive. they are listed here so it is easy to find and disable this
+      # behavior.
+      tmux = mkDefault true;
+      replace = mkDefault true;
+    };
 
     home.sessionVariables = lib.mkMerge [
       (lib.mkIf config.programs.neovim.enable {
