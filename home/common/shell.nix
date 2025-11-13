@@ -22,6 +22,7 @@
     ''}
 
     __nixfiles_tmux_auto_exit () {
+      [[ -z "''${NF_NO_TMUX:+x}" ]] || return 0
       ${optionalString tmuxAutoExit ''
         local timeout
         local start
@@ -30,6 +31,9 @@
         start="$(date +%s)"
       ''}
       [[ -z "''${TMUX:+x}" ]] && command -v tmux > /dev/null 2>&1 && tmux new-session || return 0
+      # only do it once per shell session
+      NF_NO_TMUX=1
+      export NF_NO_TMUX
       ${optionalString tmuxAutoExit ''
         end="$(date +%s)"
 
@@ -73,6 +77,9 @@ in {
       grc = "grc --colour=on";
       vn = "cd ~/nixfiles ; nvim -S";
 
+      # start bash normally if i invoke it as a shell command
+      bash = "env NF_NO_TMUX=1 NF_NO_EXEC=1 bash";
+
       # this lets me find commands that i run with comma very frequently so i
       # can install them
       comma-frequent = "__nixfiles_alias_comma_frequent_commands";
@@ -107,15 +114,12 @@ in {
     # i like shells
     programs.fish = {
       enable = mkDefault true;
-      shellAliases = {
-        bash = "env NF_NO_FISH=1 bash";
-      };
     };
 
     programs.nushell = {
       enable = mkDefault true;
       shellAliases = {
-        vn = lib.mkForce "false";
+        vn = lib.mkForce "env false";
       };
     };
 
