@@ -13,6 +13,8 @@
 
     nixpkgs-forgejo.url = "github:NixOS/nixpkgs/02032da4af073d0f6110540c8677f16d4be0117f";
 
+    nixpkgs-feishin.url = "github:NixOS/nixpkgs/c2448301fb856e351aab33e64c33a3fc8bcf637d";
+
     # this seems to be a popular way to declare systems
     systems.url = "github:nix-systems/default";
 
