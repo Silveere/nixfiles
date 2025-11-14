@@ -52,6 +52,12 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.home-manager.follows = "home-manager-unstable";
+    };
+
     nix-minecraft = {
       url = "github:Silveere/nix-minecraft/quilt-revert";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -407,15 +413,6 @@
                 username = "testuser";
                 system = "x86_64-linux";
                 modules = [./users/testuser/home.nix];
-                stateVersion = "23.11";
-                nixpkgs = inputs.nixpkgs-unstable;
-                home-manager = inputs.home-manager-unstable;
-              };
-              "nix-on-droid" = mkHome {
-                username = "nix-on-droid";
-                homeDirectory = "/data/data/com.termux.nix/files/home";
-                modules = [./users/nix-on-droid/home.nix];
-                system = "aarch64-linux";
                 stateVersion = "23.11";
                 nixpkgs = inputs.nixpkgs-unstable;
                 home-manager = inputs.home-manager-unstable;
