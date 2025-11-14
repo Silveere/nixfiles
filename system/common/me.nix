@@ -22,7 +22,7 @@ in {
       packages = with pkgs; [
         keychain
       ];
-      shell = pkgs.zsh;
+      # shell = pkgs.zsh;
 
       # this should only be configured if mutableUsers is enabled, otherwise it
       # behaves the same as `password` and takes precedence over
