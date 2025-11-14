@@ -79,6 +79,8 @@ in {
       grc = "grc --colour=on";
       vn = "cd ~/nixfiles ; nvim -S";
       gh = "env PAGER='nvim -R +set\\ nowrap\\ ic' gh";
+      cr = "cd \"$(git rev-parse --show-toplevel)\"";
+      cx = ''cd "$(tmux display-message -p '#{session_path}')"'';
 
       # start bash normally if i invoke it as a shell command
       bash = "env NF_NO_TMUX=1 NF_NO_EXEC=1 bash";
@@ -120,7 +122,9 @@ in {
     # i like shells
     programs.fish = {
       enable = mkDefault true;
-      shellAbbrs = {
+      shellAbbrs = let
+        rsync = "rsync -rlptgoDvzzi --partial-dir=.rsync --info=progress2";
+      in {
         nhos = {
           regex = "^nh([oh][stbB])$";
           function = "__fish_abbr_nhos";
@@ -129,8 +133,37 @@ in {
           position = "anywhere";
           function = "__fish_abbr_last";
         };
+
+        rsy = "${rsync}";
+        rsyd = "${rsync} --delete -n";
+        cr = {
+          function = "__fish_abbr_cr";
+          setCursor = "%%FISH_CURSOR%%";
+        };
+        cx = {
+          function = "__fish_abbr_cx";
+          setCursor = "%%FISH_CURSOR%%";
+        };
+        "=cx" = {
+          position = "anywhere";
+          function = "__fish_abbr_cx_q";
+          setCursor = "%%FISH_CURSOR%%";
+        };
+        "=cr" = {
+          position = "anywhere";
+          function = "__fish_abbr_cr_q";
+          setCursor = "%%FISH_CURSOR%%";
+        };
       };
       functions = {
+        __git_root = ''git rev-parse --show-toplevel'';
+        __tmux_root = ''tmux display-message -p '#{session_path}' '';
+
+        __fish_abbr_cr_q = ''echo (__git_root)/%%FISH_CURSOR%%'';
+        __fish_abbr_cx_q = ''echo (__tmux_root)/%%FISH_CURSOR%%'';
+        __fish_abbr_cr = "echo cd (__fish_abbr_cr_q)";
+        __fish_abbr_cx = "echo cd (__fish_abbr_cx_q)";
+
         __fish_abbr_last = "echo $history[1]";
         __fish_abbr_nhos = ''
           set -f nh_cat
@@ -166,6 +199,8 @@ in {
       enable = mkDefault true;
       shellAliases = {
         vn = lib.mkForce "env false";
+        cr = lib.mkForce "env false";
+        cx = lib.mkForce "env false";
       };
     };
 
