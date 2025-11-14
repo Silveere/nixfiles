@@ -105,7 +105,12 @@ in {
 
         mkReverseProxy = port: mkProxy {inherit port;};
       in {
-        "attic2.protogen.io" = mkReverseProxy 8080;
+        "attic2.protogen.io" = mkProxy {
+          port = 8080;
+          extraConfig.extraConfig = ''
+            client_max_body_size 0;
+          '';
+        };
       };
     };
 
