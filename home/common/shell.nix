@@ -71,11 +71,13 @@ in {
   config = mkIf cfg.enable {
     home.shellAliases = {
       v = "nvim";
+      vgit = "nvim +Git +only";
       icat = "kitten icat";
       srun = "systemd-run";
       urun = "systemd-run --user";
       grc = "grc --colour=on";
       vn = "cd ~/nixfiles ; nvim -S";
+      gh = "env PAGER='nvim -R +set\\ nowrap\\ ic' gh";
 
       # start bash normally if i invoke it as a shell command
       bash = "env NF_NO_TMUX=1 NF_NO_EXEC=1 bash";
@@ -122,8 +124,13 @@ in {
           regex = "^nh([oh][stbB])$";
           function = "__fish_abbr_nhos";
         };
+        "!!" = {
+          position = "anywhere";
+          function = "__fish_abbr_last";
+        };
       };
       functions = {
+        __fish_abbr_last = "echo $history[1]";
         __fish_abbr_nhos = ''
           set -f nh_cat
           set -f nh_opt
