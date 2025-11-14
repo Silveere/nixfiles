@@ -150,6 +150,10 @@ in {
       };
     };
 
+    xdg.configFile."fish/completions/nix.fish" = {
+      source = ./nix-completions.fish;
+    };
+
     programs.nushell = {
       enable = mkDefault true;
       shellAliases = {
