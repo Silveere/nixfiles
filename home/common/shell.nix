@@ -75,6 +75,7 @@ in {
       icat = "kitten icat";
       srun = "systemd-run";
       urun = "systemd-run --user";
+      userctl = "systemctl --user";
       grc = "grc --colour=on";
       vn = "cd ~/nixfiles ; nvim -S";
       gh = "env PAGER='nvim -R +set\\ nowrap\\ ic' gh";
