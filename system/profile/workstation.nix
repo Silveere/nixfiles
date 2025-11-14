@@ -51,6 +51,7 @@ in {
       nerd-fonts.fira-code
       font-awesome
       noto-fonts-cjk-sans
+      vt323
       (google-fonts.override {fonts = ["NovaSquare"];})
       twitter-color-emoji
     ];
