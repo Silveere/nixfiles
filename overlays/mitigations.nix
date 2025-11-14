@@ -162,8 +162,14 @@
     in hold now 7 stable unstable;
 
     feishin = let
-      stable = (pkgsFromInput "nixpkgs-feishin").feishin;
+      stable = pkgsStable.feishin;
       unstable = prev.feishin;
+      now = 1762897691;
+    in hold now 14 stable unstable;
+
+    signal-desktop = let
+      stable = pkgsStable.signal-desktop;
+      unstable = prev.signal-desktop;
       now = 1762897691;
     in hold now 14 stable unstable;
   };
