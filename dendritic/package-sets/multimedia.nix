@@ -29,6 +29,8 @@
       pngquant
       ffmpeg
       gifski
+      asciinema # this is elsewhere but it fits here too
+      agg # asciicast to gif
       beets
     ];
 
