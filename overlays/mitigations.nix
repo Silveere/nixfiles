@@ -167,6 +167,12 @@
       now = 1762897691;
     in hold now 14 stable unstable;
 
+    electron_38 = let
+      stable = pkgsStable.electron_38;
+      unstable = prev.electron_38;
+      now = 1762897691;
+    in hold now 14 stable unstable;
+
     signal-desktop = let
       stable = pkgsStable.signal-desktop;
       unstable = prev.signal-desktop;
