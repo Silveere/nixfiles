@@ -9,6 +9,7 @@
   tmux_timeout = 15;
 
   tmuxAutoExit = false;
+  tmuxAutoAttach = true;
 
   common_functions = shell: ''
     __nixfiles_alias_comma_frequent_commands () {
@@ -30,7 +31,13 @@
         timeout=${lib.escapeShellArg (builtins.toString tmux_timeout)}
         start="$(date +%s)"
       ''}
-      [[ -z "''${TMUX:+x}" ]] && command -v tmux > /dev/null 2>&1 && tmux new-session || return 0
+      ${if tmuxAutoAttach then ''
+        [[ -z "''${TMUX:+x}" ]] && command -v tmux > /dev/null 2>&1 && {
+            tmux attach-session || tmux new-session;
+          } || return 0
+      '' else ''
+        [[ -z "''${TMUX:+x}" ]] && command -v tmux > /dev/null 2>&1 && tmux new-session || return 0
+      ''}
       # only do it once per shell session
       NF_NO_TMUX=1
       export NF_NO_TMUX
