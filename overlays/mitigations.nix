@@ -179,41 +179,6 @@
       now = 1762897691;
     in hold now 14 stable unstable;
   };
-  # // (
-  #   lib.genAttrs [
-  #     "mopidyPackages"
-  #     "mopidy"
-  #     "mopidy-bandcamp"
-  #     "mopidy-iris"
-  #     "mopidy-jellyfin"
-  #     "mopidy-local"
-  #     "mopidy-moped"
-  #     "mopidy-mopify"
-  #     "mopidy-mpd"
-  #     "mopidy-mpris"
-  #     "mopidy-muse"
-  #     "mopidy-musicbox-webclient"
-  #     "mopidy-notify"
-  #     "mopidy-podcast"
-  #     "mopidy-scrobbler"
-  #     "mopidy-somafm"
-  #     "mopidy-soundcloud"
-  #     "mopidy-spotify"
-  #     "mopidy-subidy"
-  #     "mopidy-tidal"
-  #     "mopidy-tunein"
-  #     "mopidy-youtube"
-  #     "mopidy-ytmusic"
-  #   ] (name: let
-  #     pkgs-mopidy = (import inputs.nixpkgs-mopidy) {inherit (prev) system;};
-  #     unstable = prev."${name}";
-  #     stable = pkgs-mopidy."${name}";
-  #     now = 1740786429;
-  #   in
-  #     # pin for at least 90 days because who knows when this will be fixed
-  #     # https://github.com/mopidy/mopidy/issues/2183
-  #     hold now 90 stable unstable)
-  # );
 in {
   config.flake.overlays.mitigations = overlay;
 }
