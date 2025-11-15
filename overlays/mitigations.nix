@@ -166,42 +166,25 @@
       unstable = prev.feishin;
       now = 1762897691;
     in hold now 14 stable unstable;
+
+    electron_38 = let
+      stable = pkgsStable.electron_38;
+      unstable = prev.electron_38;
+      now = 1762897691;
+    in hold now 14 stable unstable;
+
+    signal-desktop = let
+      stable = pkgsStable.signal-desktop;
+      unstable = prev.signal-desktop;
+      now = 1762897691;
+    in hold now 14 stable unstable;
+
+    hollywood = let
+      stable = pkgsStable.hollywood;
+      unstable = prev.hollywood;
+      now = 1763229394;
+    in hold now 7 stable unstable;
   };
-  # // (
-  #   lib.genAttrs [
-  #     "mopidyPackages"
-  #     "mopidy"
-  #     "mopidy-bandcamp"
-  #     "mopidy-iris"
-  #     "mopidy-jellyfin"
-  #     "mopidy-local"
-  #     "mopidy-moped"
-  #     "mopidy-mopify"
-  #     "mopidy-mpd"
-  #     "mopidy-mpris"
-  #     "mopidy-muse"
-  #     "mopidy-musicbox-webclient"
-  #     "mopidy-notify"
-  #     "mopidy-podcast"
-  #     "mopidy-scrobbler"
-  #     "mopidy-somafm"
-  #     "mopidy-soundcloud"
-  #     "mopidy-spotify"
-  #     "mopidy-subidy"
-  #     "mopidy-tidal"
-  #     "mopidy-tunein"
-  #     "mopidy-youtube"
-  #     "mopidy-ytmusic"
-  #   ] (name: let
-  #     pkgs-mopidy = (import inputs.nixpkgs-mopidy) {inherit (prev) system;};
-  #     unstable = prev."${name}";
-  #     stable = pkgs-mopidy."${name}";
-  #     now = 1740786429;
-  #   in
-  #     # pin for at least 90 days because who knows when this will be fixed
-  #     # https://github.com/mopidy/mopidy/issues/2183
-  #     hold now 90 stable unstable)
-  # );
 in {
   config.flake.overlays.mitigations = overlay;
 }
