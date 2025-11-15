@@ -178,6 +178,12 @@
       unstable = prev.signal-desktop;
       now = 1762897691;
     in hold now 14 stable unstable;
+
+    hollywood = let
+      stable = pkgsStable.hollywood;
+      unstable = prev.hollywood;
+      now = 1763229394;
+    in hold now 7 stable unstable;
   };
 in {
   config.flake.overlays.mitigations = overlay;
