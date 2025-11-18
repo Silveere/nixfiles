@@ -7,11 +7,8 @@
   cfg = config.services.forgejo;
 in {
   config = {
-    systemd.services.forgejo.wantedBy = lib.mkForce [ ];
-
     services.forgejo = {
       enable = true;
-      package = pkgs.forgejo-migrate;
       lfs.enable = true;
       settings = {
         repository = {
