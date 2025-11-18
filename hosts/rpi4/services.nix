@@ -7,6 +7,33 @@
 }: let
   inherit (config.age) secrets;
   inherit (builtins) toString;
+  mkAnubis = instance: {
+    locations = {
+      "/.within.website/" = {
+        proxyPass = "http://unix:/run/anubis/anubis-${instance}.sock";
+        extraConfig = ''
+        proxy_pass_request_body off;
+        proxy_set_header content-length "";
+        auth_request off;
+        '';
+      };
+      "@redirectToAnubis" = {
+        return = "307 /.within.website/?redir=$request_uri";
+        extraConfig = ''
+        auth_request off;
+        '';
+      };
+      "/" = {
+        extraConfig = ''
+        auth_request /.within.website/x/cmd/anubis/api/check;
+        error_page 401 = @redirectToAnubis;
+        '';
+      };
+      "/robots.txt" = {
+        root = "${inputs.ai-robots-txt}";
+      };
+    };
+  };
 in {
   imports = [
     ./gitea.nix
@@ -117,7 +144,10 @@ in {
 
       instances.gitea = {
         settings = {
-          REDIRECT_DOMAINS = "gitea.protogen.io";
+          REDIRECT_DOMAINS = lib.concatStringsSep "," [
+            "gitea.protogen.io"
+            "forgejo.protogen.io"
+          ];
           TARGET = " ";
           # did they forget to actually set this variable to a file i am
           # genuinely going insane
@@ -270,36 +300,13 @@ in {
           "firefly.protogen.io" = mkReverseProxy 8083;
           "firefly-import.protogen.io" = mkAuthProxy 8084;
 
-          "forgejo.protogen.io" = mkReverseProxy 3003;
+          "forgejo.protogen.io" = lib.mkMerge [
+            (mkReverseProxy 3003)
+            (mkAnubis "gitea")
+          ];
           "gitea.protogen.io" = lib.mkMerge [
             (mkReverseProxy 3000)
-            {
-              locations = {
-                "/.within.website/" = {
-                  proxyPass = "http://unix:/run/anubis/anubis-gitea.sock";
-                  extraConfig = ''
-                    proxy_pass_request_body off;
-                    proxy_set_header content-length "";
-                    auth_request off;
-                  '';
-                };
-                "@redirectToAnubis" = {
-                  return = "307 /.within.website/?redir=$request_uri";
-                  extraConfig = ''
-                    auth_request off;
-                  '';
-                };
-                "/" = {
-                  extraConfig = ''
-                    auth_request /.within.website/x/cmd/anubis/api/check;
-                    error_page 401 = @redirectToAnubis;
-                  '';
-                };
-                "/robots.txt" = {
-                  root = "${inputs.ai-robots-txt}";
-                };
-              };
-            }
+            (mkAnubis "gitea")
           ];
 
           # home assistant
