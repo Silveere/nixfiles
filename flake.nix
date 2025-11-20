@@ -277,12 +277,25 @@
               zen-browser-overlay
             ];
 
-            systems = {
+            systems = let
+              inherit (config.flake) modules;
+            in {
               slab.system = "x86_64-linux";
               nullbox.system = "x86_64-linux";
-              rpi4.system = "aarch64-linux";
+              rpi4 = {
+                system = "aarch64-linux";
+                modules = with modules.nixos; [
+                  deploy-target
+                ];
+              };
 
-              nixos-px1.system = "x86_64-linux";
+              nixos-px1 = {
+                system = "x86_64-linux";
+                modules = with modules.nixos; [
+                  deploy-target
+                ];
+              };
+
               nixos-wsl = {
                 system = "x86_64-linux";
                 wsl = true;
