@@ -43,7 +43,7 @@ in {
         };
         # TODO package themes
         ui = {
-          DEFAULT_THEME = "catppuccin-mocha-pink";
+          DEFAULT_THEME = "catppuccin-peach-auto";
           THEMES = let
             ctpAttrs = {
               flavor = ["latte" "frappe" "macchiato" "mocha"];
