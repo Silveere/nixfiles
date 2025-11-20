@@ -11,10 +11,12 @@ in
     inherit (sources.redlib) src pname version;
     cargoDeps = rustPlatform.importCargoLock sources.redlib.cargoLock."Cargo.lock";
 
-    checkFlags = prev.checkFlags ++ [
-      "--skip=test_generic_web_backend"
-      "--skip=test_mobile_spoof_backend"
-    ];
+    checkFlags =
+      prev.checkFlags
+      ++ [
+        "--skip=test_generic_web_backend"
+        "--skip=test_mobile_spoof_backend"
+      ];
 
     patches =
       (prev.patches or [])

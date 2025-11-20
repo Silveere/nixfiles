@@ -12,21 +12,21 @@
       "/.within.website/" = {
         proxyPass = "http://unix:/run/anubis/anubis-${instance}.sock";
         extraConfig = ''
-        proxy_pass_request_body off;
-        proxy_set_header content-length "";
-        auth_request off;
+          proxy_pass_request_body off;
+          proxy_set_header content-length "";
+          auth_request off;
         '';
       };
       "@redirectToAnubis" = {
         return = "307 /.within.website/?redir=$request_uri";
         extraConfig = ''
-        auth_request off;
+          auth_request off;
         '';
       };
       "/" = {
         extraConfig = ''
-        auth_request /.within.website/x/cmd/anubis/api/check;
-        error_page 401 = @redirectToAnubis;
+          auth_request /.within.website/x/cmd/anubis/api/check;
+          error_page 401 = @redirectToAnubis;
         '';
       };
       "/robots.txt" = {

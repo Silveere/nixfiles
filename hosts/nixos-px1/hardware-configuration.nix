@@ -42,7 +42,7 @@
   fileSystems."/.mounts/1" = {
     device = "/dev/disk/by-uuid/d4d0b2a0-a3e3-42bd-a0d6-7188466893d4";
     fsType = "btrfs";
-    options = [ "subvol=/" ];
+    options = ["subvol=/"];
   };
 
   swapDevices = [];

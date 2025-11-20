@@ -159,37 +159,43 @@
       stable = pkgsStable.krita;
       unstable = prev.krita;
       now = 1760377443;
-    in hold now 7 stable unstable;
+    in
+      hold now 7 stable unstable;
 
     feishin = let
       stable = pkgsStable.feishin;
       unstable = prev.feishin;
       now = 1762897691;
-    in hold now 14 stable unstable;
+    in
+      hold now 14 stable unstable;
 
     electron_38 = let
       stable = pkgsStable.electron_38;
       unstable = prev.electron_38;
       now = 1762897691;
-    in hold now 14 stable unstable;
+    in
+      hold now 14 stable unstable;
 
     signal-desktop = let
       stable = pkgsStable.signal-desktop;
       unstable = prev.signal-desktop;
       now = 1762897691;
-    in hold now 14 stable unstable;
+    in
+      hold now 14 stable unstable;
 
     hollywood = let
       stable = pkgsStable.hollywood;
       unstable = prev.hollywood;
       now = 1763229394;
-    in hold now 7 stable unstable;
+    in
+      hold now 7 stable unstable;
 
     tika = let
       stable = pkgsStable.tika;
       unstable = prev.tika;
-      now = 1763622695 ;
-    in hold now 7 stable unstable;
+      now = 1763622695;
+    in
+      hold now 7 stable unstable;
   };
 in {
   config.flake.overlays.mitigations = overlay;

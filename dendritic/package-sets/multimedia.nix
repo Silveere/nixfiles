@@ -1,4 +1,8 @@
-{config, lib, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   inherit (builtins) concatLists;
   inherit (lib.lists) unique;
 
@@ -35,13 +39,14 @@
       beets
     ];
 
-    cli-system =
-      let
-        mpv-with-scripts = pkgs.mpv-unwrapped.wrapper {
-          mpv = pkgs.mpv-unwrapped;
-          scripts = mpvScripts;
-        };
-      in cli-common ++ [
+    cli-system = let
+      mpv-with-scripts = pkgs.mpv-unwrapped.wrapper {
+        mpv = pkgs.mpv-unwrapped;
+        scripts = mpvScripts;
+      };
+    in
+      cli-common
+      ++ [
         mpv-with-scripts
       ];
     cli-home = cli-common;

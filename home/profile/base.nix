@@ -24,7 +24,7 @@ in {
       to prefetch SSH repositories.
     '';
     type = with lib.types; listOf str;
-    default = [ ];
+    default = [];
   };
 
   config = lib.mkIf cfg.enable {
@@ -91,8 +91,8 @@ in {
           exec ${pkgs.openssh}/bin/ssh -S none -o BatchMode=yes -o ConnectTimeout=5 -o PreferredAuthentications=publickey "$@"
         '';
       in [
-          "GIT_SSH=${ssh_wrapper}"
-        ];
+        "GIT_SSH=${ssh_wrapper}"
+      ];
     };
 
     # this allows `git config --global` commands to work by ensuring the

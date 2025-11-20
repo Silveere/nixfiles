@@ -8,8 +8,9 @@
   mkd = lib.mkDefault;
 
   dmenuCondition = config.programs.rofi.enable;
-  dmenu = if config.programs.rofi.enable then
-    "${lib.getExe' config.programs.rofi.package "rofi"} -dmenu"
+  dmenu =
+    if config.programs.rofi.enable
+    then "${lib.getExe' config.programs.rofi.package "rofi"} -dmenu"
     else null;
 in {
   options.nixfiles.programs.dunst = {

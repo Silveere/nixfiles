@@ -25,33 +25,37 @@
     __nixfiles_tmux_auto_exit () {
       [[ -z "''${NF_NO_TMUX:+x}" ]] || return 0
       ${optionalString tmuxAutoExit ''
-        local timeout
-        local start
-        local end
-        timeout=${lib.escapeShellArg (builtins.toString tmux_timeout)}
-        start="$(date +%s)"
-      ''}
-      ${if tmuxAutoAttach then ''
+      local timeout
+      local start
+      local end
+      timeout=${lib.escapeShellArg (builtins.toString tmux_timeout)}
+      start="$(date +%s)"
+    ''}
+      ${
+      if tmuxAutoAttach
+      then ''
         [[ -z "''${TMUX:+x}" ]] && command -v tmux > /dev/null 2>&1 && {
             tmux attach-session || tmux new-session;
           } || return 0
-      '' else ''
+      ''
+      else ''
         [[ -z "''${TMUX:+x}" ]] && command -v tmux > /dev/null 2>&1 && tmux new-session || return 0
-      ''}
+      ''
+    }
       # only do it once per shell session
       NF_NO_TMUX=1
       export NF_NO_TMUX
       ${optionalString tmuxAutoExit ''
-        end="$(date +%s)"
+      end="$(date +%s)"
 
-        if [[ "$(( "$end" - "$start" ))" -gt "$timeout" ]]
-        then
-          echo exiting in 5 seconds. press ^C to cancel...
-          trap : INT
-          sleep 5 || { trap - INT; echo exit cancelled. ; return 0; }
-          exit 0
-        fi
-      ''}
+      if [[ "$(( "$end" - "$start" ))" -gt "$timeout" ]]
+      then
+        echo exiting in 5 seconds. press ^C to cancel...
+        trap : INT
+        sleep 5 || { trap - INT; echo exit cancelled. ; return 0; }
+        exit 0
+      fi
+    ''}
     }
   '';
 in {
@@ -61,14 +65,18 @@ in {
       // {
         description = "Whether to enable the nixfiles shell configuration.";
       };
-      replace = lib.mkEnableOption "" // {
+    replace =
+      lib.mkEnableOption ""
+      // {
         description = ''
           Whether to replace the interactive bash session with a different
           shell. Currently, this replaces it with `fish`, this may change
           later.
         '';
       };
-      tmux = lib.mkEnableOption "" // {
+    tmux =
+      lib.mkEnableOption ""
+      // {
         description = ''
           Whether to automatically start a `tmux` session at shell startup.
         '';

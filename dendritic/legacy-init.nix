@@ -1,24 +1,26 @@
-{ self, config, ... }:
-let
-  nixos = { ... }: {
+{
+  self,
+  config,
+  ...
+}: let
+  nixos = {...}: {
     imports = [
       (self.outPath + "/system")
     ];
   };
-  homeManager = { ... }: {
+  homeManager = {...}: {
     imports = [
       (self.outPath + "/home")
     ];
   };
 
-  homeManagerStandalone = { ... }: {
+  homeManagerStandalone = {...}: {
     imports = [
       (self.outPath + "/home/standalone.nix")
       config.flake.modules.homeManager.nixfiles
     ];
   };
-in
-{
+in {
   config = {
     flake.modules = {
       homeManager.nixfiles = homeManager;
