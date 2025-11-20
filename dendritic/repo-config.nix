@@ -81,6 +81,9 @@
           # the inputs cached.
           shellHook = ''
             : ${lib.escapeShellArg (lib.concatStringsSep ":" inputPaths)}
+
+            echo installing pre-commit hooks >&2
+            ${config.pre-commit.installationScript}
           '';
 
           buildInputs = devShell-common ++ devShell-default;
