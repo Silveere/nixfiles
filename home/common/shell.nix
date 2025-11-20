@@ -141,6 +141,11 @@ in {
         fish_config theme choose "Catppuccin Mocha"
       '';
 
+      # this is broken right now for theme plugins
+      # plugins = [
+      #   { name = "catppuccin";
+      #     inherit (pkgs.nvfetcherSources.catppuccin-fish) src; }
+      # ];
       shellAbbrs = let
         rsync = "rsync -rlptgoDvzzi --partial-dir=.rsync --info=progress2";
       in {
@@ -212,6 +217,16 @@ in {
 
     xdg.configFile."fish/completions/nix.fish" = {
       source = ./nix-completions.fish;
+    };
+
+    xdg.configFile."fish/themes" = {
+      source = pkgs.symlinkJoin {
+        name = "fish-themes";
+        stripPrefix = "/themes";
+        paths = [
+          pkgs.nvfetcherSources.catppuccin-fish.src
+        ];
+      };
     };
 
     programs.nushell = {
