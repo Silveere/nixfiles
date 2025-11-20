@@ -183,17 +183,6 @@
             self',
             ...
           }: {
-            treefmt = {
-              programs = {
-                alejandra.enable = true;
-              };
-              settings = {
-                global.excludes = [
-                  "_sources/*"
-                ];
-              };
-            };
-
             legacyPackages.specialisedNixosConfigurations = let
               attrs = lib.pipe self.nixosConfigurations [
                 (lib.filterAttrs (n: v: !(builtins.elem n ["iso" "rpi4-x86_64"])))

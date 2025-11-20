@@ -31,6 +31,25 @@
       inputs.agenix.packages.${system}.default
     ];
   in {
+    treefmt = {
+      programs = {
+        alejandra.enable = true;
+      };
+      settings = {
+        global.excludes = [
+          "_sources/*"
+        ];
+      };
+    };
+
+    pre-commit.settings = {
+      hooks = {
+        treefmt = {
+          enable = true;
+        };
+      };
+    };
+
     devShells = {
       ci = pkgs.mkShell {
         buildInputs = devShell-common;
@@ -61,14 +80,6 @@
 
           buildInputs = devShell-common ++ devShell-default;
         };
-    };
-
-    pre-commit.settings = {
-      hooks = {
-        treefmt = {
-          enable = true;
-        };
-      };
     };
   };
 }
