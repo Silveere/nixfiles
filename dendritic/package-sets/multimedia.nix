@@ -22,6 +22,7 @@
     graphical-system = graphical-common;
 
     cli-common = with pkgs; [
+      sox
       yt-dlp
       gallery-dl
       tidal-dl
