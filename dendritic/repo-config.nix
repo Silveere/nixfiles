@@ -4,6 +4,7 @@
   ...
 }: {
   config.perSystem = {
+    config,
     pkgs,
     self',
     ...
@@ -16,12 +17,16 @@
         ln -s "$formatter" "$out/bin/formatter"
       '';
 
+    install-hooks = pkgs.writeShellScriptBin "install-hooks" config.pre-commit.installationScript;
+
     devShell-common = with pkgs; [
       jq
       nix-update
       nix-fast-build
       nvfetcher
       just
+      config.pre-commit.settings.package
+      install-hooks
     ];
 
     devShell-default = with pkgs; [
