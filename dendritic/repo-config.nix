@@ -7,26 +7,35 @@
     pkgs,
     self',
     ...
-  }: {
+  }: let
+    formatter =
+      pkgs.runCommandNoCC "flake-formatter" {
+        formatter = lib.getExe self'.formatter;
+      } ''
+        mkdir -p $out/bin
+        ln -s "$formatter" "$out/bin/formatter"
+      '';
+
+    devShell-common = with pkgs; [
+      jq
+      nix-update
+      nix-fast-build
+      nvfetcher
+      just
+    ];
+
+    devShell-default = with pkgs; [
+      alejandra
+      formatter
+      # inputPathLinks
+      inputs.agenix.packages.${system}.default
+    ];
+  in {
     devShells = {
       ci = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          jq
-          nix-update
-          nix-fast-build
-          nvfetcher
-          just
-        ];
+        buildInputs = devShell-common;
       };
       default = let
-        formatter =
-          pkgs.runCommandNoCC "flake-formatter" {
-            formatter = lib.getExe self'.formatter;
-          } ''
-            mkdir -p $out/bin
-            ln -s "$formatter" "$out/bin/formatter"
-          '';
-
         inputPaths = lib.mapAttrsToList (_: v: v.outPath) inputs;
         inputPathLinks = let
           linkCommands = lib.pipe inputPaths [
@@ -50,15 +59,7 @@
             : ${lib.escapeShellArg (lib.concatStringsSep ":" inputPaths)}
           '';
 
-          buildInputs = with pkgs; [
-            alejandra
-            nix-update
-            formatter
-            nvfetcher
-            just
-            # inputPathLinks
-            inputs.agenix.packages.${system}.default
-          ];
+          buildInputs = devShell-common ++ devShell-default;
         };
     };
 
