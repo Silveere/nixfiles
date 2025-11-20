@@ -137,6 +137,10 @@ in {
     # i like shells
     programs.fish = {
       enable = mkDefault true;
+      interactiveShellInit = ''
+        fish_config theme choose "Catppuccin Mocha"
+      '';
+
       shellAbbrs = let
         rsync = "rsync -rlptgoDvzzi --partial-dir=.rsync --info=progress2";
       in {
