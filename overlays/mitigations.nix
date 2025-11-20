@@ -184,6 +184,12 @@
       unstable = prev.hollywood;
       now = 1763229394;
     in hold now 7 stable unstable;
+
+    tika = let
+      stable = pkgsStable.tika;
+      unstable = prev.tika;
+      now = 1763622695 ;
+    in hold now 7 stable unstable;
   };
 in {
   config.flake.overlays.mitigations = overlay;
