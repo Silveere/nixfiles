@@ -5,8 +5,18 @@
   ...
 }: let
   cfg = config.services.forgejo;
+  themes = pkgs.symlinkJoin {
+    name = "forgejo-themes";
+    paths = [
+      pkgs.nvfetcherSources.catppuccin-gitea.src
+    ];
+  };
 in {
   config = {
+    systemd.tmpfiles.rules = lib.mkIf cfg.enable [
+      "L+ '${cfg.customDir}/public/assets/css' - - - - ${themes}"
+    ];
+
     services.forgejo = {
       enable = true;
       lfs.enable = true;
@@ -33,40 +43,49 @@ in {
         };
         # TODO package themes
         ui = {
-          # DEFAULT_THEME = "catppuccin-mocha-pink";
-          # THEMES = let
-          #   ctpAttrs = {
-          #     flavor = ["latte" "frappe" "macchiato" "mocha"];
-          #     accent = [
-          #       "rosewater"
-          #       "flamingo"
-          #       "pink"
-          #       "mauve"
-          #       "red"
-          #       "maroon"
-          #       "peach"
-          #       "yellow"
-          #       "green"
-          #       "teal"
-          #       "sky"
-          #       "sapphire"
-          #       "blue"
-          #     ];
-          #   };
-          #   ctpThemes =
-          #     lib.mapCartesianProduct
-          #     ({
-          #       flavor,
-          #       accent,
-          #     }: "catppuccin-${flavor}-${accent}")
-          #     ctpAttrs;
-          # in
-          #   lib.concatStringsSep "," ([
-          #       "gitea"
-          #       "arc-green"
-          #       "auto"
-          #     ]
-          #     ++ ctpThemes);
+          DEFAULT_THEME = "catppuccin-mocha-pink";
+          THEMES = let
+            ctpAttrs = {
+              flavor = ["latte" "frappe" "macchiato" "mocha"];
+              accent = [
+                "rosewater"
+                "flamingo"
+                "pink"
+                "mauve"
+                "red"
+                "maroon"
+                "peach"
+                "yellow"
+                "green"
+                "teal"
+                "sky"
+                "sapphire"
+                "blue"
+              ];
+            };
+            ctpThemes =
+              (lib.mapCartesianProduct
+              ({
+                flavor,
+                accent,
+              }: "catppuccin-${flavor}-${accent}")
+              ctpAttrs)
+              ++ builtins.map (accent: "catppuccin-${accent}-auto") ctpAttrs.accent;
+          in
+            lib.concatStringsSep "," ([
+              "forgejo-auto"
+              "forgejo-light"
+              "forgejo-dark"
+              "gitea-auto"
+              "gitea-light"
+              "gitea-dark"
+              "forgejo-auto-deuteranopia-protanopia"
+              "forgejo-light-deuteranopia-protanopia"
+              "forgejo-dark-deuteranopia-protanopia"
+              "forgejo-auto-tritanopia"
+              "forgejo-light-tritanopia"
+              "forgejo-dark-tritanopia"
+            ] ++ ctpThemes);
         };
       };
     };
