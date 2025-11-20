@@ -181,6 +181,11 @@
               programs = {
                 alejandra.enable = true;
               };
+              settings = {
+                global.excludes = [
+                  "_sources/*"
+                ];
+              };
             };
 
             legacyPackages.specialisedNixosConfigurations = let
