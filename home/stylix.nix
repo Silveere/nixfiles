@@ -17,6 +17,7 @@
         # the ring is styled light so it's light on light which looks worse than the default theme
         targets.swaylock.enable = lib.mkDefault false;
         targets.waybar.enable = lib.mkDefault false;
+        targets.fish.enable = lib.mkDefault false;
       }
       # only if styix is standalone
       (lib.mkIf (!(args ? osConfig && args.osConfig ? stylix)) {
