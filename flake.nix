@@ -30,6 +30,11 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    pre-commit-nix = {
+      # why is it called git-hooks if it is a pre-commit wrapper
+      url = "github:cachix/git-hooks.nix";
+    };
+
     # this is nice so one-off impure scripts can interact with attributes in
     # this flake
     flake-compat = {
@@ -161,6 +166,7 @@
           (inputs.import-tree ./dendritic)
           inputs.treefmt-nix.flakeModule
           inputs.flake-parts.flakeModules.modules
+          inputs.pre-commit-nix.flakeModule
         ];
 
         config = {
