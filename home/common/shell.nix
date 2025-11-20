@@ -18,7 +18,10 @@
 
     ${lib.optionalString cfg.replace ''
       __nixfiles_replace_shell () {
-        [[ -z "''${NF_NO_EXEC:+x}" ]] && exec -a -fish fish
+        [[ -z "''${NF_NO_EXEC:+x}" ]] && {
+          export NF_NO_EXEC=1
+          exec -a -fish fish
+        };
       }
     ''}
 
