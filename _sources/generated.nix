@@ -13,6 +13,14 @@
     };
     date = "2025-03-01";
   };
+  catppuccin-gitea = {
+    pname = "catppuccin-gitea";
+    version = "v1.0.2";
+    src = fetchTarball {
+      url = "https://github.com/catppuccin/gitea/releases/download/v1.0.2/catppuccin-gitea.tar.gz";
+      sha256 = "sha256-rZHLORwLUfIFcB6K9yhrzr+UwdPNQVSadsw6rg8Q7gs=";
+    };
+  };
   cross-seed = {
     pname = "cross-seed";
     version = "05052f25f991dabba9d6664d61c779a28da9e872";

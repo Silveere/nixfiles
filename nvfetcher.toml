@@ -16,3 +16,7 @@ git.fetchSubmodules = true
 [catppuccin-fish]
 src.git = "https://github.com/catppuccin/fish"
 fetch.github = "catppuccin/fish"
+
+[catppuccin-gitea]
+src.github = "catppuccin/gitea"
+fetch.tarball = "https://github.com/catppuccin/gitea/releases/download/$ver/catppuccin-gitea.tar.gz"

@@ -20,6 +20,20 @@
         },
         "version": "6a85af2ff722ad0f9fbc8424ea0a5c454661dfed"
     },
+    "catppuccin-gitea": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "catppuccin-gitea",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "sha256": "sha256-rZHLORwLUfIFcB6K9yhrzr+UwdPNQVSadsw6rg8Q7gs=",
+            "type": "tarball",
+            "url": "https://github.com/catppuccin/gitea/releases/download/v1.0.2/catppuccin-gitea.tar.gz"
+        },
+        "version": "v1.0.2"
+    },
     "cross-seed": {
         "cargoLocks": null,
         "date": "2025-09-26",
