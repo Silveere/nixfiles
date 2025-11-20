@@ -224,6 +224,7 @@
                   nix-update
                   nix-fast-build
                   nvfetcher
+                  just
                 ];
               };
               default = let
@@ -263,6 +264,7 @@
                     nix-update
                     formatter
                     nvfetcher
+                    just
                     # inputPathLinks
                     inputs.agenix.packages.${system}.default
                   ];
