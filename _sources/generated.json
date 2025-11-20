@@ -36,7 +36,7 @@
     },
     "cross-seed": {
         "cargoLocks": null,
-        "date": "2025-09-26",
+        "date": "2025-11-10",
         "extract": null,
         "name": "cross-seed",
         "passthru": null,
@@ -48,16 +48,16 @@
             "name": null,
             "owner": "cross-seed",
             "repo": "cross-seed",
-            "rev": "05052f25f991dabba9d6664d61c779a28da9e872",
-            "sha256": "sha256-WdKd20vzJfWvnZKBID6IzXOScrZgPKDDafzT2PY9N9k=",
+            "rev": "66c5fac7f95cff3838b887301a230ee2a0afd382",
+            "sha256": "sha256-zE75ljiAIrjBtz2hAagVi2znmIiVkVmpnoR5RBu+W+k=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "05052f25f991dabba9d6664d61c779a28da9e872"
+        "version": "66c5fac7f95cff3838b887301a230ee2a0afd382"
     },
     "gamescope": {
         "cargoLocks": null,
-        "date": "2025-10-04",
+        "date": "2025-11-19",
         "extract": null,
         "name": "gamescope",
         "passthru": null,
@@ -69,12 +69,12 @@
             "name": null,
             "owner": "ValveSoftware",
             "repo": "gamescope",
-            "rev": "0d3a19791de447a673e315a5aed3f59ad64ebb71",
-            "sha256": "sha256-AT66/QMzvTHCe/j/ju2c8hKjjOGGew1gux8sgiVhl/8=",
+            "rev": "32606071639437fc15c40f5f2329d84cb78ea6cd",
+            "sha256": "sha256-Qc2Fa2UfoUiuwi60xFi/yWaVfS0B/BOSFdO8LbkS7is=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "0d3a19791de447a673e315a5aed3f59ad64ebb71"
+        "version": "32606071639437fc15c40f5f2329d84cb78ea6cd"
     },
     "redlib": {
         "cargoLocks": {

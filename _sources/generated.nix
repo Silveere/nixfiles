@@ -23,27 +23,27 @@
   };
   cross-seed = {
     pname = "cross-seed";
-    version = "05052f25f991dabba9d6664d61c779a28da9e872";
+    version = "66c5fac7f95cff3838b887301a230ee2a0afd382";
     src = fetchFromGitHub {
       owner = "cross-seed";
       repo = "cross-seed";
-      rev = "05052f25f991dabba9d6664d61c779a28da9e872";
+      rev = "66c5fac7f95cff3838b887301a230ee2a0afd382";
       fetchSubmodules = false;
-      sha256 = "sha256-WdKd20vzJfWvnZKBID6IzXOScrZgPKDDafzT2PY9N9k=";
+      sha256 = "sha256-zE75ljiAIrjBtz2hAagVi2znmIiVkVmpnoR5RBu+W+k=";
     };
-    date = "2025-09-26";
+    date = "2025-11-10";
   };
   gamescope = {
     pname = "gamescope";
-    version = "0d3a19791de447a673e315a5aed3f59ad64ebb71";
+    version = "32606071639437fc15c40f5f2329d84cb78ea6cd";
     src = fetchFromGitHub {
       owner = "ValveSoftware";
       repo = "gamescope";
-      rev = "0d3a19791de447a673e315a5aed3f59ad64ebb71";
+      rev = "32606071639437fc15c40f5f2329d84cb78ea6cd";
       fetchSubmodules = true;
-      sha256 = "sha256-AT66/QMzvTHCe/j/ju2c8hKjjOGGew1gux8sgiVhl/8=";
+      sha256 = "sha256-Qc2Fa2UfoUiuwi60xFi/yWaVfS0B/BOSFdO8LbkS7is=";
     };
-    date = "2025-10-04";
+    date = "2025-11-19";
   };
   redlib = {
     pname = "redlib";
