@@ -33,6 +33,7 @@
     pre-commit-nix = {
       # why is it called git-hooks if it is a pre-commit wrapper
       url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     # this is nice so one-off impure scripts can interact with attributes in
