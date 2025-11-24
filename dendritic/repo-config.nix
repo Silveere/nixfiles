@@ -32,6 +32,7 @@
     devShell-default = with pkgs; [
       alejandra
       formatter
+      deploy-rs
       # inputPathLinks
       inputs.agenix.packages.${system}.default
     ];
