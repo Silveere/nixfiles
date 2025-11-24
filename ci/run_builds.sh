@@ -4,8 +4,13 @@
 
 set -Exo pipefail
 
+set -e
+SCRIPTS_PATH="$(cd "$(dirname "$(realpath "${BASH_SOURCE[0]}")")"; pwd)"
+set +e
+
 err=0
 
+# shellcheck disable=SC2329
 set_error () {
 	err=1
 	pkill -s 0 -9 nix-eval-jobs || true
@@ -18,11 +23,12 @@ system="$(nix eval --impure --raw --expr 'builtins.currentSystem')"
 
 run_builds () {
 	for i in "$@" ; do
-		nix-fast-build --eval-workers 1 --no-nom --skip-cache --attic-cache main -f "$i"
+		"$SCRIPTS_PATH/logcrap.sh" nix-fast-build --eval-workers 1 --no-nom --skip-cache --attic-cache main -f "$i"
 		pkill -s 0 -9 nix-eval-jobs || true
 	done
 }
 
+# shellcheck disable=SC2329
 _build_systems () {
 	case "$system" in
 		# TODO this is messy and hard-coded, make an attribute set for
