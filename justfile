@@ -28,6 +28,10 @@ update-essential:
 fmt:
     nix develop . --command formatter
 
+# Deploy to nodes
+deploy:
+    deploy -s --remote-build
+
 # View GitHub Actions build logs
 log:
     env PAGER='nvim -R +set\ ic\ scs\ nowrap' gh run view --log-failed
