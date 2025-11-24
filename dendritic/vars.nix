@@ -14,6 +14,9 @@ in {
     # My current timezone for any mobile devices (i.e., my laptop)
     mobileTimeZone = "America/New_York";
 
+    # Upstream flakeref
+    upstream = "git+https://forgejo.protogen.io/nullbite/nixfiles.git";
+
     inherit sshKeys;
     deployKeys = with sshKeys; [
       tz
