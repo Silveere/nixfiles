@@ -56,6 +56,14 @@ in {
             user = "root";
           };
         };
+
+        nixos-px1 = {
+          hostname = "nixos-px1.alpha.hel.hz.nullbite.com";
+          profiles.system = {
+            path = mkProfile configs.nixos-px1;
+            user = "root";
+          };
+        };
       };
     };
   };
