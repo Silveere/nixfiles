@@ -225,14 +225,6 @@
           };
 
           nixfiles = {
-            vars = {
-              ### Configuration
-              # My username
-              username = "nullbite";
-              # My current timezone for any mobile devices (i.e., my laptop)
-              mobileTimeZone = "America/New_York";
-            };
-
             common.overlays = let
               nix-minecraft-patched-overlay = let
                 normal = inputs.nix-minecraft-upstream.overlays.default;

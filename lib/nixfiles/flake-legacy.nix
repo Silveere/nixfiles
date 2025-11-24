@@ -7,16 +7,13 @@
   flakeModules = moduleAttrs.config.flake.modules;
   inherit (moduleAttrs.config.nixfiles.common) overlays;
 
-  ### Configuration
-  # My username
-  username = "nullbite";
-  # My current timezone for any mobile devices (i.e., my laptop)
-  mobileTimeZone = "Europe/Amsterdam";
-
   # Variables to be passed to NixOS modules in the vars attrset
-  vars = {
-    inherit username mobileTimeZone self;
-  };
+  vars =
+    moduleAttrs.config.nixfiles.vars
+    // {
+      inherit self;
+    };
+  inherit (vars) username;
 
   # funciton to generate packages for each system
   eachSystem = lib.genAttrs (import inputs.systems);
