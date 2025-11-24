@@ -18,5 +18,15 @@ in {
     deployKeys = with sshKeys; [
       tz
     ];
+
+    nix = {
+      trusted-public-keys = [
+        # attic2.protogen.io
+        "main:pdI/fb7w2R3hAt6UaKa9o8VSAku4re19QdtgXKFuMsk="
+      ];
+      substituters = [
+        "https://attic2.protogen.io/main"
+      ];
+    };
   };
 }
