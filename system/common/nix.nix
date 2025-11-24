@@ -10,6 +10,8 @@
 }: let
   cfg = config.nixfiles.common.nix;
   inherit (config.age) secrets;
+
+  enableSecrets = config.age.identityPaths != [];
 in {
   options.nixfiles.common.nix = {
     enable = lib.mkEnableOption "common Nix configuration";
@@ -79,12 +81,22 @@ in {
       # closures)
       nix.nixPath = ["nixpkgs=${nixpkgs}"] ++ options.nix.nixPath.default;
     })
-    (lib.mkIf cfg.enable {
+
+    # it only makes sense to enable this if the netrc can be decrypted.
+    (lib.mkIf enableSecrets {
       age.secrets.attic-netrc = {
         file = ../../secrets/attic-deploy.age;
         mode = "0555";
       };
 
+      nix.settings = {
+        inherit (vars.nix) substituters trusted-public-keys;
+
+        netrc-file = secrets.attic-netrc.path;
+      };
+    })
+
+    (lib.mkIf cfg.enable {
       # direnv is a tool to automatically load shell environments upon entering
       # a directory. nix-direnv has an extensionn to keep nix shells in the
       # system's gcroots so shells can be used after a gc without rebuilding.
@@ -98,10 +110,6 @@ in {
       nix.settings.always-allow-substitutes = lib.mkDefault true;
 
       nix.settings = {
-        inherit (vars.nix) substituters trusted-public-keys;
-
-        netrc-file = secrets.attic-netrc.path;
-
         # trust all members of wheel. this technically can give you root power,
         # but if you've compromised a member of wheel, you might as well already
         # be root; you could easily intercept a sudo call.
