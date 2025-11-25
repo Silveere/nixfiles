@@ -8,7 +8,9 @@
   pkgs,
   inputs,
   ...
-}: {
+}: let
+  inherit (lib) types;
+in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -20,6 +22,18 @@
 
     ./backup.nix
   ];
+
+  # always compress btrfs
+  options.fileSystems = let
+    fsModule = {config, ...}: {
+      config = lib.mkIf (config.fsType == "btrfs") {
+        options = ["compress=zstd"];
+      };
+    };
+  in
+    lib.mkOption {
+      type = types.attrsOf (types.submodule fsModule);
+    };
 
   config = {
     fileSystems = lib.mkMerge [
@@ -33,10 +47,6 @@
           options = ["subvol=/"];
         };
       }
-
-      (lib.genAttrs ["/.btrfsroot" "/" "/home" "/nix"] (fs: {
-        options = ["compress=zstd"];
-      }))
     ];
 
     specialisation.hyprland.configuration = {
