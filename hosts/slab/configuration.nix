@@ -43,10 +43,6 @@
           options = ["bind"];
         };
       })
-
-      (lib.genAttrs ["/.btrfsroot" "/" "/home" "/nix"] (fs: {
-        options = ["compress=zstd"];
-      }))
     ];
 
     # specialisation.plasma.configuration = {
@@ -70,6 +66,7 @@
 
       kernel.zswap.enable = true;
 
+      filesystems.btrfs.compress = "zstd";
       profile.workstation.enable = true;
       common.remoteAccess.enable = true;
       common.bootnext = {
