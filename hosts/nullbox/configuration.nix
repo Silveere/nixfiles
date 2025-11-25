@@ -23,18 +23,6 @@ in {
     ./backup.nix
   ];
 
-  # always compress btrfs
-  options.fileSystems = let
-    fsModule = {config, ...}: {
-      config = lib.mkIf (config.fsType == "btrfs") {
-        options = ["compress=zstd"];
-      };
-    };
-  in
-    lib.mkOption {
-      type = types.attrsOf (types.submodule fsModule);
-    };
-
   config = {
     fileSystems = lib.mkMerge [
       {
@@ -70,6 +58,7 @@ in {
       profile.workstation.enable = true;
       programs.adb.enable = true;
       workarounds.nvidiaPrimary = true;
+      filesystems.btrfs.compress = "zstd";
       programs.greetd = {
         settings = {
           randr = ["--output" "HDMI-A-3" "--off"];
