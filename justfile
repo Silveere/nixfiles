@@ -39,7 +39,7 @@ deploy:
 preload:
     # this is horrible
     # waiting for https://github.com/serokell/deploy-rs/issues/46
-    nix eval .#deploy.nodes --apply builtins.attrNames --json | jq '.[]' --raw-output0 | xargs -0n1 -P6 bash -c 'exec deploy -s --remote-build --dry-activate ".#$1"'
+    nix eval .#deploy.nodes --apply builtins.attrNames --json | jq '.[]' --raw-output0 | xargs -ro0n1 -P6 bash -c 'exec deploy -s --remote-build --dry-activate ".#$1"' -
 
 # View GitHub Actions build logs
 log:
