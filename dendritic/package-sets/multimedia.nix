@@ -82,6 +82,10 @@
       programs.mpv = {
         enable = lib.mkDefault true;
         scripts = packageLists.mpvScripts;
+        config = {
+          keepaspect-window = false;
+          slang = "en,nl";
+        };
       };
 
       home.packages =
