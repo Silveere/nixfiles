@@ -37,7 +37,7 @@
       ${
       if tmuxAutoAttach
       then ''
-        [[ -z "''${TMUX:+x}" ]] && command -v tmux > /dev/null 2>&1 && {
+        [[ -z "''${TMUX:+x}" && -z "''${SSH_CONNECTION:+x}" ]] && command -v tmux > /dev/null 2>&1 && {
             tmux attach-session || tmux new-session;
           } || return 0
       ''
