@@ -619,6 +619,9 @@ in {
       REDLIB_DEFAULT_BLUR_SPOILER = "on";
       REDLIB_DEFAULT_USE_HLS = "on";
       REDLIB_DEFAULT_DISABLE_VISIT_REDDIT_CONFIRMATION = "on";
+      # sorting by "best" is annoying and stupid and unpredictable and very
+      # often the "best" comment is some dipshit saying something stupid
+      REDLIB_DEFAULT_COMMENT_SORT = "top";
 
       REDLIB_ENABLE_RSS = "on";
     };
