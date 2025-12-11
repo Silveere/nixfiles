@@ -53,6 +53,7 @@
 
     mpvScripts = with pkgs.mpvScripts; [
       videoclip
+      mpris
     ];
   };
 
