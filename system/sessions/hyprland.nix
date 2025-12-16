@@ -39,12 +39,10 @@ in {
     # greeter
     nixfiles.programs.greetd = {
       enable = true;
-      settings = {
-        command = lib.mkMerge [
-          (lib.mkIf (!config.programs.hyprland.withUWSM) ["${config.programs.hyprland.package}/bin/Hyprland"])
-          (lib.mkIf config.programs.hyprland.withUWSM ["${config.programs.uwsm.waylandCompositors.hyprland.binPath}"])
-        ];
-      };
+      settings = lib.mkMerge [
+        (lib.mkIf (!config.programs.hyprland.withUWSM) {command = ["${config.programs.hyprland.package}/bin/Hyprland"];})
+        (lib.mkIf config.programs.hyprland.withUWSM {uwsmSession = "hyprland";})
+      ];
     };
 
     # misleading name

@@ -5,6 +5,8 @@
   options,
   ...
 }: let
+  mk_uwsm_command = opts: ["${lib.getExe config.programs.uwsm.package}" "start" "-F" "--" "${opts.binPath}"] ++ opts.extraArgs;
+
   cfg = config.nixfiles.programs.greetd;
   inherit (lib) types optional optionals escapeShellArg escapeShellArgs;
   inherit (types) bool enum nullOr str path listOf;
@@ -124,6 +126,23 @@ in {
       settings.graphicalInit = lib.optionalString (cfg.settings.randr != null) ''
         ${lib.getExe pkgs.wlr-randr} ${escapeShellArgs cfg.settings.randr}
       '';
+
+      settings.command = let
+        inherit (cfg.settings) uwsmSession;
+        value = config.programs.uwsm.waylandCompositors.${uwsmSession};
+      in
+        lib.mkIf (!(builtins.isNull uwsmSession)) (
+          lib.mkDefault (mk_uwsm_command {
+            name = cfg.settings.uwsmSession;
+            inherit
+              (value)
+              prettyName
+              comment
+              binPath
+              extraArgs
+              ;
+          })
+        );
     };
   };
 
@@ -170,6 +189,13 @@ in {
         type = nullOr (listOf str);
         default = null;
         example = ["Hyprland"];
+      };
+
+      uwsmSession = lib.mkOption {
+        description = "uwsm session to run when autostart is enabled";
+        type = nullOr str;
+        default = null;
+        example = "hyprland";
       };
 
       graphicalInit = lib.mkOption {
