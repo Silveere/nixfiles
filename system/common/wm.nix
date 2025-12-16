@@ -18,6 +18,8 @@ in {
     };
     programs = {
       nm-applet.enable = mkDefault config.networking.networkmanager.enable;
+
+      uwsm.enable = mkDefault true;
     };
     security.pam.services.swaylock = {};
 

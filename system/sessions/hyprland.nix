@@ -40,7 +40,10 @@ in {
     nixfiles.programs.greetd = {
       enable = true;
       settings = {
-        command = ["${config.programs.hyprland.package}/bin/Hyprland"];
+        command = lib.mkMerge [
+          (lib.mkIf (!config.programs.hyprland.withUWSM) ["${config.programs.hyprland.package}/bin/Hyprland"])
+          (lib.mkIf config.programs.hyprland.withUWSM ["${config.programs.uwsm.waylandCompositors.hyprland.binPath}"])
+        ];
       };
     };
 
@@ -53,6 +56,7 @@ in {
       xwayland.enable = true;
       package = lib.mkIf cfg.useFlake flake-package;
       portalPackage = lib.mkIf cfg.useFlake flake-portal;
+      withUWSM = true;
     };
 
     hardware.opengl = let
