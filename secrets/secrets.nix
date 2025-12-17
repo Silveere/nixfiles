@@ -21,6 +21,7 @@ let
   agenix = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFSjr8JYl9rwU/1b36ndvo37iUx8LVL2PaSQ774eW6Mb";
 in {
   "cloudflare-dns.age".publicKeys = [rpi4 px1 meow] ++ all-user;
+  "cloudflare-dns-token.age".publicKeys = [rpi4 px1 meow agenix];
   "wireguard-rpi4.age".publicKeys = [rpi4] ++ all-user;
   "htpasswd.age".publicKeys = [rpi4 px1] ++ all-user;
   "htpasswd-cam.age".publicKeys = [rpi4] ++ all-user;
