@@ -58,7 +58,7 @@ in {
         };
 
         nixos-meow = {
-          hostname = "nixos-meow.meow.nullbite.com";
+          hostname = "nixos-meow.magpie-moth.ts.net";
           profiles.system = {
             path = mkProfile configs.nixos-meow;
             user = "root";
