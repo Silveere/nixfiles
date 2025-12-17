@@ -40,4 +40,7 @@ in {
   "attic-deploy.age".publicKeys = all-host ++ all-user;
 
   "tailscale-deploy.age".publicKeys = [px1 meow agenix];
+
+  "cf-nullbite.com.age".publicKeys = [meow agenix];
+  "cf-nullbite.com-cred.age".publicKeys = [meow agenix];
 }
