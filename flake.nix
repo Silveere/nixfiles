@@ -296,6 +296,13 @@
                 ];
               };
 
+              nixos-meow = {
+                system = "x86_64-linux";
+                modules = with modules.nixos; [
+                  deploy-target
+                ];
+              };
+
               nixos-wsl = {
                 system = "x86_64-linux";
                 wsl = true;

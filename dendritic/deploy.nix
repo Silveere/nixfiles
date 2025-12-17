@@ -57,6 +57,14 @@ in {
           };
         };
 
+        nixos-meow = {
+          hostname = "nixos-meow.meow.nullbite.com";
+          profiles.system = {
+            path = mkProfile configs.nixos-meow;
+            user = "root";
+          };
+        };
+
         nixos-px1 = {
           hostname = "nixos-px1.alpha.hel.hz.nullbite.com";
           profiles.system = {
