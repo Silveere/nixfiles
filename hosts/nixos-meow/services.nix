@@ -5,12 +5,17 @@
   ...
 }: let
   inherit (config.nixfiles.args.flake) self;
+  inherit (config.age) secrets;
 in {
   config = {
     networking.firewall.allowedTCPPorts = [80 443];
 
     age.secrets = {
-      cloudflaredns = {
+      cloudflare-dns-token = {
+        file = self.outPath + "/secrets/cloudflare-dns-token.age";
+        group = "secrets";
+      };
+      cloudflare-dns = {
         file = self.outPath + "/secrets/cloudflare-dns.age";
         group = "secrets";
       };
@@ -29,7 +34,7 @@ in {
         "meow.nullbite.com" = {
           credentialFiles = {
             "CLOUDFLARE_EMAIL_FILE" = pkgs.writeText "email" "iancoguz@gmail.com";
-            "CLOUDFLARE_API_KEY_FILE" = config.age.secrets.cloudflaredns.path;
+            "CLOUDFLARE_API_KEY_FILE" = config.age.secrets.cloudflare-dns.path;
           };
 
           dnsProvider = "cloudflare";
@@ -42,6 +47,18 @@ in {
     };
 
     users.users.nginx.extraGroups = ["acme"];
+
+    # third time's the charm ? ? ?
+    services.cloudflare-dyndns = {
+      enable = true;
+      apiTokenFile = secrets.cloudflare-dns-token.path;
+      domains = [
+        "meow.ddns.nullbite.com"
+      ];
+      ipv4 = true;
+      ipv6 = false;
+      proxied = false;
+    };
 
     services.nginx = {
       enable = true;
