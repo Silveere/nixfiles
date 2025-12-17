@@ -7,6 +7,8 @@
   inherit (config.nixfiles.args.flake) self;
 in {
   config = {
+    networking.firewall.allowedTCPPorts = [80 443];
+
     age.secrets = {
       cloudflaredns = {
         file = self.outPath + "/secrets/cloudflare-dns.age";
