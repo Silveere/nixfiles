@@ -36,9 +36,27 @@
   nixosModule = {...}: {
     config.users.users.root.openssh.authorizedKeys.keys = config.nixfiles.vars.deployKeys;
   };
+
+  tailscaleAuthModule = {
+    config,
+    lib,
+    ...
+  }: {
+    imports = [
+      inputs.agenix.nixosModules.default
+    ];
+
+    age.secrets.tailscale-auth = lib.mkIf config.services.tailscale.enable {
+      file = self.outPath + "/secrets/tailscale-deploy.age";
+    };
+    services.tailscale = {
+      authKeyFile = lib.mkDefault config.age.secrets.tailscale-auth.path;
+    };
+  };
 in {
   config.flake = {
     modules.nixos.deploy-target = nixosModule;
+    modules.nixos.tailscale-auth = tailscaleAuthModule;
 
     deploy = {
       user = "root";

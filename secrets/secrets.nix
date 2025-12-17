@@ -38,4 +38,6 @@ in {
 
   "atticd.age".publicKeys = [px1 agenix];
   "attic-deploy.age".publicKeys = all-host ++ all-user;
+
+  "tailscale-deploy.age".publicKeys = [px1 meow agenix];
 }

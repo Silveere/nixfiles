@@ -293,6 +293,7 @@
                 system = "x86_64-linux";
                 modules = with modules.nixos; [
                   deploy-target
+                  tailscale-auth
                 ];
               };
 
@@ -300,6 +301,7 @@
                 system = "x86_64-linux";
                 modules = with modules.nixos; [
                   deploy-target
+                  tailscale-auth
                 ];
               };
 
