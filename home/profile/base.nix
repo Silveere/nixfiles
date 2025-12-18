@@ -72,6 +72,12 @@ in {
       # default value is stateVersion dependent, doesn't evaluate after 25.05
       # even if signing isn't configured for some reason
       signing.format = lib.mkDefault "openpgp";
+      settings = {
+        # global gitignore
+        core.excludesFile = lib.mkDefault "${pkgs.writeText "gitignore.global" ''
+          Session.vim
+        ''}";
+      };
     };
 
     # git maintenance: don't spam endpoints, ignore failure
