@@ -41,6 +41,7 @@ in {
           domain = "meow.nullbite.com";
           extraDomainNames = [
             "*.meow.nullbite.com"
+            "hass-meow.nullbite.com"
           ];
         };
       };
@@ -103,9 +104,20 @@ in {
           };
 
         mkReverseProxy = port: mkProxy {inherit port;};
-      in {
-        "hass.meow.nullbite.com" = mkProxy {
+
+        hassProxy = mkProxy {
           upstream = "http://192.168.1.227:8123";
+        };
+      in {
+        "hass.meow.nullbite.com" = hassProxy;
+        "hass-meow.nullbite.com" = hassProxy;
+        "localhost" = {
+          default = true;
+          addSSL = true;
+          useACMEHost = "meow.nullbite.com";
+          locations."/" = {
+            return = "404";
+          };
         };
       };
     };
