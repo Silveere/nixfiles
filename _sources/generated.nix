@@ -3,15 +3,15 @@
 {
   catppuccin-fish = {
     pname = "catppuccin-fish";
-    version = "6a85af2ff722ad0f9fbc8424ea0a5c454661dfed";
+    version = "af622a6e247806f6260c00c6d261aa22680e5201";
     src = fetchFromGitHub {
       owner = "catppuccin";
       repo = "fish";
-      rev = "6a85af2ff722ad0f9fbc8424ea0a5c454661dfed";
+      rev = "af622a6e247806f6260c00c6d261aa22680e5201";
       fetchSubmodules = false;
-      sha256 = "sha256-Oc0emnIUI4LV7QJLs4B2/FQtCFewRFVp7EDv8GawFsA=";
+      sha256 = "sha256-KD/sWXSXYVlV+n7ft4vKFYpIMBB3PSn6a6jz+ZIMZvQ=";
     };
-    date = "2025-03-01";
+    date = "2025-11-28";
   };
   catppuccin-gitea = {
     pname = "catppuccin-gitea";
@@ -35,32 +35,32 @@
   };
   gamescope = {
     pname = "gamescope";
-    version = "03cf7653b02e8b660a8e05ce8649a9aa54ec5115";
+    version = "9936905160ae31c609816ef183fc064019386233";
     src = fetchFromGitHub {
       owner = "ValveSoftware";
       repo = "gamescope";
-      rev = "03cf7653b02e8b660a8e05ce8649a9aa54ec5115";
+      rev = "9936905160ae31c609816ef183fc064019386233";
       fetchSubmodules = true;
-      sha256 = "sha256-7nDgcRNI5dlT2ALn1VXuJ1Xjb229KlGaUR/yqa/RMW0=";
+      sha256 = "sha256-c6rLoLXIDX2IhR9oxj/4Gk9fFuNuzE1lDNCUjrZoNbg=";
     };
-    date = "2025-11-24";
+    date = "2025-12-16";
   };
   redlib = {
     pname = "redlib";
-    version = "2dc6b5f3c0db1f8e78a74048ba4550ba6202cb55";
+    version = "ba98178bbce0f62265095ba085128c7022e51a1f";
     src = fetchFromGitHub {
       owner = "redlib-org";
       repo = "redlib";
-      rev = "2dc6b5f3c0db1f8e78a74048ba4550ba6202cb55";
+      rev = "ba98178bbce0f62265095ba085128c7022e51a1f";
       fetchSubmodules = false;
-      sha256 = "sha256-Di3ZZZ4UqR00ud6MdrnJGUngdd/RSC1uNKlsmTdUx2k=";
+      sha256 = "sha256-ERTEoT7w8oGA0ztrzc9r9Bl/7OOay+APg3pW+h3tgvM=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./redlib-2dc6b5f3c0db1f8e78a74048ba4550ba6202cb55/Cargo.lock;
+      lockFile = ./redlib-ba98178bbce0f62265095ba085128c7022e51a1f/Cargo.lock;
       outputHashes = {
         
       };
     };
-    date = "2025-10-06";
+    date = "2025-12-15";
   };
 }
