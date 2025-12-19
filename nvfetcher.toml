@@ -20,3 +20,7 @@ fetch.github = "catppuccin/fish"
 [catppuccin-gitea]
 src.github = "catppuccin/gitea"
 fetch.tarball = "https://github.com/catppuccin/gitea/releases/download/$ver/catppuccin-gitea.tar.gz"
+
+[mpv-ytsub]
+src.git = "https://github.com/Idlusen/mpv-ytsub.git"
+fetch.github = "Idlusen/mpv-ytsub"

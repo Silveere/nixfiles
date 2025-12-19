@@ -76,6 +76,27 @@
         },
         "version": "9936905160ae31c609816ef183fc064019386233"
     },
+    "mpv-ytsub": {
+        "cargoLocks": null,
+        "date": "2025-08-31",
+        "extract": null,
+        "name": "mpv-ytsub",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "Idlusen",
+            "repo": "mpv-ytsub",
+            "rev": "ba9f8c0e76ff21dfcaeaf986f8adacb268082e9c",
+            "sha256": "sha256-Z8sToL8omb1J9J5Sioh1R/pkDyw90uEXCxEim4JghlI=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "ba9f8c0e76ff21dfcaeaf986f8adacb268082e9c"
+    },
     "redlib": {
         "cargoLocks": {
             "Cargo.lock": [

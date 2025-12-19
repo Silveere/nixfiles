@@ -45,6 +45,18 @@
     };
     date = "2025-12-16";
   };
+  mpv-ytsub = {
+    pname = "mpv-ytsub";
+    version = "ba9f8c0e76ff21dfcaeaf986f8adacb268082e9c";
+    src = fetchFromGitHub {
+      owner = "Idlusen";
+      repo = "mpv-ytsub";
+      rev = "ba9f8c0e76ff21dfcaeaf986f8adacb268082e9c";
+      fetchSubmodules = false;
+      sha256 = "sha256-Z8sToL8omb1J9J5Sioh1R/pkDyw90uEXCxEim4JghlI=";
+    };
+    date = "2025-08-31";
+  };
   redlib = {
     pname = "redlib";
     version = "ba98178bbce0f62265095ba085128c7022e51a1f";

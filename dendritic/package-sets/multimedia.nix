@@ -6,9 +6,32 @@
   inherit (builtins) concatLists;
   inherit (lib.lists) unique;
 
-  mpvScripts = pkgs: (mkPackageLists pkgs).mpvScripts;
-
   mkPackageLists = pkgs: rec {
+    customMpvScripts = let
+      inherit (pkgs.stdenv.hostPlatform) system;
+      inherit (config.allSystems.${system}.nixfiles) nvfetcherSources;
+      nvf = nvfetcherSources;
+      inherit (pkgs.mpvScripts) buildLua;
+    in {
+      ytsub = buildLua {
+        inherit (nvf.mpv-ytsub) src pname version;
+        scriptPath = "ytsub.lua";
+      };
+    };
+
+    mpvScripts = with pkgs.mpvScripts; let
+      custom = customMpvScripts;
+    in [
+      videoclip
+      mpris
+      custom.ytsub
+    ];
+
+    mpv-with-scripts = pkgs.mpv-unwrapped.wrapper {
+      mpv = pkgs.mpv-unwrapped;
+      scripts = mpvScripts;
+    };
+
     graphical-common = with pkgs; [
       gimp3
       krita
@@ -39,22 +62,12 @@
       beets
     ];
 
-    cli-system = let
-      mpv-with-scripts = pkgs.mpv-unwrapped.wrapper {
-        mpv = pkgs.mpv-unwrapped;
-        scripts = mpvScripts;
-      };
-    in
+    cli-system =
       cli-common
       ++ [
         mpv-with-scripts
       ];
     cli-home = cli-common;
-
-    mpvScripts = with pkgs.mpvScripts; [
-      videoclip
-      mpris
-    ];
   };
 
   homeModule = {
@@ -143,4 +156,11 @@
 in {
   config.flake.modules.nixos.nixfiles = nixosModule;
   config.flake.modules.homeManager.nixfiles = homeModule;
+  config.perSystem = {pkgs, ...}: let
+    packageLists = mkPackageLists pkgs;
+  in {
+    packages = {
+      inherit (packageLists) mpv-with-scripts;
+    };
+  };
 }
