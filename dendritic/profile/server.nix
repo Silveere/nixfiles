@@ -12,6 +12,8 @@
 
     config = lib.mkIf cfg.enable {
       nixfiles.profile.base.enable = lib.mkDefault true;
+
+      services.tailscale.useRoutingFeatures = lib.mkDefault "both";
     };
   };
 in {
