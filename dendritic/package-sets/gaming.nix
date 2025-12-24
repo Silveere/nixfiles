@@ -1,4 +1,5 @@
-# TODO this isn't done yet
+# ~~TODO this isn't done yet~~
+# why did i say this was unfinished it seems fine i can refactor it later
 {...}: let
   steamGamescopeFix = final: prev: {
     steam = prev.steam.override {
