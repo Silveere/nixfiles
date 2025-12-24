@@ -17,7 +17,7 @@ function _nix_complete
   set -l lines (env NIX_GET_COMPLETIONS=$nix_arg_to_complete $nix_args $current_token 2>/dev/null)
 
   string join \n $lines
-  test (count $lines) -ge 2; or return
+  test (count $lines) -ge 2; and test $lines[1] = attrs; or return
 
   string join \n $lines[2..] | string replace -r '(\t[^\t]*)$' '.\1'
 end
