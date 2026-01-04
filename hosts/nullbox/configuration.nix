@@ -37,12 +37,12 @@ in {
       }
     ];
 
-    specialisation.hyprland.configuration = {
-      system.nixos.tags = ["Hyprland"];
-      nixfiles = {
-        session = "hyprland";
-      };
-    };
+    # specialisation.hyprland.configuration = {
+    #   system.nixos.tags = ["Hyprland"];
+    #   nixfiles = {
+    #     session = "hyprland";
+    #   };
+    # };
 
     hardware.cpu.intel.updateMicrocode = true;
 
