@@ -27,8 +27,7 @@
       custom.ytsub
     ];
 
-    mpv-with-scripts = pkgs.mpv-unwrapped.wrapper {
-      mpv = pkgs.mpv-unwrapped;
+    mpv-with-scripts = pkgs.mpv.override {
       scripts = mpvScripts;
     };
 

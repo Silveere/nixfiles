@@ -196,6 +196,32 @@
       now = 1763622695;
     in
       hold now 7 stable unstable;
+
+    vesktop = let
+      patched = let
+        # NixOS/nixpkgs#476347
+        nixpkgs = prev.fetchFromGitHub {
+          owner = "NixOS";
+          repo = "nixpkgs";
+          rev = "2e21f6c5797fcccfc1e8eced873aea8401a71135";
+          hash = "sha256-bmDUBlqgpIAXQ0QFn1fWpurlc+j2sI+B5941PWsic3M=";
+        };
+        pkgs = (import nixpkgs) {inherit (prev.stdenv.hostPlatform) system;};
+      in
+        pkgs.vesktop;
+
+      stable = patched;
+      unstable = prev.vesktop;
+      now = 1767537701;
+    in
+      hold now 7 stable unstable;
+
+    oneko = let
+      stable = pkgsStable.oneko;
+      unstable = prev.oneko;
+      now = 1767537701;
+    in
+      hold now 7 stable unstable;
   };
 in {
   config.flake.overlays.mitigations = overlay;
