@@ -16,24 +16,22 @@
         enable = lib.mkEnableOption "adb configuration";
       };
 
-      config = lib.mkMerge [
+      config = lib.mkIf cfg.enable (lib.mkMerge [
         {
-          config = lib.mkIf cfg.enable {
-            environment.systemPackages =
-              [
-                pkgs.scrcpy
-                # from overlay
-                pkgs.magiskboot
-                pkgs.ksud
-              ]
-              ++ lib.optional (versionAtLeast release "26.05") pkgs.android-tools;
-          };
+          environment.systemPackages =
+            [
+              pkgs.scrcpy
+              # from overlay
+              pkgs.magiskboot
+              pkgs.ksud
+            ]
+            ++ lib.optional (versionAtLeast release "26.05") pkgs.android-tools;
         }
         (lib.mkIf (versionOlder release "26.05") {
           programs.adb.enable = true;
           users.users.${vars.username}.extraGroups = ["adbusers"];
         })
-      ];
+      ]);
     };
 in {
   config.flake.modules.nixos = {
