@@ -13,9 +13,9 @@
       enable = lib.mkEnableOption "adb configuration";
     };
 
-    programs.adb.enable = true;
-    users.users.${vars.username}.extraGroups = ["adbusers"];
     config = lib.mkIf cfg.enable {
+      programs.adb.enable = true;
+      users.users.${vars.username}.extraGroups = ["adbusers"];
       environment.systemPackages = [
         pkgs.scrcpy
         # from overlay
