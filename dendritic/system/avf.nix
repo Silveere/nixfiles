@@ -48,6 +48,7 @@
 
       fileSystems."/mnt/shared-mirror" = {
         device = "/mnt/shared";
+        depends = ["/mnt/shared/."];
         fsType = "fuse.bindfs.droid";
         options = [
           "allow_other"
