@@ -57,7 +57,7 @@ in {
             path = "${nixpkgs.outPath}";
           };
         };
-        nixpkgs = {
+        nixpkgs = lib.mkIf (nixpkgs ? rev) {
           exact = true;
           from = {
             id = "nixpkgs";
