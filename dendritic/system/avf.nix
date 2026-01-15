@@ -56,6 +56,7 @@
           "chgrp-ignore"
           "chmod-ignore"
           "perms=0600:u+X"
+          "nofail"
         ];
       };
     };
