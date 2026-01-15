@@ -12,7 +12,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     users.users.nullbite = {
-      uid = 1000;
+      uid = lib.mkDefault 1000;
       group = "nullbite";
       isNormalUser = true;
       extraGroups =
@@ -31,7 +31,7 @@ in {
       initialPassword = lib.mkIf config.users.mutableUsers (lib.mkDefault "changeme");
     };
 
-    users.groups.nullbite.gid = 1000;
+    users.groups.nullbite.gid = lib.mkDefault 1000;
 
     # shell config
     programs.zsh.enable = true;
