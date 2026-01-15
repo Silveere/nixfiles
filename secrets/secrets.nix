@@ -10,6 +10,10 @@ let
 
   all-host = [rpi4 nullbox slab px1 meow];
 
+  avf-hosts = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIm86l/B85quzWGU9D6DkrjA3ScD9Vu0tiFoqSSLlrxg"
+  ];
+
   all-user = [
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC6HOSwsMvNtv6iOxDLhSTnjREyAIGXoQ5IgC/mXfAIT9vA59fbI74wjdzbIUd9sZLd4mIExhdKw5ihaSOmsIb2x4tokjIHvjsdWJVBXqwqoYCd+9S4aoi5Nc0YHLCqTQM7LqJTCbE6HzLqkiZNhocgAnEIXpgcpnf0kB7suFXSKY/XY2ALFYXVohPfZTQsJqfkGkkVTgzglFV8kaVUeas0vLsDVU73lQjZ1oO4n2Ps+O9jbjFp3Zk/5txcKO3rVEqEy8vJLHIHFXnqo/2WOiM/ZagwoDXBwGZjH++klVwBb1Bu6MKbahI986gamVrWPgoRr/AaeC/WkVXIG3Yi4BG6sxhTlYoO3MwfnaQNetAAfT6XmzifTxtCGxIM5MdwC0n19C2qLwAU6EXhW0/W7RPqdsA5BcsQX9Fg+3yJX/xVwAeiRE5DzyI8aCkemXn7y7BAAbXG+e3YEetUrNjdRNWIeMrGv8LckE5z5sfifbwks5+++K+1X256bGX93m7Nn7U="
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC4eg1TMjggwqdur1bsBqz4wzLchxAfcVl9XPJQ/Z4NCjKD+/lqmUQNt1n5ld5w/fRirkcsOIcoWSW1ioisvoZEtv5I5clQLLHA4sNIO2hXnNP3+XF+pB/eBZ6my4/nySl1QkDBEFE7HDTw0S6aZAkk3xoD08W2mU4xcVnVUeBUGyOy2Wt8NESYqwfw0qcIyRd37YmlOk22v/aVlMAsBSI73ug7/qTsVFp8G1py2BLi0ZwA5MfiZ8LZ6Y9gXFVGAA1pi2TiG+PVRMe9HsVHrxYX7crx6XnWmaa2o1KmxqWXriTd8zO2OGgoCW8klIeKnsJ3fGXJlLpcgxOXwg9vkE3EjWyihRrzooQdcfgrdxs7CY4D9OY2HrJ66h/bOtQgQCjI6/jN8SB+thhktj8fF5kSpB2hnquZPddVaRl83EmDqx03eqPVWtoGfEFi5/M6LGcqu8dYVoKioFnMFWaZVxlIn0goNCF6eV4+xPtFn/Wt6o4twYKJVEVXbhFQbiebUgk="
@@ -38,7 +42,7 @@ in {
   "anki-user.age".publicKeys = [rpi4] ++ all-user;
 
   "atticd.age".publicKeys = [px1 agenix];
-  "attic-deploy.age".publicKeys = all-host ++ all-user;
+  "attic-deploy.age".publicKeys = all-host ++ all-user ++ avf-hosts;
 
   "tailscale-deploy.age".publicKeys = [px1 meow agenix];
 
