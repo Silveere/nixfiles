@@ -73,6 +73,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixos-avf = {
+      url = "github:nix-community/nixos-avf";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     # https://github.com/nix-community/lanzaboote/releases
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v0.4.3";
@@ -308,6 +313,13 @@
               nixos-wsl = {
                 system = "x86_64-linux";
                 wsl = true;
+              };
+
+              nixos-avf = {
+                system = "aarch64-linux";
+                modules = with modules.nixos; [
+                  avf
+                ];
               };
 
               # for eval testing

@@ -1316,6 +1316,26 @@
         "type": "github"
       }
     },
+    "nixos-avf": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768436752,
+        "narHash": "sha256-lUuB2BQw6xDMHZRW1RoAKecEifc0A4Jkaca2Ux0Lxvs=",
+        "owner": "nix-community",
+        "repo": "nixos-avf",
+        "rev": "3cd51030c9fac60d5b057195310e8ddeacc4ffe1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixos-avf",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1767379071,
@@ -1545,6 +1565,7 @@
         "nix-minecraft-upstream": "nix-minecraft-upstream",
         "nix-wsl": "nix-wsl",
         "nixfiles-assets": "nixfiles-assets",
+        "nixos-avf": "nixos-avf",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-forgejo": "nixpkgs-forgejo",
         "nixpkgs-mopidy": "nixpkgs-mopidy",
