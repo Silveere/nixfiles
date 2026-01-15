@@ -16,6 +16,9 @@
     config = {
       avf.defaultUser = lib.mkDefault "${vars.username}";
 
+      # enable ssh for agenix (attic auth)
+      services.openssh.enable = true;
+
       # uid 1000 (droid) is the only user that can access /mnt/shared
       users.users.droid = {
         uid = 1000;
