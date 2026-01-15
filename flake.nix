@@ -322,6 +322,22 @@
                 ];
               };
 
+              avf-bootstrap = {
+                system = "aarch64-linux";
+                modules = with modules.nixos; [
+                  avf
+                ];
+                configuration = {
+                  networking.hostName = "nixos-avf";
+                  nixfiles.common.nix = {
+                    enable = true;
+                    registerNixpkgs = false;
+                  };
+                  services.openssh.enable = true;
+                };
+                home-manager.configuration = null;
+              };
+
               # for eval testing
               rpi4-x86_64 = {
                 system = "x86_64-linux";
