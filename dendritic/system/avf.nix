@@ -32,6 +32,32 @@
       users.groups."${vars.username}" = {
         gid = 994;
       };
+
+      environment.systemPackages = let
+        # mount helper to run it as user `droid` so i can use fstab/systemd mounts
+        bindfs-droid = pkgs.writeShellScriptBin "mount.fuse.bindfs.droid" ''
+          echo chown droid "$2" >&2
+          chown droid "$2"
+          exec sudo -u droid -- "${pkgs.bindfs}/bin/mount.fuse.bindfs" "$@"
+        '';
+      in [
+        pkgs.bindfs
+        bindfs-droid
+      ];
+
+      fileSystems."/mnt/shared-mirror" = {
+        device = "/mnt/shared";
+        fsType = "fuse.bindfs.droid";
+        options = [
+          "allow_other"
+          "mirror-only=${vars.username}"
+          "create-as-mounter"
+          "chown-ignore"
+          "chgrp-ignore"
+          "chmod-ignore"
+          "perms=0600:u+X"
+        ];
+      };
     };
   };
 in {

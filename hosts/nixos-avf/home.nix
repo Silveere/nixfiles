@@ -11,7 +11,7 @@
       packageSets.multimedia.enable = true;
     };
     home.file.sdcard = {
-      source = config.lib.file.mkOutOfStoreSymlink "/mnt/shared/";
+      source = config.lib.file.mkOutOfStoreSymlink "/mnt/shared-mirror/";
     };
   };
 }
