@@ -16,7 +16,7 @@ in {
       group = "nullbite";
       isNormalUser = true;
       extraGroups =
-        ["wheel" "dialout"]
+        ["users" "wheel" "dialout"]
         ++ lib.optional config.nixfiles.packageSets.fun.enable "input"
         ++ lib.optional config.virtualisation.podman.enable "podman"
         ++ lib.optional config.hardware.openrazer.enable "openrazer";
