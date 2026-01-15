@@ -8,6 +8,10 @@
   inherit (config.age) secrets;
 in {
   config = {
+    nixfiles = {
+      programs.syncthing.enable = true;
+    };
+
     networking.firewall.allowedTCPPorts = [80 443];
 
     age.secrets = {

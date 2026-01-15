@@ -54,10 +54,10 @@
     #   # services.xserver.displayManager.startx.enable = lib.mkForce false;
     # };
 
-    specialisation.hyprland.configuration = {
-      system.nixos.tags = ["Hyprland"];
-      nixfiles.session = "hyprland";
-    };
+    # specialisation.hyprland.configuration = {
+    #   system.nixos.tags = ["Hyprland"];
+    #   nixfiles.session = "hyprland";
+    # };
 
     nixfiles.supergfxd.profile = lib.mkDefault "Integrated";
 
