@@ -11,7 +11,7 @@ let
   all-host = [rpi4 nullbox slab px1 meow];
 
   avf-hosts = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIm86l/B85quzWGU9D6DkrjA3ScD9Vu0tiFoqSSLlrxg"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILDt9pA6RAT4t2s0i0xQJstQ4aW87vP1CafepDJBa7KT" # owner profile
   ];
 
   all-user = [
