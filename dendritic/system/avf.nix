@@ -5,7 +5,11 @@
   ...
 }: let
   inherit (config.nixfiles) vars;
-  nixosModule = {lib, ...}: {
+  nixosModule = {
+    pkgs,
+    lib,
+    ...
+  }: {
     imports = [
       inputs.nixos-avf.nixosModules.avf
     ];
@@ -18,8 +22,16 @@
         extraGroups = ["droid" "wheel"];
       };
       users.groups.droid = {};
-      # slightly above mkDefault
-      users.users."${vars.username}".initialPassword = lib.mkOverride 990 null;
+
+      # proper uid/gid config
+      users.users."${vars.username}" = {
+        # slightly above mkDefault
+        initialPassword = lib.mkOverride 990 null;
+        uid = 1001;
+      };
+      users.groups."${vars.username}" = {
+        gid = 994;
+      };
     };
   };
 in {
