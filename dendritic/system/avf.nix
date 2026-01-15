@@ -36,9 +36,9 @@
       environment.systemPackages = let
         # mount helper to run it as user `droid` so i can use fstab/systemd mounts
         bindfs-droid = pkgs.writeShellScriptBin "mount.fuse.bindfs.droid" ''
-          echo chown droid "$2" >&2
-          chown droid "$2"
-          exec sudo -u droid -- "${pkgs.bindfs}/bin/mount.fuse.bindfs" "$@"
+          set -Eeuxo pipefail
+          ${pkgs.coreutils}/bin/chown droid "$2"
+          exec ${pkgs.util-linux}/bin/setpriv --reuid droid --regid droid --init-groups -- ${pkgs.bindfs}/bin/mount.fuse.bindfs "$@"
         '';
       in [
         pkgs.bindfs
