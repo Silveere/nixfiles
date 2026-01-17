@@ -20,6 +20,7 @@
           '';
           default = cfg.compress;
           type = compressType;
+          internal = true;
         };
       };
       config = mkIf ((config.fsType == "btrfs")
