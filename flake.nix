@@ -319,6 +319,7 @@
                 system = "aarch64-linux";
                 modules = with modules.nixos; [
                   avf
+                  tailscale-auth
                 ];
               };
 
