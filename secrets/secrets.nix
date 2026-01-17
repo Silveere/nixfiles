@@ -12,6 +12,7 @@ let
 
   avf-hosts = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJCs6dkJ3rsryPLmogOgRSG7/ovqRnzSNAzU4jZ4G9rN" # owner profile
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAe8diD5swostr+yNSy5EKrKyElw6c73ABSsZ+X5kbQy" # daily profile
   ];
 
   all-user = [
