@@ -45,7 +45,7 @@ in {
   "atticd.age".publicKeys = [px1 agenix];
   "attic-deploy.age".publicKeys = all-host ++ all-user ++ avf-hosts;
 
-  "tailscale-deploy.age".publicKeys = [px1 meow agenix];
+  "tailscale-deploy.age".publicKeys = [px1 meow agenix] ++ avf-hosts;
 
   "cf-nullbite.com.age".publicKeys = [meow agenix];
   "cf-nullbite.com-cred.age".publicKeys = [meow agenix];
