@@ -56,7 +56,9 @@ in {
     };
 
     # agenix fix
-    fileSystems."/etc/ssh".neededForBoot = true;
+    age.identityPaths = [
+      "/persist/backup/etc/ssh/ssh_host_ed25519_key"
+    ];
 
     environment.persistence = {
       "/persist/nobackup" = {
