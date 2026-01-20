@@ -99,6 +99,9 @@ in {
       gh = "env PAGER='nvim -R +set\\ nowrap\\ ic' gh";
       cr = "cd \"$(git rev-parse --show-toplevel)\"";
       cx = ''cd "$(tmux display-message -p '#{session_path}')"'';
+      tmpdir = ''cd "$(mktemp -d)"'';
+
+      gdl = ''gallery-dl --config-toml "$HOME/dotfiles/termux/.config/gallery-dl/termux.toml" -D .'';
 
       # start bash normally if i invoke it as a shell command
       bash = "env NF_NO_TMUX=1 NF_NO_EXEC=1 bash";
