@@ -3,15 +3,15 @@
 {
   catppuccin-fish = {
     pname = "catppuccin-fish";
-    version = "af622a6e247806f6260c00c6d261aa22680e5201";
+    version = "521560ce2075ca757473816aa31914215332bac9";
     src = fetchFromGitHub {
       owner = "catppuccin";
       repo = "fish";
-      rev = "af622a6e247806f6260c00c6d261aa22680e5201";
+      rev = "521560ce2075ca757473816aa31914215332bac9";
       fetchSubmodules = false;
-      sha256 = "sha256-KD/sWXSXYVlV+n7ft4vKFYpIMBB3PSn6a6jz+ZIMZvQ=";
+      sha256 = "sha256-5CXdzym6Vp+FbKTVBtVdWoh3dODudADIzOLXIyIIxgQ=";
     };
-    date = "2025-11-28";
+    date = "2026-01-06";
   };
   catppuccin-gitea = {
     pname = "catppuccin-gitea";
@@ -23,39 +23,39 @@
   };
   cross-seed = {
     pname = "cross-seed";
-    version = "66c5fac7f95cff3838b887301a230ee2a0afd382";
+    version = "d361fec525dba4fa9cc223256a3001003e2f2530";
     src = fetchFromGitHub {
       owner = "cross-seed";
       repo = "cross-seed";
-      rev = "66c5fac7f95cff3838b887301a230ee2a0afd382";
+      rev = "d361fec525dba4fa9cc223256a3001003e2f2530";
       fetchSubmodules = false;
-      sha256 = "sha256-zE75ljiAIrjBtz2hAagVi2znmIiVkVmpnoR5RBu+W+k=";
+      sha256 = "sha256-PTOq006bHhFCKJd8upgliE75BxZOnI3pKkwjX2uQaes=";
     };
-    date = "2025-11-10";
+    date = "2026-01-17";
   };
   gamescope = {
     pname = "gamescope";
-    version = "9936905160ae31c609816ef183fc064019386233";
+    version = "1164ac17849b0c50a39d286e8feda877d82bb59a";
     src = fetchFromGitHub {
       owner = "ValveSoftware";
       repo = "gamescope";
-      rev = "9936905160ae31c609816ef183fc064019386233";
+      rev = "1164ac17849b0c50a39d286e8feda877d82bb59a";
       fetchSubmodules = true;
-      sha256 = "sha256-c6rLoLXIDX2IhR9oxj/4Gk9fFuNuzE1lDNCUjrZoNbg=";
+      sha256 = "sha256-hPuAy5ehT8Njd6HY4qa5/ZASZ7jN+AdCiALpK+RUDyM=";
     };
-    date = "2025-12-16";
+    date = "2026-01-12";
   };
   mpv-ytsub = {
     pname = "mpv-ytsub";
-    version = "ba9f8c0e76ff21dfcaeaf986f8adacb268082e9c";
+    version = "14c4e878e52bc6bed2cf636683f7ab43c3d01b1a";
     src = fetchFromGitHub {
       owner = "Idlusen";
       repo = "mpv-ytsub";
-      rev = "ba9f8c0e76ff21dfcaeaf986f8adacb268082e9c";
+      rev = "14c4e878e52bc6bed2cf636683f7ab43c3d01b1a";
       fetchSubmodules = false;
-      sha256 = "sha256-Z8sToL8omb1J9J5Sioh1R/pkDyw90uEXCxEim4JghlI=";
+      sha256 = "sha256-WGEXXkwHif+CMEYjWS4tnbd5xO9mIco5Jd8FIHQ+NC4=";
     };
-    date = "2025-08-31";
+    date = "2025-12-27";
   };
   redlib = {
     pname = "redlib";
