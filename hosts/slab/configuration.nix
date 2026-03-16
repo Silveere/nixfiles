@@ -158,9 +158,9 @@
     });
 
     # might make hibernate better idk
-    systemd.sleep.extraConfig = ''
-      HibernateMode=shutdown
-    '';
+    systemd.sleep.settings.Sleep = {
+      HibernateMode = "shutdown";
+    };
 
     services.logind.settings.Login = {
       HandleLidSwitch = "lock";
