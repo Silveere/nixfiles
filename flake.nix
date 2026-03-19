@@ -6,7 +6,7 @@
     # {{{
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     #              ^^^^^^^^^^^^^ this part is optional
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     nixpkgs-nix-du.url = "github:NixOS/nixpkgs/c933cf4698e5189b35dd83bf4d7a81aef16d464a";
     nixpkgs-mopidy.url = "github:NixOS/nixpkgs/93ff48c9be84a76319dac293733df09bbbe3f25c";
