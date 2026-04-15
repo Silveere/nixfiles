@@ -79,6 +79,13 @@ in {
     services.printing = {
       enable = mkDefault true;
       cups-pdf.enable = mkDefault true;
+      drivers = with pkgs; [
+        gutenprint
+        gutenprintBin
+        hplip
+        epson-escpr2
+        epson-escpr
+      ];
     };
   };
 }
