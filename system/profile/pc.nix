@@ -80,12 +80,35 @@ in {
       enable = mkDefault true;
       cups-pdf.enable = mkDefault true;
       drivers = with pkgs; [
+        # many generic drivers
         gutenprint
         gutenprintBin
+        # hp
         hplip
+        # epson
         epson-escpr2
         epson-escpr
+        # brother
+        brlaser
+        # lexmark
+        postscript-lexmark
       ];
+    };
+
+    # scanner support
+    hardware.sane = {
+      enable = mkDefault true;
+      extraBackends = with pkgs; [
+        sane-airscan
+      ];
+    };
+
+    # to support network discovery of printers/scanners
+    services.avahi = lib.mkIf (config.services.printing.enable || config.hardware.sane.enable) {
+      enable = mkDefault true;
+      nssmdns4 = mkDefault true;
+      nssmdns6 = mkDefault true;
+      openFirewall = mkDefault true;
     };
   };
 }
