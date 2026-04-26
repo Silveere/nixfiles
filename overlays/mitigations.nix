@@ -222,6 +222,13 @@
       now = 1767537701;
     in
       hold now 7 stable unstable;
+
+    efitools = let
+      stable = pkgsStable.efitools;
+      unstable = prev.efitools;
+      now = 1777245074 ;
+    in
+      hold now 7 stable unstable;
   };
 in {
   config.flake.overlays.mitigations = overlay;
