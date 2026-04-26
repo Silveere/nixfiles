@@ -54,6 +54,9 @@ in {
       vt323
       (google-fonts.override {fonts = ["NovaSquare"];})
       twitter-color-emoji
+      corefonts
+      vista-fonts
+      liberation_ttf
     ];
 
     hardware.flipperzero.enable = true;
