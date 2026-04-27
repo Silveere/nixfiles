@@ -53,6 +53,7 @@
     fileSystems."/mnt/wsl/instances/NixOS" = {
       device = "/";
       options = ["bind"];
+      fsType = "bind";
     };
 
     # standard disclaimer don't change this for any reason whatsoever
