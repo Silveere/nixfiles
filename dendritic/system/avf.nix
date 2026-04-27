@@ -45,7 +45,7 @@
           # this is only for this one thing so might as well check here
           # this dir will always exist on an Android fs
           until test -d /mnt/shared/Android ; do
-            sleep 1
+            ${pkgs.coreutils}/bin/sleep 1
           done
           exec ${pkgs.util-linux}/bin/setpriv --reuid 1000 --regid 100 --init-groups -- ${pkgs.bindfs}/bin/mount.fuse.bindfs "$@"
         '';
