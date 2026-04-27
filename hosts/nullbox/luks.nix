@@ -11,24 +11,19 @@ in {
     boot.initrd.kernelModules = ["uas" "usbcore" "usb_storage"];
     boot.initrd.supportedFilesystems = ["vfat"];
 
-    boot.initrd.systemd.services.cryptsetup-keyfile = {
-      description = "set up keyfile for LUKS";
-      wantedBy = ["cryptsetup-pre.target"];
-      before = ["cryptsetup-pre.target" "shutdown.target"];
-      conflicts = ["shutdown.target"];
-      unitConfig.DefaultDependencies = false;
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-      };
+    boot.initrd.systemd.mounts = [
+      {
+        unitConfig.DefaultDependencies = false;
+        wantedBy = ["cryptsetup-pre.target"];
+        before = ["cryptsetup-pre.target" "shutdown.target" "umount.target"];
+        conflicts = ["shutdown.target" "umount.target"];
 
-      # this should probably be a mount unit but i don't care question mark
-      script = ''
-        mkdir -m 0755 /key
-        sleep 1
-        mount -n -t vfat -o ro "$(findfs UUID=${usb})" /key
-      '';
-    };
+        what = "/dev/disk/by-uuid/${usb}";
+        where = "/key";
+        type = "vfat";
+        options = ["ro" "nofail"];
+      }
+    ];
 
     boot.initrd.luks.devices = {
       lvmroot = {
