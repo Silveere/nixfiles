@@ -42,6 +42,11 @@
         bindfs-droid = pkgs.writeShellScriptBin "mount.fuse.bindfs.droid" ''
           set -Eeuxo pipefail
           ${pkgs.coreutils}/bin/chown 1000:100 "$2"
+          # this is only for this one thing so might as well check here
+          # this dir will always exist on an Android fs
+          until test -d /mnt/shared/Android ; do
+            sleep 1
+          end
           exec ${pkgs.util-linux}/bin/setpriv --reuid 1000 --regid 100 --init-groups -- ${pkgs.bindfs}/bin/mount.fuse.bindfs "$@"
         '';
       in [
