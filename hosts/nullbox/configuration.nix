@@ -106,7 +106,13 @@ in {
     };
 
     boot.kernelPackages = pkgs.linuxPackages_6_12;
-    boot.plymouth.enable = lib.mkDefault true;
+    boot.plymouth = let
+      cfg = config.boot.plymouth;
+    in {
+      enable = lib.mkDefault true;
+      theme = "blahaj";
+      themePackages = lib.optional (cfg.theme == "blahaj") pkgs.plymouth-blahaj-theme;
+    };
 
     networking.wg-quick.interfaces.wg0 = {
       configFile = "/etc/wireguard/wg0.conf";
