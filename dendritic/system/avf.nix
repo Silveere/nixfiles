@@ -38,16 +38,20 @@
       };
 
       environment.systemPackages = let
-        # mount helper to run it as user `droid` so i can use fstab/systemd mounts
-        bindfs-droid = pkgs.writeShellScriptBin "mount.fuse.bindfs.droid" ''
+        droid-stage-2 = pkgs.writeShellScript "bindfs-droid-2" ''
           set -Eeuxo pipefail
-          ${pkgs.coreutils}/bin/chown 1000:100 "$2"
           # this is only for this one thing so might as well check here
           # this dir will always exist on an Android fs
           until test -d /mnt/shared/Android ; do
             ${pkgs.coreutils}/bin/sleep 1
           done
-          exec ${pkgs.util-linux}/bin/setpriv --reuid 1000 --regid 100 --init-groups -- ${pkgs.bindfs}/bin/mount.fuse.bindfs "$@"
+          exec ${pkgs.bindfs}/bin/mount.fuse.bindfs "$@"
+        '';
+        # mount helper to run it as user `droid` so i can use fstab/systemd mounts
+        bindfs-droid = pkgs.writeShellScriptBin "mount.fuse.bindfs.droid" ''
+          set -Eeuxo pipefail
+          ${pkgs.coreutils}/bin/chown 1000:100 "$2"
+          exec ${pkgs.util-linux}/bin/setpriv --reuid 1000 --regid 100 --init-groups -- ${droid-stage-2} "$@"
         '';
       in [
         pkgs.bindfs
