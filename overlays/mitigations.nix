@@ -226,7 +226,21 @@
     efitools = let
       stable = pkgsStable.efitools;
       unstable = prev.efitools;
-      now = 1777245074 ;
+      now = 1777245074;
+    in
+      hold now 7 stable unstable;
+
+    yt-dlp = let
+      stable = pkgsStable.yt-dlp;
+      unstable = prev.yt-dlp;
+      now = 1777245074;
+    in
+      hold now 7 stable unstable;
+
+    gallery-dl = let
+      stable = pkgsStable.gallery-dl;
+      unstable = prev.gallery-dl;
+      now = 1777245074;
     in
       hold now 7 stable unstable;
   };
