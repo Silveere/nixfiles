@@ -6,6 +6,76 @@
 }: let
   inherit (lib) escapeShellArg;
   # (wip) more configurable than old one, will be used by volatile btrfs module
+
+  btrfsSystemd = {
+    volume,
+    root ? "/volatile",
+    oldRoots ? "/old_roots",
+    ...
+  }: {
+    description = "Rollback BTRFS root subvolume to a pristine state";
+    wantedBy = ["initrd.target"];
+    after = [
+      # is this needed
+      # # LUKS/TPM process
+      # "systemd-cryptsetup@crypted.service"
+      # The root fs target
+      "cryptsetup.target"
+      "initrd-root-device.target"
+    ];
+    before = ["sysroot.mount" "shutdown.target"];
+    conflicts = ["shutdown.target"];
+    unitConfig.DefaultDependencies = "no";
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      MOUNTDIR=/mnt
+      mkdir -p ''${MOUNTDIR}
+
+      # Pick up any LVM from newly mapped enc
+      # Only needed if using lvm, but no harm if not
+      vgscan
+      vgchange -ay
+
+      BTRFS_VOL=${escapeShellArg volume}
+
+      if [ ! -r "$BTRFS_VOL" ];
+      then
+        >&2 echo "Device '$BTRFS_VOL' not found"
+        exit 1
+      fi
+      # We first mount the btrfs root to /mnt
+      # so we can manipulate btrfs subvolumes.
+      # user_subvol_rm_allowed is needed for recursive subvolume deletion
+      mount -t btrfs -o subvol=/,user_subvol_rm_allowed "$BTRFS_VOL" "$MOUNTDIR"
+
+      ROOT_SUBVOL="$MOUNTDIR"/${escapeShellArg root}
+      OLD_ROOTS="$MOUNTDIR"/${escapeShellArg oldRoots}
+
+      # ensure subvolume parent dir exists, if not subvol=/
+      mkdir -p "$(dirname "$ROOT_SUBVOL")"
+
+      if [[ -e "$ROOT_SUBVOL" ]] ; then
+        mkdir -p "$OLD_ROOTS"
+        timestamp=$(date --date="@$(stat -c %Y "$ROOT_SUBVOL")" "+%Y-%m-%-d_%H:%M:%S")
+        mv "$ROOT_SUBVOL" "$OLD_ROOTS"/"$timestamp"
+      fi
+
+      btrfs subvolume create "$ROOT_SUBVOL"
+
+      # i realized that computer clocks never go forwards when
+      # they lose time (now my next pc will have an extremely rare
+      # firmware bug where the time drifts forward when it is off)
+      find "$OLD_ROOTS" -mindepth 1 -maxdepth 1 -type d -inum 256 -mtime +30 -print0 | xargs -0rn1 echo btrfs subvol delete -R
+
+      # Once we're done rolling back to a blank snapshot,
+      # we can unmount /mnt and continue on the boot process.
+      umount "$MOUNTDIR"
+    '';
+  };
+
   mkBtrfsInit = {
     volatileRoot ? "/volatile",
     oldRoots ? "/old_roots",
@@ -43,11 +113,11 @@ in {
     };
 
     # TODO volatile btrfs module
-    boot.initrd.postDeviceCommands = lib.mkAfter (mkBtrfsInit {
+    boot.initrd.systemd.services.btrfs-volatile-root = btrfsSystemd {
       volume = root_vol;
-      volatileRoot = "/nixos/volatile";
+      root = "/nixos/volatile";
       oldRoots = "/nixos/old_roots";
-    });
+    };
 
     fileSystems."/" = lib.mkForce {
       device = root_vol;
