@@ -106,6 +106,7 @@ in {
     };
 
     boot.kernelPackages = pkgs.linuxPackages_6_12;
+    boot.plymouth.enable = lib.mkDefault true;
 
     networking.wg-quick.interfaces.wg0 = {
       configFile = "/etc/wireguard/wg0.conf";
