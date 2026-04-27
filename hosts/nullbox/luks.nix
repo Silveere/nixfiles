@@ -21,7 +21,7 @@ in {
         what = "/dev/disk/by-uuid/${usb}";
         where = "/key";
         type = "vfat";
-        options = ["ro" "nofail"];
+        options = "ro,nofail";
       }
     ];
 
