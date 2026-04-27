@@ -172,7 +172,8 @@ in {
 
       # enable systemd OOM management
       systemd.oomd = {
-        enable = lib.mkDefault true;
+        # nixos-wsl doesn't like this apparently
+        enable = lib.mkOrder 1100 true;
         enableRootSlice = lib.mkDefault true;
         enableUserSlices = lib.mkDefault true;
         enableSystemSlice = lib.mkDefault true;
