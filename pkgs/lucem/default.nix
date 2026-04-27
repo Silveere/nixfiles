@@ -6,7 +6,10 @@
   libadwaita,
   pkg-config,
   openssl,
-  xorg,
+  libX11,
+  libXcursor,
+  libXrender,
+  libXext,
   libxkbcommon,
   libGL,
   wayland,
@@ -36,10 +39,10 @@ buildNimPackage (finalAttrs: {
     libadwaita.dev
     openssl.dev
     curl.dev
-    xorg.libX11
-    xorg.libXcursor.dev
-    xorg.libXrender
-    xorg.libXext
+    libX11
+    libXcursor.dev
+    libXrender
+    libXext
     libxkbcommon.dev
     libGL.dev
     wayland.dev
