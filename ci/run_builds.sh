@@ -82,7 +82,11 @@ else
 	DO_CONFIG=1
 fi
 
+attic watch-store main &
+ATTIC_PID=$!
+
 if [[ -n "${DO_CONFIG:+x}" ]] ; then build_systems; fi
 if [[ -n "${DO_PACKAGES:+x}" ]] ; then build_packages; fi
 
+kill $ATTIC_PID
 exit $err
