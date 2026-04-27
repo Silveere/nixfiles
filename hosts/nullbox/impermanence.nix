@@ -75,33 +75,6 @@
       umount "$MOUNTDIR"
     '';
   };
-
-  mkBtrfsInit = {
-    volatileRoot ? "/volatile",
-    oldRoots ? "/old_roots",
-    volume,
-  }: ''
-    mkdir -p /btrfs_tmp
-    mount ${escapeShellArg volume} /btrfs_tmp -o subvol=/
-
-    # ensure subvol parent directory exists
-    mkdir -p $(dirname /btrfs_tmp/${escapeShellArg volatileRoot})
-
-    if [[ -e /btrfs_tmp/${escapeShellArg volatileRoot} ]] ; then
-      mkdir -p /btrfs_tmp/${escapeShellArg oldRoots}
-      timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/${escapeShellArg volatileRoot})" "+%Y-%m-%-d_%H:%M:%S")
-      mv /btrfs_tmp/${escapeShellArg volatileRoot} /btrfs_tmp/${escapeShellArg oldRoots}/"$timestamp"
-    fi
-
-    btrfs subvolume create /btrfs_tmp/${escapeShellArg volatileRoot}
-
-    umount /btrfs_tmp
-
-    # TODO implement deletion once system is booted. the old implementation did
-    # it here, which is not safe until system time is at least monotonic.
-    # systemd tmpfiles is good enough, just mount it to somewhere in /run
-  '';
-
   root_vol = "/dev/archdesktop/root";
 in {
   config = lib.mkIf (!(config.virtualisation ? qemu)) {
@@ -113,6 +86,8 @@ in {
     };
 
     # TODO volatile btrfs module
+    # won't increase size since it already has findutils
+    boot.initrd.systemd.extraBin.xargs = "${pkgs.findutils}/bin/xargs";
     boot.initrd.systemd.services.btrfs-volatile-root = btrfsSystemd {
       volume = root_vol;
       root = "/nixos/volatile";
