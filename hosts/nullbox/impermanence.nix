@@ -68,7 +68,7 @@
       # i realized that computer clocks never go forwards when
       # they lose time (now my next pc will have an extremely rare
       # firmware bug where the time drifts forward when it is off)
-      find "$OLD_ROOTS" -mindepth 1 -maxdepth 1 -type d -inum 256 -mtime +30 -print0 | xargs -0rn1 echo btrfs subvol delete -R
+      find "$OLD_ROOTS" -mindepth 1 -maxdepth 1 -type d -inum 256 -mtime +30 -print0 | xargs -0r btrfs subvol delete -R
 
       # Once we're done rolling back to a blank snapshot,
       # we can unmount /mnt and continue on the boot process.
