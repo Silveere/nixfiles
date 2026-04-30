@@ -25,6 +25,19 @@ in {
         busybox.enable = lib.mkDefault true;
       };
 
+      boot.extraModprobeConfig = let
+        updateTime = config.nixfiles.args.flake.inputs.nixpkgs-unstable.lastModified;
+        val = ''
+          install algif_aead ${pkgs.coreutils}/bin/false
+        '';
+        warning = builtins.warn ''
+          base profile (system): module blacklist can probably be updated.
+        '';
+      in
+        if updateTime > (1777592582 + (60 * 60 * 24 * 30))
+        then warning val
+        else val;
+
       # locale settings
       i18n = {
         defaultLocale = lib.mkDefault "en_US.UTF-8";
