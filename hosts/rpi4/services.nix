@@ -10,7 +10,7 @@
   mkAnubis = instance: {
     locations = {
       "/.within.website/" = {
-        proxyPass = "http://unix:/run/anubis/anubis-${instance}.sock";
+        proxyPass = "http://unix:/run/anubis/anubis-${instance}/anubis.sock";
         extraConfig = ''
           proxy_pass_request_body off;
           proxy_set_header content-length "";
