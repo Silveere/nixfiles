@@ -10,6 +10,7 @@ in {
   config = lib.mkIf cfg.enable {
     programs.neovim = {
       enable = true;
+      sideloadInitLua = lib.mkDefault true;
       vimAlias = lib.mkDefault true;
       withPython3 = lib.mkDefault true;
       defaultEditor = lib.mkDefault true;
