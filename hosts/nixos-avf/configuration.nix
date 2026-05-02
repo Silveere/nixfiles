@@ -17,6 +17,11 @@
       ports = [8122];
     };
 
+    services.tailscale = {
+      enable = true;
+      useRoutingFeatures = "both";
+    };
+
     users.users.${vars.username}.linger = true;
     # standard disclaimer don't change this for any reason whatsoever
     system.stateVersion = "26.05";
