@@ -189,6 +189,10 @@
             self',
             ...
           }: {
+            _module.args.pkgs = (import inputs.nixpkgs-unstable.outPath) {
+              inherit system;
+              config.allowUnfree = true;
+            };
             legacyPackages.specialisedNixosConfigurations = let
               attrs = lib.pipe self.nixosConfigurations [
                 (lib.filterAttrs (n: v: !(builtins.elem n ["iso" "rpi4-x86_64"])))
