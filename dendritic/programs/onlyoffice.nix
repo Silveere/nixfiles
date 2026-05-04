@@ -47,7 +47,9 @@
         xargs = "${pkgs.findutils}/bin/xargs";
         bash = pkgs.runtimeShell;
         cp = "${pkgs.coreutils}/bin/cp";
+        mkdir = "${pkgs.coreutils}/bin/mkdir";
         copyfonts = pkgs.writeShellScriptBin "onlyoffice-copy-fonts" ''
+          ${mkdir} -p ~/.local/share/fonts
           ${find} ${(fontsPkg pkgs)} -mindepth 1 -maxdepth 1 -type f -print0 \
             | ${xargs} -0rn64 ${bash} -c 'exec ${cp} -rf --preserve=timestamps "$@" ~/.local/share/fonts' -
         '';
