@@ -8,7 +8,7 @@
   inherit (lib) optionals;
 in {
   config = lib.mkIf cfg.enable {
-    programs.onlyoffice.enable = lib.mkDefault true;
+    nixfiles.programs.onlyoffice.enable = lib.mkDefault true;
     home.packages = with pkgs;
       optionals config.nixfiles.meta.graphical [
         obsidian
