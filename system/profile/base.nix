@@ -28,13 +28,19 @@ in {
       boot.extraModprobeConfig = let
         updateTime = config.nixfiles.args.flake.inputs.nixpkgs-unstable.lastModified;
         val = ''
+          # copyfail
           install algif_aead ${pkgs.coreutils}/bin/false
+
+          # dirtyfrag
+          install esp4 ${pkgs.coreutils}/bin/false
+          install esp6 ${pkgs.coreutils}/bin/false
+          install rxrpc ${pkgs.coreutils}/bin/false
         '';
         warning = builtins.warn ''
           base profile (system): module blacklist can probably be updated.
         '';
       in
-        if updateTime > (1777592582 + (60 * 60 * 24 * 30))
+        if updateTime > (1778216868 + (60 * 60 * 24 * 30))
         then warning val
         else val;
 
