@@ -23,7 +23,7 @@ system="$(nix eval --impure --raw --expr 'builtins.currentSystem')"
 
 run_builds () {
 	for i in "$@" ; do
-		"$SCRIPTS_PATH/logcrap.sh" nix-fast-build --eval-workers 1 --no-nom --skip-cache --attic-cache main -f "$i"
+		"$SCRIPTS_PATH/logcrap.sh" nix-fast-build --eval-workers 1 --no-nom --skip-cached --attic-cache main -f "$i"
 		pkill -s 0 -9 nix-eval-jobs || true
 	done
 }
