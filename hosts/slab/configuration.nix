@@ -122,6 +122,7 @@
         allowDiscards = true;
         fallbackToPassword = lib.mkIf (!config.boot.initrd.systemd.enable) true;
         preLVM = true;
+        crypttabExtraOpts = ["fido2-device=auto" "tpm2-device=auto"];
       };
     };
 
