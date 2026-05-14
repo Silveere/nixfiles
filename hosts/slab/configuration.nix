@@ -154,22 +154,6 @@
     # GPS data from my phone
     services.gpsd.devices = lib.mkIf config.nixfiles.hardware.gps.enable ["tcp://pixel.magpie-moth.ts.net:6000"];
 
-    # systemd power/suspend configuration
-    systemd.targets = lib.genAttrs ["suspend" "hybrid-sleep" "suspend-then-hibernate"] (_: {
-      enable = false;
-      unitConfig.DefaultDependencies = "no";
-    });
-
-    # might make hibernate better idk
-    systemd.sleep.settings.Sleep = {
-      HibernateMode = "shutdown";
-    };
-
-    services.logind.settings.Login = {
-      HandleLidSwitch = "lock";
-      HandleSuspendKey = "hibernate";
-    };
-
     services.xserver.videoDrivers = ["amdgpu"];
 
     # {{{ old config
