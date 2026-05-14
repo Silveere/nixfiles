@@ -104,6 +104,7 @@ in {
         efitools
         sbctl
         sbsigntool
+        tpm2-tools
 
         # network utilities
         inetutils
