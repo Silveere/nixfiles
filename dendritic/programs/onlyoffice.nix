@@ -33,7 +33,7 @@
       programs.onlyoffice.enable = true;
       home.packages = let
         esa = lib.escapeShellArg;
-        binPath = with pkgs; "${lib.makeBinPath [coreutils findutils]}:${pkgs.runtimeShell}";
+        binPath = with pkgs; "${lib.makeBinPath [coreutils findutils]}:${lib.dirOf pkgs.runtimeShell}";
         scriptSetup = ''
           set -e
           PATH=${esa binPath}
