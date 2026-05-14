@@ -170,9 +170,16 @@ in {
         enableSSHSupport = lib.mkDefault false;
       };
 
-      # initrd rescue password (can store plain hash since it is extremely
-      # unlikely to be brute forced)
-      boot.initrd.systemd.emergencyAccess = "$2b$15$jljA4yma8GrD2LmvhrlUkuXWBry/0jhMnXs1qB1y/byBGXKq74wMK";
+      boot.initrd.systemd = {
+        # initrd rescue password (can store plain hash since it is extremely
+        # unlikely to be brute forced)
+        emergencyAccess = "$2b$15$jljA4yma8GrD2LmvhrlUkuXWBry/0jhMnXs1qB1y/byBGXKq74wMK";
+        targets.emergency.aliases = ["kbrequest.target"];
+        initrdBin = lib.mkOrder 50 [pkgs.busybox];
+        extraBin = {
+          cryptsetup = "${pkgs.cryptsetup}/bin/cryptsetup";
+        };
+      };
 
       boot.loader.systemd-boot.configurationLimit = lib.mkDefault 15;
 
