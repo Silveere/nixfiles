@@ -59,12 +59,6 @@
       ];
 
       # maybe i need to order the unit after suid wrapper service or smth
-      systemd.mounts."mnt-shared\x2dmirror" = {
-        overrideStrategy = "asDropin";
-        requires = ["suid-sgid-wrappers.service"];
-        after = ["suid-sgid-wrappers.service"];
-      };
-
       fileSystems."/mnt/shared-mirror" = {
         device = "/mnt/shared";
         depends = ["/mnt/shared/."];
@@ -77,6 +71,7 @@
           "chgrp-ignore"
           "chmod-ignore"
           "perms=0600:u+X"
+          "x-systemd.requires=suid-sgid-wrappers.service"
           "nofail"
         ];
       };
