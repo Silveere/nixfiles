@@ -53,6 +53,9 @@ in {
       # this fixes tiny file dialogs for Minecraft
       kdePackages.kdialog
       kdePackages.yakuake
+      kdePackages.oxygen
+      kdePackages.oxygen-icons
+      kdePackages.oxygen-sounds
     ];
   };
 }
