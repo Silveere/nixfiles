@@ -25,6 +25,7 @@ in {
     services.desktopManager.plasma6.enable = true;
     services.displayManager.defaultSession = "plasma";
     programs.kdeconnect.enable = mkDefault true;
+    programs.partition-manager.enable = mkDefault true;
     nixfiles.meta.wayland = true;
 
     xdg.portal.extraPortals = [

@@ -27,10 +27,12 @@ in {
     # FIXME find somewhere else to put this
     networking.networkmanager.enable = lib.mkDefault true; # Easiest to use and most distros use this by default.
 
-    # contains icons for bootnext desktop entries (the Windows icon); there's
-    # probably no reason to *not* include this.
     environment.systemPackages = with pkgs; [
+      # contains icons for bootnext desktop entries (the Windows icon); there's
+      # probably no reason to *not* include this.
       nixfiles-assets
+
+      gparted-full
     ];
 
     # oh no :3 i dropped my gamer headset :3
