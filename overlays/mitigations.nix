@@ -243,13 +243,6 @@
       now = 1777245074;
     in
       hold now 7 stable unstable;
-
-    termite = let
-      stable = pkgsStable.termite;
-      unstable = prev.termite;
-      now = 1779625853;
-    in
-      hold now 7 stable unstable;
   };
 in {
   config.flake.overlays.mitigations = overlay;
