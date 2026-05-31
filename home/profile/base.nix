@@ -276,7 +276,6 @@ in {
         # terminfo (just the ones i'm likely to use)
         kitty.terminfo
         alacritty.terminfo
-        termite.terminfo
         tmux.terminfo
       ];
   };
