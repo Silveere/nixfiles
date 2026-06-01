@@ -87,9 +87,11 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.shellAliases = {
+    home.shellAliases = rec {
       v = "nvim";
+      g = "git";
       vgit = "nvim +Git +only";
+      vg = vgit;
       icat = "kitten icat";
       srun = "systemd-run";
       urun = "systemd-run --user";

@@ -77,6 +77,25 @@ in {
         core.excludesFile = lib.mkDefault "${pkgs.writeText "gitignore.global" ''
           Session.vim
         ''}";
+
+        alias = rec {
+          lgr = "log --decorate --graph";
+          gr = "${lgr} --oneline";
+          gra = "${gr} --all";
+          lgra = "${lgr} --all";
+          s = "status";
+          st = "status --short --branch";
+          aliases = "config --get-regexp '^alias\\.'";
+          pf = "!git push \"$@\" && git fetch --all && :";
+          sua = "remote set-url --add";
+          pra = "pull --rebase --autostash";
+          ra = "rebase --autostash";
+          ff = "merge --ff-only";
+          mr = "merge --no-ff";
+          sP = "stash pop";
+          sa = "stash apply";
+          f = "fetch -p";
+        };
       };
     };
 
