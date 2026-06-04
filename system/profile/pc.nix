@@ -33,6 +33,8 @@ in {
       nixfiles-assets
 
       gparted-full
+      firefox
+      brave
     ];
 
     # oh no :3 i dropped my gamer headset :3
