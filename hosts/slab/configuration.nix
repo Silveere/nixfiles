@@ -126,6 +126,14 @@
       };
     };
 
+    # ROG key remapped to insert
+    # insert (fn+del) remapped to sysrq
+    services.udev.extraHwdb = ''
+      evdev:input:b0003v0B05p19B6e0110*
+       KEYBOARD_KEY_FF310038=insert
+       KEYBOARD_KEY_70049=sysrq
+    '';
+
     # bootloader setup
     boot.loader = {
       efi = {
