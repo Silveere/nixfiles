@@ -126,6 +126,11 @@ in {
       # declare functions at start of bashrc
       bashrcExtra = common_functions "bash";
       initExtra =
+        # init keychain early
+        lib.optionalString config.programs.keychain.enable ''
+          eval "$(SHELL=bash keychain --quiet --quick --eval)"
+        ''
+        +
         # config.programs.tmux.enable
         lib.optionalString cfg.tmux ''
           __nixfiles_tmux_auto_exit
