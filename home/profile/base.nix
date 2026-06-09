@@ -187,6 +187,34 @@ in {
         exec "${pkgs.hyfetch}/bin/neowofetch" "$@"
       '';
 
+      # this fixes store corruption caused by empty drv files resulting from
+      # power loss or VM termination (looking at you, AVF)
+      nix-unfuck-store = let
+        # use the existing nix in the path. we should use the system nix to
+        # manage the system.
+        path = with pkgs;
+          lib.makeBinPath [
+            coreutils
+            findutils
+          ];
+      in
+        pkgs.writeShellScriptBin "nix-unfuck-store" ''
+          set -Eeuo pipefail
+          PATH=${lib.escapeShellArg path}:"$PATH"
+          export PATH
+          set -x
+          # most code in nixpkgs seems to assume that storeDir is shell-safe.
+          # this script will only act on the current store dir for now. i have no
+          # idea how alternate store dirs work, but i would assume that if you
+          # have made the life decision to run nix with a different store path,
+          # the nix command would be configured to use it.
+          nix-store --query --referrers-closure \
+            $(find ${builtins.storeDir} -maxdepth 1 -type f -name '*.drv' -size 0) | \
+            xargs nix-store --delete --ignore-liveness
+          nix store gc
+          nix store verify --repair --all
+        '';
+
       flocate = let
         # fzf and nix-locate are the only things that would reasonably not
         # exist on a local system. nix-locate is fine to be left as-is because
@@ -291,6 +319,7 @@ in {
 
           # custom
           flocate
+          nix-unfuck-store
         ]
         ++ builtins.map (x: lib.hiPrio x) [
           # terminfo (just the ones i'm likely to use)
