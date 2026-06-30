@@ -182,10 +182,38 @@ in {
     # some packages defined here may be redundant with packages on a non-NixOS
     # home-manager setup, but it's better to have a consistent environment at
     # the cost of slightly more space
-    home.packages = with pkgs; let
-      neofetch-hyfetch-shim = writeShellScriptBin "neofetch" ''
+    home.packages = let
+      neofetch-hyfetch-shim = pkgs.writeShellScriptBin "neofetch" ''
         exec "${pkgs.hyfetch}/bin/neowofetch" "$@"
       '';
+
+      # this fixes store corruption caused by empty drv files resulting from
+      # power loss or VM termination (looking at you, AVF)
+      nix-unfuck-store = let
+        # use the existing nix in the path. we should use the system nix to
+        # manage the system.
+        path = with pkgs;
+          lib.makeBinPath [
+            coreutils
+            findutils
+          ];
+      in
+        pkgs.writeShellScriptBin "nix-unfuck-store" ''
+          set -Eeuo pipefail
+          PATH=${lib.escapeShellArg path}:"$PATH"
+          export PATH
+          set -x
+          # most code in nixpkgs seems to assume that storeDir is shell-safe.
+          # this script will only act on the current store dir for now. i have no
+          # idea how alternate store dirs work, but i would assume that if you
+          # have made the life decision to run nix with a different store path,
+          # the nix command would be configured to use it.
+          nix-store --query --referrers-closure \
+            $(find ${builtins.storeDir} -maxdepth 1 -type f -name '*.drv' -size 0) | \
+            xargs nix-store --delete --ignore-liveness
+          nix store gc
+          nix store verify --repair --all
+        '';
 
       flocate = let
         # fzf and nix-locate are the only things that would reasonably not
@@ -194,108 +222,110 @@ in {
         #
         fzf = lib.escapeShellArg (lib.getExe' pkgs.fzf "fzf");
       in
-        writeShellScriptBin "flocate" ''
+        pkgs.writeShellScriptBin "flocate" ''
           nix-locate "$@" | stdbuf -oL grep -v '^(' \
             | ${fzf} \
             | cut -d' ' -f1 \
             | xargs bash -c 'exec nix build --no-link --print-out-paths nixpkgs${lib.optionalString (config.nix.registry ? nixpkgs-local) "-local"}#"$1"' -
         '';
     in
-      [
-        # nix stuff
-        nvd
-        nix-tree
-        nh
-        nix-output-monitor
-        attic-client
-        nix-fast-build
+      with pkgs;
+        [
+          # nix stuff
+          nvd
+          nix-tree
+          nh
+          nix-output-monitor
+          attic-client
+          nix-fast-build
 
-        git
-        git-lfs
-        stow
-        curl
-        httpie
-        gh
+          git
+          git-lfs
+          stow
+          curl
+          httpie
+          gh
 
-        # shell
-        ripgrep
-        fd
-        bat
-        moreutils
-        grc
-        fzf
-        pv
-        lsof
-        xxd
-        shellcheck
-        ## text processing (json etc)
-        jq
-        yq # jq for yaml/toml/xml
-        jo # easy json shorthand
-        jc # convert command outputs to json
-        jless # less for json
-        gron # forty seven (greppable json)
-        fq # jq like binary parser ?
-        jqp # INTERACTIVE JQ !?!? !?
+          # shell
+          ripgrep
+          fd
+          bat
+          moreutils
+          grc
+          fzf
+          pv
+          lsof
+          xxd
+          shellcheck
+          ## text processing (json etc)
+          jq
+          yq # jq for yaml/toml/xml
+          jo # easy json shorthand
+          jc # convert command outputs to json
+          jless # less for json
+          gron # forty seven (greppable json)
+          fq # jq like binary parser ?
+          jqp # INTERACTIVE JQ !?!? !?
 
-        # for icat on all systems
-        kitty.kitten
+          # for icat on all systems
+          kitty.kitten
 
-        # pretty
-        hyfetch
-        neofetch-hyfetch-shim
-        fastfetch
+          # pretty
+          hyfetch
+          neofetch-hyfetch-shim
+          fastfetch
 
-        # files
-        restic
-        rclone
-        rmlint
-        ncdu
+          # files
+          restic
+          rclone
+          rmlint
+          ncdu
 
-        # compression
-        atool-wrapped
-        lzip
-        plzip
-        lzop
-        xz
-        zip
-        unzip
-        arj
-        rpm
-        cpio
-        p7zip
+          # compression
+          atool-wrapped
+          lzip
+          plzip
+          lzop
+          xz
+          zip
+          unzip
+          arj
+          rpm
+          cpio
+          p7zip
 
-        # other utilities
-        tmux
-        tmuxp
-        autossh
-        mosh
-        btop
-        htop
-        zoxide
-        asciinema
-        mtr
-        qrencode
-        zbar
+          # other utilities
+          tmux
+          tmuxp
+          autossh
+          mosh
+          btop
+          htop
+          zoxide
+          asciinema
+          mtr
+          qrencode
+          zbar
 
-        screen
-        minicom
-        picocom
+          screen
+          minicom
+          picocom
 
-        # man pages
-        man-pages
-        # this + fish manpage cache thing takes way too long
-        # linux-manual
-        linux-doc
+          # man pages
+          man-pages
+          # this + fish manpage cache thing takes way too long
+          # linux-manual
+          linux-doc
 
-        # custom
-        flocate
-      ]
-      ++ builtins.map (x: lib.hiPrio x) [
-        # terminfo (just the ones i'm likely to use)
-        kitty.terminfo
-        alacritty.terminfo
-        tmux.terminfo
-      ];
+          # custom
+          flocate
+          nix-unfuck-store
+        ]
+        ++ builtins.map (x: lib.hiPrio x) [
+          # terminfo (just the ones i'm likely to use)
+          kitty.terminfo
+          alacritty.terminfo
+          tmux.terminfo
+        ];
   };
 }
