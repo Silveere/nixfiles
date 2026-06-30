@@ -22,6 +22,8 @@ jobs:
           endpoint: ${{ secrets.ATTIC_ENDPOINT }}
           cache: ${{ vars.ATTIC_CACHE }}
           token: ${{ secrets.ATTIC_TOKEN }}
+      # eval first
+      - run: 'nix develop .#ci --command bash ci/run_builds.sh config eval'
       # free useless disk space
       - run: 'bash ci/util_free_space_extreme.sh'
       # TODO: figure out how to use flake checks and use those to build it
@@ -59,6 +61,8 @@ jobs:
           endpoint: ${{ secrets.ATTIC_ENDPOINT }}
           cache: ${{ vars.ATTIC_CACHE }}
           token: ${{ secrets.ATTIC_TOKEN }}
+      # eval first
+      - run: 'nix develop .#ci --command bash ci/run_builds.sh config eval'
       # free useless disk space
       - run: 'bash ci/util_free_space_extreme.sh'
       # TODO: figure out how to use flake checks and use those to build it

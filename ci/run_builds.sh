@@ -28,6 +28,12 @@ run_builds () {
 	done
 }
 
+run_eval () {
+	for i in "$@" ; do
+		nix eval "$i"
+	done
+}
+
 # shellcheck disable=SC2329
 _build_systems () {
 	case "$system" in
@@ -60,7 +66,13 @@ build_systems () {
 	#		build="$(printf '%s' "$line" | jq -r)"
 	#		run_builds ".#legacyPackages.${system}.specialisedNixosConfigurations.${build}"
 	#	done
-	run_builds ".#legacyPackages.${system}.specialisedNixosConfigurations"
+	local run_builds
+	run_builds=run_builds
+	if [ -n "${DO_EVAL:+x}" ] ; then
+		run_builds=run_eval
+	fi
+	
+	$run_builds ".#legacyPackages.${system}.specialisedNixosConfigurations"
 
 }
 
@@ -74,6 +86,7 @@ if [[ "$#" -ne 0 ]] ; then
 		case "$1" in
 			pkgs|packages) DO_PACKAGES=1;;
 			config) DO_CONFIG=1;;
+			eval) DO_EVAL=1;;
 		esac
 		shift
 	done
