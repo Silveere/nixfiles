@@ -18,8 +18,17 @@ in {
   };
 
   config = mkIf cfg.enable {
-    nixfiles.programs.greetd.enable = lib.mkDefault true;
-    nixfiles.programs.greetd.settings.command = lib.mkDefault ["${pkgs.kdePackages.plasma-workspace}/libexec/plasma-dbus-run-session-if-needed" "startplasma-wayland"];
+    # # greetd configuration
+    # nixfiles.programs.greetd.enable = lib.mkDefault true;
+    # nixfiles.programs.greetd.settings.command = lib.mkDefault ["${pkgs.kdePackages.plasma-workspace}/libexec/plasma-dbus-run-session-if-needed" "startplasma-wayland"];
+
+    # SDDM configuration
+    services.displayManager.sddm = {
+      enable = mkDefault true;
+      # this is still experimental
+      wayland.enable = mkDefault true;
+      autoNumlock = mkDefault true;
+    };
 
     services.xserver.enable = true;
     services.desktopManager.plasma6.enable = true;
