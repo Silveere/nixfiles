@@ -14,6 +14,11 @@ in {
     hardware.bluetooth = {
       enable = lib.mkDefault true;
       powerOnBoot = lib.mkDefault true;
+      config = {
+        General = {
+          MultiProfile = lib.mkDefault "multiple";
+        };
+      };
     };
 
     services.blueman.enable = lib.mkDefault true;
