@@ -243,6 +243,13 @@
       now = 1777245074;
     in
       hold now 7 stable unstable;
+
+    thunderbird = let
+      stable = pkgsStable.thunderbird;
+      unstable = prev.thunderbird;
+      now = 1782852806;
+    in
+      hold now 7 stable unstable;
   };
 in {
   config.flake.overlays.mitigations = overlay;
