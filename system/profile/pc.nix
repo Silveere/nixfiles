@@ -40,6 +40,10 @@ in {
     # oh no :3 i dropped my gamer headset :3
     hardware.openrazer.enable = mkDefault true;
 
+    boot.plymouth = {
+      enable = mkDefault true;
+    };
+
     # enable option sets
     nixfiles = {
       hardware = {
