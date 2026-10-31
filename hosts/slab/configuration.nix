@@ -105,8 +105,6 @@
 
     networking.hostName = "slab";
 
-    boot.initrd.systemd.enable = true;
-
     boot.plymouth.enable = true;
 
     boot.kernelParams = [
