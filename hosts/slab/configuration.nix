@@ -120,8 +120,6 @@
       lvmroot = {
         device = "/dev/disk/by-uuid/2872c0f0-e544-45f0-9b6c-ea022af7805a";
         allowDiscards = true;
-        fallbackToPassword = lib.mkIf (!config.boot.initrd.systemd.enable) true;
-        preLVM = true;
         crypttabExtraOpts = ["fido2-device=auto" "tpm2-device=auto"];
       };
     };

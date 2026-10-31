@@ -30,7 +30,6 @@ in {
         device = "/dev/disk/by-uuid/85b5f22e-0fa5-4f0d-8fba-f800a0b41671";
         keyFile = "/key/image.png"; # yes it's literally an image file. bite me
         allowDiscards = true;
-        preLVM = true;
       };
     };
   };
