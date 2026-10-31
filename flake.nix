@@ -437,6 +437,14 @@
                 nixpkgs = inputs.nixpkgs-unstable;
                 home-manager = inputs.home-manager-unstable;
               };
+              "droid@debian" = mkHome {
+                system = "aarch64-linux";
+                stateVersion = "26.05";
+                username = "droid";
+                modules = [];
+                nixpkgs = inputs.nixpkgs-unstable;
+                home-manager = inputs.home-manager-unstable;
+              };
               "deck" = mkHome {
                 system = "x86_64-linux";
                 stateVersion = "23.11";
